@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="robots" content="index,nofollow">
+
+<title>DebianPackages - Wiki cwiki</title>
+<script type="text/javascript" src="/moin_static182/common/js/common.js"></script>
+
+<script type="text/javascript">
+<!--
+var search_hint = "Search";
+//-->
+</script>
+
+
+<link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="/moin_static182/modernized/css/common.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="/moin_static182/modernized/css/screen.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="print" href="/moin_static182/modernized/css/print.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="projection" href="/moin_static182/modernized/css/projection.css">
+
+<!-- css only for MSIE browsers -->
+<!--[if IE]>
+   <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="/moin_static182/modernized/css/msie.css">
+<![endif]-->
+
+
+
+
+
+<link rel="Start" href="/wikis/cwiki/cwikiHome">
+<link rel="Alternate" title="Wiki Markup" href="/wikis/cwiki/DebianPackages?action=raw">
+<link rel="Alternate" media="print" title="Print View" href="/wikis/cwiki/DebianPackages?action=print">
+<link rel="Search" href="/wikis/cwiki/FindPage">
+<link rel="Index" href="/wikis/cwiki/TitleIndex">
+<link rel="Glossary" href="/wikis/cwiki/WordIndex">
+<link rel="Help" href="/wikis/cwiki/HelpOnFormatting">
+</head>
+
+<body  lang="en" dir="ltr">
+
+<div id="header">
+
+<form id="searchform" method="get" action="/wikis/cwiki/DebianPackages">
+<div>
+<input type="hidden" name="action" value="fullsearch">
+<input type="hidden" name="context" value="180">
+<label for="searchinput">Search:</label>
+<input id="searchinput" type="text" name="value" value="" size="20"
+    onfocus="searchFocus(this)" onblur="searchBlur(this)"
+    onkeyup="searchChange(this)" onchange="searchChange(this)" alt="Search">
+<input id="titlesearch" name="titlesearch" type="submit"
+    value="Titles" alt="Search Titles">
+<input id="fullsearch" name="fullsearch" type="submit"
+    value="Text" alt="Search Full Text">
+</div>
+</form>
+<script type="text/javascript">
+<!--// Initialize search form
+var f = document.getElementById('searchform');
+f.getElementsByTagName('label')[0].style.display = 'none';
+var e = document.getElementById('searchinput');
+searchChange(e);
+searchBlur(e);
+//-->
+</script>
+
+
+<div id="username"></div>
+<h1 id="locationline">
+<span id="interwiki"><a href="/wikis/cwiki/cwikiHome" rel="nofollow">Wiki_cwiki</a><span class="sep">: </span></span>
+<span id="pagelocation"><a class="backlink" href="/wikis/cwiki/DebianPackages?action=fullsearch&amp;context=180&amp;value=linkto%3A%22DebianPackages%22" rel="nofollow" title="Click to do a full-text search for this title">DebianPackages</a></span>
+</h1>
+
+
+<ul id="navibar">
+<li class="wikilink"><a href="/wikis/cwiki/RecentChanges">RecentChanges</a></li><li class="wikilink"><a href="/wikis/cwiki/FindPage">FindPage</a></li><li class="wikilink"><a href="/wikis/cwiki/HelpContents">HelpContents</a></li><li class="current"><a href="/wikis/cwiki/DebianPackages">DebianPackages</a></li>
+</ul>
+
+<div id="pageline"><hr style="display:none;"></div>
+
+<ul class="editbar"><li><span class="disabled">Immutable Page</span></li><li class="toggleCommentsButton" style="display:none;"><a href="#" class="nbcomment" onClick="toggleComments();return false;">Comments</a></li><li><a class="nbinfo" href="/wikis/cwiki/DebianPackages?action=info" rel="nofollow">Info</a></li><li><a class="nbattachments" href="/wikis/cwiki/DebianPackages?action=AttachFile" rel="nofollow">Attachments</a></li><li>
+<form class="actionsmenu" method="GET" action="/wikis/cwiki/DebianPackages">
+<div>
+    <label>More Actions:</label>
+    <select name="action"
+        onchange="if ((this.selectedIndex != 0) &&
+                      (this.options[this.selectedIndex].disabled == false)) {
+                this.form.submit();
+            }
+            this.selectedIndex = 0;">
+        <option value="raw">Raw Text</option>
+<option value="print">Print View</option>
+<option value="RenderAsDocbook">Render as Docbook</option>
+<option value="refresh">Delete Cache</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="SpellCheck">Check Spelling</option>
+<option value="LikePages">Like Pages</option>
+<option value="LocalSiteMap">Local Site Map</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="RenamePage" disabled class="disabled">Rename Page</option>
+<option value="CopyPage">Copy Page</option>
+<option value="DeletePage" disabled class="disabled">Delete Page</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="MyPages">My Pages</option>
+<option value="show" disabled class="disabled">Subscribe User</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="show" disabled class="disabled">Remove Spam</option>
+<option value="show" disabled class="disabled">Revert to this revision</option>
+<option value="show" disabled class="disabled">Package Pages</option>
+<option value="SyncPages">Sync Pages</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="Load">Load</option>
+<option value="Save">Save</option>
+    </select>
+    <input type="submit" value="Do">
+    
+</div>
+<script type="text/javascript">
+<!--// Init menu
+actionsMenuInit('More Actions:');
+//-->
+</script>
+</form>
+</li></ul>
+
+</div>
+
+<div id="page" lang="en" dir="ltr">
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line867">
+<h1 id="Howto">Howto</h1>
+<span class="anchor" id="line-2"></span><span class="anchor" id="line-3"></span><p class="line874">These packages are for Debian stable (etch at the time of writing). <span class="anchor" id="line-4"></span><span class="anchor" id="line-5"></span><p class="line874">To add in your /etc/apt/sources.list: <span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line867"><span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><pre>deb http://dev.camptocamp.com/packages/debian/@VERSION@/ etch main
+deb-src http://dev.camptocamp.com/packages/debian/@VERSION@/ etch main</pre><span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line862">Replace @VERSION@ with the version of the packages you want to use. See <a class="http" href="http://dev.camptocamp.com/packages/debian/">http://dev.camptocamp.com/packages/debian/</a> for a list. <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><p class="line874">You will need to import the Camptocamp PGP key for the packages to be authenticated: <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line867"><span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><span class="anchor" id="line-20"></span><pre>gpg --keyserver subkeys.pgp.net --recv-keys A37E4CF5
+gpg --export -a A37E4CF5|apt-key add -</pre><span class="anchor" id="line-21"></span><p class="line862">You can check that the key fingerprint is E57A E302 386A 4E92 8842  4D41 <a class="nonexistent" href="/wikis/cwiki/B6A4">B6A4</a> 0450 A37E 4CF5 <span class="anchor" id="line-22"></span><span class="anchor" id="line-23"></span><p class="line874">/etc/apt/preferences <span class="anchor" id="line-24"></span><span class="anchor" id="line-25"></span><p class="line867"><span class="anchor" id="line-26"></span><span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><span class="anchor" id="line-30"></span><pre>Package: *
+Pin: release o=c2c
+Pin-Priority: 1100</pre><span class="anchor" id="line-31"></span><span class="anchor" id="line-32"></span><p class="line874">/etc/apt/apt.conf <span class="anchor" id="line-33"></span><span class="anchor" id="line-34"></span><p class="line862">-&gt; Do not set APT::Default-Release "stable"; or it will override the c2c Pin <span class="anchor" id="line-35"></span><span class="anchor" id="line-36"></span><p class="line874">To have your changes taken into account, type in a command line prompt: <span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span><pre>apt-get update</pre><span class="anchor" id="line-40"></span><span class="anchor" id="line-41"></span><p class="line867">
+<h1 id="Update_notes">Update notes</h1>
+<span class="anchor" id="line-42"></span><span class="anchor" id="line-43"></span><p class="line867">
+<h2 id="A20070910">20070910</h2>
+<span class="anchor" id="line-44"></span><span class="anchor" id="line-45"></span><p class="line874">Mapserver 4.10.3 (backported from unstable) <span class="anchor" id="line-46"></span><span class="anchor" id="line-47"></span><p class="line867">
+<h2 id="A20070605_DEPRECATED.2C_DO_NOT_USE">20070605 DEPRECATED, DO NOT USE</h2>
+<span class="anchor" id="line-48"></span><span class="anchor" id="line-49"></span><p class="line874">New packages with mapserver 4.10.1 (backported from unstable) <span class="anchor" id="line-50"></span><span class="anchor" id="line-51"></span><p class="line867">
+<h2 id="A20070525_.28using_20070419_repository.29_DEPRECATED.2C_DO_NOT_USE">20070525 (using 20070419 repository) DEPRECATED, DO NOT USE</h2>
+<span class="anchor" id="line-52"></span><span class="anchor" id="line-53"></span><p class="line874">Removed PHP from our repository, use the upstream version which contains security fixes. Don't forget to add the security repository to your sources.list and upgrade: <span class="anchor" id="line-54"></span><span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><pre>deb http://security.debian.org/ etch/updates main contrib non-free</pre><span class="anchor" id="line-57"></span><span class="anchor" id="line-58"></span><p class="line874">If you encounter the error while installing a PHP packages: <span class="anchor" id="line-59"></span><span class="anchor" id="line-60"></span><span class="anchor" id="line-61"></span><pre>  php5-curl: Depends: php5-common (= 5.2.0-8+etch1) but 5.2.0-8+etch1c2c1 is to be installed</pre><span class="anchor" id="line-62"></span><p class="line874">You will need to remove and reinstall the php5-common packages, and all of its dependecies. <span class="anchor" id="line-63"></span><span class="anchor" id="line-64"></span><span class="anchor" id="line-65"></span><span class="anchor" id="line-66"></span><span class="anchor" id="line-67"></span><pre>apt-get remove --purge php5-common
+# Write down the packages that will be remvoed
+apt-get install php5-common ... # add there the previously removed packages.</pre><span class="anchor" id="line-68"></span><span class="anchor" id="line-69"></span><p class="line867">
+<h2 id="A20070419_DEPRECATED.2C_DO_NOT_USE">20070419 DEPRECATED, DO NOT USE</h2>
+<span class="anchor" id="line-70"></span><span class="anchor" id="line-71"></span><p class="line874">New packages for Debian etch <span class="anchor" id="line-72"></span><span class="anchor" id="line-73"></span><p class="line874">Packages version: <span class="anchor" id="line-74"></span><ul><li>c2c packages: <span class="anchor" id="line-75"></span><ul><li>libecw: 3.3-1c2c3 <span class="anchor" id="line-76"></span></li><li>pgdijkstra: 1.0.4-2 <span class="anchor" id="line-77"></span></li></ul></li><li>upstream modified: <span class="anchor" id="line-78"></span><ul><li>gdal: 1.3.2-4c2c1, (added ecw support) <span class="anchor" id="line-79"></span></li><li>php5: 5.2.0-8+etch1c2c1 (tuned some php.ini defaults, and added dbase) <span class="anchor" id="line-80"></span></li><li>mapserver: 4.10.0-5+etch1c2c1 (changed limits) <span class="anchor" id="line-81"></span><span class="anchor" id="line-82"></span></li></ul></li></ul><p class="line867">
+<h2 id="A20061108_DEPRECATED.2C_DO_NOT_USE">20061108 DEPRECATED, DO NOT USE</h2>
+<span class="anchor" id="line-83"></span><span class="anchor" id="line-84"></span><p class="line874">New dependency on Debian testing packages. This simplifies the dependencies management for backports. This won't be needed any more once the new Debian release is out. <span class="anchor" id="line-85"></span><span class="anchor" id="line-86"></span><p class="line874">IMPORTANT:  <span class="anchor" id="line-87"></span><ul><li>you need the debian testing repository configured in your /etc/apt/sources.list file for this to work. <span class="anchor" id="line-88"></span></li><li>you need to pass the "-t testing" option to apt-get while installing these packages. <span class="anchor" id="line-89"></span><span class="anchor" id="line-90"></span></li></ul><p class="line874">Packages version: <span class="anchor" id="line-91"></span><ul><li>c2c packages: <span class="anchor" id="line-92"></span><ul><li>libecw: 3.3-1c2c2 <span class="anchor" id="line-93"></span></li><li>pgdijkstra: 1.0.4-2 <span class="anchor" id="line-94"></span></li><li>php5-chameleon: 1.0-1c2c1 <span class="anchor" id="line-95"></span></li></ul></li><li>backports: <span class="anchor" id="line-96"></span><ul><li>cgi-mapserver, mapserver-bin, php5-mapscript: backport 4.10.0-1c2c1 <span class="anchor" id="line-97"></span></li><li>gdal-bin, libgdal1-1.3.2: backport 1.3.2-2c2c1 <span class="anchor" id="line-98"></span></li><li>php5-cli, php5-*, libapache2-mod-php5: backport 5.1.6-5c2c1 <span class="anchor" id="line-99"></span></li></ul></li><li>upstream: <span class="anchor" id="line-100"></span><ul><li>postgresql-8.1, postgresql-common, postgresql-8.1-contrib: upstream testing <span class="anchor" id="line-101"></span></li><li>postgresql-8.1-postgis, postgis: upstream testing <span class="anchor" id="line-102"></span><span class="anchor" id="line-103"></span></li></ul></li></ul><p class="line867">
+<h2 id="A20060714_DEPRECATED.2C_DO_NOT_USE">20060714 DEPRECATED, DO NOT USE</h2>
+<span class="anchor" id="line-104"></span><span class="anchor" id="line-105"></span><p class="line874">Package php5-mapscript may add extension=php_mapscript.so to your /etc/php5/apache{1,2}/php.ini file. <span class="anchor" id="line-106"></span><span class="anchor" id="line-107"></span><p class="line862">You need to remove it after or you'll get the <a class="nonexistent" href="/wikis/cwiki/CartoWeb">CartoWeb</a> message: "WARNING: You are not using PHP as a cgi and PHP Mapscript extension is loaded in your php.ini. This will cause stability problems. You need to remove the php_mapscript extension loading of your php.ini file." <span class="anchor" id="line-108"></span><span class="anchor" id="line-109"></span><p class="line862">This step is done automatically for all php packages, and handling an exception for php5-mapscript is not trivial. Moreover, this won't be needed once the famous Mapserver bug  1322 (<a class="http" href="http://mapserver.gis.umn.edu/bugs/show_bug.cgi?id=1322">http://mapserver.gis.umn.edu/bugs/show_bug.cgi?id=1322</a>) is fixed. <span class="anchor" id="line-110"></span><span class="anchor" id="line-111"></span><p class="line867">
+<h1 id="What_you_need_to_install">What you need to install</h1>
+<span class="anchor" id="line-112"></span><span class="anchor" id="line-113"></span><p class="line874">PHP Mapscript and Apache stuff <span class="anchor" id="line-114"></span><span class="anchor" id="line-115"></span><span class="anchor" id="line-116"></span><pre>apt-get install libapache2-mod-php5 php5-mapscript libecw</pre><span class="anchor" id="line-117"></span><span class="anchor" id="line-118"></span><p class="line874">Postgresql and extensions <span class="anchor" id="line-119"></span><span class="anchor" id="line-120"></span><span class="anchor" id="line-121"></span><pre>apt-get install postgresql-8.1-postgis postgresql-8.1 postgresql-common pgdijkstra </pre><span class="anchor" id="line-122"></span><span class="anchor" id="line-123"></span><p class="line874">Utils <span class="anchor" id="line-124"></span><span class="anchor" id="line-125"></span><span class="anchor" id="line-126"></span><pre>apt-get install gdal-bin mapserver-bin cgi-mapserver</pre><span class="anchor" id="line-127"></span><span class="anchor" id="bottom"></span></div><p id="pageinfo" class="info" lang="en" dir="ltr">Wiki_cwiki: DebianPackages  (last edited 2009-01-27 08:34:03 by <span title="FredericJunod @ kirishima.wrk.lsn.camptocamp.com[10.27.10.23]"><a class="nonexistent" href="/wikis/cwiki/FredericJunod" title="FredericJunod @ kirishima.wrk.lsn.camptocamp.com[10.27.10.23]">FredericJunod</a></span>)</p>
+
+<div id="pagebottom"></div>
+</div>
+
+
+<div id="footer">
+<ul class="editbar"><li><span class="disabled">Immutable Page</span></li><li class="toggleCommentsButton" style="display:none;"><a href="#" class="nbcomment" onClick="toggleComments();return false;">Comments</a></li><li><a class="nbinfo" href="/wikis/cwiki/DebianPackages?action=info" rel="nofollow">Info</a></li><li><a class="nbattachments" href="/wikis/cwiki/DebianPackages?action=AttachFile" rel="nofollow">Attachments</a></li><li>
+<form class="actionsmenu" method="GET" action="/wikis/cwiki/DebianPackages">
+<div>
+    <label>More Actions:</label>
+    <select name="action"
+        onchange="if ((this.selectedIndex != 0) &&
+                      (this.options[this.selectedIndex].disabled == false)) {
+                this.form.submit();
+            }
+            this.selectedIndex = 0;">
+        <option value="raw">Raw Text</option>
+<option value="print">Print View</option>
+<option value="RenderAsDocbook">Render as Docbook</option>
+<option value="refresh">Delete Cache</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="SpellCheck">Check Spelling</option>
+<option value="LikePages">Like Pages</option>
+<option value="LocalSiteMap">Local Site Map</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="RenamePage" disabled class="disabled">Rename Page</option>
+<option value="CopyPage">Copy Page</option>
+<option value="DeletePage" disabled class="disabled">Delete Page</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="MyPages">My Pages</option>
+<option value="show" disabled class="disabled">Subscribe User</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="show" disabled class="disabled">Remove Spam</option>
+<option value="show" disabled class="disabled">Revert to this revision</option>
+<option value="show" disabled class="disabled">Package Pages</option>
+<option value="SyncPages">Sync Pages</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="Load">Load</option>
+<option value="Save">Save</option>
+    </select>
+    <input type="submit" value="Do">
+    
+</div>
+<script type="text/javascript">
+<!--// Init menu
+actionsMenuInit('More Actions:');
+//-->
+</script>
+</form>
+</li></ul>
+
+<ul id="credits">
+<li><a href="http://moinmo.in/" title="This site uses the MoinMoin Wiki software.">MoinMoin Powered</a></li><li><a href="http://moinmo.in/Python" title="MoinMoin is written in Python.">Python Powered</a></li><li><a href="http://moinmo.in/GPL" title="MoinMoin is GPL licensed.">GPL licensed</a></li><li><a href="http://validator.w3.org/check?uri=referer" title="Click here to validate this page.">Valid HTML 4.01</a></li>
+</ul>
+
+
+</div>
+</body>
+</html>
+

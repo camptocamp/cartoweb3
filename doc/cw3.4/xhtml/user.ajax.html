@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>20. AJAX</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.locate.html">
+       &lt; Locate Plugin</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.geostat.html">
+ Geostatistics &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.ajax.html#user.ajax.intro">20.1. Introduction</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.ajax.html#user.ajax.intro.compatibility">20.1.1. Browser Compatibility</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.ajax.html#user.ajax.project">20.2. Make Your Project AJAX Enabled</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.ajax.html#user.ajax.project.config">20.2.1. Client.ini Configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.ajax.html#user.ajax.project.templates">20.2.2. Templates Adaptation</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.ajax"></a>20. <a id="id2621385" class="indexterm"></a>AJAX</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.ajax.intro"></a>20.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p> CartoWeb implements an AJAX layer, enabling asynchronous update
+      of the HTML GUI. </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.ajax.intro.compatibility"></a>20.1.1. Browser Compatibility</h3>
+                </div>
+              </div>
+            </div>
+            <p> Browser compatibility: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> Mozilla 1.7+ </li>
+                <li> Firefox 1.0.7+ </li>
+                <li> Internet Explorer 6+ </li>
+                <li> Safari 1.3.2+ </li>
+              </ul>
+            </div>
+            <p> Known browser incompatibility: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> Opera </li>
+                <li> Internet Explorer 5 for Mac </li>
+                <li> Konqueror </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.ajax.project"></a>20.2. Make Your Project AJAX Enabled</h2>
+              </div>
+            </div>
+          </div>
+          <p> To enable your project with AJAX, it is recommended that you build
+      your project based on demoCW3 or test_main projects 
+      (CartoWeb version 3.3.0 or higher). A project based on demoCW3 won't
+      need any tuning. A project based on test_main will require the following: </p>
+          <div class="itemizedlist">
+            <ul>
+              <li> Enable AJAX in your client.ini (or client.ini.in): </li>
+            </ul>
+          </div>
+          <p> If you have a project running since version 3.2.0 or before, and want
+      to enable AJAX, you'll need to: </p>
+          <div class="itemizedlist">
+            <ul>
+              <li> Enable AJAX in your <code class="filename">client.ini</code>
+          (or <code class="filename">client.ini.in</code>)</li>
+              <li> Adapt your <code class="filename">cartoclient.tpl</code>,
+          <code class="filename">mainmap.tpl</code> and all redefined plugin templates
+          (if they are based on test_main or demoCW3 
+          project templates from CartoWeb version &lt;= 3.2.0). </li>
+            </ul>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.ajax.project.config"></a>20.2.1. Client.ini Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p> Add the ajaxOn directive and set it to true in your
+        <code class="filename">/project/[yourProjectName]/client_conf/client.ini</code> or
+        <code class="filename">/project/[yourProjectName]/client_conf/client.ini.in</code>
+      </p>
+            <pre class="programlisting">ajaxOn = true</pre>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.ajax.project.templates"></a>20.2.2. Templates Adaptation</h3>
+                </div>
+              </div>
+            </div>
+            <div class="warning">
+              <h3 class="title">Warning</h3>
+              <p> Adapting your templates is a tricky bit. Unless you customized
+          your templates thoroughly, we recommend that you start over again
+          your templates customization using demoCW3 or test_main as a basis,
+          as these projects templates are AJAX ready. </p>
+            </div>
+            <p> We recommend that you diff your cartoclient.tpl, mainmap.tpl and 
+        all redefined plugin templates with the upstream. This is the best way 
+        to be up to date, especially if you use the latest CVS version of
+        CartoWeb. </p>
+            <div class="tip">
+              <h3 class="title">Tip</h3>
+              <p> Also, you can have a look at the templates patch:
+          <a href="http://bugzilla.maptools.org/attachment.cgi?id=126&amp;action=view">http://bugzilla.maptools.org/attachment.cgi?id=126&amp;action=view</a>
+        </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

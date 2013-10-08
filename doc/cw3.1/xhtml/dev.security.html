@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>3. Using the Security Infrastructure</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="dev.newplugin.html">
+       &lt; New Plugins</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="dev.i18n.html">Internationalization &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.dev.html">Developer Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="dev.security.html#dev.security.intro">3.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.security.html#dev.security.auth_plugins">3.2. Plugins Managing Security Database and Authentication</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.security.html#dev.security.granting_access">3.3. Plugins Granting or Denying Access to Objects/Features in CartoWeb</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="dev.security"></a>3. Using the Security Infrastructure</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.security.intro"></a>3.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>This chapter describes the security infrastructure from the developer
+          point of view. For generatil details about security and its configuration
+          see <a href="user.security.html" title="14. Security Configuration">Chapter 14, <i>Security Configuration</i></a>.
+        </p>
+          <p>
+          The security management in cartoweb is separated in the following 
+          parts:
+        </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>
+              Management of the user/password/roles database. 
+              (<code class="classname">SecurityContainer</code> class in 
+                <code class="filename">common/SecurityManager.php</code>).
+           </li>
+              <li>
+            Management of user authentication (calling <code class="function">checkUser</code> 
+            and <code class="function">setUser</code>/<code class="function">setUserAndRoles</code> 
+            in <code class="classname">SecurityManager</code>).
+           </li>
+              <li>
+            Granting access to objects based on the current roles.
+          </li>
+            </ul>
+          </div>
+          <p>
+   </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.security.auth_plugins"></a>3.2. Plugins Managing Security Database and Authentication</h2>
+              </div>
+            </div>
+          </div>
+          <p>Point 1. and 2. in the previous section are the responsibility of 
+      specific plugins. For an example, see the <code class="literal">auth</code> plugin.</p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.security.granting_access"></a>3.3. Plugins Granting or Denying Access to Objects/Features in CartoWeb</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+        This point is the most important for plugin developers wanting to use 
+        the CartoWeb security mechanisms to allow or deny an access to a feature/object.
+      </p>
+          <p>
+       The plugin can call the method <code class="methodname">hasRole($roles)</code> on 
+       the current security manager.
+      </p>
+          <p>
+       For an example, let's take the pdf plugin which has to restrict printing some formats only to allowed users.
+      </p>
+          <p>
+       in the .ini file, we could have:
+        </p>
+          <pre class="screen">
+formats.A4.allowedRoles = printers, admin</pre>
+          <p>
+        In the plugin, we can then check the permissions with:
+       </p>
+          <pre class="screen">in the routine building the available format list:
+foreach($formats as $format) {
+
+ ... add the format to the list ...
+ $roles = $this-&gt;getRolesForFormat($format); //this should get it from the .ini
+ if (!SecurityManager::getInstance()-&gt;hasRole($roles))
+     continue; // skips unauthorized resolution for this user
+
+  .. do the work with the format ...
+}
+
+in the routine handling the user passed parameters:
+
+.. to the same check as above ..</pre>
+          <p>
+      </p>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

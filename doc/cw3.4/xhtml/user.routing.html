@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>26. Routing Plugin</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.wmslight.html">
+       &lt; WMS Browser Light</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.bboxHistory.html">Bounding box history plugin &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.routing.html#user.routing.intro">26.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.routing.html#user.routing.installation">26.2. Installation</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.routing.html#user.routing.installation.quick_install">26.2.1. Quick Install</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.routing.html#user.routing.installation.detailed_install">26.2.2. Detailled installation steps</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.routing"></a>26. <a id="id2573454" class="indexterm"></a>Routing Plugin</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.routing.intro"></a>26.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+     The routing plugins deals with the <a href="http://script.aculo.us/">pgRouting</a> Postgresql extension
+     allowing to perform, among several algorithms, computation of the shortest path between two nodes of a graph.
+     This plugin provides a graphical user interface to query a Postgresql/PostGiS database with pgRouting functions installed on it.
+   </p>
+          <p>
+     Extended documentation on pgRouting functions can be found at the <a href="http://script.aculo.us/">pgRouting website</a>. 
+   </p>
+          <p>
+     The demo_plugins demonstration shows an example of the routing plugin.
+   </p>
+          <p>
+      This documentation details how to install pgRouting on a PostGIS-enabled database and how to load demo data to be used
+      in the demo_plugins project.
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.routing.installation"></a>26.2. Installation</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+      Before installing the pgRouting extension, a sample PostGIS database have to be created, as explained in 
+      the installation manual: <a href="user.install.html" title="1. Installation">Chapter 1, <i>Installation</i></a>.
+    </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.routing.installation.quick_install"></a>26.2.1. Quick Install</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p><b>Install the PgRouting PostgreSQL module. </b>
+                </p>
+                  <div class="note">
+                    <h3 class="title">Note</h3>
+                    <p>
+                  To do so, 
+                  </p>
+                    <div class="itemizedlist">
+                      <ul>
+                        <li>
+                        Download pgRouting from <a href="http://pgrouting.postlbs.org/">http://pgrouting.postlbs.org/</a> and follow install instruction.
+                        Mac users can find a version here: <a href="http://www.kyngchaos.com/software/unixport/postgres">http://www.kyngchaos.com/software/unixport/postgres</a> or
+                        find some basic compilation instructions (in French), here:
+                        <a href="http://www.davidgis.fr/documentation/win32/html/apa.html">http://www.davidgis.fr/documentation/win32/html/apa.html</a>
+                      </li>
+                      </ul>
+                    </div>
+                    <p>
+                </p>
+                  </div>
+                  <p>
+              </p>
+                </li>
+                <li>
+                  <p><b>Execute the <span class="emphasis"><em>routing.sql</em></span> file to install the functions in 
+                your database by typing: </b>
+                </p>
+                  <pre class="screen">$ psql -d demo_plugins -f routing.sql</pre>
+                  <p>
+              </p>
+                </li>
+                <li>
+                  <p><b>If you have PostGIS installed, you should launch <span class="emphasis"><em>routing_postgis.sql</em></span> : </b>
+                </p>
+                  <pre class="screen">$ psql -d demo_plugins -f routing_postgis.sql</pre>
+                  <p>
+              </p>
+                </li>
+                <li>
+                  <p><b>Import Europe road geodata in PostGIS, create its graph structure and configure 
+                plugin routing database. </b>
+                To do so, simply execute the <span class="emphasis"><em>demo_routing.sql</em></span> file, located 
+                in the <code class="filename">&lt;CARTOWEB_HOME&gt;/projects/demoPlugins/server_conf/sql</code> directory.
+                </p>
+                  <div class="note">
+                    <h3 class="title">Note</h3>
+                    <p>These steps are detailed in the next section.</p>
+                  </div>
+                  <p>
+              </p>
+                </li>
+                <li>
+                  <p><b>Edit the <code class="filename">cartoweb3/projects/demoPlugins/demo.properties</code> file. </b>
+                and uncomment the line beginning with <span class="emphasis"><em>;ROUTING_PLUGINS</em></span>
+              </p>
+                </li>
+                <li>
+                  <p><b>Execute <code class="filename">cw3setup.php</code>. </b>
+                file, with the <span class="emphasis"><em>--config-from-file</em></span> option as
+                described in the previous chapter.
+              </p>
+                </li>
+              </ul>
+            </div>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.routing.installation.detailed_install"></a>26.2.2. Detailled installation steps</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+            The routing module is a set of functions that compute a shortest path from a set of edges and vertices.
+        Some functions are provided for importing data from geometric tables, and for generating results
+        as geometries.
+        </p>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>
+          For more information on these functions, you can have a look at the pgRouting documentation: 
+          <a href="http://pgrouting.postlbs.org/wiki/pgRoutingDocs">http://pgrouting.postlbs.org/wiki/pgRoutingDocs</a>.
+        </p>
+            </div>
+            <p>
+        This section explains the main steps to integrate the routing fonctionnalities in a custom application.
+        We describe the steps followed to install the routing demo. To make short, we used an Europe roads shapefile,
+        imported it in PostGIS, generated the graph tables and configured files to suggest a search of the shortest
+        path between two European towns.
+        </p>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>
+          The following chapters describe steps necessary to build a graph structure from shapefiles. It is not 
+          necessary to execute these commands if the demo_routing.sql file 
+          (<code class="filename">&lt;CARTOWEB_HOME&gt;/projects/demoPlugins/server_conf/sql</code>)
+          was loaded into the demo_plugins database. This file already installs all the routing structure.
+        </p>
+            </div>
+            <p>
+      </p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.routing.installation.detailed_install.roadimportation"></a>26.2.2.1. Europe Roads Geodata Importation in PostGIS</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+          </p>
+              <pre class="screen">
+$ shp2pgsql -I roadl.shp roads_europe &gt; /tmp/roadl.sql
+$ psql -d demo_plugins -f /tmp/roadl.sql
+# Only lauch the following commmands if you did not import the town table already
+$ shp2pgsql -I mispopp.shp town &gt; /tmp/town.sql
+$ psql -d demo_plugins -f /tmp/town.sql
+</pre>
+              <p>
+        </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.routing.installation.detailed_install.graphimportation"></a>26.2.2.2. Graph Importation</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+          The first step is to add needed columns to the table roads_europe. To do so, you can type:
+          </p>
+              <pre class="screen">
+$ ALTER TABLE roads_europe ADD COLUMN source_id int;
+$ ALTER TABLE roads_europe ADD COLUMN target_id int;
+$ ALTER TABLE roads_europe ADD COLUMN edge_id int;
+-- next line is to work around a pgRouting bug in update_cost_from_distance (fixed in latest CVS)
+$ ALTER TABLE roads_europe RENAME id TO id_old;
+</pre>
+              <p>
+          You can then fill the columns <span class="emphasis"><em>source_id</em></span> and <span class="emphasis"><em>target_id</em></span> with the
+          "assign_vertex_id" function.
+          </p>
+              <pre class="screen">
+$ SELECT assign_vertex_id('roads_europe', 1);</pre>
+              <p>
+          Here is the content of the roads_europe table:
+          </p>
+              <pre class="screen">
+$ SELECT gid, source_id, target_id, edge_id, AStext(the_geom) FROM roads_europe limit 3;
+ 
+  gid  | source_id | target_id | edge_id |                              AStext
+-------+-----------+-----------+---------+----------------------------------------------
+ 13115 |     11051 |     11099 |      14 | MULTILINESTRING((1062096.06 4861316.234,...))
+ 12869 |     10918 |     10916 |     267 | MULTILINESTRING((250681.597 4779596.532,...))
+ 12868 |     10918 |     10913 |     268 | MULTILINESTRING((250681.597 4779596.532,...))
+(3 lignes)</pre>
+              <p>
+          But if the data quality is poor, you need to delete the duplicates edges (they have the same
+          source-target pairs of vertices).
+          For example, to check that you have duplicated edges, you can type:
+          </p>
+              <pre class="screen">
+$ SELECT * FROM (SELECT source_id, target_id, count(*) AS c FROM roads_europe group by 
+source_id, target_id order by c)
+AS foo where foo.c = 2;</pre>
+              <p>
+          If there is duplicated edges, to delete one of two rows, you can type: 
+          </p>
+              <pre class="screen">
+$ CREATE TABLE doublons AS SELECT * FROM roads_europe WHERE gid  in
+(SELECT gid FROM (SELECT DISTINCT on (source_id, target_id) source_id, gid 
+FROM roads_europe) AS doublon);
+$ DELETE FROM roads_europe;
+$ INSERT INTO roads_europe (SELECT * FROM doublons);
+$ DROP TABLE doublons;</pre>
+              <p>
+          The following step is to create and fill the edges and vertices tables of the resulting graph. 
+          To do so, you can use "create_graph_tables" function.
+          </p>
+              <pre class="screen">
+$ SELECT create_graph_tables('roads_europe', 'int4');</pre>
+              <p>
+          </p>
+              <pre class="screen">
+SELECT * FROM roads_europe_edges LIMIT 3;
+ id | source | target | cost | reverse_cost 
+----+--------+--------+------+--------------
+  1 |      1 |      2 |      |             
+  2 |      3 |      3 |      |             
+  4 |      2 |      2 |      |             
+(3 rows)</pre>
+              <p>
+          We can see that it contains NULL values for the cost column. 
+          The function update_cost_from_distance can update the cost column with
+          the distance of the lines contained in the geometry table, attached to
+          each edge:
+          </p>
+              <pre class="screen">
+$ SELECT update_cost_from_distance('roads_europe');</pre>
+              <p>
+          The costs are now:
+          </p>
+              <pre class="screen">
+ id | source | target |       cost       | reverse_cost
+----+--------+--------+------------------+--------------
+  1 |      1 |      2 | 6857.46585793103 |
+  2 |      3 |      4 | 37349.9592156392 |
+  3 |      5 |      6 | 14040.5673116933 |
+(3 lignes)</pre>
+              <p>
+          Then you need to add the column which will contain the town labels,
+          which will be shown in the drop-down list for selecting the two
+          points of a path.
+        </p>
+              <p>
+          The label information is contained in the <code class="literal">roads</code>
+          table which was originally imported using the 
+          <span><strong class="command">shp2pgsql</strong></span> utility. The following
+          commands will create a temporary table, fill it with the town
+          information, and then update the vertices table. The towns contained
+          in the shapefile may not be on the exact same point that the intersections
+          of the roads. Thus, all intersections which are in a distance
+          less that 2000 meters are associated to the town label. This distance
+          may be adjusted according to the dataset you are using.
+        </p>
+              <pre class="screen">
+$ CREATE TABLE roads_source_town AS
+   SELECT DISTINCT t.txt, source_id, distance(PointN(r.the_geom, 1), t.the_geom) AS d 
+     FROM roads_europe r, town t, roads_europe_vertices 
+     WHERE t.txt != 'UNK' AND distance(PointN(r.the_geom, 1), t.the_geom) &lt; 2000 
+      AND geom_id = source_id ORDER BY t.txt, d; 
+$ CREATE TABLE roads_source_town_uniq AS
+   SELECT * FROM roads_source_town a WHERE a.txt IN 
+     (SELECT b.txt FROM roads_source_town b where a.txt = b.txt LIMIT 1)
+     AND a.d IN (SELECT b.d FROM roads_source_town b WHERE a.txt = b.txt LIMIT 1);   
+$ ALTER TABLE  roads_europe_vertices ADD COLUMN txt character varying(50);
+$ SELECT AddGeometryColumn('','roads_europe_vertices','the_geom','-1','POINT',2);
+$ UPDATE roads_europe_vertices SET txt = (SELECT DISTINCT txt 
+   FROM roads_source_town_uniq 
+    WHERE roads_europe_vertices.geom_id = roads_source_town_uniq.source_id);
+-- clean the temporary tables
+$ DROP TABLE roads_source_town;
+$ DROP TABLE roads_source_town_uniq;
+            </pre>
+              <p>
+          The last step is to fill the geometry column of the vertices table:
+        </p>
+              <pre class="screen">
+$ CREATE TABLE roads_europe_vertices_geom AS 
+    SELECT v.id, v.geom_id, v.txt,startPoint(geometryn(r.the_geom, 1)) AS 
+      the_geom FROM roads_europe r LEFT JOIN roads_europe_vertices v ON v.geom_id = r.source_id;
+$ INSERT INTO roads_europe_vertices_geom 
+    SELECT v.id, v.geom_id, v.txt, endPoint(geometryn(r.the_geom, 1)) AS the_geom 
+      FROM roads_europe r LEFT JOIN roads_europe_vertices v ON v.geom_id = r.target_id;
+$ DELETE FROM roads_europe_vertices;
+$ INSERT INTO roads_europe_vertices SELECT DISTINCT ON (id) * FROM roads_europe_vertices_geom;
+$ DROP TABLE roads_europe_vertices_geom;
+            </pre>
+              <p>
+          Now, all is set up correctly for using the shortest path function on these data. 
+          But to include the routing fonctionnalities in a custom project, we also must respect some rules 
+          dictated by the routing plugin.
+        </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.routing.installation.detailed_install.databaseconfiguration"></a>26.2.2.3. Routing Plugin Database Configuration</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+          The two things to do are to:
+          </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>
+                create the routing results table. In this example the table is routing_results.
+                <pre class="screen">
+$ CREATE TABLE routing_results (
+    results_id integer,
+    "timestamp" bigint,
+    gid integer
+  );
+$ SELECT AddGeometryColumn('','routing_results','the_geom','-1',
+'MULTILINESTRING',2);</pre>
+              </li>
+                  <li>
+                create the 'routing_results_seq' sequence.
+                <pre class="screen">
+$ CREATE SEQUENCE routing_results_seq
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    START 1
+    CACHE 1;</pre>
+              </li>
+                </ul>
+              </div>
+              <p>          
+        </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.routing.installation.detailed_install.mapfileconfiguration"></a>26.2.2.4. Mapfile Configuration</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+          In the mapfile, you must include the routing layer, its connection to the database, a symbology
+          for the route and a first route using a unique identifier.
+          The data parameter will be overwritten by the routing plugin to draw the route chosen by the end-user.
+          Example:
+          </p>
+              <pre class="screen">
+LAYER
+  NAME "graph"
+  TYPE LINE
+  TRANSPARENCY 80
+  CONNECTIONTYPE postgis
+    CONNECTION "user=@DB_USER@ password=@DB_PASSWD@ host=@DB_HOST@ dbname=@DB_NAME@"
+    DATA "the_geom from (SELECT the_geom from routing_results) as foo using unique
+    gid using srid=-1"
+  TEMPLATE "t"
+  CLASS
+    NAME "0"
+    STYLE
+      SYMBOL "circle"
+      SIZE 10
+      COLOR 90 27 191
+    END
+  END
+END</pre>
+              <p>
+        </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.routing.installation.detailed_install.generalconfiguration"></a>26.2.2.5. General Configuration</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+          For the demo, we suggest that you select your route by starting from a town until an other town.
+          This is possible because for each object of a european-towns layer, we have identified the nearest 
+          object of the roads_europe_vertices table. That is why in the demoRouting configuration there is a 
+          client-side configuration.
+          Normally, in the plugin routing, client-side only allows you to type an id of object, from which to start
+          and an other to finish the route. No configuration is needed.
+          So, if you use demoRouting extension, you must specify client-side, the:
+          </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>postgresRoutingVerticesTable: vertices table</li>
+                  <li>stepName: vertices table col containing informations you want to propose a choice on</li>
+                  <li>dsn: the connexion string to the database</li>
+                </ul>
+              </div>
+              <p>
+          Anyway, server-side, you must specify :
+          </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>the routing table (postgresRoutingTable option),</li>
+                  <li>the routing layer in the mapfile (postgresRoutingResultsLayer option),</li>
+                  <li>the results routing table (postgresRoutingResultsTable),</li>
+                  <li>the connexion string to the database (dsn option).</li>
+                </ul>
+              </div>
+              <p>
+        </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

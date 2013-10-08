@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>11. Export Plugins [plugin] (exportCsv, exportHtml, exportDxf, exportRtf, exportImg, exportDomPdf)</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.annotate.html">
+       &lt; Annotation and Redlining </a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.pdf.html">PDF Export  &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.output.html#user.output.intro">11.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.output.html#user.output.html">11.2. HTML Export</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.output.html#user.output.csv">11.3. CSV Export</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.output.html#user.output.dxf">11.4. DXF Export</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.output.html#user.output.rtf">11.5. RTF Export</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.output.html#user.output.rtf.templating">11.5.1. Setting-up the template</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.output.html#user.output.rtf.params">11.5.2. Configuration parameters</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.output.html#user.output.rtf.optional">11.5.3. Optional Inputs</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.output.html#user.output.image">11.6. Image Export</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.output.html#user.output.image.exportimg">11.6.1. exportImg</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.output.html#user.output.image.mode">11.6.2. mode=image</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.output.html#user.output.dompdf">11.7. PDF Export Using Dompdf</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.output"></a>11. <a id="id3001588" class="indexterm"></a>Export Plugins <sub>[plugin] (exportCsv, exportHtml, exportDxf, exportRtf, exportImg, exportDomPdf)</sub></h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.output.intro"></a>11.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+     It is possible to export maps and data from the viewer (ie. the CartoWeb user interface) in order to print them or to save them on the user's computer. Six formats are available: PDF, CSV, HTML, DXF, RTF and raw image. 
+    </p>
+          <p>
+     The PDF export plugin is precisely described (usage, configuration) in next chapter: <a class="xref" href="user.pdf.html" title="12. PDF Export [plugin]">Chapter 12, <i>PDF Export <sub>[plugin]</sub></i></a>.
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.output.html"></a>11.2. <a id="id2971350" class="indexterm"></a>HTML Export</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+     The <em class="parameter"><code>exportHtml</code></em> plugin outputs an HTML simplified version of the viewer: main map, keymap and layers list. It is often launched by clicking on a "HTML print" link or button and opens a new browser window. It is specially useful to quickly (basic HTML layout, same maps used than in viewer) display raw maps in order to print them.
+    </p>
+          <p>
+     No configuration is required. To enable or deactivate this plugin, simply add or remove <em class="parameter"><code>exportHtml</code></em> from the <em class="parameter"><code>loadPlugins</code></em> parameter in <code class="filename">client_conf/client.ini</code>. For instance:
+     </p>
+          <pre class="programlisting">[...]
+
+; exportHtml is listed as activated:
+loadPlugins = auth, outline, exportHtml
+
+[...]</pre>
+          <p>
+     To customized the exported page layout, simply edit the plugin template file <code class="filename">exportHtml/templates/export.tpl</code>. It is recommended not to modify the regular template file but to override it in a project version of the <em class="parameter"><code>exportHtml</code></em> plugin. For more info about projects, see <a class="xref" href="user.structure.html#user.structure.project" title="2.4. Projects">Section 2.4, “Projects”</a>.
+    </p>
+          <p>
+     To get advanced printing capabilities, rather use the CartoWeb PDF export plugin, <a class="link" href="user.pdf.html" title="12. PDF Export [plugin]"><em class="parameter"><code>exportPdf</code></em></a>, described in next chapter.
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.output.csv"></a>11.3. <a id="id3021520" class="indexterm"></a>CSV Export</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+     The <em class="parameter"><code>exportCsv</code></em> plugin enables to export tabular data from various queries results in a comma-separated (CSV) or assimilated text format. The returned CSV file can then be opened and edited in any text editor or rendered as a table document in OpenOffice or MS Excel. For instance:
+     </p>
+          <pre class="programlisting">"Id";"Object Description"
+"1";"A Line"</pre>
+          <p>
+    </p>
+          <p>
+     "CSV export" links are generally displayed in the viewer at the bottom of each queries results tables. Each link can only export a single layer table at a time.
+    </p>
+          <p>
+     A few configuration parameters are available in <code class="filename">client_conf/exportCsv.ini</code>:
+     </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>
+        <a id="id3021571" class="indexterm"></a><em class="parameter"><code>separator</code></em> indicates what character should be used to distinguish each tabular cell value. Default is ";" (semi-colon).
+       </li>
+              <li>
+        <a id="id3021592" class="indexterm"></a><em class="parameter"><code>textDelimiter</code></em> tells what character should be used to delimit the text in each cell. It is specially useful when the character used as the <em class="parameter"><code>separator</code></em> may be found within the cell content. Default parameter value is <em class="parameter"><code>double-quote</code></em> ie. `"`. The alias is defined to overcome INI syntax issues.
+       </li>
+              <li>
+        <a id="id3026652" class="indexterm"></a><em class="parameter"><code>filename</code></em> specifies the filename naming convention to use. It can include the table name (using the <em class="parameter"><code>[table]</code></em> keyword) and the generation date under various formats. Date formating is performed by indicating between a couple of brackets the keyword <em class="parameter"><code>date</code></em>, followed by a comma and PHP date()-like date format. (see <a class="ulink" href="http://php.net/date">http://php.net/date</a>). Default filename convention is <em class="parameter"><code>[date,Ymd-Hi]_[table].csv</code></em> which gives for instance <code class="filename">20050220-2021_myLayer.csv</code>.
+       </li>
+              <li>
+        <a id="id3026705" class="indexterm"></a>If the <em class="parameter"><code>charsetUtf8</code></em> boolean is set to <em class="parameter"><code>true</code></em> the result file will be UTF-8 encoded. Else ISO-8859-1 encoding is used, which is the default behavior.
+       </li>
+            </ul>
+          </div>
+          <p>
+     After initial CartoWeb installation, <code class="filename">client_conf/exportCsv.ini</code> is set as follows:
+     </p>
+          <pre class="programlisting">; separator between each value, default is ";"
+separator = ";"
+
+; delimiter before and after each value, default is double-quote
+; special characters:
+;     double-quote = "
+textDelimiter = double-quote
+
+; file name format for exported CSV file, default is "[table]-[date,dMY].csv"
+fileName = "[date,Ymd-Hi]_[table].csv"
+
+; if true, exported CSV file will be UTF-8 encoded 
+; if false, it will be ISO-8859-1 encoded, default 
+charsetUtf8 = false</pre>
+          <p>
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.output.dxf"></a>11.4. <a id="id3026758" class="indexterm"></a>DXF Export</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+     DXF is a drawing format supported by AutoCAD and assimilated software. With CartoWeb, it is possible to export a DXF description of the shapes drawn with the <em class="parameter"><code>outline</code></em> plugin. The latter plugin must be activated before using <em class="parameter"><code>exportDxf</code></em> plugin.
+    </p>
+          <p>
+     A few configuration parameters are available in <code class="filename">client_conf/exportDxf.ini</code>:
+     </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>
+        <a id="id3026801" class="indexterm"></a><em class="parameter"><code>roundLevel</code></em> (integer) indicates how many digits must appear after the decimal point in points coordinates. Default is "2". 
+       </li>
+              <li>
+        <a id="id3026822" class="indexterm"></a><em class="parameter"><code>fileName</code></em> (string) specifies the filename naming convention to use. It may be static or contain athe generation date under various formats. Date formating is performed by indicating between a couple of brackets the keyword <em class="parameter"><code>date</code></em>, followed by a comma and PHP date()-like date format. (see <a class="ulink" href="http://php.net/date">http://php.net/date</a>). Default filename convention is <em class="parameter"><code>export_[date,Ymd-Hi].dxf</code></em> which gives for instance <code class="filename">export_20060725-2021.dxf</code>.
+       </li>
+              <li>
+        <a id="id3026869" class="indexterm"></a><em class="parameter"><code>exportDxfContainerName</code></em> (string) specifies the ID of the block containing the <em class="parameter"><code>{$exportDxf}</code></em> variable in the template when working with Ajax mode enabled. For exemple:
+        <pre class="programlisting">exportDxfContainerName = "exportDxfContainer"</pre> in <code class="filename">exportDxf.ini</code> and 
+        <pre class="programlisting">&lt;div id="exportDxfContainer"&gt;{$exportDxf}&lt;/div&gt;</pre> in your <code class="filename">cartoclient.tpl</code>.
+       </li>
+            </ul>
+          </div>
+          <p>
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.output.rtf"></a>11.5. <a id="id3011303" class="indexterm"></a>RTF Export</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+     The Rich Text Format (RTF) is a document file format used for cross-platform document interchange. 
+     Most word processors are able to read and write RTF documents. 
+     RTF should not be confused with enriched text format which is a completely different specification.
+    </p>
+          <p>
+     The main goal of The ExportRtf plugin is to allow users to create templates directly in a word editor. 
+     The plugin compatibility has been tested on :
+     
+     </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>
+        Office Word 2004 and later (Mac, Windows),
+       </li>
+              <li>
+        OpenOffice 2.0 and later,
+       </li>
+              <li>
+        NeoOffice (Mac)
+       </li>
+            </ul>
+          </div>
+          <p>
+     
+     Known incompatibilities :
+     </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>
+        Pages (Mac),
+       </li>
+              <li>
+        TextEdit (Mac) images are not supported,     
+       </li>
+            </ul>
+          </div>
+          <p>
+     Supported image formats (set in the mapFile):
+     </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>
+        JPEG,
+       </li>
+              <li>
+        GIF,     
+       </li>
+              <li>
+        PNG,     
+       </li>
+            </ul>
+          </div>
+          <p>
+    </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.output.rtf.templating"></a>11.5.1. Setting-up the template</h3>
+                </div>
+              </div>
+            </div>
+            <p>   
+       
+       Open your editor and do your layout setup by opening the <code class="filename">exportRtf.rtf</code> file in the plugin template folder.
+      </p>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>
+        Please take into consideration that the RTF template will be generated by your editor. 
+        You may encounter some compatibility issues. 
+        For example: an RTF template done with Word can be open with OpenOffice without too many difficulties while an RTF generated with OpenOffice may not open correctly with Word.
+       </p>
+            </div>
+            <p>
+       You can insert different fields in the template by typing keywords inside triple brackets. 
+       For Example : [[[$TITLE]]]       
+       </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+          $TITLE stands for a specific title of the form.
+         </li>
+                <li>
+          $MAP stands for the map. The map dimensions are defined in the exportRtf.ini.
+         </li>
+                <li>
+          $QUERYRESULTS stands for the query results. If you want to customize the table output, edit the results.tpl file.
+         </li>
+                <li>
+          $SCALEBAR stands for the scale bar.
+         </li>
+                <li>
+          $KEYMAP stands for the minimap.
+         </li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <p>
+       You can apply word formatting and alignment to your tags. The formatting will then be reported to their contents.
+       </p>
+            <div class="warning">
+              <h3 class="title">Warning</h3>
+              <p>When you write your tags in the file, please write them in a continuous way and without spaces and/or formatting. 
+         If you want to apply any formatting, you need to select all the tags with the "[[[ ]]]" included. 
+         If by mistake an RTF tag is inserted inside the brackets, you will have to erase the tag and rewrite it or edit the RTF sources and remove the RTF keywords.
+        </p>
+            </div>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.output.rtf.params"></a>11.5.2. Configuration parameters</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     You will find some configuration parameters in the <code class="filename">exportRtf.ini</code> file
+     </p>
+            <pre class="programlisting">;fields shown in the form
+activatedBlocks = mainmap,title,scalebar,overview,queryResult
+;dimention of the map in pixels X*Y
+mapDimention ="400*400"
+;allowed roles for the Auth plugin 
+allowedRoles = all
+;rtf optional inputs 
+optionalValues = ref,num,other
+</pre>
+            <p>
+     
+    </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.output.rtf.optional"></a>11.5.3. Optional Inputs</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     You can add free dynamic content inside your RTF. 
+     For instance, to insert a reference number in you RTF file:
+     
+    </p>
+            <p>
+     First, you have to add the name of your optional fields in the <code class="filename">exportRtf.ini</code> file. Please do not use special characters there.
+     Please do not use special characters here.
+     </p>
+            <pre class="programlisting">optionalValues = ref,num,other</pre>
+            <p>
+     Then, open the exportRtf.rtf file with you favorite word editor and just add tags the same way you do it for standard components.
+     </p>
+            <pre class="programlisting"> [[[$REF]]] [[[$NUM]]] [[[$OTHER]]] </pre>
+            <p>
+     This tags are case sensitive and have to be in UPPER CASE. 
+     The optionalValues parameters that you have set in the ini file have generated some hidden inputs in the HTML output. 
+     These inputs are named with the prefix "optRtf" and the tag name.
+     
+     </p>
+            <pre class="programlisting">&lt;input id="optRtfref" type="hidden" name="optRtfref" value=""/&gt;
+</pre>
+            <p>
+    </p>
+            <p>
+     To have a value shown in the RTF, you just have to set a value to the corresponding HTML input.
+     </p>
+            <pre class="programlisting">//JavaScript
+     $('optRtfref').value ='123';</pre>
+            <p>
+     </p>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>
+       If you want to have an optional input available in a form (like a text input), you can simply remove its name from the ini file. 
+       Then open an HTML template and add a form field name, which must contain the prefix "optRtf" and the tag name.
+      </p>
+            </div>
+            <p>
+    </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.output.image"></a>11.6. <a id="id3024270" class="indexterm"></a>Image Export</h2>
+              </div>
+            </div>
+          </div>
+          <p>CartoWeb offers 2 way to get an image.</p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.output.image.exportimg"></a>11.6.1. exportImg</h3>
+                </div>
+              </div>
+            </div>
+            <p>To display only the map image without the other elements of the main template, you can simply add <em class="parameter"><code>?exportImg</code></em> to the url.
+</p>
+            <pre class="programlisting">http://yourservername/yourproject.php?exportImg
+</pre>
+            <p>The template used is <em class="parameter"><code>imgoutput.tpl</code></em> in the main <em class="parameter"><code>templates</code></em> folder. It can be customised to your needs.</p>
+            <p>This plugin must be activated in your <em class="parameter"><code>client.ini</code></em> list of plugins.</p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.output.image.mode"></a>11.6.2. mode=image</h3>
+                </div>
+              </div>
+            </div>
+            <p>CartoWeb allows to return a raw image map with no HTML. It is not an export plugin and thus has not to be activated anywhere. CartoWeb simply needs to receive a <em class="parameter"><code>mode=image</code></em> REQUEST parameter (GET or POST). For instance: </p>
+            <pre class="programlisting">http://your/cartoweb3/?recenter_x=123456&amp;recenter_y=654321&amp;show_crosshair=1&amp;mode=image</pre>
+            <p>See <a class="xref" href="dev.newplugin.html#dev.newplugin.special.filters.parameters" title="2.4.2.2. Available Parameters">Section 2.4.2.2, “Available Parameters”</a> for more details about the possible extra parameters allowed by this feature.</p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.output.dompdf"></a>11.7. <a id="id3024384" class="indexterm"></a>PDF Export Using Dompdf</h2>
+              </div>
+            </div>
+          </div>
+          <p>The <em class="parameter"><code>exportDomPdf</code></em> plugin offers an alternative to <em class="parameter"><code>exportPdf</code></em> (see <a class="xref" href="user.pdf.html" title="12. PDF Export [plugin]">Chapter 12, <i>PDF Export <sub>[plugin]</sub></i></a>) for PDF generation. It transforms HTML pages into PDF documents.</p>
+          <p>Configuration is done by overriding the default <code class="filename">client_conf/exportDomPdf.ini</code> file. Formats, orientations, filename conventions, mapsizes are thus editable.</p>
+          <p>The PDF document layout is adaptable by overriding the <code class="filename">plugins/exportDomPdf/templates/pdf.tpl</code> template in your project: it is mostly achievable with customized HTML and CSS code. See <a class="ulink" href="http://www.digitaljunkies.ca/dompdf/">dompdf website</a> for more info.</p>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

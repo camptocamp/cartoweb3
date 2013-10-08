@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>11. Upgrading Views Data</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="dev.performance.html">
+       &lt; Performance Tests</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="dev.ajaxplugin.html">AJAX Implementation &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.dev.html">Developer Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="dev.views_upgrade.html#dev.views_upgrade.intro">11.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.views_upgrade.html#dev.views_upgrade.tools">11.2. Upgrade Tools</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="dev.views_upgrade.html#dev.views_upgrade.tools.versions">11.2.1. Views Versions</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.views_upgrade.html#dev.views_upgrade.tools.filters">11.2.2. Upgrade Filters</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.views_upgrade.html#dev.views_upgrade.tools.config">11.2.3. Upgrade Configuration</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.views_upgrade.html#dev.views_upgrade.hooks">11.3. Customizing Views Processing Using Project Hooks</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="dev.views_upgrade"></a>11. Upgrading Views Data</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.views_upgrade.intro"></a>11.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>Views saves given CartoWeb states by recording the plugins session data. Only client-side plugins implementing <code class="filename">Sessionable</code> interface may be saved in views.</p>
+          <p>Because CartoWeb and its plugins evolve, views might become outdated after some time. Plugin session containers may change: properties may be added, removed, renamed, etc. and thus shifts between old views and new plugin session formats appear. Those shifts then prevent some views from correctly displaying or even make CartoWeb crash.</p>
+          <p>However CartoWeb offers upgrade tools to read outdated views.</p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.views_upgrade.tools"></a>11.2. Upgrade Tools</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.views_upgrade.tools.versions"></a>11.2.1. Views Versions</h3>
+                </div>
+              </div>
+            </div>
+            <p>Plugins session data are saved in views in separated XML elements. Each element records the plugin session container version. Plugin session container version must be incremented whenever a change is applied on the container format (new property, name change, etc.). Container version, if not specified, defaults to 1. To explicitely update it, add following constant definition before container declaration:
+      </p>
+            <pre class="programlisting">define('PLUGINNAME_SESSION_VERSION', 3);</pre>
+            <p>
+     where <em class="parameter"><code>PLUGINNAME</code></em> is the uppercased plugin name. Container versions are always integers.</p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.views_upgrade.tools.filters"></a>11.2.2. Upgrade Filters</h3>
+                </div>
+              </div>
+            </div>
+            <p>Upgrading a view is done by sequentially applying filters, each one updating it to the following version (from version N to version N+1). If matching sequence cannot be detected (missing filters), upgrade is aborted and outdated data is discarded. Current plugin data is then used instead.</p>
+            <p>Upgrade filters are PHP classes extending <em class="parameter"><code>ViewUpgrader</code></em>, the latter class being defined at the end of <code class="filename">client/Views.php</code>. They are saved in a <code class="filename">ViewsUpgrade.php</code> file, located in the same directory than the plugin client-side class file (for instance <code class="filename">coreplugins/location/client/</code>). Filters naming convention is <em class="parameter"><code>&lt;UppercasedPluginName&gt;V&lt;initialVersion&gt;ToV&lt;initialVersion+1&gt;</code></em>.</p>
+            <p>Some basic methods (rename, remove, add) are available in every filters but you may define your own transformers methods. Details about basic methods are given in <em class="parameter"><code>ViewUpgrader</code></em> class documentation (CartoWeb API manual). At least an upgrade filter class must redefine the <em class="parameter"><code>callFilters()</code></em> method that indicates the sequence of transformations to apply.</p>
+            <p>An example of filters might be:</p>
+            <pre class="programlisting">&lt;?php
+/**
+ * coreplugins/location/client/ViewsUpgrade.php
+ */
+
+class test {
+var $game = 'arkanoid';
+var $i = 12;
+}
+
+/**
+ * Upgrades from V1 to V2
+ */
+class LocationV1ToV2 extends ViewUpgrader {
+    protected function callFilters() {
+        $this-&gt;add('test', 'toto');
+    }
+}
+
+/**
+ * Upgrades from V2 to V3
+ */
+class LocationV2ToV3 extends ViewUpgrader {
+    protected function callFilters() {
+        $this-&gt;rename('test', 'foo');
+        $this-&gt;add('bar', new test);
+        $this-&gt;add('someProperty', 2);
+        $this-&gt;add('caramba', 'ole');
+        $this-&gt;remove('someProperty');
+    }
+}
+?&gt;</pre>
+            <div class="warning">
+              <h3 class="title">Warning</h3>
+              <p>It is the responsibility of each developer to provide adapted filters when he/she updates plugin session containers!</p>
+            </div>
+            <div class="warning">
+              <h3 class="title">Warning</h3>
+              <p>Upgrade filters do not support non object-typed plugin session containers.</p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.views_upgrade.tools.config"></a>11.2.3. Upgrade Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>See <a href="user.views.html#user.views.config.controller" title="13.2.2. Main Views Controller">Section 13.2.2, &#8220;Main Views Controller&#8221;</a>. Only two of these parameters are related to views upgrading. <em class="parameter"><code>viewLogErrors</code></em> enables to log outdated views loadings whereas <em class="parameter"><code>viewUpgradeOutdated</code></em> is useful to activate or not the upgrading device (if deactivated, outdated views parts are discarded).</p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.views_upgrade.hooks"></a>11.3. Customizing Views Processing Using Project Hooks</h2>
+              </div>
+            </div>
+          </div>
+          <p>CartoWeb offers the ability to add some project-specific controls ("hooks") within the views processing.</p>
+          <p>For now only one hook is available, right before the data of the loaded view is merged with the current session data. See method <em class="parameter"><code>ViewManager::handleView()</code></em> in <code class="filename">client/Views.php</code>.</p>
+          <p>To create hooks, write a PHP class extending the basic <em class="parameter"><code>ViewHooks</code></em> class defined in <code class="filename">client/Views.php</code>. The extended class must be saved in a file with the same name, located in your project <code class="filename">plugins/views/client/</code> directory. If the latter directory does not exist, simply create it. The standard "views" plugin is not required to have hooks working. Finally, set the <em class="parameter"><code>viewHooksClassName</code></em> with your extended class name in <code class="filename">client.ini</code>.</p>
+          <pre class="programlisting">; configuration in client.ini
+viewOn = true
+viewStorage = db
+viewablePlugins = location, layers, query, outline
+viewMetas = author
+...
+viewHooksClassName = FoobarViewHooks</pre>
+          <pre class="programlisting">&lt;?php
+/**
+ * projects/&lt;your_project&gt;/plugins/views/client/FoobarViewHooks.php
+ */
+class FoobarViewHooks extends ViewHooks {
+
+    /**
+     * @see ViewHooks::handlePreLoading()
+     */
+    public function handlePreLoading($data, $viewId) {
+        // Your customized code...
+    }
+}
+?&gt;</pre>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

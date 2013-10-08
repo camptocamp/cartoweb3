@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>26. WMS Browser Light [plugin]</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.ogcLayerLoader.html">
+       &lt; OGC Layer Loader </a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.routing.html">Routing  &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.wmslight.html#user.wmslight.intro">26.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.wmslight.html#user.wmslight.activation">26.2. Plugin Activation</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.wmslight.html#user.wmslight.ini">26.3. Define a list of WMS servers using the ini file</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.wmslight.html#user.wmslight.gn">26.4. Connect to a GeoNetwork node having metadata on WMS services</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.wmslight"></a>26. <a id="id2607287" class="indexterm"></a>WMS Browser Light <sub>[plugin]</sub></h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.wmslight.intro"></a>26.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   <em class="parameter"><code>wmsBrowserLight</code></em> plugin allows you to add WMS layers to your map using the ogcLayerLoader plugin. 
+    Main difference between the wmsBrowerLight and the wmsBroser plugin is the managment of the server list. The plugins manage
+    WMS servers compatible with version 1.1.1 of the OGC WMS spec..
+    
+    Using the wmsBrowerLight plugin you have three ways to add specify the server end point (url). 
+     </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>Simply type in the text box the server you heard about like http://mywmsserverurl.iheard.about (Do not set the version 
+        or any other parameters). 
+    </li>
+              <li>Define a list of WMS servers using the ini file of the plugin. The servers will be presented to the end user in 
+        a list box.</li>
+              <li>Connect to a GeoNetwork node having metadata on WMS services and load server urls from this catalog. </li>
+            </ul>
+          </div>
+          <p>
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.wmslight.activation"></a>26.2. Plugin Activation</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+        To activate the plugin, load ogcLayerLoader from both CartoClient and CartoServer configuration files
+     and wmsBrowserLight plugins from CartoClient configuration files: 
+        <code class="filename">client_conf/client.ini</code> and 
+        <code class="filename">server_conf/"mapId"/"mapId".ini</code>. For instance:
+        </p>
+          <pre class="screen">
+loadPlugins = mapOverlay, ogcLayerLoader, wmsBrowserLight
+        </pre>
+          <p>
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.wmslight.ini"></a>26.3. Define a list of WMS servers using the ini file</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    To do so, in <code class="filename">client_conf/wmsBrowserLight.ini</code>, set the following parameters in the ini file of the plugin.
+    
+    </p>
+          <pre class="screen">
+        catalogtype = ini
+        
+        servers.0.label = Sandre / Ouvrage
+        servers.0.url = http://services.sandre.eaufrance.fr/geo/ouvrage
+
+        servers.1.label = Données administratives et routières en France (Geosignal)
+        servers.1.url = http://www.geosignal.org/cgi-bin/wmsmap
+    </pre>
+          <div class="warning">
+            <h3 class="title">Warning</h3>
+            <p>If your url contains aditional parameter (<code class="filename">..?map=foo</code>), you MUST enclose the url between doublequotes</p>
+            <pre class="screen">
+        servers.1.url = "http://www.foo.org/cgi-bin/mapserv?map=bar"
+    </pre>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.wmslight.gn"></a>26.4. Connect to a GeoNetwork node having metadata on WMS services</h2>
+              </div>
+            </div>
+          </div>
+          <p>In order to use this type of connection the name of the GeoNetwork node has to be known. 
+        Optionnaly, the plugin will first logged into the node if user and password are specified.     
+    To do so, in <code class="filename">client_conf/wmsBrowserLight.ini</code>, set the following parameters in the ini file of the plugin.
+    
+    </p>
+          <pre class="screen">
+        catalogtype = gn
+        gn = http://sandre.eaufrance.fr/geonetwork
+        ; unset gnuser and gnpassword if no login has to be made
+        gnuser = cartoweb
+        gnpassword = cartoweb
+        gnlang = en
+        ; gnQuery is how CartoWeb could get the list of services in the node
+        gnQuery = "category=Services"
+    </pre>
+          <p>
+        For the time being, there is no way to query GeoNetwork for services in a consistent manner using the ISO 19115 information. 
+        It should be possible to get this information from the tag ScopeCd of the DataQuality section. But this is not 
+        a searchable criteria in version 2.0.2. On tip is to create on the GeoNetwork node a category set to "services" 
+        and then used this categrory to get the list of server to propose to the end user.
+    </p>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

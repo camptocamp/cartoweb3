@@ -1,0 +1,702 @@
+<html>
+<head>
+<title>Docs For Class ServerPlugin</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">Server</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_Server.html" class="menu">class tree: Server</a> ]
+		  [ <a href="../elementindex_Server.html" class="menu">index: Server</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+	<div id="todolist">
+			<p><a href="../todolist.html">Todo List</a></p>
+	</div>
+      <b>Packages:</b><br />
+              <a href="../li_CartoWeb3.html">CartoWeb3</a><br />
+              <a href="../li_Client.html">Client</a><br />
+              <a href="../li_Common.html">Common</a><br />
+              <a href="../li_CorePlugins.html">CorePlugins</a><br />
+              <a href="../li_dompdf.html">dompdf</a><br />
+              <a href="../li_Htdocs.html">Htdocs</a><br />
+              <a href="../li_Plugins.html">Plugins</a><br />
+              <a href="../li_Scripts.html">Scripts</a><br />
+              <a href="../li_Server.html">Server</a><br />
+              <a href="../li_Tests.html">Tests</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../Server/_cartoweb3_server_Cartoserver_php.html">		Cartoserver.php
+		</a><br>
+			<a href="../Server/_cartoweb3_common_Encoding_php.html">		Encoding.php
+		</a><br>
+			<a href="../Server/_cartoweb3_server_MapInfoHandler_php.html">		MapInfoHandler.php
+		</a><br>
+			<a href="../Server/_cartoweb3_server_MapResultCache_php.html">		MapResultCache.php
+		</a><br>
+			<a href="../Server/_cartoweb3_server_ServerContext_php.html">		ServerContext.php
+		</a><br>
+			<a href="../Server/_cartoweb3_server_ServerPlugin_php.html">		ServerPlugin.php
+		</a><br>
+			<a href="../Server/_cartoweb3_server_ServerPluginHelper_php.html">		ServerPluginHelper.php
+		</a><br>
+			<a href="../Server/_cartoweb3_server_SoapXMLCache_php.html">		SoapXMLCache.php
+		</a><br>
+	  </div><br />
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../Server/Cartoserver.html">Cartoserver</a><br />
+	    		<a href="../Server/CartoserverException.html">CartoserverException</a><br />
+	    		<a href="../Server/ClientResponder.html">ClientResponder</a><br />
+	    		<a href="../Server/ClientResponderAdapter.html">ClientResponderAdapter</a><br />
+	    		<a href="../Server/ClientResponderHelper.html">ClientResponderHelper</a><br />
+	    		<a href="../Server/CoreProvider.html">CoreProvider</a><br />
+	    		<a href="../Server/CoreProviderHelper.html">CoreProviderHelper</a><br />
+	    		<a href="../Server/Encoder.html">Encoder</a><br />
+	    		<a href="../Server/InitProvider.html">InitProvider</a><br />
+	    		<a href="../Server/InitProviderHelper.html">InitProviderHelper</a><br />
+	    		<a href="../Server/MapInfoHandler.html">MapInfoHandler</a><br />
+	    		<a href="../Server/MapResultCache.html">MapResultCache</a><br />
+	    		<a href="../Server/ServerAccountingImpl.html">ServerAccountingImpl</a><br />
+	    		<a href="../Server/ServerConfig.html">ServerConfig</a><br />
+	    		<a href="../Server/ServerContext.html">ServerContext</a><br />
+	    		<a href="../Server/ServerMapInfoCache.html">ServerMapInfoCache</a><br />
+	    		<a href="../Server/ServerPlugin.html">ServerPlugin</a><br />
+	    		<a href="../Server/ServerPluginConfig.html">ServerPluginConfig</a><br />
+	    		<a href="../Server/ServerPluginHelper.html">ServerPluginHelper</a><br />
+	    		<a href="../Server/ShapeConverter.html">ShapeConverter</a><br />
+	    		<a href="../Server/ShapeConverterFacade.html">ShapeConverterFacade</a><br />
+	    		<a href="../Server/SoapXMLCache.html">SoapXMLCache</a><br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Class: ServerPlugin</h1>
+Source Location: /server/ServerPlugin.php<br /><br />
+
+
+<table width="100%" border="0">
+<tr><td valign="top">
+
+<h3><a href="#class_details">Class Overview</a></h3>
+<pre><a href="../Common/PluginBase.html">PluginBase</a>
+   |
+   --ServerPlugin</pre><br />
+<div class="description">Server plugin</div><br /><br />
+<h4>Author(s):</h4>
+<ul>
+        </ul>
+
+
+
+
+    
+
+
+</td>
+
+<td valign="top">
+<h3><a href="#class_vars">Variables</a></h3>
+<ul>
+    <li><a href="../Server/ServerPlugin.html#var$config">$config</a></li>
+    <li><a href="../Server/ServerPlugin.html#var$log">$log</a></li>
+    <li><a href="../Server/ServerPlugin.html#var$serverContext">$serverContext</a></li>
+  </ul>
+</td>
+
+
+<td valign="top">
+<h3><a href="#class_methods">Methods</a></h3>
+<ul>
+    <li><a href="../Server/ServerPlugin.html#method__construct">__construct</a></li>
+    <li><a href="../Server/ServerPlugin.html#methodgetConfig">getConfig</a></li>
+    <li><a href="../Server/ServerPlugin.html#methodgetServerContext">getServerContext</a></li>
+    <li><a href="../Server/ServerPlugin.html#methodinitializeConfig">initializeConfig</a></li>
+    <li><a href="../Server/ServerPlugin.html#methoduseExtendedInit">useExtendedInit</a></li>
+    <li><a href="../Server/ServerPlugin.html#methoduseExtendedRequest">useExtendedRequest</a></li>
+    <li><a href="../Server/ServerPlugin.html#methoduseExtendedResult">useExtendedResult</a></li>
+  </ul>
+</td>
+
+</tr></table>
+<hr />
+
+<table width="100%" border="0"><tr>
+
+
+<td valign="top">
+<h3>Child classes:</h3>
+<div class="tags">
+<dl>
+<dt><a href="../Server/ClientResponderAdapter.html">ClientResponderAdapter</a></dt>
+	<dd>Adapter for interface <a href="../Server/ClientResponder.html">ClientResponder</a></dd>
+</dl>
+<dl>
+<dt><a href="../Plugins/ServerMapOverlay.html">ServerMapOverlay</a></dt>
+	<dd>Server MapOverlay class</dd>
+</dl>
+<dl>
+<dt><a href="../Plugins/ServerExportPdf.html">ServerExportPdf</a></dt>
+	<dd>Server part of ExportPdf plugin</dd>
+</dl>
+<dl>
+<dt><a href="../Plugins/ServerHilight.html">ServerHilight</a></dt>
+	<dd>Hilighting server plugin</dd>
+</dl>
+<dl>
+<dt><a href="../CorePlugins/ServerAccounting.html">ServerAccounting</a></dt>
+	<dd>Server part of Accounting plugin</dd>
+</dl>
+<dl>
+<dt><a href="../CorePlugins/ServerTables.html">ServerTables</a></dt>
+	<dd>Server side of Tables plugin</dd>
+</dl>
+<dl>
+<dt><a href="../CorePlugins/ServerMapquery.html">ServerMapquery</a></dt>
+	<dd>A service plugin to perform queries based on a set of selected id's</dd>
+</dl>
+<dl>
+<dt><a href="../Tests/ServerProjectTableRules.html">ServerProjectTableRules</a></dt>
+	<dd>Plugin to test tables rules creation</dd>
+</dl>
+</div>
+</td>
+
+
+<td valign="top">
+<h3>Inherited Variables</h3>
+<div class="tags">
+<h4>Class: <a href="../Common/PluginBase.html">PluginBase</a></h4>
+<dl>
+<dt>
+  <a href="../Common/PluginBase.html#var$basePath">PluginBase::$basePath</a>
+  </dt>
+<dd>
+   
+</dd>
+<dt>
+  <a href="../Common/PluginBase.html#var$name">PluginBase::$name</a>
+  </dt>
+<dd>
+   
+</dd>
+<dt>
+  <a href="../Common/PluginBase.html#var$overriddenRequest">PluginBase::$overriddenRequest</a>
+  </dt>
+<dd>
+   
+</dd>
+</dl>
+</div>
+</td>
+
+<td valign="top">
+<h3>Inherited Methods</h3>
+<div class="tags">
+<h4>Class: <a href="../Common/PluginBase.html">PluginBase</a></h4>
+<dl>
+    <dt>
+    <a href="../Common/PluginBase.html#method__construct">PluginBase::__construct()</a>
+  </dt>
+  <dd>
+    Constructor
+  </dd>
+    <dt>
+    <a href="../Common/PluginBase.html#methodaccount">PluginBase::account()</a>
+  </dt>
+  <dd>
+    Records an accounting message for plugins
+  </dd>
+    <dt>
+    <a href="../Common/PluginBase.html#methodgetBasePath">PluginBase::getBasePath()</a>
+  </dt>
+  <dd>
+    
+  </dd>
+    <dt>
+    <a href="../Common/PluginBase.html#methodgetExtendedName">PluginBase::getExtendedName()</a>
+  </dt>
+  <dd>
+    
+  </dd>
+    <dt>
+    <a href="../Common/PluginBase.html#methodgetName">PluginBase::getName()</a>
+  </dt>
+  <dd>
+    
+  </dd>
+    <dt>
+    <a href="../Common/PluginBase.html#methodgetRequest">PluginBase::getRequest()</a>
+  </dt>
+  <dd>
+    Get plugin's request or result out of MapRequest or MapResult
+  </dd>
+    <dt>
+    <a href="../Common/PluginBase.html#methodinitialize">PluginBase::initialize()</a>
+  </dt>
+  <dd>
+    Plugin initialization (can be extended in custom plugins)
+  </dd>
+    <dt>
+    <a href="../Common/PluginBase.html#methodinitializeConfig">PluginBase::initializeConfig()</a>
+  </dt>
+  <dd>
+    Initializes plugin
+  </dd>
+    <dt>
+    <a href="../Common/PluginBase.html#methodpreInitialize">PluginBase::preInitialize()</a>
+  </dt>
+  <dd>
+    Plugin pre initialization. In most cases, plugins should use
+  </dd>
+    <dt>
+    <a href="../Common/PluginBase.html#methodreplacePlugin">PluginBase::replacePlugin()</a>
+  </dt>
+  <dd>
+    Returns name of parent plugin in case of plugin extension
+  </dd>
+    <dt>
+    <a href="../Common/PluginBase.html#methodsetBasePath">PluginBase::setBasePath()</a>
+  </dt>
+  <dd>
+    
+  </dd>
+    <dt>
+    <a href="../Common/PluginBase.html#methodsetExtendedName">PluginBase::setExtendedName()</a>
+  </dt>
+  <dd>
+    
+  </dd>
+    <dt>
+    <a href="../Common/PluginBase.html#methodsetName">PluginBase::setName()</a>
+  </dt>
+  <dd>
+    
+  </dd>
+  </dl>
+</div>
+</td>
+
+</tr></table>
+<hr />
+
+<a name="class_details"></a>
+<h3>Class Details</h3>
+<div class="tags">
+[line 88]<br />
+Server plugin<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>abstract:</b>&nbsp;&nbsp;</td><td></td>
+  </tr>
+</table>
+</div>
+</div><br /><br />
+<div class="top">[ <a href="#top">Top</a> ]</div><br />
+
+<hr />
+<a name="class_vars"></a>
+<h3>Class Variables</h3>
+<div class="tags">
+	<a name="var$config"></a>
+	<p></p>
+	<h4>$config = <span class="value"></span></h4>
+	<p>[line 98]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td><a href="../Server/ServerPluginConfig.html">ServerPluginConfig</a></td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$log"></a>
+	<p></p>
+	<h4>$log = <span class="value"></span></h4>
+	<p>[line 93]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>Logger</td>
+    </tr>
+        <tr>
+      <td><b>Overrides:</b>&nbsp;&nbsp;</td>
+      <td>Array</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$serverContext"></a>
+	<p></p>
+	<h4>$serverContext = <span class="value"></span></h4>
+	<p>[line 103]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td><a href="../Server/ServerContext.html">ServerContext</a></td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+</div><br />
+
+<hr />
+<a name="class_methods"></a>
+<h3>Class Methods</h3>
+<div class="tags">
+  <hr />
+	<a name="method__construct"></a>
+	<h3>constructor __construct <span class="smalllinenumber">[line 108]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>ServerPlugin __construct(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Constructor<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../Plugins/ServerStatsReports.html#method__construct">ServerStatsReports::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Plugins/ServerEdit.html#method__construct">ServerEdit::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Plugins/ServerGeostat.html#method__construct">ServerGeostat::__construct()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../Plugins/ServerOgcLayerLoader.html#method__construct">ServerOgcLayerLoader::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Plugins/ServerOutline.html#method__construct">ServerOutline::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Plugins/ServerRouting.html#method__construct">ServerRouting::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Plugins/ServerTestMainGeotoolsRouting.html#method__construct">ServerTestMainGeotoolsRouting::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Plugins/ServerPostgresRouting.html#method__construct">ServerPostgresRouting::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Plugins/ServerLayerReorder.html#method__construct">ServerLayerReorder::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CorePlugins/ServerImages.html#method__construct">ServerImages::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CorePlugins/ServerLocation.html#method__construct">ServerLocation::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CorePlugins/ServerLayers.html#method__construct">ServerLayers::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CorePlugins/ServerQuery.html#method__construct">ServerQuery::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Tests/ServerProjectplugin.html#method__construct">ServerProjectplugin::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Tests/ServerProjectTable.html#method__construct">ServerProjectTable::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Plugins/ServerMapOverlay.html#method__construct">ServerMapOverlay::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Plugins/ServerExportPdf.html#method__construct">ServerExportPdf::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Plugins/ServerHilight.html#method__construct">ServerHilight::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CorePlugins/ServerAccounting.html#method__construct">ServerAccounting::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CorePlugins/ServerTables.html#method__construct">ServerTables::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../CorePlugins/ServerMapquery.html#method__construct">ServerMapquery::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+		<dl>
+	<dt><a href="../Tests/ServerProjectTableRules.html#method__construct">ServerProjectTableRules::__construct()</a></dt>
+		<dd>Constructor</dd>
+	</dl>
+	</p>
+Overrides <a href="../Common/PluginBase.html#method__construct">PluginBase::__construct()</a> (Constructor)<br /><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetConfig"></a>
+	<h3>method getConfig <span class="smalllinenumber">[line 133]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code><a href="../Server/ServerConfig.html">ServerConfig</a> getConfig(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetServerContext"></a>
+	<h3>method getServerContext <span class="smalllinenumber">[line 115]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code><a href="../Server/ServerContext.html">ServerContext</a> getServerContext(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodinitializeConfig"></a>
+	<h3>method initializeConfig <span class="smalllinenumber">[line 123]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void initializeConfig(
+<a href="../Server/ServerContext.html">ServerContext</a>
+$initArgs)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Initializes plugin configuration<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+Overrides <a href="../Common/PluginBase.html#methodinitializeConfig">PluginBase::initializeConfig()</a> (Initializes plugin)<br /><br />
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type"><a href="../Server/ServerContext.html">ServerContext</a>&nbsp;&nbsp;</td>
+        <td><b>$initArgs</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methoduseExtendedInit"></a>
+	<h3>method useExtendedInit <span class="smalllinenumber">[line 154]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>boolean useExtendedInit(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methoduseExtendedRequest"></a>
+	<h3>method useExtendedRequest <span class="smalllinenumber">[line 140]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>boolean useExtendedRequest(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../Tests/ServerProjectLocation.html#methoduseExtendedRequest">ServerProjectLocation::useExtendedRequest()</a></dt>
+		<dd></dd>
+	</dl>
+	</p>
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methoduseExtendedResult"></a>
+	<h3>method useExtendedResult <span class="smalllinenumber">[line 147]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>boolean useExtendedResult(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../Tests/ServerProjectLocation.html#methoduseExtendedResult">ServerProjectLocation::useExtendedResult()</a></dt>
+		<dd></dd>
+	</dl>
+	</p>
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+</div><br />
+
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Mon, 09 Sep 2013 13:31:17 +0200 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,1621 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>2. New Plugins</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="dev.soapcalls.html">
+       &lt; Calling Plugins</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="dev.mapoverlay.html">Dynamic mapfile modifications &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.dev.html">Developer Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="dev.newplugin.html#dev.newplugin.intro">2.1.  
+    What are 
+    Plugins</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.intro.definition">2.1.1. Definition</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.intro.nature">2.1.2. Plugins and Coreplugins</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.intro.structure">2.1.3. Plugins 
+      Structure</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.newplugin.html#dev.newplugin.writing">2.2. Writing a 
+    Plugin</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.writing.intro">2.2.1. Introduction</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.writing.choice">2.2.2. Plugin or Coreplugin?</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.writing.calls">2.2.3. How Plugins Are Called</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.writing.checklist">2.2.4. Plugin Creation Check-List</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.writing.inclusion">2.2.5. Automatic Files Inclusion</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.newplugin.html#dev.newplugin.adapting">2.3. Adapting a 
+    Plugin</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.adapting.intro">2.3.1. Approaches</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.adapting.overriding">2.3.2. Overriding a Plugin</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.adapting.extending">2.3.3. Extending 
+      a Plugin</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.adapting.combining">2.3.4. Combining Both Approaches</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.newplugin.html#dev.newplugin.special">2.4. Special 
+    Plugins</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.special.export">2.4.1. Export 
+      Plugins</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.special.filters">2.4.2. Filters</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.newplugin.html#dev.newplugin.special.tables">2.4.3. Tables</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="dev.newplugin"></a>2. New Plugins</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.newplugin.intro"></a>2.1. <a id="id3061281" class="indexterm"></a> 
+    <a id="id3061271" class="indexterm"></a>What are 
+    Plugins</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.intro.definition"></a>2.1.1. Definition</h3>
+                </div>
+              </div>
+            </div>
+            <p> CartoWeb plugins are modular packages of files (PHP classes, HTML 
+      templates, images and other resources) that are used to perform a 
+      dedicated action: main map formatting, layers browsing interface, map 
+      browsing (zooming, paning etc.), queries, user authentication, search 
+      interfaces and many more. </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.intro.nature"></a>2.1.2. Plugins and Coreplugins</h3>
+                </div>
+              </div>
+            </div>
+            <p> There are two kinds of plugins: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+      <em class="parameter"><code>coreplugins</code></em>: fundamental plugins that perform 
+      "low-level" actions such as map size handling, browsing tools, layers 
+      selection. Plugins that are frequently used in many CartoWeb 
+      applications may be included in this category as well. They are always 
+      available and activated. As a result, other plugins may interact with 
+      them. Coreplugins files are grouped in the 
+      <code class="filename">coreplugins/</code> directory. </li>
+                <li> <em class="parameter"><code>plugins</code></em>: "normal" plugins 
+      perform more specificactions and are not always activated. Normal plugins 
+      activation is done by setting the <em class="parameter"><code>loadPlugins</code></em> 
+      parameter in <code class="filename">client_conf/client.ini</code> for 
+      CartoClient plugins and in 
+      <code class="filename">server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</code> for 
+      CartoServer ones. For instance: <pre class="programlisting">loadPlugins = auth, outline, exportHtml
+       </pre> Since they are not always available, simple plugins 
+      usually do not rely on each other. On the other hand, it is not a problem 
+      for them to call some coreplugins functionalities if the latter are 
+      publicly accessible. Simple plugins files are grouped in the 
+      <code class="filename">plugins/</code> directory. </li>
+              </ul>
+            </div>
+            <p> </p>
+            <p> The general philosophy is to gather all files of a given plugin in 
+      the same dedicated directory, including files from both CartoClient and 
+      CartoServer sides of the plugin. Thus it is easy to "plug" a new module 
+      in CartoWeb architecture by simply pasting it in the 
+      <code class="filename">plugins/</code> or <code class="filename">coreplugins/</code> parent 
+      directories. Note however that plugins configuration files (named 
+      <code class="filename">&lt;pluginName&gt;.ini</code>) are placed in the 
+      <code class="filename">client_conf/</code> and/or 
+      <code class="filename">server_conf/&lt;mapId&gt;/</code> depending if those 
+      plugins have CartoClient/CartoServer components. </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.intro.structure"></a>2.1.3. <a id="id3076478" class="indexterm"></a>Plugins 
+      Structure</h3>
+                </div>
+              </div>
+            </div>
+            <p> Plugins and coreplugins have the following general structure: 
+      </p>
+            <pre class="programlisting">&lt;pluginName&gt;/
+&lt;pluginName&gt;/client/
+&lt;pluginName&gt;/server/
+&lt;pluginName&gt;/common/
+&lt;pluginName&gt;/templates/
+&lt;pluginName&gt;/htdocs/
+&lt;pluginName&gt;/htdocs/gfx/
+&lt;pluginName&gt;/htdocs/js/
+&lt;pluginName&gt;/htdocs/css/</pre>
+            <p> </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+      <code class="filename">client/</code> contains all specific CartoClient-side PHP 
+      files. </li>
+                <li> <code class="filename">server/</code> 
+      contains all specific CartoServer-side PHP files. </li>
+                <li> <code class="filename">common/</code> contains PHP files shared 
+      by both CartoClient and CartoServer sides, or at least files that are 
+      not specific to one side or the other. </li>
+                <li> <code class="filename">templates/</code> contains all the plugin-specific 
+      <a class="link" href="user.template.html" title="18. Templating">Smarty templates</a>. Since HTML 
+      templates are only used in CartoClient, files from 
+      <code class="filename">templates/</code> are only called by 
+      <code class="filename">client/</code> code. </li>
+                <li> 
+      <code class="filename">htdocs/</code> contains all files (PHP pages, images, 
+      JavaScript or CSS files, etc.) that may be web-accessed when running the 
+      plugin. Those files are dispatched in various directories depending on 
+      their nature. If necessary, you can create additional subdirectories. For 
+      instance <code class="filename">java/</code> if your plugin uses a Java applet. To 
+      preserve the plugin independence, it is strongly recommended not to add 
+      your CSS styles in the general CartoClient style sheet but to create a 
+      specific file here that will be called separately. </li>
+              </ul>
+            </div>
+            <p> </p>
+            <p> Note that it is not required to actually create the whole structure 
+      described above. Only directories that contain files are necessairy. For 
+      instance if a plugin only perform CartoServer actions, it is no use to 
+      create <code class="filename">client/</code>, <code class="filename">templates/</code> and 
+      <code class="filename">htdocs/</code> directories. <code class="filename">common/</code> 
+      may be usefull if not-CartoServer-specific classes have to be defined. 
+      </p>
+            <p> There are two ways to add a plugin/coreplugin to CartoWeb: writing 
+      a brand new one or overriding/extending an existing one. </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.newplugin.writing"></a>2.2. <a id="id3076255" class="indexterm"></a>Writing a 
+    Plugin</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.writing.intro"></a>2.2.1. Introduction</h3>
+                </div>
+              </div>
+            </div>
+            <p> If no existing plugin or coreplugin fulfils your requirements and if 
+      none offers close enough functionalities to justify an adaptation, you 
+      can write a new plugin. </p>
+            <p> Plugins main classes (client and/or server if any) must extend 
+      CartoWeb defined<em class="parameter"><code>ClientPlugin</code></em> and/or 
+      <em class="parameter"><code>ServerPlugin</code></em> classes which provide base plugin 
+      tools. For instance: </p>
+            <pre class="programlisting">class ClientYourPlugin extends ClientPlugin {
+
+    /* here comes your plugin client class definition */
+
+}</pre>
+            <p> </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.writing.choice"></a>2.2.2. Plugin or Coreplugin?</h3>
+                </div>
+              </div>
+            </div>
+            <p> First of all you have to determine if you are about to design a 
+      simple plugin or a coreplugin. To be a coreplugin, your plugin must be 
+      really generic and present a great interest to the CartoWeb users 
+      community since it might be included in the upstream distribution. 
+      Contact CartoWeb development team for more info. In most cases it is 
+      better and sufficient to create a simple plugin. </p>
+            <p> To activate a coreplugin, update the 
+      <em class="parameter"><code>Cartoclient::getCorePluginNames()</code></em> method in 
+      <code class="filename">/client/Cartoclient.php</code> and/or the 
+      <em class="parameter"><code>ServerContext::getCorePluginNames()</code></em> one in 
+      <code class="filename">/server/ServerContext.php</code>. For instance: 
+      </p>
+            <pre class="programlisting">private function getCorePluginNames() {
+return array('images', 'location', 'layers', 'query', 'mapquery',
+             'tables', 'yourPluginName');
+}</pre>
+            <p> To load a regular plugin, update the 
+      <em class="parameter"><code>loadPlugins</code></em> parameter from 
+      <code class="filename">client_conf/client.ini</code> and/or 
+      <code class="filename">server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</code> as in 
+      following example: </p>
+            <pre class="programlisting">loadPlugins = auth, outline, exportHtml
+      </pre>
+            <p> </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.writing.calls"></a>2.2.3. <a id="id3076101" class="indexterm"></a><a id="id3076091" class="indexterm"></a>How Plugins Are Called</h3>
+                </div>
+              </div>
+            </div>
+            <p> As explained in <a class="xref" href="dev.newplugin.html#dev.newplugin.intro" title="2.1.  What are Plugins">Section 2.1, “ 
+    What are 
+    Plugins”</a>, plugins are 
+      independent aggregations of PHP code that are called by the CartoWeb 
+      core classes to perform dedicated actions. Plugins are called several 
+      times during the program execution (entry points). Thus they can interact 
+      at various level of the application. </p>
+            <p> To determine what plugins must be called at what moment and to 
+      perform what action, plugins must implement one or more of the CartoWeb 
+      plugin interfaces (according to the object-oriented programing meaning). 
+      The interfaces define methods that will be triggered by the main program 
+      during its execution. For example, you can take a look at the following 
+      simplified <em class="parameter"><code>Cartoclient::doMain()</code></em> method ("main 
+      program") defined in <code class="filename">/client/Cartoclient.php</code>: 
+      </p>
+            <pre class="programlisting">private function doMain() {
+    $this-&gt;callPluginsImplementing('InitUser', 'handleInit',
+                                   $this-&gt;getMapInfo());
+
+    if ($this-&gt;isRequestPost()) {
+        $this-&gt;cartoForm =
+            $this-&gt;httpRequestHandler-&gt;handleHttpRequest(
+                                                $this-&gt;clientSession,
+                                                $this-&gt;cartoForm);
+
+        $request = new FilterRequestModifier($_REQUEST);
+        $this-&gt;callPluginsImplementing('FilterProvider',
+                                       'filterPostRequest', $request);
+        $this-&gt;callPluginsImplementing('GuiProvider',
+                                       'handleHttpPostRequest',
+                                       $request-&gt;getRequest());
+    } else {
+        $request = new FilterRequestModifier($_REQUEST);
+        $this-&gt;callPluginsImplementing('FilterProvider',
+                                       'filterGetRequest', $request);
+        $this-&gt;callPluginsImplementing('GuiProvider',
+                                       'handleHttpGetRequest',
+                                       $request-&gt;getRequest());
+    }
+
+    $mapRequest = $this-&gt;getMapRequest();
+    $this-&gt;callPluginsImplementing('ServerCaller', 'buildRequest',
+                                   $mapRequest);
+
+    $this-&gt;mapResult = $this-&gt;getMapResultFromRequest($mapRequest);
+
+    $this-&gt;callPluginsImplementing('ServerCaller', 'initializeResult',
+                                   $this-&gt;mapResult);
+
+    $this-&gt;callPluginsImplementing('ServerCaller', 'handleResult',
+                                   $this-&gt;mapResult);
+
+    $this-&gt;formRenderer-&gt;showForm($this);
+
+    $this-&gt;callPluginsImplementing('Sessionable', 'saveSession');
+    $this-&gt;saveSession($this-&gt;clientSession);
+}</pre>
+            <p> <em class="parameter"><code>callPluginsImplementing($interfaceName, 
+      $methodName, $argument)</code></em> is run at various points of the 
+      program and make plugins implementing given &lt;interfaceName&gt; 
+      interface execute given &lt;methodName&gt; with given &lt;argument&gt; 
+      argument. </p>
+            <p> Of course interface-defined methods must be implemented in the 
+      matching plugins. Plugins can implements one or more CartoWeb 
+      interfaces. </p>
+            <p> Implementing interfaces is not mandatory when writing a plugin but 
+      not doing so will keep plugins from being implicitely called by the main 
+      program. As a result, methods from plugins with no interface 
+      implementation - also called "service plugins" - must be explicitely 
+      called by another piece of code (generally an other plugin). </p>
+            <p>
+      </p>
+            <pre class="programlisting">class ClientYourPlugin extends ClientPlugin 
+                       implements Sessionable, GuiProvider {
+
+    /* here comes your plugin client class definition */
+
+}</pre>
+            <p>
+    </p>
+            <p> For a comprehensive list of available client and server interfaces, 
+      see <code class="filename">/client/ClientPlugin.php</code> and 
+      <code class="filename">/server/ServerPlugin.php</code> files or take a look at the 
+      CartoWeb PHP API documentation. </p>
+            <div class="screenshot">
+              <div class="mediaobject">
+                <img src="image/dev/newplugin/images/plugins_medium.png" alt="Diagram of CartoWeb plugins interfaces and methods calls" />
+              </div>
+            </div>
+            <p>(Get a high quality version of this diagram 
+    <a class="ulink" href="http://www.cartoweb.org/doc/misc/plugins_diagram.pdf">here</a>.)</p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.writing.checklist"></a>2.2.4. Plugin Creation Check-List</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+      </p>
+            <div class="orderedlist">
+              <ol>
+                <li> Determine if you will write a plugin or a coreplugin. </li>
+                <li> Create a <code class="filename">&lt;yourPlugin&gt;/</code> directory in 
+            <code class="filename">/projects/&lt;yourProject&gt;/plugins/</code> if you 
+            need a simple plugin. Directory name will be the plugin name. You 
+            can use whatever name you want except of course names of already 
+            existing plugins or coreplugins. Yet it is recommended to use 
+            lowercase letters, capitalizing only the first letter of each word 
+            that composes the name (eg. "yourPluginName").  In case of a coreplugin, there is no way to create a 
+            coreplugin in a project context. Coreplugins can only be integrated 
+            in the upstream application. It is not recommended to do so without 
+            CartoWeb developers agreement because of compatibility troubles 
+            that may occur when upgrading, etc. </li>
+                <li> Create subdirectories to store all plugin-related resources 
+            files and templates. </li>
+                <li> Create <code class="filename">client/</code>, 
+            <code class="filename">server/</code>, <code class="filename">common/</code> if your 
+            plugin as CartoClient, CartoServer and respectively common 
+            parts. </li>
+                <li> Create your main PHP classes files. Those files must be named 
+            using the first-letter-capitalized name of your plugin, prefixing 
+            it with "Client" or "Server" for client or server components (eg. 
+            <code class="filename">ClientYourPlugin.php</code>, 
+            <code class="filename">ServerYourPlugin.php</code>, 
+            <code class="filename">YourPlugin.php</code>). </li>
+                <li> Extend <em class="parameter"><code>ClientPlugin</code></em> and/or 
+            <em class="parameter"><code>ServerPlugin</code></em> CartoWeb classes in the 
+            matching above files and name the result classes using their files 
+            names (with no ".php"). For instance: <pre class="programlisting">&lt;?php
+/**
+ * @version $Id: ServerYourPlugin.php,v 1.8 2005/02/23 11:52:43 johndoe Exp $
+ */
+
+class ServerYourPlugin extends ServerPlugin {
+
+</pre> </li>
+                <li> Make your classes implement needed interfaces and redefine 
+            corresponding methods. Note that the <code class="filename">common/</code> 
+            part class "YourPlugin" does not have to extend or implement any 
+            CartoWeb class or interface. It is used as a container for common 
+            data and treatment used by client and server classes. </li>
+                <li>If your plugin is implementing <em class="parameter"><code>ServerCaller</code></em>
+          and <em class="parameter"><code>ClientResponder</code></em>, you will need to write the
+          WSDL code for the plugin request and response. See 
+          <a class="xref" href="dev.newplugin.html#dev.newplugin.intro" title="2.1.  What are Plugins">Section 2.1, “ 
+    What are 
+    Plugins”</a> for examples on how to write
+          such WSDL documents.
+          <div class="note"><h3 class="title">Note</h3><p>You need to add a <em class="parameter"><code>className</code></em> 
+          element in the WSDL file for a proper parsing from CartoWeb
+          </p></div></li>
+                <li> Activate your plugin by adding its name to the 
+            <em class="parameter"><code>loadPlugins</code></em> of the matching project 
+            configuration files. </li>
+              </ol>
+            </div>
+            <p>
+    </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.writing.inclusion"></a>2.2.5. Automatic Files Inclusion</h3>
+                </div>
+              </div>
+            </div>
+            <p> Main plugin PHP files (eg. 
+      <code class="filename">ClientYourPlugin.php</code>, 
+      <code class="filename">ServerYourPlugin.php</code>, 
+      <code class="filename">YourPlugin.php</code>) are automatically included and their 
+      contained classes and objects are directly accessible. Other files in 
+      <code class="filename">client/</code>, <code class="filename">server/</code> or 
+      <code class="filename">common/</code> are not and must be included explicitely in 
+      the main plugin PHP files. </p>
+            <p> Templates stored in the plugin <code class="filename">templates/</code> 
+      directory are also accessible directly by using PHP code similar to the 
+      followin one: </p>
+            <pre class="programlisting">$smarty = new Smarty_Plugin($this-&gt;getCartoclient(), $this);
+$smarty-&gt;assign('foo', 'bar');
+return $smarty-&gt;fetch('yourPlugin.tpl');</pre>
+            <p> </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.newplugin.adapting"></a>2.3. <a id="id3064624" class="indexterm"></a>Adapting a 
+    Plugin</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.adapting.intro"></a>2.3.1. Approaches</h3>
+                </div>
+              </div>
+            </div>
+            <p> If an already available plugin or coreplugin offers close 
+      functionalities to the ones you need, if you wish to slightly modify its 
+      behavior or simply want to adapt its output to your website layout, it is 
+      far easier to adapt it then to build a new one from scratch. </p>
+            <p> There are two levels of plugin adaptation. You can: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> override its HTML templates, resources (pictos, CSS or 
+      JS files) and its configuration as well. This approach is generally 
+      sufficient when you only need to adapt the layout. </li>
+                <li> extend the main PHP classes to add your own methods or 
+      overload existing ones. This approach is required when you need to add 
+      some PHP code to the plugin. </li>
+              </ul>
+            </div>
+            <p> Both 
+      approaches are not incompatible and may be combined to obtain desired 
+      result. See <a class="xref" href="dev.newplugin.html#dev.newplugin.adapting.combining" title="2.3.4. Combining Both Approaches">Section 2.3.4, “Combining Both Approaches”</a> for more 
+      explanations. </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.adapting.overriding"></a>2.3.2. <a id="id3064554" class="indexterm"></a>Overriding a Plugin</h3>
+                </div>
+              </div>
+            </div>
+            <p> Overriding a plugin is the simplest way to adapt it to your needs. 
+      It is done by duplicating the plugin files (at least the ones you want to 
+      adapt) in your project frame. For more information about projects 
+      handling, see <a class="xref" href="user.structure.html#user.structure.project" title="2.4. Projects">Section 2.4, “Projects”</a>. </p>
+            <p> This approach is recommended when you want to use your own versions 
+      of the plugin templates or resources. Moreover you can add any new 
+      resources files that will be called in your customized templates. However 
+      you will not be able to replace or add PHP files (except PHP pages in the 
+      plugin <code class="filename">htdocs/</code>. To adapt a plugin server-side 
+      behavior (PHP classes), you have to extend the plugin, which is explained 
+      in <a class="xref" href="dev.newplugin.html#dev.newplugin.adapting.extending" title="2.3.3. Extending a Plugin">Section 2.3.3, “Extending 
+      a Plugin”</a>. </p>
+            <p> Say for instance, you want customize the 
+      <em class="parameter"><code>layers</code></em> coreplugin by modifying its template 
+      <code class="filename">layers.tpl</code> and rewriting some of its JS tools 
+      (stored in <code class="filename">layers.js</code>). Than your project-adapted 
+      coreplugin will look like: </p>
+            <pre class="programlisting">/projects/&lt;yourProjectName&gt;/coreplugins/layers/
+/projects/&lt;yourProjectName&gt;/coreplugins/layers/templates/
+/projects/&lt;yourProjectName&gt;/coreplugins/layers/templates/layers.tpl
+/projects/&lt;yourProjectName&gt;/coreplugins/layers/htdocs/
+/projects/&lt;yourProjectName&gt;/coreplugins/layers/htdocs/js/
+/projects/&lt;yourProjectName&gt;/coreplugins/layers/htdocs/js/layers.js
+      </pre>
+            <p> If you don't need to override the CSS file, it is no 
+      use to create a <code class="filename">css/</code> directory containing a copy of 
+      the upstream <code class="filename">layers.css</code>. </p>
+            <p> If you want to neutralize a file, you can simply override it with a 
+      blank version. For instance to have a void output, create a template file 
+      with no content. </p>
+            <p> It is also possible to override the plugin configuration files by 
+      adding <code class="filename">&lt;pluginName&gt;.ini</code> files in the project 
+      configuration directories <code class="filename">client_conf/</code> and/or 
+      <code class="filename">server_conf/&lt;mapId&gt;/</code>. When the plugin is 
+      launched, upstream and project configuration files are merged so you 
+      don't need to duplicate the configuration parameters that stay unchanged 
+      with your adapted plugin. </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.adapting.extending"></a>2.3.3. <a id="id3122807" class="indexterm"></a>Extending 
+      a Plugin</h3>
+                </div>
+              </div>
+            </div>
+            <p> Extending a plugin is required when your adaptations involve deep 
+      changes such as additions or overloadings of methods in the plugin PHP 
+      classes. </p>
+            <p> To do so you will have to extend the plugin PHP classes in the 
+      object-oriented programing definition. Since plugin main classes are 
+      named using a plugin-name based convention (eg. 
+      <em class="parameter"><code>ClientLayers</code></em> and 
+      <em class="parameter"><code>ServerLayers</code></em> for the CartoClient and 
+      CartoServer main classes of the <em class="parameter"><code>layers</code></em> 
+      coreplugin) and since extended classes cannot have the same name than 
+      their parent class, you will have to rename your plugin. Any plugin name 
+      is OK (as long as it is not already used!) but it is recommended to use a 
+      &lt;projectName&gt;&lt;initialPluginName&gt; separating words with caps. 
+      </p>
+            <p> Extended coreplugins directories and files must be saved in 
+      <code class="filename">/projects/&lt;projectName&gt;/coreplugins/&lt;extendedPluginName&gt;/</code> 
+      whereas extended simple plugins ones will be located in 
+      <code class="filename">/projects/&lt;projectName&gt;/plugins/&lt;extendedPluginName&gt;/</code>. 
+      </p>
+            <p> When writing your extended class, the first thing to do is to 
+      specify what plugin is replaced by the new one. This is done by 
+      overloading the <em class="parameter"><code>replacePlugin()</code></em> method. It should 
+      return the replaced plugin name. For instance, to extend the 
+      <em class="parameter"><code>layers</code></em> coreplugin CartoClient part in your 
+      <em class="parameter"><code>myProject</code></em> project, create a 
+      <code class="filename">ClientMyProjectLayers.php</code> as follows: 
+      </p>
+            <pre class="programlisting">&lt;?php
+/**
+ * @package CorePlugins
+ * @version $Id: ClientMyProjectLayers.php,v 1.8 2005/02/23 11:52:43 johndoe Exp $
+ */
+
+class ClientMyProjectLayers extends ClientLayers {
+
+    public function replacePlugin() {
+        return 'layers';
+    }
+
+    /* Add or overload methods here */
+    
+}
+?&gt;</pre>
+            <p> To be activated, extended plugins AND coreplugins must 
+      be explicitely be declared in the <em class="parameter"><code>loadPlugins</code></em> 
+      parameter of your project general configuration files: </p>
+            <pre class="programlisting">loadPlugins = exportPdf, auth, myProjectLayers
+      </pre>
+            <p> With no surprise, extended classes can take advantage 
+      of the tools provided by the interfaces their parent classes implement. 
+      By implementing additional interfaces, they will have access to 
+      complementary interactions as well. In that case, don't forget to 
+      overload the matching interface-defined methods in your extended class. 
+      For instance: </p>
+            <pre class="programlisting">ClientMyProjectLayers extends ClientLayers
+                      implements ToolProvider {
+
+/* ... */
+
+}</pre>
+            <p> </p>
+            <div class="tip">
+              <h3 class="title">Tip</h3>
+              <p>To use new config parameters in your extended plugin, add them in the .ini file of your project original plugin (eg. <code class="filename">/projects/&lt;your_project&gt;/client_conf/&lt;original_plugin&gt;.ini</code>).</p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.adapting.combining"></a>2.3.4. Combining Both Approaches</h3>
+                </div>
+              </div>
+            </div>
+            <p> If you need to modify/add templates or resources (overrriding) AND 
+      PHP classes (extension), you can combine both approaches by following the 
+      instructions of the two last sections. </p>
+            <p> Say you would like to customize the <em class="parameter"><code>images</code></em> 
+      coreplugin (mainmap size and formats management) to: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> update the layout (new pictos, new texts, new CSS), 
+      </li>
+                <li> add some JS processing, </li>
+                <li> add a new form field in a separated area of 
+      the CartoWeb interface. </li>
+              </ul>
+            </div>
+            <p> </p>
+            <p> First point is achieved by creating a <code class="filename">images/</code> 
+      directory in <code class="filename">/projects/yourProject/coreplugins/</code> and 
+      filling it with an overriden template <code class="filename">mapsizes.tpl</code>, 
+      a new <code class="filename">images.css</code> and some pictos: </p>
+            <pre class="programlisting">/projects/yourProject/coreplugins/images/
+/projects/yourProject/coreplugins/images/templates/mapsizes.tpl
+/projects/yourProject/coreplugins/images/htdocs/css/images.css
+/projects/yourProject/coreplugins/images/htdocs/gfx/button.png
+      </pre>
+            <p> </p>
+            <pre class="programlisting">&lt;!-- mapsizes.tpl --&gt;
+&lt;p&gt;{t}Mapsize:{/t}
+&lt;select name="mapsize" id="mapsize" onchange="javascript:checkMapsize();"&gt;
+{html_options options=$mapsizes_options selected=$mapsize_selected}
+&lt;/select&gt;
+&lt;input type="image" src="{r type=gfx plugin=images}button.png{/r}"
+alt="{t}Ok button{/t}" id="imagesButton" /&gt;&lt;/p&gt;</pre>
+            <p> For details 
+      about template <em class="parameter"><code>{r}</code></em> (resource) and 
+      <em class="parameter"><code>{t}</code></em> (translation) tags, see <a class="xref" href="user.template.html#user.template.i18n" title="18.2. Internationalization">Section 18.2, “Internationalization”</a> and <a class="xref" href="user.template.html#user.template.resource" title="18.3. Resources">Section 18.3, “Resources”</a>. </p>
+            <p> <em class="parameter"><code>checkMapsize()</code></em> JavaScript function is not 
+      defined in the upstream coreplugin. So we have to add a JS file in our 
+      overriden plugin: </p>
+            <pre class="programlisting">/projects/yourProject/coreplugins/images/htdocs/js/
+/projects/yourProject/coreplugins/images/htdocs/js/images.js
+      </pre>
+            <p> </p>
+            <pre class="programlisting">/* images.js */
+
+function checkMapsize() {
+  alert('foobar');
+}</pre>
+            <p> </p>
+            <p> To add a new form field in a separated area and consequently in a 
+      separated template, there is no other way than to modify the 
+      <em class="parameter"><code>ClientImages</code></em> PHP class in order to call the 
+      additional template in a special method. The extension approach is thus 
+      required. Then create a <code class="filename">yourProjectImages/</code> directory 
+      in <code class="filename">/projects/yourProject/coreplugins/</code> as follows: 
+      </p>
+            <pre class="programlisting">/projects/yourProject/coreplugins/yourProjectImages/
+/projects/yourProject/coreplugins/yourProjectImages/client/
+/projects/yourProject/coreplugins/yourProjectImages/client/ClientYourProjectImages.php
+      </pre>
+            <p> It can seem a little tricky but the new template file 
+      (say <code class="filename">yourImages.tpl</code>) will not be stored in 
+      <code class="filename">/projects/yourProject/coreplugins/yourProjectImages/templates/</code> 
+      as one can expect it but in 
+      <code class="filename">/projects/yourProject/coreplugins/images/templates/</code> 
+      with the templates of the "overriden part" of the coreplugin. Remember: 
+      templates are stored in the overriden part and PHP classes in the 
+      extended part. </p>
+            <pre class="programlisting">&lt;!-- yourImages.tpl --&gt;
+
+&lt;input type="text" name="testField" value="{$imagesTest}" /&gt;
+      </pre>
+            <p> </p>
+            <pre class="programlisting">&lt;?php
+/**
+ * @version $Id: ClientYourProjectImages.php,v 1.8 2005/02/23 11:52:43 johndoe Exp $
+ */
+
+class ClientYourProjectImages extends ClientImages {
+
+    // indicates that we want to use current plugin instead of 
+    // regular images plugin
+    public function replacePlugin() {
+        return 'images';
+    }
+
+    // overloaded method
+    public function renderForm(Smarty $template) {
+        // a {$image2} Smarty var must have been added in cartoclient.tpl
+        $template-&gt;assign('image2', $this-&gt;drawNewImagesField());
+        parent::renderForm($template);
+    }
+
+    // additional method
+    private function drawNewImagesField() {
+        $smarty = new Smarty_Plugin($this-&gt;getCartoclient(), $this);
+        $smarty-&gt;assign('imagesTest', 'Foobar');
+        return $smarty-&gt;fetch('yourImages.tpl');
+    }
+}
+?&gt;</pre>
+            <p> Don't forget to activate the extended plugin in 
+      <code class="filename">/projects/yourProject/client_conf/client.ini</code>: 
+      </p>
+            <pre class="programlisting">loadPlugins = yourProjectImages
+      </pre>
+            <p> </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.newplugin.special"></a>2.4. <a id="id3064748" class="indexterm"></a>Special 
+    Plugins</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.special.export"></a>2.4.1. <a id="id3064650" class="indexterm"></a>Export 
+      Plugins</h3>
+                </div>
+              </div>
+            </div>
+            <p>Export plugins allow to export maps and data. Concepts described 
+      below provide tools to help writing such plugins.</p>
+            <p>In brief, export plugins follow these steps in order to generate an 
+      output:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>Retrieve last request that was sent to server</li>
+                <li>Call all plugins to ask for request modification (eg. map 
+          resolution changes, keymap generation enabled/disabled, etc.)</li>
+                <li>Call server to get a new modified result</li>
+                <li>Use the result to generate output</li>
+                <li>Return output in a standardized form</li>
+              </ul>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.newplugin.special.export.naming"></a>2.4.1.1. Export Plugin Naming Convention</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+     </p>
+              <div class="warning">
+                <h3 class="title">Warning</h3>
+                <p>Export plugins MUST have names that begin with the string 
+      "export", for instance <code class="filename">exportPdf</code>, 
+      <code class="filename">exportCsv</code> or <code class="filename">exportHtml</code>.</p>
+                <p>This rule does not apply to extended plugins since only the original plugin name is detected.</p>
+              </div>
+              <p>
+     </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.newplugin.special.export.exportplugin"></a>2.4.1.2. 
+        <code class="classname">ExportPlugin</code>
+      </h4>
+                  </div>
+                </div>
+              </div>
+              <p>Class <code class="classname">ExportPlugin</code> implements a special type 
+        of client plugin, with some specific functionnalities for export. It 
+        implements interface <code class="classname">GuiProvider</code> so child 
+        classes must implement corresponding methods. Class methods are:</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li><code class="function">getLastMapRequest</code>: returns last used 
+            request object. This is useful to prepare a new call to server in 
+            order to obtain data specific to export. This call is done in 
+            method <code class="function">getExportResult</code></li>
+                  <li><code class="function">getLastMapResult</code>: This can also be useful 
+            in some cases to have the last returned result obect</li>
+                  <li><code class="function">getExportResult</code>: executes call to server 
+            in order to obtain a modified result suitable for export 
+            generation. Calls all exportable plugins in order to modify request 
+            (see <a class="xref" href="dev.newplugin.html#dev.newplugin.special.export.exportable" title="2.4.1.4. Exportable Interface">Section 2.4.1.4, “<code class="classname">Exportable</code> Interface”</a>)</li>
+                  <li><code class="function">getExport</code> (abstract): contains export 
+            generation itself. Should prepare export configuration, call 
+            <code class="function">getExportResult</code> and generate export in an 
+            <code class="classname">ExportOutput</code> object </li>
+                </ul>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.newplugin.special.export.exportconfiguration"></a>2.4.1.3. 
+        <code class="classname">ExportConfiguration</code>
+      </h4>
+                  </div>
+                </div>
+              </div>
+              <p>Export configuration objects contain information on what is needed 
+        by export plugin to generate output. For instance, for a CSV export, no 
+        images are needed and it would be a waste of time to generate 
+        them.</p>
+              <p>Configuration is set in method <code class="function">getExport</code>, then 
+        passed to method <code class="function">getExportResult</code> in order to get 
+        modified result. Configuration is used by plugin to know how to modify 
+        request to retrieve useful data.</p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.newplugin.special.export.exportable"></a>2.4.1.4. <code class="classname">Exportable</code> Interface</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Exportable interface declares a method 
+        <code class="function">adjustExportMapRequest</code> which modifies a standard 
+        map request to a special export request. For instance, plugin Image 
+        uses <code class="classname">ExportConfiguration</code> object to know if maps 
+        are needed by export plugin. If not, image request is modified. </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.newplugin.special.export.example"></a>2.4.1.5. Example</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Plugin <code class="literal">exportCsv</code> is a good, simple example of 
+        export plugin.</p>
+              <p>Configuration is filled in method 
+          <code class="function">getConfiguration</code>. No images are required 
+          to output a CSV file:</p>
+              <pre class="programlisting">protected function getConfiguration() {
+    $config = new ExportConfiguration();
+    $config-&gt;setRenderMap(false);
+    $config-&gt;setRenderKeymap(false);
+    $config-&gt;setRenderScalebar(false);
+}</pre>
+              <p>Result rendering is done in method <code class="function">getExport</code>. 
+      Note that no calls to methods <code class="function">getLastMapRequest</code> or 
+      <code class="function">adjustExportMapRequest</code> are needed, as those calls 
+      are handled by method <code class="function">getExportResult</code>:</p>
+              <pre class="programlisting">protected function getExport() {
+    $this-&gt;getExportResult($this-&gt;getConfiguration());
+    
+    // ...
+    
+    $output = new ExportOutput();
+    $output-&gt;setContents($contents);
+    return $output;
+}</pre>
+              <p>Final output (headers + content) is done in method 
+      <code class="function">output</code>. For instance:</p>
+              <pre class="programlisting">public function output() {
+    header('Content-Type: text/html');
+    print $this-&gt;getExport()-&gt;getContents();
+    return '';
+}</pre>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.special.filters"></a>2.4.2. <a id="id3040887" class="indexterm"></a>Filters</h3>
+                </div>
+              </div>
+            </div>
+            <p> Filter plugins can be used to modify parameters transfered from 
+      browser to CartoWeb client. These parameters can be part of a POST 
+      request (HTML forms) or a GET request (URL query string).</p>
+            <p>Once a new filter plugin has been developed, it can be activated by 
+      adding it to the <em class="parameter"><code>loadPlugins</code></em> variable in file 
+      <code class="filename">client_conf/client.ini</code>.</p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.newplugin.special.filters.interface"></a>2.4.2.1. Interface and Classes</h4>
+                  </div>
+                </div>
+              </div>
+              <p> Interface FilterProvider declares following methods:</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li><code class="function">filterPostRequest(FilterRequestModifier 
+            $request)</code>: modifies parameters transfered via a POST 
+            request</li>
+                  <li><code class="function">filterGetRequest(FilterRequestModifier 
+            $request)</code>: modifies parameters transfered via a GET 
+            request</li>
+                </ul>
+              </div>
+              <p> Class <code class="classname">FilterRequestModifier</code> is used to get 
+        old values from the request and set new ones. It implements two main 
+        methods:</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li><code class="function">getValue($key)</code>: retrieves old value </li>
+                  <li><code class="function">setValue($key, $value)</code>: sets new 
+            value</li>
+                </ul>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.newplugin.special.filters.parameters"></a>2.4.2.2. Available Parameters</h4>
+                  </div>
+                </div>
+              </div>
+              <p>This is the list of global parameters accepted by CartoWeb via GET</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li><em class="parameter"><code>reset_session</code></em> : This will reset all 
+              session parameters to default value. Useful when you want to go 
+              back to the initial stats of the application
+              <pre class="programlisting">
+    http://www.yoursite.org/cartoweb3/htdocs/client.php?reset_session
+              </pre></li>
+                  <li><em class="parameter"><code>prevent_save_session</code></em> : This will bypass 
+              the session save. Useful when you want to performe an action without 
+              effect on the actual state of the application. This was added 
+              specifically when using the mode=image global parameter
+              <pre class="programlisting">
+    http://www.yoursite.org/cartoweb3/htdocs/client.php?prevent_save_session
+              </pre>
+              </li>
+                  <li><em class="parameter"><code>force_map_refresh</code></em> : This will force the map to be 
+              redrawn by Mapserver, effectively removing all cache.
+              <pre class="programlisting">
+    http://www.yoursite.org/cartoweb3/htdocs/client.php?force_map_refresh
+              </pre>
+              <div class="warning"><h3 class="title">Warning</h3><p>This may impact performances and load. It's adviced to only use it for development purpose.</p></div></li>
+                  <li><em class="parameter"><code>mode</code></em> : This will define the kind of output of CartoWeb. By default it will be html. Another possible output is <em class="parameter"><code>image</code></em>. In this case, CartoWeb will only output an image.
+              <pre class="programlisting">
+    http://www.yoursite.org/cartoweb3/htdocs/client.php?mode=image
+              </pre>
+              The image mode can be used with other plugin specific parameters:
+              <pre class="programlisting">
+    http://www.yoursite.org/cartoweb3/htdocs/client.php?mode=image&amp;recenter_x=300000&amp;recenter_y=5150000&amp;recenter_scale=150000
+              </pre></li>
+                </ul>
+              </div>
+              <p>This is the list of parameters that can be set in a filter plugin 
+        using function <code class="function">setValue()</code> (in php file) or GET request (URL query string):</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>Images plugin<div class="itemizedlist"><ul><li><em class="parameter"><code>mapsize</code></em> - ID of the selected map 
+                size (see <a class="xref" href="user.images.html#user.images.client" title="8.1.  Client-side Configuration">Section 8.1, “
+      Client-side Configuration
+    ”</a>)</li><li><em class="parameter"><code>customMapsize</code></em> - this string parameter enables to specify a customized map size using the syntax <em class="parameter"><code>[width]x[height]</code></em>, <em class="parameter"><code>[width]</code></em> and <em class="parameter"><code>[height]</code></em> being positive integers (size in pixels). You may specify dimensions limitations in <code class="filename">client_conf/images.ini</code> (see <a class="xref" href="user.images.html#user.images.client" title="8.1.  Client-side Configuration">Section 8.1, “
+      Client-side Configuration
+    ”</a>)</li><li><em class="parameter"><code>drawMainmap</code></em> - boolean indicating if the mainmap must be drawn or not.</li><li><em class="parameter"><code>drawKeymap</code></em> - boolean indicating if the keymap must be drawn or not.</li><li><em class="parameter"><code>drawScalebar</code></em> - boolean indicating if the scalebar must be drawn or not.</li></ul></div></li>
+                  <li>Location plugin <div class="itemizedlist"><ul><li><em class="parameter"><code>recenter_bbox</code></em> - new bounding box, 
+                comma-separated coordinates, eg. "10.5,20,15.5,28"</li><li><em class="parameter"><code>recenter_x</code></em> - re-centering: new 
+                x-coordinate</li><li><em class="parameter"><code>recenter_y</code></em> - re-centering: new 
+                y-coordinate</li><li><em class="parameter"><code>show_crosshair</code></em> - '0' or '1', 
+               default '0'. If '1' display a crosshair on (recenter_x, 
+               recenter_y).</li><li><em class="parameter"><code>recenter_scale</code></em> - new scale</li><li><em class="parameter"><code>id_recenter_layer</code></em> - re-centering on 
+                objects: layer to look for IDs</li><li><em class="parameter"><code>id_recenter_ids</code></em> - re-centering on 
+                objects: list of IDs, comma-separated</li><li><em class="parameter"><code>shortcut_id</code></em> - ID of the selected map 
+                size (see <a class="xref" href="user.location.html#user.location.server" title="7.2. Server-side Configuration">Section 7.2, “Server-side Configuration”</a>)</li></ul></div><div class="warning"><h3 class="title">Warning</h3><p>A layer must be queryable before id recentering works! Add <em class="parameter"><code>TEMPLATE "ttt"</code></em> to that layer in the mapfile.</p></div></li>
+                  <li>Query plugin<div class="itemizedlist"><ul><li><em class="parameter"><code>query_layer</code></em> - layer to look for 
+                IDs</li><li><em class="parameter"><code>query_select</code></em> - IDs of objects to add 
+                to selection</li><li><em class="parameter"><code>query_unselect</code></em> - IDs of objects to 
+                remove from selection</li><li><em class="parameter"><code>query_policy</code></em> - selection policy: 
+                'POLICY_XOR', 'POLICY_UNION' or 'POLICY_INTERSECTION', default 
+                is 'POLICY_XOR'</li><li><em class="parameter"><code>query_maskmode</code></em> - '0' or '1', default 
+                is '0'. If '1', will show selection as a mask.</li><li><em class="parameter"><code>query_hilight</code></em> - '0' or '1', default 
+                is '1'. If '0', won't shows selection hilighted.</li><li><em class="parameter"><code>query_return_attributes</code></em> - '0' or 
+                '1', default is '1'. If '0', won't return attributes other than 
+                IDs.</li><li><em class="parameter"><code>query_return_table</code></em> - '0' or '1', 
+                default is '1'. If '0', won't return any table results.</li><li><em class="parameter"><code>query_clear</code></em> - '0' or '1',
+                default is '0'. If '1', previous query results are purged even 
+                if they were marked as persistent.</li><li><em class="parameter"><code>query_blocks</code></em> - an "associative array" parameter used 
+                to select objects from several layers at once. Indexes are layers ids whereas
+                values are ids of objects to query. For instance <em class="parameter"><code>query_blocks[layer1]
+                = 123,345,358&amp;query_blocks[layer2]=4,2345,98</code></em>. When this parameter
+                is used, <em class="parameter"><code>query_select</code></em> and <em class="parameter"><code>query_unselect</code></em>
+                parameters are ignored.</li></ul></div></li>
+                  <li>Layers plugin<div class="itemizedlist"><ul><li><em class="parameter"><code>switch_id</code></em> - id of the switch to be used when the children switching is activated (see <a class="xref" href="user.layers.html#user.layers.tree.children" title="6.2.4. Children Switching">Section 6.2.4, “Children Switching”</a>).</li><li><em class="parameter"><code>layer_select</code></em> - comma-separated list of layers or layerGroups id's that must be added into the activated layers list.</li><li><em class="parameter"><code>layer_unselect</code></em> - comma-separated list of layers or layerGroups id's that must be removed from the activated layers list. In some cases, layerGroups children might have to be explicitely listed to actually be removed.</li></ul></div></li>
+                  <li>Outline plugin<div class="itemizedlist"><ul><li>GET parameters are available to interact with the outline plugin. See <a class="xref" href="user.annotate.html#user.annotate.getparam" title="10.4. GET Parameters">Section 10.4, “GET Parameters”</a>.</li></ul></div></li>
+                </ul>
+              </div>
+              <div class="warning">
+                <h3 class="title">Warning</h3>
+                <p>Note that for Query plugin, display of extended selection must be 
+        disabled in client's <code class="filename">query.ini</code> in order to use 
+        above parameters (see <a class="xref" href="user.query.html#user.query.client" title="9.1. Client-side Configuration">Section 9.1, “Client-side Configuration”</a>).</p>
+              </div>
+              <div class="tip">
+                <h3 class="title">Tip</h3>
+                <p>To make CartoWeb outputs a map as a raw image file (no HTML generated), you may use the GET parameter <em class="parameter"><code>mode=image</code></em>. For instance:
+        </p>
+                <pre class="programlisting">http://example.com/cartoweb3/client.php?mode=image&amp;mapsize=2</pre>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.newplugin.special.filters.example"></a>2.4.2.3. Example</h4>
+                  </div>
+                </div>
+              </div>
+              <p>The following class implements a filter which allows to recenter on 
+        an object while hilighting it: </p>
+              <pre class="programlisting">
+class ClientFilterIdrecenter extends ClientPlugin
+                             implements FilterProvider {
+                       
+    public function filterPostRequest(FilterRequestModifier $request) {}
+    
+    public function filterGetRequest(FilterRequestModifier $request) {
+        
+        $id = $request-&gt;getValue('id');
+        if (!is_null($id)) {
+            $layer = 'grid_classhilight';
+            $request-&gt;setValue('query_layer', $layer);
+            $request-&gt;setValue('query_maskmode', '1');
+            $request-&gt;setValue('query_select', $id);
+
+            $request-&gt;setValue('id_recenter_layer', $layer);        
+            $request-&gt;setValue('id_recenter_ids', $id);
+        }
+    }
+}</pre>
+              <p> </p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.newplugin.special.tables"></a>2.4.3. <a id="id3103032" class="indexterm"></a>Tables</h3>
+                </div>
+              </div>
+            </div>
+            <p> Tables plugin is responsible for table formatting and display. 
+      </p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.newplugin.special.tables.structures"></a>2.4.3.1. Tables Structures</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Tables plugin declares several structures to help plugin developer 
+        manage tables. These structures are:</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>Class <code class="classname">Table</code> which includes in particular 
+            a list of rows (class <code class="classname">TableRow</code>)</li>
+                  <li>Class <code class="classname">TableGroup</code> which includes in 
+            particular a list of tables. Table groups are used for instance to 
+            separate table results coming from several plugins</li>
+                  <li>Class <code class="classname">TableFlags</code> which defines 
+            parameters that will be useful for a plugin using tables</li>
+                </ul>
+              </div>
+              <p>Typically, a plugin using table will include a 
+        <code class="classname">TableFlags</code> in its request and a 
+        <code class="classname">TableGroup</code> in its result. This is the case for 
+        Query plugin, which is the only core plugin which uses tables.</p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.newplugin.special.tables.setrules"></a>2.4.3.2. Setting Rules</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Tables plugin maintains an object called the registry (one on 
+        client and one on server). This object allows to add table rules, which 
+        will describes how tables must be displayed.</p>
+              <p>It is recommended to add rules in plugin's 
+        <code class="function">initialize()</code> method, so they are ready at the 
+        earliest stage. To obtain the registry object, first you have to get 
+        the Tables plugin object.</p>
+              <p>On client:</p>
+              <pre class="programlisting">
+public function initialize() {
+
+    $tablesPlugin = $this-&gt;cartoclient-&gt;getPluginManager()-&gt;tables; 
+    $registry = $tablesPlugin-&gt;getTableRulesRegistry();
+    
+    // Add rules here
+}
+</pre>
+              <p>On server, plugin manager is stored in 
+        <code class="classname">ServerContext</code> object:</p>
+              <pre class="programlisting">
+    // ...
+    $tablesPlugin = $this-&gt;serverContext-&gt;getPluginManager()-&gt;tables;        
+    // ...
+</pre>
+              <p></p>
+              <p>Now you are ready to add rules. Next sections describe the 
+        different types of rules. Registry's method signature is explained for 
+        each type.</p>
+              <p>Once rules have been added in registry, they must be executed on 
+        tables. See <a class="xref" href="dev.newplugin.html#dev.newplugin.special.tables.execrules" title="2.4.3.4. Executing Rules">Section 2.4.3.4, “Executing Rules”</a> 
+        for a description of table rules execution.</p>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.setrules.columnselector"></a>2.4.3.2.1. Column Selector</h5>
+                    </div>
+                  </div>
+                </div>
+                <pre class="programlisting">
+public function addColumnSelector($groupId, $tableId, $columnIds) 
+          </pre>
+                <p>Column selector rules allow to keep only a subset of columns from 
+          the source table. Parameter <em class="parameter"><code>$columnIds</code></em> should 
+          contain an array of column IDs determining which columns to 
+          keep.</p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.setrules.columnunselector"></a>2.4.3.2.2. Column Unselector</h5>
+                    </div>
+                  </div>
+                </div>
+                <pre class="programlisting">
+public function addColumnUnselector($groupId, $tableId, $columnIds) 
+          </pre>
+                <p>Column unselector rules allow to keep only a subset of columns 
+          from the source table, by removing a list of columns. Parameter 
+          <em class="parameter"><code>$columnIds</code></em> should contain an array of column 
+          IDs determining which columns to remove.</p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.setrules.groupfilter"></a>2.4.3.2.3. Group Filter</h5>
+                    </div>
+                  </div>
+                </div>
+                <pre class="programlisting">
+public function addGroupFilter($groupId, $callback)</pre>
+                <p>Group filter rules allow to modify group title. Parameter 
+          <em class="parameter"><code>$callback</code></em> should contain a pointer to a 
+          callback method with the following signature:</p>
+                <pre class="programlisting">
+static function myCallbackMethod('group_id', 'group_title')
+    return 'group_new_title' </pre>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.setrules.tablefilter"></a>2.4.3.2.4. Table Filter</h5>
+                    </div>
+                  </div>
+                </div>
+                <pre class="programlisting">
+public function addTableFilter($groupId, $tableId, $callback) 
+          </pre>
+                <p>Table filter rules allow to modify table title. Parameter 
+          <em class="parameter"><code>$callback</code></em> should contain a pointer to a 
+          callback method with the following signature:</p>
+                <pre class="programlisting">
+static function myCallbackMethod('table_id', 'table_title')
+    return 'table_new_title' </pre>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.setrules.columnfilter"></a>2.4.3.2.5. Column Filter</h5>
+                    </div>
+                  </div>
+                </div>
+                <pre class="programlisting">
+public function addColumnFilter($groupId, $tableId,
+                                $columnId, $callback)</pre>
+                <p>Column filter rules allow to modify column title. Parameter 
+          <em class="parameter"><code>$callback</code></em> should contain a pointer to a 
+          callback method with the following signature:</p>
+                <pre class="programlisting">
+static function myCallbackMethod('table_id', 'column_id', 'column_title')
+    return 'column_new_title'</pre>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.setrules.cellfilter"></a>2.4.3.2.6. Cell Filter</h5>
+                    </div>
+                  </div>
+                </div>
+                <pre class="programlisting">
+public function addCellFilter($groupId, $tableId, $columnId,
+                              $inputColumnIds, $callback)</pre>
+                <p>Cell filter rules allow to modify content of a cell. Values of 
+          columns given in parameter <em class="parameter"><code>$inputColumnIds</code></em> 
+          will be transfered to the callback method for cell content 
+          calculation. Parameter <em class="parameter"><code>$callback</code></em> should 
+          contain a pointer to a callback method with the following 
+          signature:</p>
+                <pre class="programlisting">
+static function myCallbackMethod('table_id', 'column_id',
+                                 array ('column_1' =&gt; 'value_1',
+                                        'column_2' =&gt; 'value_2'))
+    return 'cell_value'</pre>
+                <p>
+            </p>
+                <div class="note">
+                  <h3 class="title">Note</h3>
+                  <p>
+                To return all column's data to the callback function, you can
+                use <span class="emphasis"><em>NULL</em></span>.
+        </p>
+                  <pre class="programlisting">
+        $registry-&gt;addCellFilter('query', 'table_name', '*', NULL,
+                   array('TableRulesClassName', 'callbackFunctionName'));        
+        </pre>
+                  <p>
+        This will apply the <span class="emphasis"><em>callbackFunctionName</em></span> function to all 
+        column of table <span class="emphasis"><em>table_name</em></span> and the callback function 
+        will receive an array containing the values of all columns.
+            </p>
+                </div>
+                <p>    
+        </p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.setrules.cellfilterbatch"></a>2.4.3.2.7. Cell Filter (Batch)</h5>
+                    </div>
+                  </div>
+                </div>
+                <pre class="programlisting">
+public function addCellFilterBatch($groupId, $tableId, $columnId,
+                                   $inputColumnIds, $callback) 
+          </pre>
+                <p>Cell filter rules used in batch mode allow to modify content of 
+          all cells of a given column. Values of columns given in parameter 
+          <em class="parameter"><code>$inputColumnIds</code></em> will be transfered to the 
+          callback method for cells content calculation. Values for all rows 
+          are transfered at the same time. Parameter 
+          <em class="parameter"><code>$callback</code></em> should contain a pointer to a 
+          callback method with the following signature:</p>
+                <pre class="programlisting">
+static function myCallbackMethod('table_id', 'column_id',
+                                 array (
+                                 '0' =&gt; array (
+                                        'column_1' =&gt; 'value_1_row_1',
+                                        'column_2' =&gt; 'value_2_row_1'),
+                                 '1' =&gt; array (
+                                        'column_1' =&gt; 'value_1_row_2',
+                                        'column_2' =&gt; 'value_2_row_2')))
+    return array ('0' =&gt; 'cell_value_row_1', '1' =&gt; 'cell_value_row_2') 
+          </pre>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.setrules.rowunselector"></a>2.4.3.2.8. Row Unselector</h5>
+                    </div>
+                  </div>
+                </div>
+                <pre class="programlisting">
+public function addRowUnselector($groupId, $tableId,
+                                 $columnId, $rowIds)</pre>
+                <p>Row unselector rules allow to remove some rows from a table. 
+          Parameter <em class="parameter"><code>rowIds</code></em> contains IDs of row that must 
+          be removed.</p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.setrules.rowselector"></a>2.4.3.2.9. Row Selector</h5>
+                    </div>
+                  </div>
+                </div>
+                <pre class="programlisting">
+public function addRowSelector($groupId, $tableId,
+                                 $columnId, $rowIds)</pre>
+                <p>Row selector rules allow to keep only some rows from a table. 
+          Parameter <em class="parameter"><code>rowIds</code></em> contains IDs of row that must 
+          be kept.</p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.setrules.columnadder"></a>2.4.3.2.10. ColumnAdder</h5>
+                    </div>
+                  </div>
+                </div>
+                <pre class="programlisting">
+public function addColumnAdder($groupId, $tableId,
+                               $columnPosition, $newColumnIds,
+                               $inputColumnIds, $callback)</pre>
+                <p>Column adder rules allow to add one or more columns to the table. 
+          Parameter <em class="parameter"><code>$newColumnIds</code></em> should contain the 
+          list of new column IDs. Values of columns given in parameter 
+          <em class="parameter"><code>$inputColumnIds</code></em> will be transfered to the 
+          callback method for cell content calculation. Parameter 
+          <em class="parameter"><code>$callback</code></em> should contain a pointer to a 
+          callback method with the following signature:</p>
+                <pre class="programlisting">
+static function myCallbackMethod('table_id',
+                                 array ('column_1' =&gt; 'value_1',
+                                        'column_2' =&gt; 'value_2'))
+    return array ('new_column_1' =&gt; 'cell_value_1',
+                  'new_column_2' =&gt; 'cell_value_2')</pre>
+                <p>Parameter <em class="parameter"><code>$columnPosition</code></em> indicates where 
+          the new columns must be inserted. It should be an instance of class 
+          <code class="classname">ColumnPosition</code>. Positions can be absolute or 
+          relative, with a positive or negative offset:</p>
+                <div class="itemizedlist">
+                  <ul>
+                    <li><pre class="programlisting">
+$position = new ColumnPosition(ColumnPosition::TYPE_ABSOLUTE, 1); 
+              </pre>The new columns will be added after the first 
+              column</li>
+                    <li><pre class="programlisting">
+$position = new ColumnPosition(ColumnPosition::TYPE_ABSOLUTE, -2); 
+              </pre>The new columns will be added just before the 
+              last column</li>
+                    <li><pre class="programlisting">
+$position = new ColumnPosition(ColumnPosition::TYPE_RELATIVE,
+                               0, 'column_1'); </pre>The new 
+              columns will be added just before column 'column_1'</li>
+                    <li><pre class="programlisting">
+$position = new ColumnPosition(ColumnPosition::TYPE_RELATIVE,
+                               1, 'column_1'); </pre>The new 
+              columns will be added just after column 'column_1'</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.setrules.columnadderbatch"></a>2.4.3.2.11. Column Adder (Batch)</h5>
+                    </div>
+                  </div>
+                </div>
+                <pre class="programlisting">
+public function addColumnAdderBatch($groupId, $tableId,
+                                    $columnPosition, $newColumnIds,
+                                    $inputColumnIds, $callback) 
+          </pre>
+                <p>Column adder rules used in batch mode allow to add one or more 
+          columns to the table, while calculating values for all newly added 
+          cells. Parameter <em class="parameter"><code>$newColumnIds</code></em> should contain 
+          the list of new column IDs. Values of columns given in parameter 
+          <em class="parameter"><code>$inputColumnIds</code></em> will be transfered to the 
+          callback method for cells content calculation. Values for all rows 
+          are transfered at the same time. Parameter 
+          <em class="parameter"><code>$callback</code></em> should contain a pointer to a 
+          callback method with the following signature:</p>
+                <pre class="programlisting">
+static function myCallbackMethod('table_id',
+                                 array (
+                                 '0' =&gt; array (
+                                        'column_1' =&gt; 'value_1_row_1',
+                                        'column_2' =&gt; 'value_2_row_1'),
+                                 '1' =&gt; array (
+                                        'column_1' =&gt; 'value_1_row_2',
+                                        'column_2' =&gt; 'value_2_row_2')))
+    return array (
+           '0' =&gt; array (
+                  'new_column_1' =&gt; 'cell_value_1_row_1',
+                  'new_column_2' =&gt; 'cell_value_2_row_1'),
+           '1' =&gt; array ( 
+                  'new_column_1' =&gt; 'cell_value_1_row_2',
+                  'new_column_2' =&gt; 'cell_value_2_row_2')))</pre>
+                <p>See <a class="xref" href="dev.newplugin.html#dev.newplugin.special.tables.setrules.columnadder" title="2.4.3.2.10. ColumnAdder">Section 2.4.3.2.10, “ColumnAdder”</a> to 
+          know more about parameter 
+          <em class="parameter"><code>$columnPosition</code></em>.</p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.setrules.columnreorder"></a>2.4.3.2.12. <a id="id3040851" class="indexterm"></a>Column reorder</h5>
+                    </div>
+                  </div>
+                </div>
+                <pre class="programlisting">
+public function addColumnReorder($groupId, $tableId, $columnIds)
+        </pre>
+                <p>
+        Column reorder rule allow you to reorder the columns and their
+        contents. Parameter <em class="parameter"><code>$columnIds</code></em> should
+        contain an array of column IDs given the new column's
+        order. Note that all the IDs must appear in
+        <em class="parameter"><code>$columnIds</code></em> even they don't move. 
+        </p>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.newplugin.special.tables.precrules"></a>2.4.3.3. Precedence of Rules</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Depending on rule type, rules are set for a group, a table or a 
+        column. Parameters (<em class="parameter"><code>$groupId</code></em>, 
+        <em class="parameter"><code>$tableId</code></em> or <em class="parameter"><code>$columnId</code></em>) 
+        can point to one object or to a group of object, using wildcard 
+        '*':</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>'column_1': rule will be executed on columns called 'column_1' 
+            only</li>
+                  <li>'col*': rule will be executed on columns with name starting 
+            with 'col'</li>
+                  <li>'*': rule will be executed on any columns</li>
+                </ul>
+              </div>
+              <p>For instance, following rule may be executed on groups with name 
+        starting with 'myGr', tables called 'myTable' and all 
+        columns:</p>
+              <pre class="programlisting">
+$registry-&gt;addColumnFilter('myGr*', 'myTable', '*',
+                                     array($this, 'myCallbackMethod)); 
+        </pre>
+              <p>Only one rule of each type may be executed on one item. If two or 
+        more rules apply, most specific rule will be choosen. In the following 
+        rule definition, only the third rule will be executed on a table 
+        'myTable' in a group 'myGroup': </p>
+              <pre class="programlisting"> 
+$registry-&gt;addColumnSelector('*', '*', array('column_1', 'column_2'));
+$registry-&gt;addColumnSelector('myGr*', '*', array('column_1'));
+$registry-&gt;addColumnSelector('myGr*', 'myTable', array('column_2'));
+$registry-&gt;addColumnSelector('myGroup', 'toto', array('column_3')); 
+        </pre>
+              <p> </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.newplugin.special.tables.execrules"></a>2.4.3.4. Executing Rules</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.execrules.client"></a>2.4.3.4.1. On Client</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>Each time a table group is created, it must be stored in Tables 
+          plugin in order to display it:</p>
+                <pre class="programlisting">
+$tablesPlugin = $this-&gt;cartoclient-&gt;getPluginManager()-&gt;tables;
+$tablesPlugin-&gt;addTableGroups($newTableGroup);</pre>
+                <p>Tables rules are executed automatically at the same time.</p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.newplugin.special.tables.execrules.server"></a>2.4.3.4.2. On Server</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>Rules execution must be done explicitly on server. A call to 
+          Tables plugin <code class="function">applyRules</code> method is needed for 
+          each new table group before returning it to client:</p>
+                <pre class="programlisting">
+$tablesPlugin = $this-&gt;serverContext-&gt;getPluginManager()-&gt;tables;
+readyForClientTableGroups = $tablesPlugin-&gt;applyRules($newTableGroup); 
+          </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

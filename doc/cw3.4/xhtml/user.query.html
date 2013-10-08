@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>9. Queries</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.images.html">
+       &lt; 
+    Image Format Options
+  </a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.annotate.html">Annotation and Redlining &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.query.html#user.query.client">9.1. Client-side Configuration</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.query.html#user.query.client.ini">9.1.1. query.ini</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.query.html#user.query.client.tables">9.1.2. Tables Configuration</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.query.html#user.query.server">9.2. Server-side Configuration</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.query.html#user.query.server.ini">9.2.1. query.ini</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.query.html#user.query.server.mapquery">9.2.2. MapServer Query Configuration</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.query.html#user.query.mapfile">9.3. Related Elements in Mapfile</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.query.html#user.query.mapfile.queriable">9.3.1. Making a Layer Queriable</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.query.html#user.query.mapfile.metadata">9.3.2. Meta Data</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.query.html#user.query.mapfile.hilight">9.3.3. Hilight Configuration</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.query"></a>9. Queries</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p>Core plugin Query allows to search for geographical objects. Found 
+    objects are hilighted and if requested related data are returned to client. 
+    </p>
+        <p>Depending on configuration and user choices, queries are executed on 
+    one layer, several layers or all layers currently displayed on map.</p>
+        <p>Queries can be executed on a geographic selection or using a list of 
+    object IDs. Geographic selection can be a point, a rectangle, a polygon or
+    a circle but is a rectangle by default. The second way to execute a query is 
+    used in particular to maintain selection persistence: object IDs are stored 
+    client-side and sent to server each time the page is reloaded.</p>
+        <p>Hilighting objects can be done using standard Mapserver queries or 
+    using special Hilight plugin. See <a href="user.query.html#user.query.mapfile.hilight" title="9.3.3. Hilight Configuration">Section 9.3.3, &#8220;Hilight Configuration&#8221;</a> for more information.</p>
+        <p>Results are returned and displayed using Tables plugin. See <a href="user.query.html#user.query.client.tables" title="9.1.2. Tables Configuration">Section 9.1.2, &#8220;Tables Configuration&#8221;</a> for more information.</p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.query.client"></a>9.1. Client-side Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.query.client.ini"></a>9.1.1. query.ini</h3>
+                </div>
+              </div>
+            </div>
+            <p> Here are the options that can be set in client's query.ini: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+            persistentQueries<a id="id2566574" class="indexterm"></a>: 
+            if true, queries will be persistent. If false, selection is lost 
+            after next page reload. Note that persistency will work only with 
+            layers with id_attribute_string set (see <a href="user.query.html#user.query.mapfile" title="9.3. Related Elements in Mapfile">Section 9.3, &#8220;Related Elements in Mapfile&#8221;</a>) </li>
+                <li> 
+            displayExtendedSelection<a id="id2618482" class="indexterm"></a>: 
+            if true, shows form for selection extended functions. This form is 
+            mainly used by developers (see TODO: link to developer's doc)</li>
+                <li> 
+            queryLayers<a id="id2618496" class="indexterm"></a>: 
+            the comma separated list of layers which will appear in the 
+            extended selection form. If this list is absent, all msLayers 
+            appear in the form.</li>
+                <li> 
+            returnAttributesActive<a id="id2586930" class="indexterm"></a>: 
+            if true, the layers attributes can be requested. If false, only 
+            object IDs will be returned (default: false)</li>
+                <li> defaultPolicy<a id="id2586943" class="indexterm"></a>: can be either
+                POLICY_XOR, POLICY_UNION, POLICY_INTERSECTION or POLICY_REPLACE.
+                Defines how new selected objects are mixed with previous ones (default:
+                POLICY_XOR)</li>
+                <li> defaultMaskmode<a id="id2586959" class="indexterm"></a>: if true, selected
+                objects are highlighted in mask mode (default: false). See also <a href="user.query.html#user.query.mapfile.hilight.mask" title="9.3.3.2. Mask Mode">Section 9.3.3.2, &#8220;Mask Mode&#8221;</a></li>
+                <li> 
+            defaultHilight<a id="id2586976" class="indexterm"></a>: 
+            if true, objects are highlited (default: true)</li>
+                <li> 
+            defaultAttributes<a id="id2586987" class="indexterm"></a>: 
+            if true, the layers attributes are returned (default: true)</li>
+                <li> 
+            defaultTable<a id="id2586999" class="indexterm"></a>: 
+            if true, the results table is displayed (default: true)</li>
+                <li> 
+            weightQueryByPoint<a id="id2587011" class="indexterm"></a>: 
+            integer which defines display order of the query by point tool icon in 
+            toolbar (default: 40). Negative weighted tools are disabled</li>
+                <li> 
+            weightQueryByBbox<a id="id2587025" class="indexterm"></a>: 
+            see weightQueryByPoint (default: 41).</li>
+                <li> 
+            weightQueryByPolygon<a id="id2587037" class="indexterm"></a>: 
+            see weightQueryByPoint (default: 42).</li>
+                <li> 
+            weightQueryByCircle<a id="id2587048" class="indexterm"></a>: 
+            see weightQueryByPoint (default: 43). </li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.query.client.tables"></a>9.1.2. Tables Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p> Tables plugin can be used by any plugin to manage, transfer and 
+        display tables structure. In basic CartoWeb installation, only Query 
+        plugin uses this functionality. </p>
+            <p>To configure table appearance, use tables client-side rules 
+        described in Developer's Documentation (<a href="dev.newplugin.html#dev.newplugin.special.tables" title="2.4.3. Tables">Section 2.4.3, &#8220;Tables&#8221;</a>).</p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.query.server"></a>9.2. Server-side Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.query.server.ini"></a>9.2.1. query.ini</h3>
+                </div>
+              </div>
+            </div>
+            <p> Here are the options that can be set in server's query.ini: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+            drawQueryUsingHilight<a id="id2627241" class="indexterm"></a>: 
+            if true, query hilighting will use Hilight plugin. In this case, 
+            Hilight plugin must be loaded on server. If false, objects will be 
+            hilighed using MapServer query functionality. See also <a href="user.query.html#user.query.mapfile.hilight" title="9.3.3. Hilight Configuration">Section 9.3.3, &#8220;Hilight Configuration&#8221;</a> (default:
+            false)</li>
+                <li> 
+            noRowId<a id="id2627260" class="indexterm"></a>: 
+            if true, row id will not be included in the table. In this
+            case the row id will not be displayed in the output table
+            (html, pdf, etc.). (default:
+            false)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.query.server.mapquery"></a>9.2.2. MapServer Query Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p> MapQuery plugin can be used by any plugin to retrieve objects 
+        information from MapServer. </p>
+            <p>Following options can be set in server's mapquery.ini: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+            maxResults<a id="id2627295" class="indexterm"></a>: 
+            Maximum number of results to handle in the query plugin. This limit 
+            is to avoid high load on the server. It should be the client 
+            responsibility not to ask too many objects to avoid reaching this 
+            limit. Ignoring big queries can be done with the 
+            ignoreQueryThreshold parameter, which give a better behaviour for 
+            the user </li>
+                <li> 
+            ignoreQueryThreshold<a id="id2627312" class="indexterm"></a>: 
+            Do not take into account the elements selected by a shape 
+            (rectangle, polygon) in a query, if this shape intersects more than 
+            ignoreQueryThreshold objects. It should be less than maxResults to 
+            have informative messages to the user </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.query.mapfile"></a>9.3. Related Elements in Mapfile</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.query.mapfile.queriable"></a>9.3.1. Making a Layer Queriable</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        To make a MapServer layer queriable, one have to add a <em class="parameter"><code>TEMPLATE</code></em> parameter 
+        in the mapfile layer definition. In our case, any value fits. For instance:
+      </p>
+            <pre class="programlisting">LAYER
+  NAME "foobar"
+  ...
+  TEMPLATE "ttt"
+  ...
+END
+</pre>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.query.mapfile.metadata"></a>9.3.2. Meta Data</h3>
+                </div>
+              </div>
+            </div>
+            <p> Here are the meta data that can be set to mapfile's layers: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+            "id_attribute_string"<a id="id2629804" class="indexterm"></a> 
+            "name|type": describes the attribute used for the id, and the type 
+            of the id. Type can be either "int" or "string". Caution: case 
+            sensitive</li>
+                <li> 
+            "query_returned_attributes"<a id="id2629818" class="indexterm"></a> 
+            "attribute1 attribute2": the names (space separated) of the fields 
+            returned by a query. If not set, all fields are returned. Caution: 
+            case sensitive</li>
+                <li> 
+            "hilight_use_logical_expressions"<a id="id2629833" class="indexterm"></a> 
+            "true"/"false": Set this to true if you are using a layer for
+             hilight (using the convention <code class="code">yourlayer_hilight</code>) and
+             you want to preserve your expressions in the hilight layer for
+             hilighted objects. IMPORTANT: you need to set this metadata on the
+             hilight layer, not the original one.</li>
+              </ul>
+            </div>
+            <p>Example:</p>
+            <pre class="programlisting">
+METADATA
+  "id_attribute_string" "FID|string"
+  "query_returned_attributes" "FID FNAME"
+END </pre>
+            <p> </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.query.mapfile.hilight"></a>9.3.3. Hilight Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <a id="id2629867" class="indexterm"></a>
+            <p> Hilight plugin can be used by any plugin to hilight objects on the 
+        map. In basic CartoWeb installation, only Query plugin uses this 
+        functionality. As Hilight plugin is not a core plugin, it must be 
+        loaded in order to use it with queries.</p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.query.mapfile.hilight.normal"></a>9.3.3.1. Normal Mode</h4>
+                  </div>
+                </div>
+              </div>
+              <p> Hilight on a specific layer can be generated by several means: 
+          special layer activation, special class activation, dynamic 
+          layer/class generation. Decision is made in the following order: 
+          </p>
+              <div class="orderedlist">
+                <ol>
+                  <li>looks for a layer named "&lt;layer_name&gt;_hilight" </li>
+                  <li>if not found, looks for a class named "hilight" in the 
+              current layer </li>
+                  <li>if not found, dynamically creates a layer if meta data 
+              "hilight_createlayer" is set to "true" </li>
+                  <li>if meta data "hilight_createlayer" is not set or set to 
+              "false", dynamically creates a class</li>
+                </ol>
+              </div>
+              <p>Here are the meta data that can be set to mapfile's layers: 
+          </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li> 
+              "hilight_color"<a id="id2629940" class="indexterm"></a> 
+              "0-255 0-255 0-255": the hilight color of a dynamically generated 
+              class</li>
+                  <li> "hilight_createlayer" 
+              <a id="id2629953" class="indexterm"></a> 
+              "true": if true, a new layer will be dynamically generated for 
+              the hilight </li>
+                  <li> "hilight_transparency" 
+              <a id="id2629967" class="indexterm"></a> 
+              "1-100": the transparency, for dynamically generated layers</li>
+                </ul>
+              </div>
+              <p>Examples: </p>
+              <p>Hilight using "&lt;layer_name&gt;_hilight" layer </p>
+              <pre class="programlisting">
+LAYER
+  NAME "foo"
+  ...
+END
+
+LAYER
+  NAME "foo_hilight"
+  ...
+END </pre>
+              <p> </p>
+              <p>Hilight using class "hilight" </p>
+              <pre class="programlisting">
+LAYER
+  NAME "foo"
+  ...
+  CLASS
+    EXPRESSION /_always_false_/
+    NAME "hilight"
+    STYLE
+      ...
+    END
+  END
+  # other layer classes
+  CLASS
+    ...
+  END
+END </pre>
+              <p> </p>
+              <p>Hilight using dynamically generated layer </p>
+              <pre class="programlisting">
+LAYER
+  NAME "foo"
+  ...
+  METADATA
+    "hilight_createlayer" "true"
+    "hilight_color" "255 255 0"
+    "hilight_transparency" "50"
+  END
+END </pre>
+              <p> </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.query.mapfile.hilight.mask"></a>9.3.3.2. Mask Mode</h4>
+                  </div>
+                </div>
+              </div>
+              <p> When mask mode is requested, decision is made in the following 
+          order: </p>
+              <div class="orderedlist">
+                <ol>
+                  <li>looks for a layer named "&lt;layer_name&gt;_mask" </li>
+                  <li>if not found, dynamically creates a mask layer by copying 
+              current layer </li>
+                </ol>
+              </div>
+              <p> Masking process also tries to find a layer which would hide the 
+          area outside all possible selections: </p>
+              <div class="orderedlist">
+                <ol>
+                  <li>tries to activate a layer with name set in meta data 
+              "outside_mask"</li>
+                  <li>if meta data "outside_mask" is not set, looks for a layer 
+              named "default_outside_mask" </li>
+                  <li>if not found, no outside mask will be displayed </li>
+                </ol>
+              </div>
+              <p> Here are the meta data that can be set to mapfile's layers: 
+          </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li> "mask_color" 
+              <a id="id2586385" class="indexterm"></a> "0-255 0-255 
+              0-255": color of the mask when mask layer 
+              (&lt;layer_name&gt;_mask) is not defined</li>
+                  <li> "mask_transparency" 
+              <a id="id2586399" class="indexterm"></a> 
+              "true": transparency of the mask when mask layer 
+              (&lt;layer_name&gt;_mask) is not defined </li>
+                  <li> "outside_mask" 
+              <a id="id2586412" class="indexterm"></a> 
+              "layer_name": name of layer which will mask the outside (aka 
+              "complement"). If not set, will try to find a layer named 
+              "default_outside_mask" </li>
+                </ul>
+              </div>
+              <p> Examples: </p>
+              <p>Mask using "&lt;layer_name&gt;_mask" layer </p>
+              <pre class="programlisting">
+LAYER
+  NAME "foo"
+  ...
+END
+
+LAYER
+  NAME "foo_mask"
+  ...
+END </pre>
+              <p> </p>
+              <p>Mask using "&lt;layer_name&gt;_mask" layer and an outside mask 
+          </p>
+              <pre class="programlisting">
+LAYER
+  NAME "foo"
+  METADATA
+    "outside_mask" "bar"
+  END
+  ...
+END
+
+LAYER
+  NAME "foo_mask"
+  ...
+END
+
+LAYER
+  NAME "bar"
+  ...
+END </pre>
+              <p> </p>
+              <p>Mask using dynamically generated layer and default outside mask 
+          </p>
+              <pre class="programlisting">
+LAYER
+  NAME "foo"
+  METADATA
+    "mask_color" "255 255 255"
+    "mask_transparency" "60"
+  END
+  ...
+END
+
+LAYER
+  NAME "default_outside_mask"
+  ...
+END </pre>
+              <p> </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

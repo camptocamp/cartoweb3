@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>30. CartoWeb and WMS Usage Statistics [plugin] (statsReports)</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.linkIt.html">
+       &lt; Saving Map Context as an URL </a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="cartoweb.dev.html">Developer Manual &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.stats.html#user.stats.java">30.1. Import and Reports</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.stats.html#user.stats.java.build">30.1.1. How To Build?</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.stats.html#user.stats.java.runimport">30.1.2. Running Import</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.stats.html#user.stats.java.configreports">30.1.3. Configuring Reports</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.stats.html#user.stats.java.runreports">30.1.4. Running Reports Generation</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.stats.html#user.stats.java.purgereports">30.1.5. Purging the Data</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.stats.html#user.stats.visualization">30.2. Statistics Visualization</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.stats.html#user.stats.visualization.client">30.2.1. Client-side Configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.stats.html#user.stats.visualization.server">30.2.2. Server-side Configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.stats.html#user.stats.visualization.mapfile">30.2.3. Related Elements in Mapfile</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.stats.html#user.stats.visualization.layers">30.2.4. Related Elements in layers.ini</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.stats"></a>30. CartoWeb and WMS Usage Statistics <sub>[plugin] (statsReports)</sub></h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p>StatsReports plugin allows to visualize statistics on CartoWeb and WMS usage. Results
+    can be shown in a form of tables, charts or maps.
+    </p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.stats.java"></a>30.1. Import and Reports</h2>
+              </div>
+            </div>
+          </div>
+          <p>Statistics are generated out of CartoWeb's Accounting plugin output or out of Apache
+      logs (for WMS statistics). A Java application proccesses the logs and stores raw data in a
+      PostGreSQL database.
+      </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.stats.java.build"></a>30.1.1. How To Build?</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+      Source of Java application are located in <code class="filename">scripts/stats</code>. To build this
+      project, you need: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>Maven 2 (http://maven.apache.org)</li>
+                <li>Java Runtime Environment JRE &gt;= 1.5</li>
+                <li>A PostgreSQL database</li>
+              </ul>
+            </div>
+            <p>The other external librairies are taken care of by Maven.</p>
+            <p>Now you must set <em class="parameter"><code>STATS_DB</code></em>
+      environment variable. On Linux it will look like:</p>
+            <pre class="programlisting">
+export STATS_DB="jdbc:postgresql://localhost/MYDB?user=MYUSER&amp;password=MYPASSWORD"</pre>
+            <p>This is needed by post-build automatic tests. Then simply run following build command:</p>
+            <pre class="programlisting">
+mvn clean install</pre>
+            <div class="warning">
+              <h3 class="title">Warning</h3>
+              <p>Be sure your locale are set to UTF-8, otherwise at least one test will fail (<code class="filename">testSimple(org.cartoweb.stats.imports.WmsReaderTest)</code>).</p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.stats.java.runimport"></a>30.1.2. Running Import</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+      CartoWeb logs are imported using the following command (remove end-of-line backslashes on Windows):
+      </p>
+            <pre class="programlisting">
+java -Xmx1G \
+     -cp target/stats-standalone.jar org.cartoweb.stats.imports.Import \
+     --initialize --tableName=stats \
+     --db="jdbc:postgresql://localhost/MYDB?user=MYUSER&amp;password=MYPASSWORD" \
+     --logDir=/my/log/dir/ --format=cartoweb \
+     --logRegexp="\d\d\.\d\d\.\d\d\d\d\.log\$"</pre>
+            <p>
+      where:
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li><em class="parameter"><code>-Xmx1G</code></em> - tells Java to use a maximum of 1 Gb for the import.
+        This should be enough even for very large log files</li>
+                <li><em class="parameter"><code>--initialize</code></em> - tells the application to create the database.
+        Remove this option to use incremental import once the database has been created</li>
+                <li><em class="parameter"><code>--tableName</code></em> - table prefix. Allows to use different table
+        prefixes in order to have several environments in only one database. For instance, use
+        this option if you want to import both CartoWeb and WMS logs in the same database</li>
+                <li><em class="parameter"><code>--db</code></em> - connection string</li>
+                <li><em class="parameter"><code>--logDir</code></em> - logs directory. Directory will be
+        recursively processed</li>
+                <li><em class="parameter"><code>--format</code></em> - format. Currently values are
+        <em class="parameter"><code>CartoWeb</code></em>, <em class="parameter"><code>SyslogCartoWeb</code></em>, <em class="parameter"><code>WMS</code></em>, <em class="parameter"><code>SecureWMS</code></em>,
+        <em class="parameter"><code>HaproxyWMS</code></em>, <em class="parameter"><code>SquidTilecache</code></em>, <em class="parameter"><code>VarnishTilecache</code></em></li>
+                <li><em class="parameter"><code>--logRegExp</code></em>- regular expression to limit processed
+        file logs to those matching the expression</li>
+              </ul>
+            </div>
+            <p>For WMS imports, you need to specify one of those two options:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li><em class="parameter"><code>--mapIdRegExp</code></em> - regular expression that finds
+        the project name in WMS query. This allows to have several WMS application on one
+        server with the same Apache logs.</li>
+                <li><em class="parameter"><code>--mapIdConfig</code></em> - filename for a .ini file that contains a
+        <em class="parameter"><code>[mapIDs]</code></em> section that defines what map ID to set in function of
+        partial string matched against the WMS log entry.</li>
+              </ul>
+            </div>
+            <p>Example for a WMS import with a regular expression:</p>
+            <pre class="programlisting">
+java -Xmx1G \
+     -cp target/stats-standalone.jar org.cartoweb.stats.imports.Import \
+     --initialize --tableName=stats_wms \
+     --db="jdbc:postgresql://localhost/MYDB?user=MYUSER&amp;password=MYPASSWORD" \
+     --logDir=/my/log/apachedir/ --format=wms \
+     --logRegexp="\d\d\.\d\d\.\d\d\d\d\.log\$" --mapIdRegExp="GET /wms-([^\/]*)\//"</pre>
+            <p>Example for a WMS import with a configuration file:</p>
+            <pre class="programlisting">
+java -Xmx1G \
+     -cp target/stats-standalone.jar org.cartoweb.stats.imports.Import \
+     --initialize --tableName=stats_wms \
+     --db="jdbc:postgresql://localhost/MYDB?user=MYUSER&amp;password=MYPASSWORD" \
+     --logDir=/my/log/apachedir/ --format=wms \
+     --logRegexp="\d\d\.\d\d\.\d\d\d\d\.log\$" --mapIdConfig="mapIDs.ini"</pre>
+            <p>Content of the <em class="parameter"><code>mapIDs.ini</code></em> file:</p>
+            <pre class="programlisting">
+[mapIDs]
+GET /ogc-sitn/wms = main
+GET /ogc-sitn-annuaire/wms = annuaire
+GET /ogc-sitn-v1/wms = v1
+GET /ogc-sitj-v1/wms = jv1</pre>
+            <p>For Tilecache imports (SquidTilecache and VarnishTilecache), you need to specify the following option:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li><em class="parameter"><code>--tilecacheConfig</code></em> - filename for a .ini file that contains 
+        Tilecache configuration.</li>
+              </ul>
+            </div>
+            <p>Content of the Tilecache configuration file:</p>
+            <pre class="programlisting">
+[referers]
+referer1.com = myproject
+referer2.net = myproject
+
+[extent]
+xmin = 420000
+ymin = 30000
+xmax = 900000
+ymax = 350000
+
+[resolutions]
+0 = 4000
+1 = 2500
+2 = 1000
+3 = 500
+4 = 250
+5 = 100
+6 = 50
+
+[tiles]
+size = 256
+dpi = 254</pre>
+            <p>Help on the possible parameters for a command can be obtained by starting it without parameters.</p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.stats.java.configreports"></a>30.1.3. Configuring Reports</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+      A report is a set of parameters that defines how data will be aggregated in order to visualize statistics.
+      For instance, parameters include the list of criteria (dimensions) that will be available to the end user.
+      Reports are defined in an INI file. A typical section looks like:
+      </p>
+            <pre class="programlisting">
+[scale project]
+; A comment
+label = Stats per project
+type = simple
+periods.day = 30
+periods.month = 12
+periods.year = 5
+values = pixel, count, countPDF, countDXF
+dimensions = project
+filters.project = sitn, jura
+</pre>
+            <p>The fields are:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li><em class="parameter"><code>label</code></em> - report name for the GUI</li>
+                <li><em class="parameter"><code>type</code></em> - type of report (see below)</li>
+                <li><em class="parameter"><code>periods.*</code></em> - how to divide the time (see below)</li>
+                <li><em class="parameter"><code>values</code></em> - what values are stored (see below)</li>
+                <li><em class="parameter"><code>dimensions</code></em> - what criteria user will be able to specify in the GUI (see below)</li>
+                <li><em class="parameter"><code>filters.*</code></em> - what records you want to take into account (see below)</li>
+              </ul>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.stats.java.configreports.types"></a>30.1.3.1. Report Types</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Currently available types are:</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li><em class="parameter"><code>simple</code></em> - graphs or tables</li>
+                  <li><em class="parameter"><code>gridbbox</code></em> - colored maps based on the bounding box
+          of the viewed maps</li>
+                  <li><em class="parameter"><code>gridcenter</code></em> - colored maps based on the center
+          of the viewed maps </li>
+                </ul>
+              </div>
+              <p>If the type is <em class="parameter"><code>gridbox</code></em> or <em class="parameter"><code>gridcenter</code></em>,
+      you have to add a few fields in the configuration that will define the position, size and
+      granularity of the grid box. For example:
+      </p>
+              <pre class="programlisting">
+type = gridbbox
+minx = 522000
+miny = 187000
+size = 500
+nx = 106
+ny = 76</pre>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.stats.java.configreports.periods"></a>30.1.3.2. Periods</h4>
+                  </div>
+                </div>
+              </div>
+              <p>The possible period units are:</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>
+                    <em class="parameter">
+                      <code>hour</code>
+                    </em>
+                  </li>
+                  <li>
+                    <em class="parameter">
+                      <code>day</code>
+                    </em>
+                  </li>
+                  <li>
+                    <em class="parameter">
+                      <code>week</code>
+                    </em>
+                  </li>
+                  <li>
+                    <em class="parameter">
+                      <code>month</code>
+                    </em>
+                  </li>
+                  <li>
+                    <em class="parameter">
+                      <code>year</code>
+                    </em>
+                  </li>
+                </ul>
+              </div>
+              <p>The value specifies the number of those units to keep in the DB. Here is an
+      example for generating a report aggregated by week, for the last 12 weeks:</p>
+              <pre class="programlisting">
+periods.week = 12</pre>
+              <p>The report generator consider the current time as being the time of the last
+      hit matching the filters. A period is taken into account even if there is no
+      record for this period.</p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.stats.java.configreports.values"></a>30.1.3.3. Values</h4>
+                  </div>
+                </div>
+              </div>
+              <p>A list, separated by <em class="parameter"><code>','</code></em> of any of the following:</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li><em class="parameter"><code>count</code></em> - the number of hits (no PDF or DXF outputs)</li>
+                  <li><em class="parameter"><code>countPDF</code></em> - the number of PDF generated</li>
+                  <li><em class="parameter"><code>countDXF</code></em> - the number of DXF generated</li>
+                  <li><em class="parameter"><code>pixel</code></em> - the sum of pixels generated</li>
+                </ul>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.stats.java.configreports.dimensions"></a>30.1.3.4. Dimensions</h4>
+                  </div>
+                </div>
+              </div>
+              <p>A list, separted by <em class="parameter"><code>','</code></em> of any of the following:</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>
+                    <em class="parameter">
+                      <code>project</code>
+                    </em>
+                  </li>
+                  <li>
+                    <em class="parameter">
+                      <code>user</code>
+                    </em>
+                  </li>
+                  <li>
+                    <em class="parameter">
+                      <code>scale</code>
+                    </em>
+                  </li>
+                  <li>
+                    <em class="parameter">
+                      <code>size</code>
+                    </em>
+                  </li>
+                  <li>
+                    <em class="parameter">
+                      <code>theme</code>
+                    </em>
+                  </li>
+                  <li>
+                    <em class="parameter">
+                      <code>layer</code>
+                    </em>
+                  </li>
+                  <li>
+                    <em class="parameter">
+                      <code>pdfFormat</code>
+                    </em>
+                  </li>
+                  <li>
+                    <em class="parameter">
+                      <code>pdfRes</code>
+                    </em>
+                  </li>
+                </ul>
+              </div>
+              <p>If you use the <em class="parameter"><code>scale</code></em> dimension, you have to add a field to specifiy the limits
+      for the discretization of the scale value. For example:</p>
+              <pre class="programlisting">
+dimensions = scale
+scales=1000,5000,10000,50000,100000,500000,1000000,5000000</pre>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.stats.java.configreports.filters"></a>30.1.3.5. Filters</h4>
+                  </div>
+                </div>
+              </div>
+              <p>You can put as many filters as you want, one line per filter. The filters
+      available are (you must prepend <em class="parameter"><code>filters.</code></em>):</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li><em class="parameter"><code>scale</code></em> - a range of scales (floating point)</li>
+                  <li><em class="parameter"><code>width</code></em> - a range of map width</li>
+                  <li><em class="parameter"><code>height</code></em> - a range of map height</li>
+                  <li><em class="parameter"><code>project</code></em> - a list, separated by <em class="parameter"><code>','</code></em>
+          of project names</li>
+                  <li><em class="parameter"><code>layer</code></em> - a list, separated by <em class="parameter"><code>','</code></em>
+          of layer names</li>
+                  <li><em class="parameter"><code>theme</code></em> - a list, separated by <em class="parameter"><code>','</code></em>
+          of theme names</li>
+                  <li><em class="parameter"><code>user</code></em> - a list, separated by <em class="parameter"><code>','</code></em>
+          of user names</li>
+                  <li><em class="parameter"><code>pdfFormat</code></em> - a list, separated by <em class="parameter"><code>','</code></em>
+          of PDF format names</li>
+                  <li><em class="parameter"><code>pdfRes</code></em> - a range of PDF resolution</li>
+                  <li><em class="parameter"><code>ip</code></em> - a list of IP</li>
+                </ul>
+              </div>
+              <p>For list of names, you can use <em class="parameter"><code>'*'</code></em> for matching
+      any string of character. For example, <em class="parameter"><code>cn*</code></em> will match <em class="parameter"><code>cn25</code></em>
+      and <em class="parameter"><code>cn50</code></em>. For ranges of values, you can give either a range like <em class="parameter"><code>2-5</code></em>
+      or a simple value.</p>
+              <p>List of IP addresses are list of IP criteria, separated by a coma. An
+      IP criteria can have several forms:</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li><em class="parameter"><code>192.168.1.34</code></em> - match only the given IP address</li>
+                  <li><em class="parameter"><code>192.168.1.0/24</code></em> - match every IP address
+                  in the range from 192.168.1.0 to 192.168.1.255</li>
+                  <li><em class="parameter"><code>192.168.1.0/255.255.255.0</code></em> - match every
+                  IP address in the range from 192.168.1.0 to 192.168.1.255</li>
+                </ul>
+              </div>
+              <p>If an IP criteria is preceded by a <em class="parameter"><code>!</code></em> sign, every
+          record with IP address matched will not be taken. The criteria are checked
+          in order and the first one matching will determine the result of the filter.
+          If no criteria is matched, the record is ignored. So, for example:</p>
+              <pre class="programlisting">
+192.168.1.10, !192.168.1.0/255.255.255.0, 0.0.0.0/0
+      </pre>
+              <div class="itemizedlist">
+                <ul>
+                  <li><em class="parameter"><code>192.168.1.1</code></em> - is ignored</li>
+                  <li><em class="parameter"><code>192.168.1.10</code></em> - is taken</li>
+                  <li><em class="parameter"><code>114.12.27.10</code></em> - is taken</li>
+                </ul>
+              </div>
+              <p>Some examples of filters:</p>
+              <pre class="programlisting">
+filters.scale = 1000.5-5000
+filters.width = 290-350
+filters.height = 290-350
+filters.project = sitn, agri
+filters.layer = cn*, adresses
+filters.theme = orthophotos, default
+filters.user = Jules, Jean
+filters.pdfFormat = A4, A5
+filters.pdfRes = 290-350
+filters.ip = 192.168.1.10, !192.168.1.0/255.255.255.0, 0.0.0.0/0</pre>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.stats.java.runreports"></a>30.1.4. Running Reports Generation</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+      Raw data imported with Import application are aggregated using the following command
+      (remove end-of-line backslashes on Windows):
+      </p>
+            <pre class="programlisting">
+java -Xmx1G -cp target/stats-standalone.jar org.cartoweb.stats.report.Reports \
+     --iniFilename=myReports.ini --tableName=stats \
+     --db="jdbc:postgresql://localhost/MYDB?user=MYUSER&amp;password=MYPASSWORD" \
+     --purgeOnConfigurationChange</pre>
+            <p>
+      where:
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li><em class="parameter"><code>-Xmx1G</code></em> - tells Java to use a maximum of 1 Gb for the aggregation.
+        This should be enough even for very large amount of data</li>
+                <li><em class="parameter"><code>--iniFilename</code></em> - name of INI configuration file</li>
+                <li><em class="parameter"><code>--tableName</code></em> - table prefix. Allows to use different table
+        prefixes in order to have several environments in only one database. For instance, use
+        this option if you want to import both CartoWeb and WMS logs in the same database</li>
+                <li><em class="parameter"><code>--db</code></em> - connection string</li>
+                <li><em class="parameter"><code>--purgeOnConfigurationChange</code></em> - tells the application
+        to drop all aggregated data when a change was found in a report configuration. Without
+        this option, a warning is displayed and old data is not erased. Warning: you will NOT
+        be able to get report aggregated data again if original raw data has been purged!</li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.stats.java.purgereports"></a>30.1.5. Purging the Data</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+      Raw report data is purged using the following command
+      (remove end-of-line backslashes on Windows):
+      </p>
+            <pre class="programlisting">
+java -Xmx1G -cp target/stats-standalone.jar org.cartoweb.stats.purge.Purge \
+     --tableName=stats --nbDays=100 \
+     --db="jdbc:postgresql://localhost/MYDB?user=MYUSER&amp;password=MYPASSWORD"</pre>
+            <p>
+      where:
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li><em class="parameter"><code>-Xmx1G</code></em> - tells Java to use a maximum of 1 Gb for the aggregation.
+        This should be enough even for very large amount of data</li>
+                <li><em class="parameter"><code>--tableName</code></em> - table prefix. Allows to use different table
+        prefixes in order to have several environments in only one database. For instance, use
+        this option if you want to import both CartoWeb and WMS logs in the same database</li>
+                <li><em class="parameter"><code>--nbDays</code></em> - Sets the number of days to keep in the raw data</li>
+                <li><em class="parameter"><code>--db</code></em> - connection string</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.stats.visualization"></a>30.2. Statistics Visualization</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+      StatsReports visualization plugin is a standard CartoWeb client and server plugin.
+      It must be activated on both sides.
+      </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.stats.visualization.client"></a>30.2.1. Client-side Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>Typical client-side <code class="filename">statsReports.ini</code> looks like:</p>
+            <pre class="programlisting">
+datas.cartoweb.label = Statistiques Cartoweb
+datas.cartoweb.dsn = pgsql://MYUSER:MYPASSWORD@localhost/MYDB
+datas.cartoweb.prefix = stats
+
+datas.wms.label = Statistiques WMS
+datas.wms.dsn = pgsql://MYUSER:MYPASSWORD@localhost/MYDB
+datas.wms.prefix = statswms
+
+tempDsn = pgsql://MYUSER:MYPASSWORD@localhost/MYTEMPDB
+nColors = 16</pre>
+            <p>where:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li><em class="parameter"><code>datas.*.label</code></em> - environment label (for the GUI)</li>
+                <li><em class="parameter"><code>datas.*.dsn</code></em> - database connection</li>
+                <li><em class="parameter"><code>datas.*.prefix</code></em> - table prefix (to use more than one environment
+        on one database)</li>
+                <li><em class="parameter"><code>tempDsn</code></em> - database connection for temporary tables (could
+        be the same as other database connection)</li>
+                <li><em class="parameter"><code>nColors</code></em> - number of colors for map statistics (linear
+        distribution)</li>
+              </ul>
+            </div>
+            <p>Please note that there should be one session at a time for each CartoWeb user.
+      This is due to the cache management (one graph/map per user).</p>
+            <p>Additional parameters are available to configure the cvs export of the tabular data:</p>
+            <pre class="programlisting">
+outputCsv = 1
+csvShowHeaders = 1
+csvSeparator = ";"
+filename = statsReport_cursomfilename.csv
+csvUseTextDelimiter = 1
+csvTextDelimiter = #
+</pre>
+            <div class="itemizedlist">
+              <ul>
+                <li><em class="parameter"><code>outputCsv</code></em> - set to 1 to enable csv export link, 0 to disable. Default is 1.</li>
+                <li><em class="parameter"><code>csvShowHeaders</code></em> - set to 1 to display line and column headers in the csv, 0 to hide. Default is 1.</li>
+                <li><em class="parameter"><code>csvSeparator</code></em> - define the character to use as separator in the csv. Default is "," (comma).</li>
+                <li><em class="parameter"><code>filename</code></em> - define a custom defined filename. It may be static or contain a generation date under various formats. Date formating is performed by indicating between a couple of brackets the keyword <em class="parameter"><code>date</code></em>, followed by a comma and PHP date()-like date format. (see <a class="ulink" href="http://php.net/date">http://php.net/date</a>). For example  <em class="parameter"><code>export_[date,Ymd-Hi].csv</code></em> which gives for instance <code class="filename">export_20060725-2021.csv</code>. Default is <code class="filename">cartoweb_statsReport.csv</code>.</li>
+                <li><em class="parameter"><code>csvTextDelimiter</code></em> - tells what character should be used to delimit the text in each cell. It is specially useful when the character used as the <em class="parameter"><code>csvSeparator</code></em> may be found within the cell content. Default parameter value is <em class="parameter"><code>double-quote</code></em> ie. `"`.</li>
+                <li><em class="parameter"><code>csvUseTextDelimiter</code></em> - set to 1 enable text delimiter usage, 0 to disable. Default is 0.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.stats.visualization.server"></a>30.2.2. Server-side Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>Typical server-side <code class="filename">statsReports.ini</code> looks like:</p>
+            <pre class="programlisting">
+layer = my_stats_layer</pre>
+            <p>where:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li><em class="parameter"><code>layer</code></em> - name of Mapfile statistics layer (see below).
+        Default value is <em class="parameter"><code>stats</code></em></li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.stats.visualization.mapfile"></a>30.2.3. Related Elements in Mapfile</h3>
+                </div>
+              </div>
+            </div>
+            <p>In order to display map statistics, the following layer must be added to
+      the mapfile. Name of layer must be the one set in INI file.</p>
+            <pre class="programlisting">
+LAYER
+  NAME "my_stats_layer"
+  TYPE RASTER
+  DATA ""
+  TRANSPARENCY 80
+  STATUS ON
+END</pre>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.stats.visualization.layers"></a>30.2.4. Related Elements in layers.ini</h3>
+                </div>
+              </div>
+            </div>
+            <p>In order to display map statistics of type <code class="filename">gridbbox</code> or <code class="filename">griddenter</code>, you must also add the "my_stats_layer" in the layers.ini (server side).</p>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

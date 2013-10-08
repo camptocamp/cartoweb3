@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>14. Editing [plugin] (edit)</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.views.html">
+       &lt; Views </a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.security.html">Security Configuration &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.edit.html#user.edit.client">14.1. Client-side Configuration</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.edit.html#user.edit.client.ini">14.1.1. edit.ini</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.edit.html#user.edit.mapfile">14.2. Related Elements in Mapfile</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.edit.html#user.edit.mapfile.layers">14.2.1. Metadatas</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.edit.html#user.edit.howto">14.3. How To</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.edit"></a>14. Editing <sub>[plugin] (edit)</sub></h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p> The <em class="parameter"><code>edit</code></em> plugin allows users to edit geographical data from their web browser.
+    </p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.edit.client"></a>14.1. Client-side Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.edit.client.ini"></a>14.1.1. edit.ini</h3>
+                </div>
+              </div>
+            </div>
+            <p>Here are the options that can be set on the client: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+            general.allowedRoles: comma separated list of the roles that are
+             allowed to use the edit plugin
+            </li>
+                <li> insertedFeaturesMaxNumber<a id="id2977634" class="indexterm"></a>: 
+            integer, number of new features that user is allowed to draw for
+             insertion in the database Set it to 0 if user is only allowed to update or delete features.</li>
+                <li> 
+            editLayers<a id="id2967900" class="indexterm"></a>: 
+            comma separated list of layers that are editable</li>
+                <li> 
+            editResultNbCol<a id="id3030823" class="indexterm"></a>: 
+            number of columns to use to display the attributes table</li>
+                <li> 
+            editDisplayAction<a id="id3030838" class="indexterm"></a>: 
+            this string parameter is used to tell if the "validate" and "cancel" buttons
+            have to be displayed also under the attributes table. If empty or <em class="parameter"><code>both</code></em>, buttons will be displayed both in the folder and under the attributes table. If <em class="parameter"><code>folder</code></em>, buttons will be displayed only in the folder.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.edit.mapfile"></a>14.2. Related Elements in Mapfile</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.edit.mapfile.layers"></a>14.2.1. Metadatas</h3>
+                </div>
+              </div>
+            </div>
+            <p>Specific metadatas must be set in the mapfile for the editable layers
+        </p>
+            <pre class="programlisting">
+METADATA
+    ...
+    'edit_table' 'edit_poly' # PostGIS table
+    'edit_geometry_column' 'the_geom' # PostGIS geometry column
+    'edit_geometry_type' 'polygon' # PostGIS geometry type
+    'edit_srid' '-1'
+    'edit_attributes' 'parc_id,name|string,culture|string,surf,parc_type|integer' # list of the editable fields
+    'edit_rendering' ',,textarea,hidden,' # OPTIONAL! list of visual rendering of inputs in the form
+END</pre>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+            edit_table<a id="id3030908" class="indexterm"></a>: 
+            string, name of the postGIS table to edit</li>
+                <li> 
+            edit_geometry_column<a id="id3030483" class="indexterm"></a>: 
+            string, name of the geometry field in the table</li>
+                <li> 
+            edit_geometry_type<a id="id3030498" class="indexterm"></a>: 
+            string, type of the geometry of the features for the layerpossible values are point, line, polygonMay differ from the msLayer type (rendering)</li>
+                <li> 
+            edit_srid<a id="id3030521" class="indexterm"></a>: 
+            integer (optional), id of the SRID </li>
+                <li> 
+            edit_attributes<a id="id3030536" class="indexterm"></a>: 
+            string, comma separated list of attributes used for edition.Each value represents the attribute name and type separated by a
+            pipe symbol. Only attributes with type set are editable.<div class="warning"><h3 class="title">Warning</h3><p>Attribute types available values are <span class="emphasis"><em>'string'</em></span> and <span class="emphasis"><em>'integer'</em></span>.</p></div></li>
+                <li> 
+            edit_rendering<a id="id3030570" class="indexterm"></a>: 
+            OPTIONAL! string, comma separated list of rendering type used when displaying the edition form. Each value represents the type of input the user will see in the form when editing a feature. Attribute type available values are: 
+            <div class="itemizedlist"><ul><li><span class="emphasis"><em>(empty)</em></span> : if no type is set, an input type text is displayed. This is the default behaviour.</li><li><span class="emphasis"><em>hidden</em></span> : input type hidden.</li><li><span class="emphasis"><em>textarea</em></span> : textarea element.</li></ul></div>
+            <div class="warning"><h3 class="title">Warning</h3><p>edit_rendering is absolutly optional. If edit_rendering is not set, all inputs will be simple text input.</p></div>
+          </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.edit.howto"></a>14.3. How To</h2>
+              </div>
+            </div>
+          </div>
+          <p>In this section are described the steps to get the edit plugin working
+    on a cartoweb project.
+    </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>
+                <p><b>First, you need a PostgreSQL database with postGIS enabled. </b>Let's say, it is named "edit_db" for the following explanations.</p>
+              </li>
+              <li><p><b>At that point, you may launch <span class="emphasis"><em>demoEdit_schema.sql</em></span>
+          and <span class="emphasis"><em>demoEdit_data.sql</em></span>. </b>
+          located in the
+          </p>
+          <code class="filename">&lt;CARTOWEB_HOME&gt;/projects/demoEdit/</code> directory.
+        This will create 3 sample geometry tables, one for each type of geometry.
+        </li>
+              <li>
+                <p><b>In CartoWeb, you'll have to load the edit plugin in your
+           project on both client and server sides. </b>
+            </p>
+                <pre class="programlisting">
+loadPlugins = [...], edit
+</pre>
+                <p>
+          </p>
+              </li>
+              <li>
+                <p><b>Then, you'll need to configure the plugin by setting the
+           layer_ids in the editLayers parameter in the edit.ini file. </b>
+            </p>
+                <pre class="programlisting">
+editLayers = edit_poly, edit_line, edit_point
+</pre>
+                <p>
+          </p>
+              </li>
+              <li>
+                <p><b>In your mapfile, in the corresponding LAYER, you'll have to
+           set the specific metadatas as following : </b>
+            </p>
+                <pre class="programlisting">
+LAYER
+  NAME "edit_poly"
+  STATUS ON
+  TYPE POLYGON
+  CONNECTIONTYPE POSTGIS
+  CONNECTION 'dbname=edit_db user=www-data password=www-data host=localhost'
+  DATA 'the_geom from (select the_geom, oid, parc_id, name, culture, surf, parc_type  from edit_poly) as foo'
+  TEMPLATE 'ttt'
+[...]
+  LABELITEM "name"
+  CLASS
+    NAME "class"
+    STYLE
+      COLOR 50 50 255
+      OUTLINECOLOR 255 50 50
+    END
+    LABEL
+[...]
+    END
+  END
+  METADATA
+    'id_attribute_string' 'parc_id' # query
+    'query_returned_attributes' 'parc_id name culture surf parc_type'
+    'edit_table' 'edit_poly' # PostGIS table
+    'edit_geometry_column' 'the_geom' # PostGIS geometry column
+    'edit_geometry_type' 'polygon' # PostGIS geometry type
+    'edit_srid' '-1'
+    'edit_attributes' 'parc_id,name|string,culture|string,surf,parc_type|integer' # list of the editable fields
+    'edit_filter' '' # mapserver filter
+  END
+END
+</pre>
+                <p>
+          </p>
+                <div class="warning">
+                  <h3 class="title">Warning</h3>
+                  <p>Make sure that your <em class="parameter"><code>edit_attributes</code></em> list does not include spaces between attributes.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

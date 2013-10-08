@@ -1,0 +1,1075 @@
+<html>
+<head>
+<title>Docs For Class WmsServerManager</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">CartoWeb3</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_CartoWeb3.html" class="menu">class tree: CartoWeb3</a> ]
+		  [ <a href="../elementindex_CartoWeb3.html" class="menu">index: CartoWeb3</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+	<div id="todolist">
+			<p><a href="../todolist.html">Todo List</a></p>
+	</div>
+      <b>Packages:</b><br />
+              <a href="../li_CartoWeb3.html">CartoWeb3</a><br />
+              <a href="../li_Client.html">Client</a><br />
+              <a href="../li_Common.html">Common</a><br />
+              <a href="../li_CorePlugins.html">CorePlugins</a><br />
+              <a href="../li_Plugins.html">Plugins</a><br />
+              <a href="../li_Scripts.html">Scripts</a><br />
+              <a href="../li_Server.html">Server</a><br />
+              <a href="../li_Tests.html">Tests</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../CartoWeb3/_doc_cartoweb3_scripts_testgettext_php.html">		testgettext.php
+		</a><br>
+			<a href="../CartoWeb3/_doc_cartoweb3_plugins_wmsBrowser_client_WmsDatabase_php.html">		WmsDatabase.php
+		</a><br>
+			<a href="../CartoWeb3/_doc_cartoweb3_plugins_wmsBrowser_client_WmsServerManager_php.html">		WmsServerManager.php
+		</a><br>
+	  </div><br />
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../CartoWeb3/WmsDatabase.html">WmsDatabase</a><br />
+	    		<a href="../CartoWeb3/WmsServerManager.html">WmsServerManager</a><br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Class: WmsServerManager</h1>
+Source Location: /plugins/wmsBrowser/client/WmsServerManager.php<br /><br />
+
+
+<table width="100%" border="0">
+<tr><td valign="top">
+
+<h3><a href="#class_details">Class Overview</a></h3>
+<pre></pre><br />
+<div class="description"></div><br /><br />
+
+
+
+
+
+
+
+</td>
+
+<td valign="top">
+<h3><a href="#class_vars">Variables</a></h3>
+<ul>
+    <li><a href="../CartoWeb3/WmsServerManager.html#var$log">$log</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#var$maxExecutionTime">$maxExecutionTime</a></li>
+  </ul>
+</td>
+
+
+<td valign="top">
+<h3><a href="#class_methods">Methods</a></h3>
+<ul>
+    <li><a href="../CartoWeb3/WmsServerManager.html#method__construct">__construct</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodaddServer">addServer</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodbuildServersList">buildServersList</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodcreateWmsLayer">createWmsLayer</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodfetchLayerAbstract">fetchLayerAbstract</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodfetchLayerBbox">fetchLayerBbox</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodfetchLayerMetadatas">fetchLayerMetadatas</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodfetchLayerSrs">fetchLayerSrs</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodfetchLayerStyle">fetchLayerStyle</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodflushServer">flushServer</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodgetCapabilities">getCapabilities</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodgetServerByUrl">getServerByUrl</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodnormalizeString">normalizeString</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodparseCapabilities">parseCapabilities</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodrefreshServer">refreshServer</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodremoveServer">removeServer</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodsetServerStatus">setServerStatus</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodtestServer">testServer</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodupdateServer">updateServer</a></li>
+    <li><a href="../CartoWeb3/WmsServerManager.html#methodvalidateUrl">validateUrl</a></li>
+  </ul>
+</td>
+
+</tr></table>
+<hr />
+
+<table width="100%" border="0"><tr>
+
+
+
+
+
+
+</tr></table>
+<hr />
+
+<a name="class_details"></a>
+<h3>Class Details</h3>
+<div class="tags">
+[line 45]<br />
+</div><br /><br />
+<div class="top">[ <a href="#top">Top</a> ]</div><br />
+
+<hr />
+<a name="class_vars"></a>
+<h3>Class Variables</h3>
+<div class="tags">
+	<a name="var$log"></a>
+	<p></p>
+	<h4>$log = <span class="value"></span></h4>
+	<p>[line 51]</p>
+  Logger<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>string</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$maxExecutionTime"></a>
+	<p></p>
+	<h4>$maxExecutionTime = <span class="value"></span></h4>
+	<p>[line 57]</p>
+  Execution time (seconds)<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>int</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+</div><br />
+
+<hr />
+<a name="class_methods"></a>
+<h3>Class Methods</h3>
+<div class="tags">
+  <hr />
+	<a name="method__construct"></a>
+	<h3>constructor __construct <span class="smalllinenumber">[line 62]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>WmsServerManager __construct(
+[mixed
+$maxExecutionTime = 300])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Constructor<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodaddServer"></a>
+	<h3>method addServer <span class="smalllinenumber">[line 123]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>boolean addServer(
+string
+$serverName, string
+$serverUrl, string
+$serverComment)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Adds a server to the server database.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>true if successful, false else</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$serverName</b>&nbsp;&nbsp;</td>
+        <td>name of the server.</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$serverUrl</b>&nbsp;&nbsp;</td>
+        <td>url of the server.</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$serverComment</b>&nbsp;&nbsp;</td>
+        <td>user comment.</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodbuildServersList"></a>
+	<h3>method buildServersList <span class="smalllinenumber">[line 93]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>array buildServersList(
+[boolean
+$fileStatus = false])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Opens the server database and returns all records as an array.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>server record as an associative array</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$fileStatus</b>&nbsp;&nbsp;</td>
+        <td>if true, push in array capabilities file modification time</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodcreateWmsLayer"></a>
+	<h3>method createWmsLayer <span class="smalllinenumber">[line 625]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>object the createWmsLayer(
+string
+$serverUrl, string
+$layerName)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Fetches layer data for the given server url and layer name and  returns a new layerOverlay object based on this data.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>new layerOverlay object.</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$serverUrl</b>&nbsp;&nbsp;</td>
+        <td>server url</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$layerName</b>&nbsp;&nbsp;</td>
+        <td>wms layer name</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodfetchLayerAbstract"></a>
+	<h3>method fetchLayerAbstract <span class="smalllinenumber">[line 460]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string fetchLayerAbstract(
+integer
+$serverId, integer
+$abstractId)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Opens abstract file and fetch the abstract for the layer<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>layer abstract if exist else empty string</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">integer&nbsp;&nbsp;</td>
+        <td><b>$serverId</b>&nbsp;&nbsp;</td>
+        <td>server id</td>
+      </tr>
+          <tr>
+        <td class="type">integer&nbsp;&nbsp;</td>
+        <td><b>$abstractId</b>&nbsp;&nbsp;</td>
+        <td>abstract id</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodfetchLayerBbox"></a>
+	<h3>method fetchLayerBbox <span class="smalllinenumber">[line 429]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string fetchLayerBbox(
+integer
+$bboxId)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Opens bbox database and fetch the bbox(es) for the layer<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>list of bbox(es)</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">integer&nbsp;&nbsp;</td>
+        <td><b>$bboxId</b>&nbsp;&nbsp;</td>
+        <td>first bbox id in bbox database</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodfetchLayerMetadatas"></a>
+	<h3>method fetchLayerMetadatas <span class="smalllinenumber">[line 550]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>array fetchLayerMetadatas(
+array
+$serverRec, array
+$capabRec, [boolean
+$boundingbox = false], [boolean
+$style = false], [boolean
+$abstract = false], [boolean
+$metadata = false])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Fetches layer's metadatas from a server database record and a<br /><br /><p>capabilities database record</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>array of layer's metadatas properties</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">array&nbsp;&nbsp;</td>
+        <td><b>$serverRec</b>&nbsp;&nbsp;</td>
+        <td>server database record</td>
+      </tr>
+          <tr>
+        <td class="type">array&nbsp;&nbsp;</td>
+        <td><b>$capabRec</b>&nbsp;&nbsp;</td>
+        <td>capabilities database record</td>
+      </tr>
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$boundingbox</b>&nbsp;&nbsp;</td>
+        <td>if true, fetch abstract metadata</td>
+      </tr>
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$style</b>&nbsp;&nbsp;</td>
+        <td>if true, fetch boundingbox metadata</td>
+      </tr>
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$abstract</b>&nbsp;&nbsp;</td>
+        <td>if true, fetch styles metadatas</td>
+      </tr>
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$metadata</b>&nbsp;&nbsp;</td>
+        <td>if true, fetch metadataURL metadatas</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodfetchLayerSrs"></a>
+	<h3>method fetchLayerSrs <span class="smalllinenumber">[line 481]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string fetchLayerSrs(
+integer
+$serverId, string
+$srsIds)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Opens srs file and fetch the srs for the layer<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>one space delimited list of SRS or empty string if  no found</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">integer&nbsp;&nbsp;</td>
+        <td><b>$serverId</b>&nbsp;&nbsp;</td>
+        <td>server id</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$srsIds</b>&nbsp;&nbsp;</td>
+        <td>comma-delimited list of srs record ids</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodfetchLayerStyle"></a>
+	<h3>method fetchLayerStyle <span class="smalllinenumber">[line 502]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>array fetchLayerStyle(
+integer
+$styleId)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Opens style database and fetch the styles for the layer<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>array of parameters : <ul><li>first style name</li><li>styles names list</li><li>array of sld url for each style</li></ul></td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">integer&nbsp;&nbsp;</td>
+        <td><b>$styleId</b>&nbsp;&nbsp;</td>
+        <td>style id in style database</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodflushServer"></a>
+	<h3>method flushServer <span class="smalllinenumber">[line 209]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void flushServer(
+integer
+$dbServer, string
+$serverUrl)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Clears out data related to a server record.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">integer&nbsp;&nbsp;</td>
+        <td><b>$dbServer</b>&nbsp;&nbsp;</td>
+        <td>the identifier for the server database (must be open)</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$serverUrl</b>&nbsp;&nbsp;</td>
+        <td>server url</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetCapabilities"></a>
+	<h3>method getCapabilities <span class="smalllinenumber">[line 353]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void getCapabilities(
+string
+$onlineResource, string
+$capabilitiesFile)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Executes a getcapabilities call against the server at the url and  the results are saved an xml file.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$onlineResource</b>&nbsp;&nbsp;</td>
+        <td>url to fetch from.</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$capabilitiesFile</b>&nbsp;&nbsp;</td>
+        <td>xml file to write to.</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetServerByUrl"></a>
+	<h3>method getServerByUrl <span class="smalllinenumber">[line 75]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>array getServerByUrl(
+integer
+$dbServer, string
+$serverUrl, [boolean
+$strict = true])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Returns the server record in the server database whose url is passed.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>server database record</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">integer&nbsp;&nbsp;</td>
+        <td><b>$dbServer</b>&nbsp;&nbsp;</td>
+        <td>identifier for the server database</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$serverUrl</b>&nbsp;&nbsp;</td>
+        <td>server url</td>
+      </tr>
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$strict</b>&nbsp;&nbsp;</td>
+        <td>if true (default), throws exception if server isn't ever  registred in database</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodnormalizeString"></a>
+	<h3>method normalizeString <span class="smalllinenumber">[line 420]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string normalizeString(
+string
+$string)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Replaces all special characters in the given string.<br /><br /><p>e.g.    &quot;http://my.host.com/cgi-bin/mywms?&quot;  becomes &quot;http___my_host_com_cgi_bin_mywms_&quot;</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>converted</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$string</b>&nbsp;&nbsp;</td>
+        <td>string to convert.</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodparseCapabilities"></a>
+	<h3>method parseCapabilities <span class="smalllinenumber">[line 389]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>boolean parseCapabilities(
+string
+$capabilitiesFile, integer
+$serverId)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Parses an xml capabilities file and populate dbase files from it.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>true if successful, false if not.</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$capabilitiesFile</b>&nbsp;&nbsp;</td>
+        <td>capabilities file to use as input.</td>
+      </tr>
+          <tr>
+        <td class="type">integer&nbsp;&nbsp;</td>
+        <td><b>$serverId</b>&nbsp;&nbsp;</td>
+        <td>server id.</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodrefreshServer"></a>
+	<h3>method refreshServer <span class="smalllinenumber">[line 281]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>boolean refreshServer(
+string
+$serverUrl)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Refreshs a server entry by removing all related records and  re-downloading/parsing the capabilities file. If something went wrong  removes server from the server database and all references to it.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>true if successful, false if not.</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$serverUrl</b>&nbsp;&nbsp;</td>
+        <td>server url</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodremoveServer"></a>
+	<h3>method removeServer <span class="smalllinenumber">[line 190]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void removeServer(
+string
+$serverUrl)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Removes a server from the server database and all references to it.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$serverUrl</b>&nbsp;&nbsp;</td>
+        <td>server url</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetServerStatus"></a>
+	<h3>method setServerStatus <span class="smalllinenumber">[line 178]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setServerStatus(
+string
+$serverUrl, integer
+$status)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Sets the given server's status to the given value<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$serverUrl</b>&nbsp;&nbsp;</td>
+        <td>url of the server to update.</td>
+      </tr>
+          <tr>
+        <td class="type">integer&nbsp;&nbsp;</td>
+        <td><b>$status</b>&nbsp;&nbsp;</td>
+        <td>status value to update to. <ul><li>0: disconnected</li><li>1: connected</li></ul></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodtestServer"></a>
+	<h3>method testServer <span class="smalllinenumber">[line 372]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>boolean testServer(
+string
+$onlineResource)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Tests the availablility of a server.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>true if available, false if not.</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$onlineResource</b>&nbsp;&nbsp;</td>
+        <td>url to fetch from.</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodupdateServer"></a>
+	<h3>method updateServer <span class="smalllinenumber">[line 153]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void updateServer(
+string
+$serverUrl, string
+$newServerName, string
+$newServerUrl, string
+$userComment)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Updates given server with the specified information.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$serverUrl</b>&nbsp;&nbsp;</td>
+        <td>server url</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$newServerName</b>&nbsp;&nbsp;</td>
+        <td>new name</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$newServerUrl</b>&nbsp;&nbsp;</td>
+        <td>new url</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$userComment</b>&nbsp;&nbsp;</td>
+        <td>new user comment</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodvalidateUrl"></a>
+	<h3>method validateUrl <span class="smalllinenumber">[line 330]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string validateUrl(
+string
+$url, [boolean
+$capabilities = false])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Validates url<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>validated server url</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$url</b>&nbsp;&nbsp;</td>
+        <td>server url</td>
+      </tr>
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$capabilities</b>&nbsp;&nbsp;</td>
+        <td>if true, add connection parameters for getCapabilities  request</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+</div><br />
+
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Wed, 30 Aug 2006 21:58:14 +0200 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

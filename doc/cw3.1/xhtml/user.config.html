@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>4. Configuration Files</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.project.html">
+       &lt; Projects 
+    Handling</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.caches.html">Caches Configuration &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.config.html#user.config.common">4.1. Common <code class="filename">client.ini</code> and 
+      <code class="filename">server.ini</code> Options</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.config.html#user.config.client">4.2. 
+      <code class="filename">client.ini</code>
+    </a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.config.html#user.config.server">4.3. Server Configuration Files</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.config.html#user.config.server.intro">4.3.1. Introduction</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.config.html#user.config.server.main_config">4.3.2. Main Server Configuration File 
+        (<code class="filename">server.ini</code>)</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.config.html#user.config.server.maps_config">4.3.3. Map Configuration Files</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.config.html#user.config.plugins">4.4. Ini Files for Plugins</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.config.html#user.config.plugins.order">4.4.1. Ordering Tools Icons</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.config.html#user.config.plugins.group">4.4.2. Grouping Tools Icons</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.config.html#user.config.developer">4.5. Developer Specific Configuration</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.config"></a>4. Configuration Files</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p>When installing Cartoweb, the administrator of the application
+   may want to adapt it to the environnement use. This can be easily done
+   using configuration parameters.</p>
+        <p>Some are required and Cartoweb won't correctly work if they're
+   not set. Others are optional but could hardly change the application
+   behavior.</p>
+        <p>You'll also find specific config parameters in the plugins
+   related chapters of this documentation.</p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.config.common"></a>4.1. Common <code class="filename">client.ini</code> and 
+      <code class="filename">server.ini</code> Options</h2>
+              </div>
+            </div>
+          </div>
+          <p> Common options for both client and server. These parameters are 
+      available in <code class="filename">client_conf/client.ini</code> for client and 
+      <code class="filename">server_conf/server.ini</code> for server.</p>
+          <div class="itemizedlist">
+            <ul>
+              <li> profile = development|production|custom: Current profile: 
+          the developer profile has no cache activated, and uses WSDL. 
+          Development profile has all caches activated for best performances.
+          Setting this parameter to development or production will override
+          some parameters in the configuration. The custom profile means
+          the parameters about caching and other are not overrided.</li>
+              <li> useWsdl = true|false: if true, WSDL will be used for sending 
+          SOAP requests. This will add some processing time but ensures 
+          that SOAP requests are well-structured.</li>
+            </ul>
+          </div>
+          <p> Cache options. See <a href="user.caches.html#user.caches.config" title="5.6. Caches Configuration">Section 5.6, &#8220;Caches Configuration&#8221;</a>. </p>
+          <p> Developer options. See <a href="user.config.html#user.config.developer" title="4.5. Developer Specific Configuration">Section 4.5, &#8220;Developer Specific Configuration&#8221;</a>. 
+      </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.config.client"></a>4.2. 
+      <code class="filename">client.ini</code>
+    </h2>
+              </div>
+            </div>
+          </div>
+          <p> CartoServer access configuration:</p>
+          <div class="itemizedlist">
+            <ul>
+              <li> cartoserverDirectAccess = true|false: toggles between SOAP and 
+          direct modes. Direct access gives enhanced performances, but is only 
+          available if CartoServer runs on the same server as CartoClient. 
+          </li>
+              <li> cartoclientUrl = "url" : base URL of the cartoclient- </li>
+              <li> cartoserverUrl = "url" : base URL of the cartoserver (i.e. path 
+          containing the <code class="filename">cartoserver.wsdl.php</code> file. </li>
+            </ul>
+          </div>
+          <p> Mapfile configuration:</p>
+          <div class="itemizedlist">
+            <ul>
+              <li> mapId = string </li>
+              <li> initialMapStateId = string. Tells what <em class="parameter"><code>initialMapState</code></em> to use when creating a new CartoWeb session (see also <a href="user.config.html#user.config.server.maps_config.initial" title="4.3.3.3. Initial Mapstates">Section 4.3.3.3, &#8220;Initial Mapstates&#8221;</a>).<div class="tip"><h3 class="title">Tip</h3><p>
+          <em class="parameter"><code>initialMapStateId</code></em> may be determined using several means. By order of priority: 
+          </p><div class="orderedlist"><ol><li>URLs (using GET parameter <em class="parameter"><code>initialState</code></em>)</li><li>PHP environment variables. Place <pre class="programlisting">$_ENV['CW3_INITIAL_MAP_STATE_ID'] = 'foobar';</pre> in your PHP code before calling CartoWeb.</li><li>client.ini</li><li>If no <em class="parameter"><code>initialMapStateId</code></em> can be determined, CartoWeb use first <em class="parameter"><code>initialMapState</code></em> available.</li></ol></div><p>
+         </p></div></li>
+            </ul>
+          </div>
+          <p> Session handling:</p>
+          <div class="itemizedlist">
+            <ul>
+              <li> sessionNameSuffix = string. Optional suffix used to distinguish CartoClient sessions parts for a given user. In most cases it is not necessary but may be needed when using, for instance, "sub-projects". This string is an ulimited comma-separated list of <em class="parameter"><code>type</code></em>:<em class="parameter"><code>value</code></em> couples. Three types are available:
+          <div class="itemizedlist"><ul><li><em class="parameter"><code>str</code></em>: a constant string</li><li><em class="parameter"><code>conf</code></em>: uses value of one of the current <code class="filename">client.ini</code> configuration parameters</li><li><em class="parameter"><code>env</code></em>: uses value of given PHP environment variable, if set.</li></ul></div>
+          For instance: 
+          <pre class="programlisting">sessionNameSuffix = "str:toto, conf:profile, env:myEnvVar"
+sessionNameSuffix = "str:foo, str:bar"
+sessionNameSuffix = "env:CW3_APP_ID"</pre>
+        </li>
+            </ul>
+          </div>
+          <p> Tools configuration:</p>
+          <div class="itemizedlist">
+            <ul>
+              <li> initialTool: indicates which tool is activated when in initial 
+          state. If not specified, the first tool in the toolbar is activated. 
+          Possible values are: zoomin, zoomout, pan, query, distance, 
+          surface. </li>
+            </ul>
+          </div>
+          <p> Project handling configuration:</p>
+          <div class="itemizedlist">
+            <ul>
+              <li> showProjectChooser = true|false: Shows a drop-down list for 
+          selecting the active project. </li>
+              <li> availableProjects = list: List of the project to show in the 
+          drop down list. If not set, all projects found will be used. </li>
+            </ul>
+          </div>
+          <p> Plugins configuration:</p>
+          <div class="itemizedlist">
+            <ul>
+              <li> loadPlugins = list: list of client plugins to load in addition 
+          to the core plugins. Note that most client plugins also have a 
+          corresponding server plugin that must be loaded on the server side. 
+          See <a href="user.config.html#user.config.server.maps_config.mymap_ini" title="4.3.3.2. &#10;          &lt;myMap&gt;.ini&#10;        ">Section 4.3.3.2, &#8220;
+          <code class="filename">&lt;myMap&gt;.ini</code>
+        &#8221;</a>. 
+          </li>
+            </ul>
+          </div>
+          <p> Internationalization:</p>
+          <div class="itemizedlist">
+            <ul>
+              <li> I18nClass is now <span><strong class="keycap">deprecated</strong></span> See <a href="user.i18n.html" title="15. Internationalization">Chapter 15, <i>Internationalization</i></a> for a description of the internationalization 
+          options and the corresponding configurations.</li>
+              <li> defaultLang = string: default language, possible values are the 
+          usual ISO locale codes (en, fr, de ...) </li>
+              <li> langList = list: list of usable languages. Used to order 
+and restrict the available languages. In case you have many languages in 
+directory &lt;cartoweb_home&gt;/locale/ and do
+         not want to use them all in your project, you may use this 
+parameter to specify a list of languages to use. The order in which you 
+input the languages codes will be used to display the languages links in 
+the interface.<div class="example"><a id="id2621997"></a><p class="title"><b>Example 4.1. langList usage</b></p><pre class="programlisting">langList = it,de,fr</pre></div>The exemple above restricts the availablelanguages to it, 
+de and fr. They will be displayed in that order in the interface 
+languages list.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.config.server"></a>4.3. Server Configuration Files</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.config.server.intro"></a>4.3.1. Introduction</h3>
+                </div>
+              </div>
+            </div>
+            <p> This page describes the configuration options of the CartoServer. 
+        There is a global configuration file (<code class="filename">server.ini</code>) 
+        directly in the <code class="filename">server_conf</code> folder. Then all 
+        specific configurations are stored in individual folders. Each 
+        configuration contains:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li> a Mapserver mapfile (<code class="filename">myMap.map</code>), </li>
+                <li> its annexes (symbols, fonts, images, data...), </li>
+                <li> a main configuration file (<code class="filename">myMap.ini</code>) 
+            that must have the same name as the <code class="filename">.map</code> 
+            </li>
+                <li> smaller configuration files for the plugins. </li>
+              </ul>
+            </div>
+            <p> By default, CartoWeb comes with a fully functional 
+        <code class="filename">test</code> folder, that includes the necessary 
+        geometrical datas and allows one to run an out of the box demo. </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.config.server.main_config"></a>4.3.2. Main Server Configuration File 
+        (<code class="filename">server.ini</code>)</h3>
+                </div>
+              </div>
+            </div>
+            <div class="itemizedlist">
+              <ul>
+                <li> imageUrl = string: Path where cartoserver generated images can 
+            be accessed.</li>
+                <li> reverseProxyUrl = string: The url of the reverse proxy, if 
+            used. </li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.config.server.maps_config"></a>4.3.3. Map Configuration Files</h3>
+                </div>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.config.server.maps_config.intro"></a>4.3.3.1. Introduction</h4>
+                  </div>
+                </div>
+              </div>
+              <p> The CartoServer has the ability to contains several different 
+          maps. These maps are represented by the mapserver mapfile, the 
+          CartoWeb configuration file for the map and each plugins 
+          configuration. </p>
+              <p> The file that contain the configuration information related to a 
+          map, is located in the same directory as the mapfile, but has a 
+          <code class="filename">.ini</code> extension. These files are in the directory 
+          <code class="filename">server_conf/&lt;myMap&gt;</code>. </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.config.server.maps_config.mymap_ini"></a>4.3.3.2. 
+          <code class="filename">&lt;myMap&gt;.ini</code>
+        </h4>
+                  </div>
+                </div>
+              </div>
+              <div class="itemizedlist">
+                <ul>
+                  <li> mapInfo.loadPlugins = list: list of server plugins to load 
+              in addition to the core plugins. Note that most server plugins 
+              also have a corresponding client plugin that must be loaded on 
+              the client side. See <a href="user.config.html#user.config.client" title="4.2. &#10;      client.ini&#10;    ">Section 4.2, &#8220;
+      <code class="filename">client.ini</code>
+    &#8221;</a>. 
+              </li>
+                  <li> mapInfo.initialMapStates.[...]: See <a href="user.config.html#user.config.server.maps_config.initial" title="4.3.3.3. Initial Mapstates">Section 4.3.3.3, &#8220;Initial Mapstates&#8221;</a>. </li>
+                </ul>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.config.server.maps_config.initial"></a>4.3.3.3. Initial Mapstates</h4>
+                  </div>
+                </div>
+              </div>
+              <p> <a id="id2621162" class="indexterm"></a> 
+          Initial map states set the initial aspects of the layers selection 
+          interface when starting using CartoClient: (un)folded nodes, selected 
+          layers... Some of these properties are not modifiable in the layers 
+          selection interface (hidden layers for instance) and thus stay 
+          unchanged throughout the session. </p>
+              <p> Several initial map states can be created in <code class="filename">myMap.ini 
+          </code>, but at least one must be present. Each one is identified 
+          by a unique initialMapStateId. The choice to activate one or another 
+          is done client-side in <code class="filename">client_conf/client.ini</code>. 
+          </p>
+              <p> Available properties and syntax for layers in "initial map 
+          states" are:</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li> mapInfo.initialMapStates.initialMapStateId.layers.layerId. 
+              selected = true|false: if true, layer is initially selected. 
+              </li>
+                  <li> mapInfo.initialMapStates.initialMapStateId.layers.layerId. 
+              unfolded = true|false: if true, the layerGroup is represented as 
+              an unfolded node (children layers are visible). </li>
+                  <li> mapInfo.initialMapStates.initialMapStateId.layers.layerId. 
+              hidden = true|false: if true, this layer and its children are not 
+              shown in the layers list (but are still displayed on the map if 
+              they're activated). </li>
+                  <li> mapInfo.initialMapStates.initialMapStateId.layers.layerId. 
+              frozen = true|false: if true, this layer (and its children as 
+              well) is listed in tree but without checkbox. Its selection 
+              status (defined by "selected" property) thus cannot be changed. 
+              </li>
+                </ul>
+              </div>
+              <p> Example of Initial MapState: </p>
+              <pre class="programlisting">mapInfo.initialMapStates.default.layers.polygon.selected = true
+mapInfo.initialMapStates.default.layers.point.hidden = true
+...
+
+mapInfo.initialMapStates.map25.layers.polygon.selected = true
+mapInfo.initialMapStates.map25.layers.polygon.unfolded = true</pre>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.config.plugins"></a>4.4. Ini Files for Plugins</h2>
+              </div>
+            </div>
+          </div>
+          <p> Each plugin may have a configuration file associated with it. It is 
+      located in the same directory as the <code class="filename">myMap.map</code> and 
+      <code class="filename">myMap.ini</code>. They have the same name as the plugin and 
+      ends with <code class="filename">.ini</code> extension. For instance, the 
+      <code class="literal">layers</code> plugin has a configuration file named 
+      <code class="filename">layers.ini</code>.</p>
+          <p> All plugins configuration files are described in the next sections 
+      of this chapter. </p>
+          <p>
+     Every plugin that provides tools icons can be configured for:
+    </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.config.plugins.order"></a>4.4.1. Ordering Tools Icons</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+      To modify the toolbar icons sequence, update the tools weight values. Icons with the lowest weights are placed first in the toolbar. Parameters naming convention is to concatenate the 'weight' prefix to the capitalized-first-lettered tool name as in <em class="parameter"><code>weightDistance</code></em>. For two-words tool names (eg. 'zoom_in'), each word has its first letter capitalized and the '_' (underscore) is removed. For instance: 
+     </p>
+            <pre class="programlisting">weightZoomIn = 10</pre>
+            <p>
+      Default weights value are :
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+         weightZoomIn: 10
+        </li>
+                <li>
+         weightZoomOut: 11
+        </li>
+                <li>
+         weightPan: 12
+        </li>
+                <li>
+         weightQuery: 40
+        </li>
+                <li>
+         weightOutlinePoint: 70
+        </li>
+                <li>
+         weightOutlineLine: 71
+        </li>
+                <li>
+         weightOutlineRectangle: 72
+        </li>
+                <li>
+         weightOutlinePoly: 73
+        </li>
+                <li>
+         weightDistance: 80
+        </li>
+                <li>
+         weightSurface: 81
+        </li>
+              </ul>
+            </div>
+            <p>
+     </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.config.plugins.group"></a>4.4.2. Grouping Tools Icons</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+      CartoWeb offers the possibility to display tools icons in separated locations of its interface. For instance browsing icons may be displayed in the general toolbar whereas outline pictos may only appear in a dedicated folder. To do so, simply add an integer group index for each tool in matching plugin configuration file. For instance:
+      </p>
+            <pre class="programlisting">groupDistance = 2</pre>
+            <p>
+      By default, all tools icons are affected to group 1. Note that the parameters naming convention is the same than for weight parameters (see <a href="user.config.html#user.config.plugins.order" title="4.4.1. Ordering Tools Icons">Section 4.4.1, &#8220;Ordering Tools Icons&#8221;</a>), only substituting the 'group' prefix to the 'weight' one.
+     </p>
+            <p>
+      It is also possible to specify a global plugin group index that will be applied to all the given plugin tools if no individual group index has been set. To do so, use the <em class="parameter"><code>groupPlugin</code></em> in the matching plugin configuration file as follows:
+      </p>
+            <pre class="programlisting">groupPlugin = 3</pre>
+            <p>
+     </p>
+            <p>
+      To take benefit of the tools groups, update the main CartoWeb template file <code class="filename">templates/cartoclient.tpl</code> by including the <code class="filename">toolbar.tpl</code> template at the correct places with the correct group indexes as follows:
+      </p>
+            <pre class="programlisting">{include file="toolbar.tpl" group=2}</pre>
+            <p>
+      For more information about templates writing, see <a href="user.template.html" title="16. Templating">Chapter 16, <i>Templating</i></a>.
+     </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.config.developer"></a>4.5. Developer Specific Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <p>Some configuration parameters can be activated to retrieve more 
+      display information targetted to the developers, like special timing 
+      messages, or setting the Php configuration to display notices on the page.
+      These configuration options are described below.
+      
+      </p>
+          <div class="warning">
+            <h3 class="title">Warning</h3>
+            <p>
+           These parameters will be overrided by the 
+          <code class="constant">profile</code> parameter (See <a href="user.config.html#user.config.common" title="4.1. Common client.ini and &#10;      server.ini Options">Section 4.1, &#8220;Common <code class="filename">client.ini</code> and 
+      <code class="filename">server.ini</code> Options&#8221;</a>).
+        </p>
+          </div>
+          <p>    </p>
+          <p>These parameters are available in 
+        <code class="filename">client_conf/client.ini</code> for client and 
+        <code class="filename">server_conf/server.ini</code> for server. </p>
+          <div class="itemizedlist">
+            <ul>
+              <li> showDevelMessages = true|false: Shows developer messages </li>
+              <li> developerIniConfig = true|false: Sets ini parameters useful 
+          during development </li>
+              <li> allowTests = true|false: allows tests running through Web 
+          interface </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

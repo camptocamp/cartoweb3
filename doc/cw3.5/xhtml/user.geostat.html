@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>22.  Geostatistics [plugin] (geostats)</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.ajax.html">
+       &lt; AJAX</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.tooltips.html">ToolTips  &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.geostat.html#user.geostat.inter">22.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.geostat.html#user.geostat.concepts">22.2. General Behavior</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.geostat.html#user.geostat.server">22.3. Server-side Configuration</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.geostat.html#user.geostat.server.mapserver">22.3.1. Mapfile Configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.geostat.html#user.geostat.server.ini">22.3.2. <code class="filename">geostat.ini</code> Configuration</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.geostat.html#user.geostat.client">22.4. Client-side Configuration</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.geostat"></a>22. <a id="id2643218" class="indexterm"></a>
+ Geostatistics <sub>[plugin] (geostats)</sub></h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.geostat.inter"></a>22.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   This chapter describes how to configure geostatistics functionnalities.
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.geostat.concepts"></a>22.2. General Behavior</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   The Geostat plugin allows advanced cartographic representation based on 
+   attributes of geospatial data. Currently, there is only support for 
+   polygonal entities. There will be support for ponctual symbol very soon. 
+   Every vectorial formats supported by Mapserver may be use.
+  </p>
+          <p>
+   The client side of the plugin allow the specification of the mandatory and 
+   optional paramaters. These parameters will be passed to the server side 
+   which will create the map layer and return some informations about the 
+   dataset.
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.geostat.server"></a>22.3. Server-side Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.geostat.server.mapserver"></a>22.3.1. Mapfile Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    On the server side, the first configuration step is made within the mapfile.
+    The only requirement is a least on polygonal layer which expose at least one
+    attribute. You may consider an attribute as exposed if you can use it as 
+    CLASSITEM for this layer. You must add one (and only one) class to this 
+    layer. It will be use as template for the generated classes. You may use
+    this class to define border color, label or other default parameter.
+    You should not add this layer to the <code class="filename">layers.ini</code> 
+    configuration file.
+   </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.geostat.server.ini"></a>22.3.2. <code class="filename">geostat.ini</code> Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    Choropleth layers are managed differently then ordinary layer within 
+    cartoweb. <code class="filename">server_conf/mapId/geostat.ini</code> is used to 
+    define layers that may be used for geostatistics. Take a look to a sample
+    of this file.
+   </p>
+            <pre class="programlisting">
+    
+geostat.0.mslayer = region_geostat_fill
+geostat.0.label = Region
+geostat.0.choropleth = true
+geostat.0.choropleth_attribs = POPULATION,HOUSINCOME
+geostat.0.choropleth_attribs_label = "Population","Average house income"
+  </pre>
+            <p>
+   These example represents a single layer definition. The general for of 
+   parameter is geostat.<em class="parameter"><code>n</code></em>.<em class="parameter"><code>key</code></em> = 
+   <em class="parameter"><code>value</code></em>. <em class="parameter"><code>n</code></em> is an incremental 
+   number (first layer of the config file is 0. <em class="parameter"><code>key</code></em> is 
+   a parameter for this layer. <em class="parameter"><code>value</code></em> is the value 
+   associated to the following parameter. The following parameters defined 
+   choropleth generation :
+  </p>
+            <div class="itemizedlist">
+              <ul>
+                <li><em class="parameter"><code>msLayer</code></em> : name of the layer in the mapfile
+    </li>
+                <li><em class="parameter"><code>label</code></em> : Label for the layer in the interface
+    </li>
+                <li><em class="parameter"><code>choropleth</code></em> : Should choropleth be activated. 
+    This is present for future development</li>
+                <li><em class="parameter"><code>choropleth_attribs</code></em> : Comma separated list of
+    attributes that may be used for choropleth</li>
+                <li><em class="parameter"><code>choropleth_attribs_label</code></em> : Comma separated 
+    list of labels to display as description of the preceding attributes</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.geostat.client"></a>22.4. Client-side Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   Client-side configuration allow to specify which algorithms should be display
+   within the user interface. Currently, there are 2 algoriths families that
+   may be configured. The first is about classification algorithms. The
+   second is about generation of color ramp. The signification of the parameter
+   is pretty straightforward. 
+  </p>
+          <p>
+   The <em class="parameter"><code>choroplethDataFromCurrentBoundingBox</code></em> parameter
+   allows to choose whether classes should change when users zoom or if they
+   should remain constant for every scales.
+  </p>
+          <pre class="programlisting">
+    
+;The following classification method are currently supported
+;   Custom : 0
+;   Equal intervals : 1
+;   Quantils : 2
+;   Modes : 3
+choroplethClassifMethodDefault = 2
+choroplethClassifMethodsList = 0,2,3
+;The following color ramp generation method are currently supported
+;   Custom : 0
+;   RGB interpolation : 1
+;   HSV interpolation : 2
+;   Max diffrence : 3
+choroplethColorRampMethodDefault = 1
+choroplethColorRampMethodList = 1,3
+choroplethDataFromCurrentBoundingBox = false
+  </pre>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

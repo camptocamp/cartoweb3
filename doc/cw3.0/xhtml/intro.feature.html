@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>2. Cartographic Functionalities</title>
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.68.1" />
+    <link rel="start" href="index.html" title="CartoWeb Documentation" />
+    <link rel="up" href="cartoweb.intro.html" title="Part I. Presentation and Architecture" />
+    <link rel="prev" href="intro.presentation.html" title="1. Project Presentation" />
+    <link rel="next" href="intro.archi.html" title="3. Architecture" />
+  </head>
+  <body>
+    <div id="navtoc">
+      <div id="nav">
+        <dl>
+          <dt>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </dt>
+          <dt>
+            <a accesskey="u" href="cartoweb.intro.html">Presentation and Architecture</a>
+          </dt>
+        </dl>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <dl>
+          <dt>
+            <span class="sect1">
+              <a href="intro.feature.html#intro.feature.intro">2.1. Introduction</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="intro.feature.html#intro.feature.overview">2.2. Overview</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="intro.feature.html#intro.feature.navigation">2.3. Navigation Interface</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="intro.feature.html#intro.feature.layer">2.4. Arbitrarily Complex Hierarchy of Layers</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="intro.feature.html#intro.feature.query">2.5. Map Queries</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="intro.feature.html#intro.feature.annotation">2.6. Annotation and Redlining</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="intro.feature.html#intro.feature.measuring">2.7. Measuring Tools</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="intro.feature.html#intro.feature.i18n">2.8. Internationalization</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="intro.feature.html#intro.feature.access">2.9. Access Rights</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="intro.feature.html#intro.feature.print">2.10. PDF Output and Other Export Formats</a>
+            </span>
+          </dt>
+        </dl>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="intro.feature"></a>2. Cartographic Functionalities</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage"></div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.feature.intro"></a>2.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   CartoWeb is quite a complex piece of software. This chapter
+   is only a quick and consequently incomplete overview of the 
+   standard functionalities that are somehow visible for an end-user. The
+   internal architecture and all the hidden features that make CartoWeb
+   customizable and extensible are presented in the next 
+   chapter.
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.feature.overview"></a>2.2. Overview</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   The first figure is an overall view of the user interface of the
+   demo that is shipped with CartoWeb. The numbers refer to more or
+   less visible underlying features. They are :
+  </p>
+          <p>
+   </p>
+          <div class="orderedlist">
+            <ol>
+              <li>
+      Main map
+     </li>
+              <li>
+      Dynamic keymap
+     </li>
+              <li>
+      Navigation tools : zoom-in, zoo-out, panning
+     </li>
+              <li>
+      Layers tree
+     </li>
+              <li>
+      Geographic query tool
+     </li>
+              <li>
+      Redlining tools : to draw points, lines, rectangles, polygons
+     </li>
+              <li>
+      Measuring tools : distances and surfaces
+     </li>
+              <li>
+      Language switch : internationalization support
+     </li>
+              <li>
+      Login link : users and roles support
+     </li>
+              <li>
+      Print dialog : PDF production
+     </li>
+            </ol>
+          </div>
+          <p>
+  </p>
+          <div class="screenshot">
+            <div class="mediaobject">
+              <img src="image/intro/images/screen_all.jpg" alt="Overall" />
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.feature.navigation"></a>2.3. Navigation Interface</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    There are many possibilities to navigate on the main map, that is to
+    change the scale and the position.
+  </p>
+          <p>
+   </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>
+      The arrows surrounding the main map
+     </li>
+              <li>
+      The dynamic (i.e. clickable) keymap
+     </li>
+              <li>
+      The navigation tools (zoom and pan)
+     </li>
+              <li>
+      The drop-down menu "Scale"
+     </li>
+              <li>
+      The various options in the "Search" tab
+     </li>
+            </ul>
+          </div>
+          <p>
+  </p>
+          <p>
+   The menu "Mapsize" is self-explanatory.
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.feature.layer"></a>2.4. Arbitrarily Complex Hierarchy of Layers</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Contrary to Mapserver itself, CartoWeb supports an arbitrarily 
+    complex hierarchy of layers, with infinite depth. 
+  </p>
+          <p>
+    The elements of the layers "tree" have different rendering options :
+  </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>
+     normal checkboxes
+     </li>
+              <li>
+     blocks
+     </li>
+              <li>
+     radio button (exclusive options)
+     </li>
+              <li>
+     drop-down menu (exclusive options)
+     </li>
+            </ul>
+          </div>
+          <p>
+     Examples of these rendering options are presented in the following figure.
+   </p>
+          <div class="screenshot">
+            <div class="mediaobject">
+              <img src="image/intro/images/screen_tree.png" alt="Layers tree" />
+            </div>
+          </div>
+          <p>
+     The icons for the classes are automatically drawn, and the out-of-scale layers
+     are grayed out. 
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.feature.query"></a>2.5. Map Queries</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   Using the query tool, you can geographically search for objects. Found 
+    objects are hilighted and their attributes are displayed.
+  </p>
+          <p>
+   CartoWeb adds many functionalities to the raw queries supported by
+   Mapserver. In particular, the queries may be persistent (i.e. you can
+   add new objects to already selected objects), and the hilighting can 
+   be defined on a layer by layer basis.
+  </p>
+          <div class="screenshot">
+            <div class="mediaobject">
+              <img src="image/intro/images/screen_query.png" alt="Query example" />
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.feature.annotation"></a>2.6. Annotation and Redlining</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   It is possible to freely draw points, lines, rectangles and polygons
+   on the map, ant to attach labels to them. These features are persistent:
+   they survive panning or zooming.
+  </p>
+          <p>
+   A mask mode, in which everything but the outlined polygon is masked, is
+   provided too.
+  </p>
+          <div class="screenshot">
+            <div class="mediaobject">
+              <img src="image/intro/images/screen_outline.png" alt="Redlining example" />
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.feature.measuring"></a>2.7. Measuring Tools</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   Distances and surfaces can be measured on the main map with the following tools :
+  </p>
+          <div class="screenshot">
+            <div class="mediaobject">
+              <img src="image/intro/images/screen_measuringtools.png" alt="Measuring tools" />
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.feature.i18n"></a>2.8. Internationalization</h2>
+              </div>
+            </div>
+          </div>
+          <p> Translation handling in CartoWeb now uses <a href="http://www.gnu.org/software/gettext/manual">gettext</a>. However 
+      internationalization architecture is ready for other translation 
+      systems.
+   </p>
+          <div class="screenshot">
+            <div class="mediaobject">
+              <img src="image/intro/images/screen_i18n.png" alt="Internationalization" />
+            </div>
+          </div>
+          <p>
+     Ta make life easier for translators, scripts that gather the strings 
+     to be translated in the templates and in the configuration files are available.
+   </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.feature.access"></a>2.9. Access Rights</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   Access to different elements of CartoWeb can be allowed or denied according 
+   to who is currently using the application. Both functionalities and data
+   may have access restrictions. For instance, PDF printing may be totally
+   unavailable for anonymous access, limited (low resolution) for normal user
+   and totally granted (high resolution) for superusers. Similarly, 
+   high-resolution aerial views may only be visible within an organization,
+   while external users should be content with satellite photographs.
+  </p>
+          <p>
+   A basic (file-based) authentication mechanism is included, but any other
+   mechanism that is able to authenticate an user and to link him to a role
+   could be used as well.  
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.feature.print"></a>2.10. PDF Output and Other Export Formats</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   CartoWeb is able to output a fully configurable PDF document. Some
+   options can be chosen by the end user in the following dialog, 
+   while the CartoWeb admin defines which elements (maps, legends, 
+   tables, additional logos or watermarks...) are to be printed and
+   sets their positions within the page.
+  </p>
+          <div class="screenshot">
+            <div class="mediaobject">
+              <img src="image/intro/images/screen_printdialog.png" alt="Print dialog" />
+            </div>
+          </div>
+          <p>
+   Other output formats include the graphic formats (jpeg, png,...) of 
+   the map itself, simplified html templates and comma-separated 
+   values tables of the query results.
+  </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>18. Accounting</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.template.html">
+       &lt; Templating</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.locate.html">Locate Plugin &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.accounting.html#user.accounting.config">18.1. Accounting Configuration</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.accounting.html#user.accounting.config.introduction">18.1.1. Introduction</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.accounting.html#user.accounting.config.client_or_server">18.1.2. client.ini or server.ini</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.accounting.html#user.accounting.management">18.2. Managing Accounting Information</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.accounting.html#user.accounting.management.file">18.2.1. Accounting Log Files Administration</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.accounting"></a>18. <a id="id2563930" class="indexterm"></a>Accounting</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p>CartoWeb provides a mechanism to store accounting informations. These 
+  informations can be used to generate statistics of the application usage.
+    </p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.accounting.config"></a>18.1. Accounting Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.accounting.config.introduction"></a>18.1.1. Introduction</h3>
+                </div>
+              </div>
+            </div>
+            <p>Accounting configuration specifies if the accounting is enabled or not, 
+      and how to store the accounting information. The configuration is
+      the same for the client or server. Notice however that if you are using
+      CartoWeb in direct mode, the server accounting configuration is not taken
+      into account. See <a href="user.config.html#user.config.client" title="4.2. &#10;      client.ini&#10;    ">Section 4.2, &#8220;
+      <code class="filename">client.ini</code>
+    &#8221;</a> for more information
+      about direct mode.</p>
+            <p>When you enable accounting, you also need to activate the accounting
+      plugin in your configuration. This is done through the 
+      <em class="parameter"><code>loadPlugins</code></em>parameter&gt; parameter of 
+      <code class="filename">client.ini</code> and 
+      <em class="parameter"><code>mapInfo.loadPlugins</code></em> of your 
+      <code class="filename">server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</code> file.
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.accounting.config.client_or_server"></a>18.1.2. client.ini or server.ini</h3>
+                </div>
+              </div>
+            </div>
+            <p>Here are the options that can be set on the client or server: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+            <em class="parameter"><code>accountingOn</code></em> (boolean: 'true'|'false'):
+            sets whether accounting is enable or not.
+            </li>
+                <li> 
+            <em class="parameter"><code>accountingStorage</code></em> (string: 'file'|'db'):
+            controls how the accounting information is stored.
+            
+             <em class="parameter"><code>file</code></em> means that accounting information
+            will be stored in files named 
+            <code class="filename">cartoweb3/www-data/accounting/&lt;MAP_ID&gt;/{client|server}_accounting.log</code>
+            where <em class="parameter"><code>&lt;MAP_ID&gt;</code></em> is the mapId currently used.
+            
+             <em class="parameter"><code>db</code></em> means that accounting information
+            is stored inside a database table. This table can be created 
+            using the following command:
+            <pre class="screen">CREATE TABLE cw_accounting (date timestamp, info text);</pre>
+            The database to be used can be configured using the <em class="parameter"><code>accountingDsn</code></em>
+            parameter. See next item.
+            </li>
+                <li> 
+             <em class="parameter"><code>accountingBasePath</code></em> (string): Optional base path
+             where to store the accounting log files.
+             This is only used when  <em class="parameter"><code>accountingStorage</code></em> is set 
+             to <code class="literal">file</code>.
+            </li>
+                <li> 
+             <em class="parameter"><code>accountingDsn</code></em> (string): DSN (Data Source Name),
+             used to specify which database to use for storing accounting information.
+             This is only used when  <em class="parameter"><code>accountingStorage</code></em> is set 
+             to <code class="literal">db</code>.
+            </li>
+              </ul>
+            </div>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>Do not forget to enable the accounting plugin if you want to use
+        this feature.</p>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.accounting.management"></a>18.2. Managing Accounting Information</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.accounting.management.file"></a>18.2.1. Accounting Log Files Administration</h3>
+                </div>
+              </div>
+            </div>
+            <p>Accounting log file are used to store one line of accounting information
+      each time a request is made on CartoWeb. The log files will grow with
+      time, as more and more data are stored inside. This means that special
+      care has to be taken by the CartoWeb administrator to avoid that the 
+      log file eats all the available free disk space.</p>
+            <p>It exists several tools which can be used to manage the log files
+      and to avoid it takes too much place. For instance the 
+      <span class="productname">Logrotate</span> software can be used to rotate the
+      log files regularly.</p>
+            <div class="warning">
+              <h3 class="title">Warning</h3>
+              <p>Activating accounting and not taking care of log file 
+      management can slow down or interrupt CartoWeb good working if the log
+      file becomes too large.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

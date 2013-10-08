@@ -1,0 +1,67 @@
+body {  margin:0px;  padding:0px;  font-family:verdana, arial, helvetica, sans-serif;  color:#333;  background-color:white; }
+ #book {         width: 65%;   margin: 15px auto 50px auto; }
+  a {  color:#09c;  font-size:11px;  text-decoration:none;  font-weight:600; }
+ a:hover {  background-color:#dde;  }
+ a img {  border: none; }
+   div.partintro, div.sect1 {  margin:0px 0px 35px 0px;  }
+ div.sect2 {  margin:0px 0px 25px 20px;  }
+ div.sect3 {  margin:0px 0px 15px 20px;  }
+ div.sect4 {  margin:0px 0px 15px 20px;  }
+ p {  margin:0px 0px 5px 10px;   font-size:11px;  line-height:18px;  text-align:justify; }
+   div.sect1 div.variablelist dl dt, div.sect1 div.orderedlist ol, div.sect1 div.itemizedlist ul {  margin:0px 0px 5px 25px;   padding-left: 0px; }
+ div.sect2 div.variablelist dl dt, div.sect2 div.orderedlist ol, div.sect2 div.itemizedlist ul {  margin:0px 0px 5px 45px;   padding-left: 0px; }
+ div.sect3 div.variablelist dl dt, div.sect3 div.orderedlist ol, div.sect3 div.itemizedlist ul {  margin:0px 0px 5px 65px;   padding-left: 0px; }
+ div.sect4 div.variablelist dl dt, div.sect4 div.orderedlist ol, div.sect4 div.itemizedlist ul {  margin:0px 0px 5px 85px;   padding-left: 0px; }
+ div.orderedlist ol li, div.itemizedlist ul li {  list-style-position:outside;  margin-left: 0px;  padding-left: 0px;  font-size:11px;  line-height:18px;  text-align:justify; }
+ div.variablelist dl {  margin:0px 0px 0px 0px;   padding-left: 0px;  font-size:11px;  line-height:14px;  text-align:justify; }
+    pre.programlisting, pre.screen {  margin:0px 0px 5px 10px;   font-size: 9px;  line-height:10px;  padding:5px;  background-color:#ffc;  border:1px solid #000; }
+  div.example, div.informalexample {  margin:10px 0px 5px 10px;  }
+   div.tip, div.note, div.important, div.warning, div.caution {  margin:0px 0px 5px 10px;  padding:5px;  background-color:#fee;  border:1px solid #000; }
+ div.tip h3.title,  div.note h3.title,  div.important h3.title, div.warning h3.title, div.caution h3.title {  padding: 0px;  margin: 0px;  font-size:14px; }
+    div.bibliomixed p {  margin:0px 0px 0px 20px;   font-size:11px;  line-height:18px;  text-align:left;  text-indent:0px; }
+  div.index {  margin:0px 0px 0px 10px;  }
+ div.index div.indexdiv h3 {  margin:0px 0px 0px 0px;   font-size:14px;  line-height:18px;  text-align:left;  text-indent:0px; }
+ div.index div.indexdiv dl {  margin:0px 0px 20px 0px;  }
+ div.index div.indexdiv dl dt {  margin:0px 0px 0px 15px;   font-size:11px;  line-height:18px;  text-align:left;  text-indent:0px; }
+   #book div.titlepage h1.title {  font-size:28px;  line-height:28px;  font-weight:900;  color:#aaa; }
+ #book div.titlepage h3.corpauthor {  text-align: right;  font-size:18px;  line-height:18px;  color:#000; }
+ #book div.titlepage p.edition {  float: left;  font-size:14px;  font-style: italic; }
+ #title h1.title, #title h2.title {  margin:40px 0px 10px 20px;  font-size:28px;  line-height:28px;  color:#aaa;  font-weight: 900; }
+ div.sect1 div.titlepage h2.title {  margin:0px 0px 5px 0px;  color:#000;  font-size:16px;  line-height:16px; }
+  div.sect1 div.titlepage h3.subtitle {  margin:0px 0px 5px 0px;  color:#000;  font-size:14px;  line-height:14px;  font-style: italic; }
+  div.sect2 div.titlepage h3.title {  margin:0px 0px 5px 0px;  color:#000;  font-size:14px;  line-height:14px; }
+ div.sect2 div.titlepage h4.subtitle {  margin:0px 0px 5px 0px;  color:#000;  font-size:12px;  line-height:12px;  font-style: italic; }
+  div.sect3 div.titlepage h4.title {  margin:0px 0px 5px 0px;  color:#000;  font-size:12px;  line-height:12px; }
+ div.sect3 div.titlepage h5.subtitle {  margin:0px 0px 5px 0px;  color:#000;  font-size:11px;  line-height:11px;  font-style: italic; }
+  div.sect4 div.titlepage h5.title {  margin:0px 0px 5px 0px;  color:#000;  font-size:11px;  line-height:11px; }
+ div.sect4 div.titlepage h6.subtitle {  margin:0px 0px 5px 0px;  color:#000;  font-size:10px;  line-height:10px;  font-style: italic; }
+  #footnotes hr {  color: #333;  width: 30%;  padding-left: 0px;  margin-left: 0px;  background-color: #333;  height: 1px; }
+  code.classname, code.function {  font-family: courier, monospace;  font-weight: 600; }
+   #prev_next {  position: fixed;  width: 100%;  z-index: 100;  height: 1.2em;  padding: 3px; }
+ #prev {  float: left;  margin-left: 30px;  background-color: transparent; }
+ #next {  float: right;  margin-right: 30px;  background-color: transparent; }
+    #booktoc {  margin: 20px 70px 30px 70px;  border:1px solid #000;  background-color:#eff;  line-height:17px; }
+ #booktoc ul {  margin:0px 0px 10px 0px;  padding:0px;  list-style-type: none; }
+ #booktoc ul li {  margin:0px 0px 0px 30px;  padding:0px; }
+ #booktoc li ul li ul {  display: none; }
+ #booktoc li ul li:hover > ul {  display: block;  list-style-type: none;  padding:0px;  margin: 0px; }
+  #toc ul {  margin:0px 0px 10px 0px;  padding:0px;  list-style-type: none; }
+#toc ul li {  margin:0px 0px 0px 25px;  padding:0px;  text-indent: -15px; }
+ #toc ul ul {  margin:0px 0px 0px -12px;  padding:0px; }
+ #toc li ul {  display: none; }
+ #toc li:hover > ul {  display: block;  list-style-type: none; }
+ #toc li ul li {  margin:0px 0px 0px 35px;  padding:0px;  text-indent: -25px; }
+ #booktoc p, #toc p {  margin: 3px auto 5px auto;  text-align: center;  font-weight:600;  font-size: 1.0em; }
+  #nav ul {  margin:0px 0px 0px 10px;  padding:5px; }
+ #nav li {  margin: 0px;  padding: 3px 0px 3px 0px;  list-style-type: none; }
+ #toc {  position:relative;  width:200px;  top: 0px;  left: 0px;  margin-top:15px;  padding: 5px 10px 0px 10px;  border:1px solid #000;  background-color:#eff;  line-height:14px;  font-size:10px; }
+   #title {  position: absolute;  margin:0px 0px 0px 0px;  top: 0px;  left: 0px; }
+  #content {  position:absolute;  top: 90px;  left: 270px;  right: 100px;  margin:0px 0px 0px 0px; }
+  #navtoc {  position: fixed;  margin: 90px 0px 0px 20px; }
+  #nav {  position:relative;  padding: 0px 10px 0px 10px;  border:1px solid #000;  background-color:#ffe;  font-size:10px;  line-height:12px;  width:200px; }
+  #w3c {  position: relative;  text-align: center;  margin: 30px; }
+ #w3c a:hover {  background-color:#fff; }
+  table {  margin-left: auto;  margin-right: auto;  border-collapse: collapse; }
+ th {  border: 1px solid black;  background-color: #ddd; }
+ td {  border: 1px solid black; }
+ 

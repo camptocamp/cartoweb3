@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>12. AJAX Implementation</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="dev.views_upgrade.html">
+       &lt; Upgrading Views Data</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="appendix.debian_mapserver.html">Mapserver Debian Installation &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.dev.html">Developer Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="dev.ajaxplugin.html#dev.ajax.intro">12.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.ajaxplugin.html#dev.ajax.implementation">12.2. AJAX Implementation Outline</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="dev.ajaxplugin.html#dev.ajax.implementation.modes">12.2.1. Synchronous And Asynchronous Modes</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.ajaxplugin.html#dev.ajax.implementation.ajaxable">12.2.2. Ajaxable Interface</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.ajaxplugin.html#dev.ajax.implementation.javascript">12.2.3. Plugins Javascript Side</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.ajaxplugin.html#dev.ajax.implementation.actions">12.2.4. Plugins Actions</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.ajaxplugin.html#dev.ajax.implementation.enablementlevel">12.2.5. Plugins Enablement Level</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.ajaxplugin.html#dev.ajax.plugin">12.3. Making Your Plugin Ajaxable</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="dev.ajaxplugin"></a>12. AJAX Implementation</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.ajax.intro"></a>12.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p> CartoWeb implements an AJAX layer, enabling asynchronous update
+      of the HTML GUI. </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.ajax.implementation"></a>12.2. AJAX Implementation Outline</h2>
+              </div>
+            </div>
+          </div>
+          <p> The implementation of AJAX in CartoWeb is achieved by extending the
+      Cartoclient and creating a lightweight Javascript engine. It introduces
+      a few new concepts: </p>
+          <div class="itemizedlist">
+            <ul>
+              <li> Synchronous and asynchronous modes </li>
+              <li> Ajaxable interface </li>
+              <li> Plugins Javascript side </li>
+              <li> Plugins actions </li>
+              <li> Plugins enablement level </li>
+            </ul>
+          </div>
+          <div class="screenshot">
+            <div class="mediaobject">
+              <img src="image/dev/images/SyncAsyncModes.png" alt="CartoWeb AJAX layer" />
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.ajax.implementation.modes"></a>12.2.1. Synchronous And Asynchronous Modes</h3>
+                </div>
+              </div>
+            </div>
+            <p> In addition to the implicit synchronous mode
+        (traditional until-now Cartoclient execution flow), an asynchronous
+        mode has been implemented to process AJAX calls. </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> The synchronous mode is the default Cartoclient execution
+          flow, that processes each plugin's logic and renders a monolithic
+          HTML page. Non-AJAX projects will run the synchronous mode without
+          any alteration. </li>
+                <li> The asynchronous mode is the execution flow specifically
+            built to process AJAX calls. In this mode, a subset of the
+            plugins features is processed and an XML document, containing
+            plugins output, is rendered - to be processed by the Javascript
+            part. </li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.ajax.implementation.ajaxable"></a>12.2.2. Ajaxable Interface</h3>
+                </div>
+              </div>
+            </div>
+            <p> Client plugins can now implement an interface called Ajaxable
+        that enables a plugin to handle an asynchronous request and render
+        XML. </p>
+            <p> See
+        <a href="http://www.CartoWeb.org/doc/cw3.3/apidoc/Client/Ajaxable.html">
+        CartoWeb 3.3 API documentation, interface Ajaxable</a>. </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.ajax.implementation.javascript"></a>12.2.3. Plugins Javascript Side</h3>
+                </div>
+              </div>
+            </div>
+            <p> Each Ajaxable plugin is made of a Javascript part that
+        handles: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> HTTP POST/GET parameters generation for AJAX requests </li>
+                <li> GUI refresh logic: processing of the plugin XML response and
+            DOM injection/manipulation. </li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.ajax.implementation.actions"></a>12.2.4. Plugins Actions</h3>
+                </div>
+              </div>
+            </div>
+            <p> AJAX introduces the concept of actions. An action is provided by
+        a plugin and is used to define: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> From the Javascript side, what are the HTTP parameters
+            (GET &amp; POST) to be sent to the Cartoclient </li>
+                <li> From the Caroclient side, what subset of each plugin's logic
+            is to be processed </li>
+              </ul>
+            </div>
+            <p> In example, the Location coreplugin provides the
+        following actions: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> Location.Pan </li>
+                <li> Location.Zoom </li>
+                <li> Location.FullExtent </li>
+                <li> Location.Recenter </li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.ajax.implementation.enablementlevel"></a>12.2.5. Plugins Enablement Level</h3>
+                </div>
+              </div>
+            </div>
+            <p> When the Cartoclient's asynchronous mode is triggered,
+        the action is used to determine what subset of each plugin's logic
+        should be processed. Processing a subset of a plugin's logic is
+        achieved by changing it's <span class="emphasis"><em>enablement level</em></span>.
+        Enablement levels are by default set to <span class="emphasis"><em>Full</em></span>
+        (i.e. the whole logic is processed). </p>
+            <p> Here are the yet available enablement levels: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> <span class="emphasis"><em>Load</em></span>: The plugin is loaded </li>
+                <li> <span class="emphasis"><em>Process</em></span>: The plugin is loaded and handles GET/POST Requests </li>
+                <li> <span class="emphasis"><em>ServerCall</em></span>: The plugin handles GET/POST requests,
+            builds/overrides server request and handles server result </li>
+                <li> <span class="emphasis"><em>Full</em></span>: The plugin's whole logic is executed </li>
+              </ul>
+            </div>
+            <p> Note that all enablement levels perform a
+        Sessionable::saveSession(). </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.ajax.plugin"></a>12.3. Making Your Plugin Ajaxable</h2>
+              </div>
+            </div>
+          </div>
+          <p> An ajaxable plugin has the ability to refresh the CartoWeb GUI
+      asynchronously, if the project using it enables the AJAX mode
+      (see how to enable AJAX in a project: <a href="user.ajax.html#user.ajax.project" title="21.2. Make Your Project AJAX Enabled">Section 21.2, &#8220;Make Your Project AJAX Enabled&#8221;</a>
+    </p>
+          <p> Please have a look at the wiki for an up-to-date howto explaining
+      how to make a plugin ajaxable:
+      <a href="http://www.cartoweb.org/cwiki/HowToAjaxablePlugin">http://www.cartoweb.org/cwiki/HowToAjaxablePlugin</a> </p>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

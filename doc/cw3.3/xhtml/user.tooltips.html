@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>23. ToolTips</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.geostat.html">
+       &lt; 
+ Geostatistics</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="cartoweb.dev.html">Developer Manual &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.tooltips.html#user.tooltips.intro">23.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.tooltips.html#user.tooltips.basic">23.2. Basic Usage</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.tooltips.html#user.tooltips.basic.timeoutasync">23.2.1. Mouse Timeout Asynchronous</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.tooltips.html#user.tooltips.basic.areaasync">23.2.2. Area Asynchronous</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.tooltips.html#user.tooltips.basic.areadirect">23.2.3. Area Direct</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.tooltips.html#user.tooltips.custom">23.3. Custom Tooltips</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.tooltips.html#user.tooltips.custom.templates">23.3.1. Templates</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.tooltips.html#user.tooltips.custom.extendclass">23.3.2. Extending classes</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.tooltips.html#user.tooltips.custom.styling">23.3.3. Styling</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.tooltips"></a>23. <a id="id2604418" class="indexterm"></a>ToolTips</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.tooltips.intro"></a>23.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>The tooltips plugin aim is to show features attributive information on
+     top of the map without refreshing the whole page. This can be achieved
+     using three different methods.</p>
+          <p>
+    The choice must be done regarding advantages or disadvantages of each method.
+   </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.tooltips.basic"></a>23.2. Basic Usage</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.tooltips.basic.timeoutasync"></a>23.2.1. Mouse Timeout Asynchronous</h3>
+                </div>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.tooltips.basic.timeoutasync.intro"></a>23.2.1.1. Introduction</h4>
+                  </div>
+                </div>
+              </div>
+              <p>When user moves the mouse over the map and stops during several
+         milliseconds, an <span class="emphasis"><em>AJAX</em></span> request is sent to the
+          CartoClient using the geographical coordinates of the cursor.
+        </p>
+              <p>If the webserver finds features corresponding to the defined
+         <span class="emphasis"><em>timeout_async</em></span> layers, a response is sent back to
+         the browser with some generated HTML code showing some attributive
+         information.
+        </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.tooltips.basic.timeoutasync.proscons"></a>23.2.1.2. Pros / Cons</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Pros</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>fully customizable layout,</li>
+                  <li>several results can be displayed even for stacked features,
+            </li>
+                  <li>isn't dependant to the feature counts, performances should
+           not fail even for huge quantity of feature</li>
+                </ul>
+              </div>
+              <p>Cons</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>database (postGIS) required</li>
+                </ul>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.tooltips.basic.timeoutasync.configuration"></a>23.2.1.3. Configuration</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Here are defined parameters available for <span class="emphasis"><em>timeout_async
+         layers</em></span></p>
+              <div class="itemizedlist">
+                <ul>
+                  <li><em class="parameter"><code>label</code></em>
+            <a id="id2637761" class="indexterm"></a>: (optional) label
+             for the layer. If not set, layerId is diplayed</li>
+                  <li><em class="parameter"><code>dsn</code></em>
+            <a id="id2637775" class="indexterm"></a>: connection string to
+             database (Data Source Name)</li>
+                  <li><em class="parameter"><code>dbTableName</code></em>
+            <a id="id2637788" class="indexterm"></a>: name of the
+             table in database</li>
+                  <li><em class="parameter"><code>attributes</code></em>
+            <a id="id2637801" class="indexterm"></a>: comma
+             separated list of attributes to be displayed</li>
+                  <li><em class="parameter"><code>template</code></em>
+            <a id="id2637815" class="indexterm"></a>: (optional)
+             custom template, must be in overriden <code class="literal">toolTips</code>
+             plugin templates directory. If not set, generic 
+             <code class="filename">layerResult.tpl</code> is used.
+             The template to use can also be set in 
+             <code class="function">renderResult</code>() method in PHP code
+             if <code class="classname">QueryableLayer</code> is extended (See
+             <a href="user.tooltips.html#user.tooltips.custom.extendclass" title="23.3.2. Extending classes">Section 23.3.2, &#8220;Extending classes&#8221;</a>)</li>
+                </ul>
+              </div>
+              <pre class="programlisting">timeout_async.region.label = "Régions"
+timeout_async.region.dsn = "pgsql://www-data:www-data@localhost:5432/france"
+timeout_async.region.dbTableName = region
+timeout_async.region.attributes = "nom, code"
+timeout_async.region.template = "layerResult_region.tpl"</pre>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.tooltips.basic.areaasync"></a>23.2.2. Area Asynchronous</h3>
+                </div>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.tooltips.basic.areaasync.intro"></a>23.2.2.1. Introduction</h4>
+                  </div>
+                </div>
+              </div>
+              <p>For the <span class="emphasis"><em>area_async</em></span> defined layers, area tags
+         are sent within
+         the HTML source of the page. So, interactive areas are available on
+          the map on top of corresponding features.</p>
+              <p>When the user moves the mouse over each area, and stopping during
+         several milliseconds, an <span class="emphasis"><em>AJAX</em></span> request is sent to 
+         CartoWeb using the id of the given feature. A response is sent back
+          to the browser within the HTML code, in regard to the selected
+          feature.</p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.tooltips.basic.areaasync.proscons"></a>23.2.2.2. Pros / Cons</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Pros</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>semi live result,</li>
+                  <li>the layout for the result can be customized
+            </li>
+                </ul>
+              </div>
+              <p>Cons</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>does not work for line type features,</li>
+                  <li>may be ressource consuming and performances may fail for
+             large amount of features (but less than with the 
+             <span class="emphasis"><em>area_direct</em></span> method),</li>
+                  <li>database (postgresql) required,</li>
+                  <li>only one result at a time, if several features are stacked
+             on each other, only the result of the uppermost feature is
+             displayed.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.tooltips.basic.areaasync.configuration"></a>23.2.2.3. Configuration</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Here are defined parameters available for 
+        <span class="emphasis"><em>area_async</em></span> layers</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li><em class="parameter"><code>label</code></em>
+            <a id="id2640693" class="indexterm"></a>: (optional) label
+             fo the layer. If not set, layerId is diplayed</li>
+                  <li><em class="parameter"><code>dsn</code></em>
+            <a id="id2640707" class="indexterm"></a>: connection string
+             to database (Data Source Name)</li>
+                  <li><em class="parameter"><code>dbTableName</code></em>
+            <a id="id2640721" class="indexterm"></a>: name of
+             the table in database</li>
+                  <li><em class="parameter"><code>attributes</code></em>
+            <a id="id2640735" class="indexterm"></a>: comma
+             separated list of attributes to be displayed</li>
+                  <li><em class="parameter"><code>idAttributeString</code></em>
+            <a id="id2640749" class="indexterm"></a>: name
+             of the field in the database matching to the <em class="parameter"><code>id_attribute_string</code></em> metadata in mapfile</li>
+                  <li><em class="parameter"><code>template</code></em>
+            <a id="id2640766" class="indexterm"></a>: (optional)
+             custom template, must be in overriden <code class="literal">toolTips</code>
+             plugin templates directory. If not set, generic 
+             <code class="filename">layerResult.tpl</code> is used.
+             The template to use can also be set in 
+             <code class="function">renderResult</code>() method in PHP code if 
+             <code class="classname">QueryableLayer</code> is extended (See 
+             <a href="user.tooltips.html#user.tooltips.custom.extendclass" title="23.3.2. Extending classes">Section 23.3.2, &#8220;Extending classes&#8221;</a>)</li>
+                </ul>
+              </div>
+              <pre class="programlisting">area_async.members.label = "Members"
+area_async.members.dsn = "pgsql://www-data:www-data@localhost:5432/france"
+area_async.members.dbTableName = points
+area_async.members.attributes = "name,age,place"</pre>
+              <div class="note">
+                <h3 class="title">Note</h3>
+                <p>For <span class="emphasis"><em>area_async</em></span> layers, layer definition
+           in mapfile doesn't have to be a postgis (connectiontype) layer.
+           For example, user is able to draw geographical data coming from a
+           shapefile and show attribute values coming from a non geographical
+           database.</p>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.tooltips.basic.areadirect"></a>23.2.3. Area Direct</h3>
+                </div>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.tooltips.basic.areadirect.intro"></a>23.2.3.1. Introduction</h4>
+                  </div>
+                </div>
+              </div>
+              <p>For the <span class="emphasis"><em>area_direct</em></span> defined layers, area
+         tags are sent within the HTML source of the page, as well as the
+         relative attributes (names and values). Interactive areas area
+         available on the map on top of corresponding features.</p>
+              <p>When the user moves the mouse over each area, and stops during
+         several milliseconds, a basic HTML table is built with the attributes
+         using javascript and display with the tooltip.</p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.tooltips.basic.areadirect.proscons"></a>23.2.3.2. Pros / Cons</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Pros</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>simplest way to use tooltips,</li>
+                  <li>no database needed, can work with shapefiles (or data files)
+            </li>
+                  <li>no server call, live result
+            </li>
+                </ul>
+              </div>
+              <p>Cons</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>cannot work for line type features,</li>
+                  <li>may be ressource consuming and performances may fail for
+             large amount of features,</li>
+                  <li>only one result at one time, if several features are stacked
+             on each other, only the result of the uppermost feature is
+             displayed,</li>
+                  <li>the layout cannot be customized</li>
+                </ul>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.tooltips.basic.areadirect.configuration"></a>23.2.3.3. Configuration</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Here are defined parameters available for 
+        <span class="emphasis"><em>area_direct layers</em></span></p>
+              <div class="itemizedlist">
+                <ul>
+                  <li><em class="parameter"><code>label</code></em>
+            <a id="id2631324" class="indexterm"></a>: label fo the layer
+            </li>
+                </ul>
+              </div>
+              <pre class="programlisting">area_direct.region.label = "Regions"
+area_direct.users.label = "Users"</pre>
+              <p>The list of attributes names and values that are displayed in the
+        tooltip is set with the "query_returned_attributes" metadata in the
+        mapfile as used for the query tool.
+        </p>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.tooltips.custom"></a>23.3. Custom Tooltips</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.tooltips.custom.templates"></a>23.3.1. Templates</h3>
+                </div>
+              </div>
+            </div>
+            <div class="tip">
+              <h3 class="title">Tip</h3>
+              <p>Make sure that the custom templates are in the
+        <code class="filename">templates</code> folder in the 
+        <code class="filename">toolTips</code> plugin directory in your project.</p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.tooltips.custom.templates.main"></a>23.3.1.1. Main Template</h4>
+                  </div>
+                </div>
+              </div>
+              <p>As for the other plugins, templates can be overriden in the
+        projects. Then, user can define a new 
+        <code class="filename">layerResult.tpl</code> template for all 
+        <span class="emphasis"><em>timeout_async</em></span> or <span class="emphasis"><em>area_async</em></span>
+         layers.</p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.tooltips.custom.templates.specific"></a>23.3.1.2. Layer Specific Template</h4>
+                  </div>
+                </div>
+              </div>
+              <p>One can also define a specific template for each layer of 
+        <span class="emphasis"><em>timeout_async</em></span> and <span class="emphasis"><em>area_async</em></span>
+         ones. It can be defined using the template parameter (See 
+         <a href="user.tooltips.html#user.tooltips.basic.timeoutasync.configuration" title="23.2.1.3. Configuration">Section 23.2.1.3, &#8220;Configuration&#8221;</a> or 
+         <a href="user.tooltips.html#user.tooltips.basic.areaasync.configuration" title="23.2.2.3. Configuration">Section 23.2.2.3, &#8220;Configuration&#8221;</a>) or in
+         <code class="function">renderResult</code>() method in PHP code if 
+         <code class="classname">QueryableLayer</code> is extended (see above).</p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.tooltips.custom.extendclass"></a>23.3.2. Extending classes</h3>
+                </div>
+              </div>
+            </div>
+            <p>For the <span class="emphasis"><em>timeout_async</em></span> layers, if a class extending
+      <code class="classname">ByXyQueryableLayer</code> with a name like 
+      <code class="classname">LayerIdQueryableLayer</code> exists, it will be taken
+      into account.
+      </p>
+            <p>Similarly, for the <span class="emphasis"><em>area_async</em></span>, the classes
+       extending <code class="classname">ByIdQueryableLayer</code> will be taken into
+       account.</p>
+            <p>To do so, you should extend (replace) the 
+      <code class="literal">toolTips</code> plugin (See 
+      <a href="dev.newplugin.html#dev.newplugin.adapting.extending" title="2.3.3. Extending &#10;      a Plugin">Section 2.3.3, &#8220;Extending 
+      a Plugin&#8221;</a>).
+      You can name it <code class="literal">ProjectToolTips</code> for example.</p>
+            <p>So create a <code class="filename">ClientProjectToolTips.php</code> file
+       containing something like :</p>
+            <pre class="programlisting">require_once 'CustomLayers.php';
+
+/**
+ * Client part of ClientToolTips plugin
+ * @package Plugins
+ */
+class ClientProjectToolTips extends ClientToolTips {
+
+    /**
+     * @see PluginManager::replacePlugin()
+     */
+    public function replacePlugin() {
+        return 'toolTips';
+    }
+}</pre>
+            <p>Then create a new PHP file in the same directory named 
+      <code class="filename">CustomLayers.php</code>.
+      </p>
+            <div class="important">
+              <h3 class="title">Important</h3>
+              <p>The name of the class that extends 
+        <code class="classname">ByXyQueryableLayer</code> or 
+        <code class="classname">ByIdQueryableLayer</code> should match the layerId.
+        </p>
+            </div>
+            <p>
+      It should look like :
+      </p>
+            <pre class="programlisting">class DepQueryableLayer extends ByXyQueryableLayer {
+
+    public function __construct() {
+        parent::__construct();
+
+        $this-&gt;addReturnedAttribute('nom_chf_l');
+    }
+
+    /**
+     * Sets the type of ResultLayer returned by ResultLayer::queryLayer()
+     * @see QueryableLayer::newLayerResult()
+     */
+    protected function newLayerResult() {
+        return new DepLayerResult();
+    }
+}
+
+class DepLayerResult extends LayerResult {
+
+    /**
+     * @see LayerResult::renderResult()
+     */
+    public function renderResult($smarty) {
+        $smarty-&gt;assign('layerId', $this-&gt;getId());
+        $smarty-&gt;assign('layerLabel', Encoder::encode($this-&gt;getLabel(), 'config'));
+        $smarty-&gt;assign('depName', $this-&gt;getAttribute('nom_dept'));
+        $smarty-&gt;assign('depCode', $this-&gt;getAttribute('code_dept'));
+        $smarty-&gt;assign('depChefLieu', ucfirst(strtolower($this-&gt;getAttribute('nom_chf_l'))));
+        return $smarty-&gt;fetch('layerResult_depLayer.tpl');
+
+    }
+}</pre>
+            <p>This method allows people to build tooltips with results coming
+      from several sources (joined tables for example).</p>
+            <div class="tip">
+              <h3 class="title">Tip</h3>
+              <p>Don't forget to load the plugin on client-side (
+        <code class="filename">client_conf/client.ini</code>)</p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.tooltips.custom.styling"></a>23.3.3. Styling</h3>
+                </div>
+              </div>
+            </div>
+            <p>Here are some considerations on how to customize the tooltip
+      appearance.</p>
+            <p>TODO</p>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

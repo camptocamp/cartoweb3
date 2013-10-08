@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>5. Caches Configuration</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.config.html">
+       &lt; Configuration Files</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.layers.html">Layers &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.caches.html#user.caches.smarty">5.1. Smarty Cache</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.caches.html#user.caches.wsdl">5.2. WSDL Cache</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.caches.html#user.caches.mapinfo">5.3. MapInfo Cache</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.caches.html#user.caches.mapresult">5.4. MapResult Cache</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.caches.html#user.caches.soapxml">5.5. XML SOAP Cache</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.caches.html#user.caches.config">5.6. Caches Configuration</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.caches.html#user.caches.config.rationale">5.6.1. Rationale</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.caches.html#user.caches.config.common">5.6.2. Client and Server Cache Options</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.caches.html#user.caches.config.server">5.6.3. Server Cache Options</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.caches"></a>5. Caches Configuration</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p>Several different caching mechanisms are available in
+    CartoWeb for maximum performances. The different types of caches
+    are described in the next chapters.</p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.caches.smarty"></a>5.1. Smarty Cache</h2>
+              </div>
+            </div>
+          </div>
+          <p>The templating system used in CartoWeb is Smarty<sup>[<a id="id2578910" href="#ftn.id2578910">1</a>]</sup>,
+      which offers two level of caching for templates. One is compilation
+      of templates into the <code class="filename">templates_c</code> directory, 
+      and the other is static caching of templates. In CartoWeb, because
+      pages are very dynamic, only the first level of caching is used.</p>
+          <p>
+        The caching feature of Smarty is totally transparent to the user. 
+        However, an option can be set in the 
+        <code class="filename">client_conf/client.ini</code> configuration file to 
+        enhance performances.
+        </p>
+          <div class="itemizedlist">
+            <ul>
+              <li> smartyCompileCheck = true|false: Set this to false in production
+            to improve performance. <span class="emphasis"><em>Warning:</em></span> This parameter will be overrided by the 
+          <code class="constant">profile</code> parameter (See <a href="user.config.html#user.config.common" title="4.1. Common client.ini and &#10;      server.ini Options">Section 4.1, &#8220;Common <code class="filename">client.ini</code> and 
+      <code class="filename">server.ini</code> Options&#8221;</a>).</li>
+            </ul>
+          </div>
+          <p>        
+        </p>
+          <div class="warning">
+            <h3 class="title">Warning</h3>
+            <p>Setting this option to <code class="literal">false</code> means that
+            your template won't be updated any more. Pay attention to this
+            if you need to change them on the server.</p>
+          </div>
+          <p>
+      </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.caches.wsdl"></a>5.2. WSDL Cache</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+      When using SOAP, and the <code class="literal">useWsdl</code> option is set to 
+      <code class="literal">true</code>
+      in the <code class="filename">client_conf/client.ini</code> or 
+      <code class="filename">server_conf/server.ini</code>, the WSDL generated document can
+      be cached for more performance. This is the purpose of this cache option.
+      So it should be activated in production environment, and turned off 
+      during development, if your changes have an impact on the WSDL.
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.caches.mapinfo"></a>5.3. MapInfo Cache</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+     MapInfo is a structure generated on the server and used by the cartoclient
+     to access static server information. This cache keeps a copy of the MapInfo
+     structure on the client or the server, so that the client does not need
+     ask it everytime, and the server can avoid regenerating it from scratch.
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.caches.mapresult"></a>5.4. MapResult Cache</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+      This is a server side only cache, which caches the requests made to the
+      server. This cache works at the Php level, meaning that it can be used
+      when CartoWeb is used in direct or SOAP mode. For the distinction 
+      between these two modes, see <a href="user.config.html#user.config.client" title="4.2. &#10;      client.ini&#10;    ">Section 4.2, &#8220;
+      <code class="filename">client.ini</code>
+    &#8221;</a>.
+      However, the XML SOAP cache is more appropriate when using SOAP mode, 
+      see details in the next chapter.
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.caches.soapxml"></a>5.5. XML SOAP Cache</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+      This one is also a server side only cache, caching requests at the 
+      lowlevel XML SOAP exchange. This means this cache is only effective when
+      direct mode is not used, and can be used for any webservice for which
+      the output only depends on the input arguments.
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.caches.config"></a>5.6. Caches Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.caches.config.rationale"></a>5.6.1. Rationale</h3>
+                </div>
+              </div>
+            </div>
+            <p>All cache configuration name are in the form 
+        <code class="literal">noXXXName</code>, where <code class="literal">XXX</code> is the
+        name of the cache. This is so, so that if the parameter is not available, 
+        its default value will be false, meaning that all caches are active
+        by default, for maximum performance.
+        
+        </p>
+            <div class="warning">
+              <h3 class="title">Warning</h3>
+              <p>
+             These parameters will be overrided by the 
+          <code class="constant">profile</code> parameter (See <a href="user.config.html#user.config.common" title="4.1. Common client.ini and &#10;      server.ini Options">Section 4.1, &#8220;Common <code class="filename">client.ini</code> and 
+      <code class="filename">server.ini</code> Options&#8221;</a>).
+          </p>
+            </div>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.caches.config.common"></a>5.6.2. Client and Server Cache Options</h3>
+                </div>
+              </div>
+            </div>
+            <p>These parameters are available in 
+        <code class="filename">client_conf/client.ini</code> for client and 
+        <code class="filename">server_conf/server.ini</code> for server. </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> noWsdlCache = true|false: disables the caching of wsdl 
+            (ignored if useWsdl is false) </li>
+                <li> noMapInfoCache = true|false: disables the caching of MapInfo 
+            requests </li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.caches.config.server"></a>5.6.3. Server Cache Options</h3>
+                </div>
+              </div>
+            </div>
+            <p>These parameters are available in 
+        <code class="filename">server_conf/server.ini</code>. </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> noMapResultCache = true|false: disables the caching of getMap 
+            requests </li>
+                <li> noSoapXMLCache = true|false: disables the caching of SOAP XML 
+            requests </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="footnotes">
+          <hr />
+          <div class="footnote">
+            <p>
+              <sup>[<a id="ftn.id2578910" href="#id2578910">1</a>] </sup>
+              <a href="http://smarty.php.net/">http://smarty.php.net/</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,210 @@
+<html>
+<head>
+<title>Docs for page server2pot.php</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">Scripts</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_Scripts.html" class="menu">class tree: Scripts</a> ]
+		  [ <a href="../elementindex_Scripts.html" class="menu">index: Scripts</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+      <b>Packages:</b><br />
+              <a href="../li_Client.html">Client</a><br />
+              <a href="../li_Common.html">Common</a><br />
+              <a href="../li_CorePlugins.html">CorePlugins</a><br />
+              <a href="../li_Plugins.html">Plugins</a><br />
+              <a href="../li_Scripts.html">Scripts</a><br />
+              <a href="../li_Server.html">Server</a><br />
+              <a href="../li_Tests.html">Tests</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../Scripts/_doc_cartoweb3_scripts_clean_php.html">		clean.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_client2pot_php.html">		client2pot.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_cwprof_php.html">		cwprof.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_makedoc_php.html">		makedoc.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_po2mo_php.html">		po2mo.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_pot_tools_php.html">		pot_tools.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_server2pot_php.html">		server2pot.php
+		</a><br>
+	  </div><br />
+      
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Procedural File: server2pot.php</h1>
+Source Location: /scripts/server2pot.php<br /><br />
+
+<br>
+<br>
+
+
+<h2>Page Details:</h2>
+server2pot.php - generates PO templates, merge with old PO files<br /><br /><p>Uses .ini (for layer labels) and .map (for class names)</p><p>Usage:  ./server2pot.php</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Yves Bolognini &lt;<a href="mailto:yves.bolognini@camptocamp.com">yves.bolognini@camptocamp.com</a>&gt;</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+<h4>Includes:</h4>
+<div class="tags">
+require_once(<a href="../Scripts/_doc_cartoweb3_scripts_pot_tools_php.html">'./pot_tools.php'</a>) [line 21]<br />
+</div>
+<br /><br />
+<br /><br />
+  <hr />
+	<a name="defineCARTOSERVER_PODIR"></a>
+	<h3>CARTOSERVER_PODIR <span class="smalllinenumber">[line 19]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>CARTOSERVER_PODIR = CARTOSERVER_HOME.'po/'</code>
+    </td></tr></table>
+    </td></tr></table>
+
+        <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+<br />
+  <hr />
+	<a name="functionaddMapText"></a>
+	<h3>addMapText <span class="smalllinenumber">[line 67]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void addMapText(
+string $text, string $mapId, array &$texts)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Adds a reference<br /><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$text</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$mapId</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+		      <tr>
+        <td class="type">array&nbsp;&nbsp;</td>
+        <td><b>&$texts</b>&nbsp;&nbsp;</td>
+        <td>map text_to_translate =&gt; references</td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functiondummyErrorHandler"></a>
+	<h3>dummyErrorHandler <span class="smalllinenumber">[line 76]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void dummyErrorHandler(
+mixed $errno, mixed $errmsg, mixed $filename, mixed $linenum, mixed $vars)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functiongetTranslatedMapIdPo"></a>
+	<h3>getTranslatedMapIdPo <span class="smalllinenumber">[line 164]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>array getTranslatedMapIdPo(
+string $project, mixed $mapId)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Finds list of already translated PO files for a project and a map ID<br /><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$project</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionparseMap"></a>
+	<h3>parseMap <span class="smalllinenumber">[line 86]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>boolean parseMap(
+string $project, string $mapId, array &$texts)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Parses a MAP file looking for class names and 'query_returned_attributes'<br /><br /><p>metadata</p><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$project</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$mapId</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+		      <tr>
+        <td class="type">array&nbsp;&nbsp;</td>
+        <td><b>&$texts</b>&nbsp;&nbsp;</td>
+        <td>map text_to_translate =&gt; references</td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Wed,  6 Apr 2005 12:06:56 +0200 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>Appendix C. Create a New Project</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="appendix.windows_manual_install.html">
+       &lt; Apache &amp; Mapserver Windows Manual Installation</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="appendix.make_doc.html">
+  DocBook Documentation Generation
+  &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="appendix.create_new_project"></a>Appendix C. Create a New Project</h2>
+    </div>
+    <div id="content">
+      <div class="appendix" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p>This appendix describes how to configure your own project.
+    The main steps are detailed here.
+  </p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="id2609089"></a>C.1. Project Directory</h2>
+              </div>
+            </div>
+          </div>
+          <p>Get in the <code class="filename">projects</code> folder of Cartoweb. Rename the 
+    <code class="filename">sampleProject</code> directory to the name of your project.</p>
+          <p>Edit the <code class="filename">client.ini.in</code> of this new project, and modify
+     the mapId parameter value with the name of your project:
+</p>
+          <pre class="screen">
+mapId = your_project_name</pre>
+          <p>Open the <code class="filename">server_conf</code> directory and rename the
+    <code class="filename">sampleProject</code> directory to the name of your project.</p>
+          <p>In this folder, two more files need to be renamed (
+    <code class="filename">sampleProject.map</code> and <code class="filename">sampleProject.ini</code>)
+    with the name of the new project.</p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="id2560647"></a>C.2. Setup Your Project</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    In a command line prompt (DOS, shell), launch the <code class="filename">cw3setup.php</code>
+     setup script.
+    </p>
+          <pre class="screen">&lt;PHP-INTERPRETER&gt; cw3setup.php --install
+     --base-url http://localhost/cartoweb3/htdocs/ --profile development
+     --project &lt;nameOfYourProject&gt;</pre>
+          <p>
+  </p>
+          <p>See <a href="user.install.html" title="1. Installation">Chapter 1, <i>Installation</i></a> for more info on the installation script.
+  </p>
+          <p>If no error occured, you should be able to access your project by typing
+    <a href="http://localhost/cartoweb3/htdocs/client.php">http://localhost/cartoweb3/htdocs/client.php</a> in your
+     browser and selecting your project from the projects drop-down menu.
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="id2679763"></a>C.3. Project Shortcut</h2>
+              </div>
+            </div>
+          </div>
+          <p>To make development easier, you can create a shortcut file to access
+   your project directly. Go in <code class="filename">cartoweb3/htdocs/</code> and copy
+    the file <code class="filename">demoCW3.php</code>.
+  </p>
+          <p>Rename the file to any name (usually your project name). Edit the file
+   and replace <span class="emphasis"><em>'demoCW3'</em></span> by <span class="emphasis"><em>'your_project_name'</em></span>.
+   Your project is now directly available with the URL
+   <a href="http://localhost/cartoweb3/htdocs/your_project_name.php">http://localhost/cartoweb3/htdocs/your_project_name.php</a>.
+   (the URL given above depends on your installation, see the previous comments
+   about cartoclientBaseUrl and --base-url).
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="id2679800"></a>C.4. Loading Data</h2>
+              </div>
+            </div>
+          </div>
+          <p>As you can see, the project you created is hopelessly empty. Then,
+   we'll load spatial data in it.</p>
+          <p>Add the following in the mapfile (<code class="filename">your_project_name.map</code>) :
+  </p>
+          <pre class="screen">
+  LAYER
+    NAME "region"
+    TYPE POLYGON
+    DATA "reg_france"
+    TEMPLATE "ttt"
+    CLASS
+      NAME "region"
+      STYLE
+        COLOR 240 240 240
+        OUTLINECOLOR 255 165 96
+      END
+    END
+    METADATA
+      "id_attribute_string" "CODE"
+    END
+  END
+  </pre>
+          <p>
+  </p>
+          <p>And in the <code class="filename">layers.ini</code> file
+   (<code class="filename">server_conf/your_project_name/</code>) add the following :
+  </p>
+          <pre class="screen">layers.region.className = Layer
+layers.region.label = Régions
+layers.region.msLayer = region</pre>
+          <p>
+  </p>
+          <p>And add the new layer id in the root layer children list :
+  </p>
+          <pre class="screen">layers.root.children = region</pre>
+          <p>
+  </p>
+          <p>For more details on how to fill the layers.ini file, see
+   <a href="user.layers.html" title="6. Layers">Chapter 6, <i>Layers</i></a>.
+  </p>
+          <p>Also edit the <code class="filename">your_project_name.ini</code> file in a text
+   editor in order to set some initial mapstates such as default selected
+   layers.</p>
+          <p>Add the following :
+  </p>
+          <pre class="screen">mapInfo.initialMapStates.default.layers.region.selected = true</pre>
+          <p>
+  </p>
+          <p>See <a href="user.config.html#user.config.server.maps_config.initial" title="4.3.3.3. Initial Mapstates">Section 4.3.3.3, &#8220;Initial Mapstates&#8221;</a> for more
+   info about initialMapStates.</p>
+          <p>In your browser, click on the <span class="emphasis"><em>reset_session</em></span> button
+   and you should now see the France regions.</p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="id2648194"></a>C.5. Location Parameters</h2>
+              </div>
+            </div>
+          </div>
+          <p>Move the location.ini file you will find in the sampleFiles folder into
+   the <code class="filename">server_conf/your_project_name/</code> one.
+  </p>
+          <p>This file defines some parameters such as scales or shortcuts. For more
+   details on how to configure those parameters, see
+   <a href="user.location.html" title="7. Navigation">Chapter 7, <i>Navigation</i></a>
+  </p>
+          <p>Click on the reset_session button in your browser page. New elements
+   should appear. You should be able to choose a scale and a shortcut.</p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="id2659433"></a>C.6. Your Own Data</h2>
+              </div>
+            </div>
+          </div>
+          <p>After that the next point is to add your own data. You should just have
+   to :
+  </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>get your data available, by default in the data folder or somewhere
+       else on your filesystem,</li>
+              <li>modify the mapfile extent,</li>
+              <li>modify the extent defined in the initialMapstates
+     (<code class="filename">your_project_name.ini</code>),</li>
+              <li>add layers definitions in the mapfile
+     (<code class="filename">your_project_name.map</code>),</li>
+              <li>add layers definitions in the
+     <code class="filename">layers.ini</code>.</li>
+              <li>reset the session in the browser, and get your data displayed.</li>
+            </ul>
+          </div>
+          <p>
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="id2683959"></a>C.7. Outline</h2>
+              </div>
+            </div>
+          </div>
+          <p>Let's see how to load a plugin. Edit the <code class="filename">client.ini.in</code>
+   file (<code class="filename">client_conf/</code>) and add the outline plugin in the
+    list of plugins to load:
+  </p>
+          <pre class="screen">loadPlugins = outline</pre>
+          <p>
+  </p>
+          <p>Do the same in the <code class="filename">your_project_name.ini</code> file on
+   server-side (<code class="filename">server_conf/your_project_name/</code>) but also
+   add the mapOverLay plugin :
+   </p>
+          <pre class="screen">mapInfo.loadPlugins = outline, mapOverlay</pre>
+          <p>
+  </p>
+          <p>Move the <code class="filename">outline.ini</code> file from
+   <code class="filename">sampleFiles</code> to <code class="filename">server_conf/your_project_name/</code>.
+  </p>
+          <p>In the mapfile (<code class="filename">your_project_name.map</code>), add the
+   following at the bottom of the layers definition section :
+  </p>
+          <pre class="screen">
+  LAYER
+    NAME "cartoweb_point_outline"
+    TYPE POINT
+    CLASS
+      STYLE
+        SYMBOL "circle"
+        COLOR 0 0 205
+        SIZE 10
+      END
+      LABEL
+        TYPE TRUETYPE
+        FONT "Vera"
+        SIZE 7
+        COLOR 0 0 0
+        OUTLINECOLOR 255 255 255
+        POSITION lc
+      END
+    END
+  END
+
+  LAYER
+    NAME "cartoweb_line_outline"
+    TYPE LINE
+    TRANSPARENCY 100
+    CLASS
+      STYLE
+        OUTLINECOLOR 255 0 0
+        SYMBOL "line-dashed"
+        SIZE 3
+      END
+      LABEL
+        TYPE TRUETYPE
+        FONT "Vera"
+        SIZE 7
+        COLOR 0 0 0
+        OUTLINECOLOR 255 255 255
+        ANGLE auto
+        POSITION uc
+      END
+    END
+  END
+
+  LAYER
+    NAME "cartoweb_polygon_outline"
+    TYPE POLYGON
+    TRANSPARENCY 60
+    CLASS
+      STYLE
+        COLOR 255 153 0
+        OUTLINECOLOR 0 0 0
+      END
+      LABEL
+        TYPE TRUETYPE
+        FONT "Vera"
+        SIZE 7
+        OUTLINECOLOR 255 255 255
+        COLOR 0 0 0
+        POSITION cc
+      END
+    END
+  END</pre>
+          <p>
+  </p>
+          <p>Launch the setup script. This step is compulsary to convert
+   <code class="filename">.ini.in</code> files into <code class="filename">.ini</code>
+    configuration files read by Cartoweb.
+  </p>
+          <p>By clicking on the <span class="emphasis"><em>reset_session</em></span> button in the
+   browser window, you should see new buttons in the toolbar and the
+   corresponding folder in the leftbar.</p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="id2598721"></a>C.8. Pdf Printing</h2>
+              </div>
+            </div>
+          </div>
+          <p>As done for the outline plugin, add <span class="emphasis"><em>"exportPdf"</em></span> to
+   the list of plugins to load on both client and server-side.
+  </p>
+          <p>After launching the setup script and refreshing the application
+   (reset_session), you should be able to test the new functionality as a new
+   folder appeared in the interface. But a warning printed in the pdf file
+   advices you to edit your <code class="filename">exportPdf.ini</code> file.
+  </p>
+          <p>So move <code class="filename">exportPdf.ini</code> from
+   <code class="filename">sampleFiles</code> to <code class="filename">client_conf</code>. Take
+    care that this is a client-side configuration file. Try a new print (no
+    need to reset).
+  </p>
+          <p>For more information on how to edit your
+   <code class="filename">exportPdf.ini</code> file, see <a href="user.pdf.html" title="12. PDF Export">Chapter 12, <i>PDF Export</i></a>.
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="id2651567"></a>C.9. Templating and Layout</h2>
+              </div>
+            </div>
+          </div>
+          <p>Create a new <code class="filename">templates</code> folder in your project
+   directory and move the <code class="filename">cartoclient.tpl</code> file from 
+   <code class="filename">sampleFiles</code> to this new folder.
+  </p>
+          <p>This file is the main template for CartoWeb.
+  </p>
+          <p>Refresh the application in your browser (refresh button) and enjoy!</p>
+          <p>To customize your project even more, you may apply styles sheets.
+   To do so, first create a <code class="filename">htdocs</code> folder in your project
+   directory. In this folder, create a new folder named <code class="filename">css</code>. Then move
+   <code class="filename">cartoweb.css</code> and <code class="filename">folders.css</code> from
+   <code class="filename">sampleFiles</code> to this new folder.</p>
+          <p>At this step, you need to launch the setup script so that the new
+   ressources you just created are copied or linked (depending on your OS)
+   in a web reachable folder.</p>
+          <p>You can now refresh the browser and see the new colors and styles.</p>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

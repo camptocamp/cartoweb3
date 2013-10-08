@@ -1,0 +1,1116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>1. Installation</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="cartoweb.user.html">
+       &lt; User Manual</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.structure.html">Structure &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.install.html#user.install.main">1.1. CartoWeb Installation</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.install.html#user.install.main.prerequisite">1.1.1. Prerequisite for Installing CartoWeb</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.install.html#user.install.main.download">1.1.2. CartoWeb Download</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.install.html#user.install.main.setup">1.1.3. Command Line Installation</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.install.html#user.install.win32">1.1.4. Windows Installation</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.install.html#user.install.demo">1.2. Demos</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.install.html#user.install.demo.intoduction">1.2.1. Introduction</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.install.html#user.install.demo.quickinstall">1.2.2. Installation</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.install.html#user.install.demo.routing">1.2.3. Routing specific installation</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.install.html#user.install.demo.locate">1.2.4. Locate Plugin specific installation</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.install.html#user.install.demo.tooltips">1.2.5. ToolTips demo specific installation</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.install.html#user.install.demo.details">1.2.6. Plugins extensions further information</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.install"></a>1. Installation</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.install.main"></a>1.1. CartoWeb Installation</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.install.main.prerequisite"></a>1.1.1. Prerequisite for Installing CartoWeb</h3>
+                </div>
+              </div>
+            </div>
+            <p>CartoWeb depends on several software components for its proper
+        working. Some are required and others are optional, depending on what you
+        intend to do.
+        </p>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p> Windows users can ignore this chapter and go directly to 
+            <a class="xref" href="user.install.html#user.install.main.download" title="1.1.2. CartoWeb Download">Section 1.1.2, “CartoWeb Download”</a></p>
+            </div>
+            <p>
+        </p>
+            <p>The required software are:
+        </p>
+            <div class="variablelist">
+              <p class="title">
+                <b>A Web Server</b>
+              </p>
+              <dl>
+                <dt>
+                  <span class="term"></span>
+                </dt>
+                <dd>Such as Apache <a class="ulink" href="http://httpd.apache.org">http://httpd.apache.org</a></dd>
+              </dl>
+            </div>
+            <p>
+        </p>
+            <div class="variablelist">
+              <p class="title">
+                <b>PHP &gt;= 5.0.3</b>
+              </p>
+              <dl>
+                <dt>
+                  <span class="term"></span>
+                </dt>
+                <dd> See <a class="ulink" href="http://www.php.net">http://www.php.net</a> for more informations.
+                You will need to have some features available in PHP:
+                <div class="itemizedlist"><ul><li><span class="emphasis"><em>Gettext</em></span> (optional): You need the Gettext module if you want
+                      to enable the Internationalization in CartoWeb. See
+                      <a class="xref" href="user.i18n.html" title="17. Internationalization">Chapter 17, <i>Internationalization</i></a> for configuration.
+                      <div class="note"><h3 class="title">Note</h3><p> If you are using the demo, you need to have Gettext
+                          support installed, as it uses Gettext by default.
+                        </p></div>
+                      If you are using Cygwin, simply install the <span class="emphasis"><em>gettext-devel</em></span> package.
+                    </li><li><span class="emphasis"><em>SOAP</em></span> (optional if using direct mode only): You need the SOAP module if you want 
+                    to use CartoWeb as a Webservice or with separated CartoClient and CartoServer. This is related to the <code class="literal">cartoserverDirectAccess</code> 
+                    parameter described in <a class="xref" href="user.config.html#user.config.client" title="4.2.  client.ini">Section 4.2, “
+      <code class="filename">client.ini</code>
+    ”</a></li></ul></div>
+                <div class="note"><h3 class="title">Note</h3><p>
+                If you are using Windows, simply use the Windows Installer 
+                <a class="xref" href="user.install.html#user.install.main.download" title="1.1.2. CartoWeb Download">Section 1.1.2, “CartoWeb Download”</a>. If you absolutely want to install 
+                PHP manually, see <a class="xref" href="appendix.windows_manual_install.html" title="Appendix B. Apache &amp; Mapserver Windows Manual Installation">Appendix B, <i>Apache &amp; Mapserver Windows Manual Installation</i></a>.
+              </p></div>
+              </dd>
+              </dl>
+            </div>
+            <p>
+
+        </p>
+            <div class="variablelist">
+              <p class="title">
+                <b>MapServer PHP/MapScript (from MapServer &gt;= 4.4)</b>
+              </p>
+              <dl>
+                <dt>
+                  <span class="term"></span>
+                </dt>
+                <dd>See <a class="ulink" href="http://www.maptools.org/php_mapscript/">http://www.maptools.org/php_mapscript/</a>
+                for more information and installation instructions.<div class="note"><h3 class="title">Note</h3><p>
+                If you are using Debian, and you need to install MapServer, you can have a 
+                look at <a class="xref" href="appendix.debian_mapserver.html" title="Appendix A. Mapserver Debian Installation">Appendix A, <i>Mapserver Debian Installation</i></a>
+              </p></div><div class="note"><h3 class="title">Note</h3><p>
+                If you are using Windows, simply use the Windows Installer 
+                <a class="xref" href="user.install.html#user.install.main.download" title="1.1.2. CartoWeb Download">Section 1.1.2, “CartoWeb Download”</a>. If you absolutely want to install 
+                MapServer manually, see <a class="xref" href="appendix.windows_manual_install.html" title="Appendix B. Apache &amp; Mapserver Windows Manual Installation">Appendix B, <i>Apache &amp; Mapserver Windows Manual Installation</i></a>.
+              </p></div></dd>
+              </dl>
+            </div>
+            <p>
+        </p>
+            <div class="variablelist">
+              <p class="title">
+                <b>PostgreSQL with PostGIS Support (Optional)</b>
+              </p>
+              <dl>
+                <dt>
+                  <span class="term"></span>
+                </dt>
+                <dd>If you want spatial database support in CartoWeb you
+              will need to install PostGIS of the PostgreSQL database.
+              See <a class="ulink" href="http://postgis.refractions.net/">http://postgis.refractions.net/</a> 
+              for more information.</dd>
+              </dl>
+            </div>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.install.main.download"></a>1.1.2. CartoWeb Download</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+      There are two ways to get CartoWeb:
+      </p>
+            <div class="orderedlist">
+              <ol>
+                <li>
+                  <p><b>Complete package from the official website: </b>
+              </p>
+                  <div class="itemizedlist">
+                    <ul>
+                      <li>Download CartoWeb package from <a class="ulink" href="http://cartoweb.org/downloads.html">http://cartoweb.org/downloads.html</a>.
+                    It is recommended that you download the version with demo for a better
+                    user experience.</li>
+                      <li>
+                    Uncompress the archive somewhere in your path accessible by your web 
+                    server.
+                  </li>
+                    </ul>
+                  </div>
+                  <p>
+            </p>
+                </li>
+                <li>
+                  <p><b>From CVS: </b>Get the current development version via CVS using the following command:
+            </p>
+                  <pre class="screen">cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public co cartoweb3</pre>
+                  <p>
+            </p>
+                  <p><b>From CVS with cw3setup.php: </b>If you already have the <code class="filename">cw3setup.php</code> file, which comes along the CartoWeb package 
+            or CVS source, you can fetch CartoWeb from CVS and set up it at once. See 
+            <a class="xref" href="user.install.html#user.install.main.setup.example.reinstall" title="1.1.3.2.6. Install or Reinstall CartoWeb from CVS and Set Up It at Once">Section 1.1.3.2.6, “Install or Reinstall CartoWeb from CVS and Set Up It at Once”</a> for more details.</p>
+                </li>
+              </ol>
+            </div>
+            <p>
+        Once you have CartoWeb, point your web browser to the file located in 
+        <code class="filename">htdocs/info.php</code>, and check that the PHP
+        information page displays correctly (meaning PHP is correctly setup)
+        and that you have do not have a WARNING message at the top of the page
+        about MapScript failing to load.
+        If it is not the case, CartoWeb will not run correctly. You should
+        install and set up PHP and PHP/MapScript correctly. See 
+          <a class="xref" href="user.install.html#user.install.main.prerequisite" title="1.1.1. Prerequisite for Installing CartoWeb">Section 1.1.1, “Prerequisite for Installing CartoWeb”</a>.
+      </p>
+            <p>
+        Having Gettext installed is recommended if you wish to use the multilingual features of CartoWeb.
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.install.main.setup"></a>1.1.3. Command Line Installation</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        CartoWeb installer is <code class="filename">cw3setup.php</code>, located in the root directory of the application.
+      </p>
+            <p>
+        You can run this file with the <code class="literal">--help</code> parameter to see the 
+        available options. For instance:
+        </p>
+            <pre class="screen">&lt;PHP-INTERPRETER&gt; cw3setup.php --help</pre>
+            <p>
+        where &lt;PHP-INTERPRETER&gt; is the location of your php interpreter. On
+        Windows, it can be <code class="literal">C:\ms4w\Apache\cgi-bin\php.exe</code> or on Unix
+        <code class="literal">/usr/lib/cgi-bin/php</code>.
+      </p>
+            <p>
+       </p>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>
+       There is a deployment mechanism to automate CartoWeb installation and updates.
+       If you are using different servers like: development, tests and production,
+       it is highly recommended to use it:
+       <a class="ulink" href="http://www.cartoweb.org/cwiki/AutomaticDeployment/">http://www.cartoweb.org/cwiki/AutomaticDeployment/</a>
+      </p>
+            </div>
+            <p>
+      </p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.install.main.setup.commands.list"></a>1.1.3.1. List of Available Options</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+          </p>
+              <pre class="screen">
+Usage: cw3setup.php ACTION [OPTION_1] ... [OPTION_N]
+
+Possible actions:
+
+ --help, or -h              Display this help and exit.
+ --version or -v            Output version information and exit.
+ --install                  Install CartoWeb.
+ --fetch-demo               Fetch the demo data from cartoweb.org, and extract
+                            it in the demo project if not already there.
+ --clean                    Clean generated files and caches.
+
+List of options:
+
+ --debug                    Turn on output debugging.
+
+ --writableowner OWNER      The user who should have write permissions for
+                            generated files.
+
+ --cvs-root                 CVS Root directory to use when fetching
+                            CartoWeb/project out of CVS.
+ --fetch-from-cvs           Fetch CartoWeb from CVS and install it in the
+                            current directory, or in the directory given by
+                            the --install-location parameter.
+                            NOTE: You must be located where cartoweb3 directory
+                            will be created, not inside like other commands.
+ --cartoweb-cvs-option OPTIONS  A string which will be given to the cvs checkout
+                            command of cartoweb (not projects!).
+                            For instance, to fetch a specific branch,
+                            use '-r MY_BRANCH'. Or for a specific date,
+                            use '-D "2005-09-05 11:00"'.
+ --fetch-from-dir DIRECTORY Copy CartoWeb from the specified directory into the
+                            current directory, or in the directory given by the
+                            --install-location parameter.
+                            NOTE 1: You must be located where cartoweb3
+                            directory will be created, not inside like other
+                            commands.
+                            NOTE 2: You may either use a path relative to the
+                            target cartoweb3 directory or an absolute path.
+ --install-location         Directory where to install CartoWeb
+                            (when using --fetch-from-cvs/dir options).
+
+ --delete-existing          Overwrite existing directories if any.
+ --no-symlinks              Do not use symbolic links, even if your operating
+                            system supports them.
+
+ --config-from-file FILE    Location of a configuration file for automatic
+                            variable replacement in .in files.
+                            NOTE: You may either use a path relative to the
+                            target cartoweb3 directory or an absolute path.
+ --config-from-project PROJECT Read the configuration file containing variables
+                            to replace in .in files from the specified project.
+
+ --fetch-project-cvs PROJECT Fetch the given project from CVS (see --cvs-root
+                            option). To fetch several projects at a time,
+                            specify this option as many times as necessary.
+ --fetch-project-svn PROJECT Fetch the given project from SVN (you will need to
+                            give --svn-co-options to specifiy the checkout 
+                            command to be used).
+                            To fetch several projects at a time, 
+                            specify this option as many times as necessary.
+ --svn-co-options           Checkout command to use for fetching project with
+                            SVN. For instance "--username foo --no-auth-cache
+                            checkout https://myproject/svn/bar/".
+ --fetch-project-dir DIRECTORY Fetch the given project from a directory. To
+                            fetch several projects at a time, specify this
+                            option as many times as necessary.
+ --project PROJECT          Installation is launched only for given project. To
+                            install several projects at a time, specify this
+                            option as many times as necessary.
+
+ --default-project PROJECT  Default project to use.
+ --base-url BASEURL         URL where you can find client.php.
+ --profile PROFILENAME      The profile to use (development/production/custom).
+                            NOTE: default is 'development'
+ --clean-views              Clean views (must be used with --clean).
+ --clean-accounting         Clean accounting (must be used with --clean).
+ --keep-directories         Do not remove the generated directories during
+                            cleaning (must be used with --clean).
+ --keep-permissions         Do not alter the permissions of writable directories.</pre>
+              <p>
+        </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.install.main.setup.example"></a>1.1.3.2. Examples of Use</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.install.main.setup.example.basic"></a>1.1.3.2.1. Basic Setup</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>
+            To perform a basic setup of CartoWeb, such as if you want to run the demo project, type:
+            </p>
+                <pre class="screen">&lt;PHP-INTERPRETER&gt; cw3setup.php --install --base-url 
+            http://www.example.com/cartoweb</pre>
+                <p>
+            In this example, http://www.example.com/cartoweb is the address which corresponds
+            to the <code class="literal">cartoweb3/htdocs</code> directory. You should find 
+            <code class="literal">client.php</code> if you type this URL.
+          </p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.install.main.setup.example.directory"></a>1.1.3.2.2. Installing a Project from a Directory</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>
+            </p>
+                <pre class="screen">&lt;PHP-INTERPRETER&gt; cw3setup.php --install --fetch-project-dir 
+            /home/foo/my_project --base-url http://www.example.com/cartoweb</pre>
+                <p>
+          </p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.install.main.setup.example.update"></a>1.1.3.2.3. Updating CartoWeb after Modifications</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>When you modify or add new content/features to CartoWeb, you need to update it. 
+          This will set relative links or copy new/modified resources files (templates, images, new plugins, ...)
+            </p>
+                <pre class="screen">&lt;PHP-INTERPRETER&gt; cw3setup.php --install --base-url 
+            http://www.example.com/cartoweb</pre>
+                <p>
+            Same as <a class="xref" href="user.install.html#user.install.main.setup.example.basic" title="1.1.3.2.1. Basic Setup">Section 1.1.3.2.1, “Basic Setup”</a>. Existing files 
+            are not overwritten.
+          </p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.install.main.setup.example.clean"></a>1.1.3.2.4. Cleaning Generated Files (Map, PDF, Temporary Files and Smarty Cache)</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>
+            </p>
+                <pre class="screen">&lt;PHP-INTERPRETER&gt; cw3setup.php --clean</pre>
+                <p>
+          </p>
+                <div class="tip">
+                  <h3 class="title">Tip</h3>
+                  <p>On production servers, <code class="filename">scripts/clean.php</code> should be used instead of <code class="filename">cw3setup.php --clean</code> since it is smoother.</p>
+                  <p>Be aware however that some changes were made in <code class="filename">cw3setup.php --clean</code> that might not have been ported to <code class="filename">clean.php</code>.</p>
+                </div>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.install.main.setup.example.demo"></a>1.1.3.2.5. Fetching the Demo Data</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>
+          </p>
+                <pre class="screen">&lt;PHP-INTERPRETER&gt; cw3setup.php --fetch-demo</pre>
+                <p>
+          </p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.install.main.setup.example.reinstall"></a>1.1.3.2.6. Install or Reinstall CartoWeb from CVS and Set Up It at Once</h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="sect5" lang="en" xml:lang="en">
+                  <div class="titlepage">
+                    <div>
+                      <div>
+                        <h6 class="title"><a id="user.install.main.setup.example.reinstall.new"></a>1.1.3.2.6.1. Install</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <p>
+              </p>
+                  <pre class="screen">&lt;PHP-INTERPRETER&gt; cw3setup.php --install --cvs-root 
+              :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public
+              --fetch-from-cvs --base-url http://www.example.com/cartoweb</pre>
+                  <p>
+              </p>
+                  <div class="note">
+                    <h3 class="title">Note</h3>
+                    <p>Do no execute this command from the <code class="filename">cartoweb3</code> folder! Because this will fetch 
+                the whole cartoweb3 hierarchy from cvs, including the <code class="filename">cartoweb3</code> folder. If you 
+                executed this from the <code class="filename">cartoweb3</code> folder you would end up with something like 
+                <code class="filename">cartoweb3/cartoweb3/...</code>. Instead, copy the <code class="filename">cw3setup.php</code> in the parent directory, 
+                delete (or backup) the cartoweb3 folder and execute the command. 
+                </p>
+                  </div>
+                  <p>
+            </p>
+                </div>
+                <div class="sect5" lang="en" xml:lang="en">
+                  <div class="titlepage">
+                    <div>
+                      <div>
+                        <h6 class="title"><a id="user.install.main.setup.example.reinstall.over"></a>1.1.3.2.6.2. Reinstall</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <p>
+              </p>
+                  <pre class="screen">&lt;PHP-INTERPRETER&gt; cw3setup.php --install --cvs-root 
+              :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public
+              --fetch-from-cvs --delete-existing
+              --base-url http://www.example.com/cartoweb</pre>
+                  <p>
+              </p>
+                  <div class="warning">
+                    <h3 class="title">Warning</h3>
+                    <p>This command will automatically delete the existing <code class="filename">cartoweb3/</code> folder! Be sure to backup 
+              the files and projects you wish to keep.</p>
+                  </div>
+                  <p>
+              </p>
+                  <div class="note">
+                    <h3 class="title">Note</h3>
+                    <p>See note on <a class="xref" href="user.install.html#user.install.main.setup.example.reinstall.new" title="1.1.3.2.6.1. Install">Section 1.1.3.2.6.1, “Install”</a>. 
+                Notice here the <span class="emphasis"><em>--delete-existing</em></span> parameter. Needed here because 
+                <code class="filename">cartoweb3/</code> already exists. Without it the cw3setup script issues a warning and stops.
+                </p>
+                  </div>
+                  <p>
+            </p>
+                </div>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.install.main.setup.example.cwupdate"></a>1.1.3.2.7. Update CartoWeb from CVS</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>To keep your CartoWeb up-to-date with the development version, simply type 
+            the following command in the <code class="filename">CartoWeb</code> root folder:
+            </p>
+                <pre class="screen">cvs -d :pserver:anonymous@dev.camptocamp.com:/var/lib/cvs/public update</pre>
+                <p>
+              </p>
+                <div class="warning">
+                  <h3 class="title">Warning</h3>
+                  <p>This may have some serious effects on your existing developments, 
+              it is recommended you backup the CartoWeb root folder and all subforders before execution.</p>
+                </div>
+                <p>
+            </p>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.install.win32"></a>1.1.4. Windows Installation</h3>
+                </div>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.install.win32.installer"></a>1.1.4.1. Windows Install with Win32 Installer (Recommended)</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="itemizedlist">
+                <ul>
+                  <li>
+              Download the MS4W installer at <a class="ulink" href="http://www.maptools.org/dl/ms4w/ms4w-2.2.4-setup.exe">http://www.maptools.org/dl/ms4w/ms4w-2.2.4-setup.exe</a>. Double-click on the executable to launch it. This will install Apache with PHP5.2.3, 4.10.2 CGI and MapScript.
+            </li>
+                  <li>
+              Download the CartoWeb installer at <a class="ulink" href="http://cartoweb.org/downloads.html">http://cartoweb.org/downloads.html</a>. Double-click on the executable to launch it. This will install CartoWeb. You can also optionaly install the cartoweb demo data and Gettext (for internationalisation).
+            </li>
+                  <li>You need to reboot Windows after the installation if you want to use the internationalisation system with Gettext .</li>
+                  <li>
+              That's it! Point your browser to <a class="ulink" href="http://localhost/cartoweb3/htdocs/client.php">http://localhost/cartoweb3/htdocs/client.php</a>.
+            </li>
+                </ul>
+              </div>
+              <p>
+          Once it is installed, you can modify CartoWeb setup with the command-line script <code class="filename">cw3setup.php</code> (<a class="xref" href="user.install.html#user.install.main.setup" title="1.1.3. Command Line Installation">Section 1.1.3, “Command Line Installation”</a>) from either a DOS or a Cygwin prompt. See <a class="xref" href="user.install.html#user.install.win32.setup" title="1.1.4.3. CartoWeb Setup">Section 1.1.4.3, “CartoWeb Setup”</a> for more info about how to use those interfaces.
+        </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.install.win32.manual"></a>1.1.4.2. Windows Manual Install</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Instructions for Apache/PHP and MapServer installation are given in <a class="xref" href="appendix.windows_manual_install.html" title="Appendix B. Apache &amp; Mapserver Windows Manual Installation">Appendix B, <i>Apache &amp; Mapserver Windows Manual Installation</i></a></p>
+              <p>
+          Then download CartoWeb as described above (<a class="xref" href="user.install.html#user.install.main.download" title="1.1.2. CartoWeb Download">Section 1.1.2, “CartoWeb Download”</a>). 
+        </p>
+              <p>
+          Eventually set CartoWeb up with the command-line script <code class="filename">cw3setup.php</code> (<a class="xref" href="user.install.html#user.install.main.setup" title="1.1.3. Command Line Installation">Section 1.1.3, “Command Line Installation”</a>) from either a DOS or a Cygwin prompt. See <a class="xref" href="user.install.html#user.install.win32.setup" title="1.1.4.3. CartoWeb Setup">Section 1.1.4.3, “CartoWeb Setup”</a> for more info about how to use those interfaces.
+        </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.install.win32.setup"></a>1.1.4.3. CartoWeb Setup</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.install.win32.installer.dos"></a>1.1.4.3.1. CartoWeb Setup with DOS</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>Open a command prompt (Start menu &gt; Run &gt; "cmd") and go to the CartoWeb root:
+            </p>
+                <pre class="screen">cd C:\ms4w\apps\cartoweb3</pre>
+                <p>
+            Then see <a class="xref" href="user.install.html#user.install.main.setup.example.basic" title="1.1.3.2.1. Basic Setup">Section 1.1.3.2.1, “Basic Setup”</a>
+            </p>
+                <div class="note">
+                  <h3 class="title">Note</h3>
+                  <p>To enable you to execute PHP scripts easily (like <em class="parameter"><code>php cw3setup.php --someparameters</code></em> 
+              instead of <code class="filename">C:\ms4w\Apache\cgi-bin\php.exe cw3setup.php --someparameters</code>), set the path to the PHP binary 
+              in your PATH environment variable (control panel &gt; system &gt; Advanced &gt; Environment Variables. 
+              If there is no PATH variable, add a new one. If a PATH variable is already present, you can 
+              add the path to php.exe at the end of the existing path values, but add a ";" inbetween: 
+              path1;path2;path3):
+              </p>
+                  <pre class="screen">C:\ms4w\Apache\cgi-bin;</pre>
+                  <p>
+              The example above is true if the PHP binary are installed in <code class="filename">C:\ms4w\Apache\cgi-bin</code>.</p>
+                </div>
+                <p>
+            </p>
+                <div class="note">
+                  <h3 class="title">Note</h3>
+                  <p> If you are using the demo, you need to have Gettext
+                support installed, as it uses Gettext by default.
+                If you used the win32 installer, Gettext is already installed, otherwise you must 
+                install it manually. You can get a version of Gettext for Windows there 
+                <a class="ulink" href="http://gnuwin32.sourceforge.net/packages/gettext.htm">http://gnuwin32.sourceforge.net/packages/gettext.htm</a>.
+                Also set the path to the Gettext binary in your PATH environment variable.
+                </p>
+                  <pre class="screen">C:\Program Files\GnuWin32\bin;</pre>
+                  <p>
+                The example above is true if the Gettext binaries are installed in <code class="filename">C:\Program Files\GnuWin32\bin</code>.
+                This is needed by the <code class="filename">po2mo.php</code> script to merge and compile the languages translation files.
+              </p>
+                </div>
+                <p>
+            </p>
+                <div class="note">
+                  <h3 class="title">Note</h3>
+                  <p>If you intend to use CVS in command line, you need to install a CVS client. 
+                Use <a class="ulink" href="http://www.wincvs.org/">WinCVS</a> 
+                or <a class="ulink" href="http://www.tortoisecvs.org/download.shtml">TortoiseCVS</a>, both 
+                are free Open Source clients. 
+                You must add the path to the CVS binary in your PATH environment variable.
+                </p>
+                  <pre class="screen">C:\Program Files\TortoiseCVS;</pre>
+                  <p>
+                The example above is true if you installed TortoiseCVS in <code class="filename">C:\Program Files\TortoiseCVS</code>.
+              </p>
+                </div>
+                <p>
+          </p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.install.win32.installer.cygwin"></a>1.1.4.3.2. CartoWeb Setup with Cygwin</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>Open a Cygwin window  and go to the CartoWeb root:
+            </p>
+                <pre class="screen">
+cd C:
+cd ms4w/apps/cartoweb3/</pre>
+                <p>
+            Then see <a class="xref" href="user.install.html#user.install.main.setup.example.basic" title="1.1.3.2.1. Basic Setup">Section 1.1.3.2.1, “Basic Setup”</a>
+          </p>
+                <div class="note">
+                  <h3 class="title">Note</h3>
+                  <p>
+            You can download Cygwin here <a class="ulink" href="http://www.cygwin.com/"><em class="citetitle">Cygwin</em>
+            </a>. When you install Cygwin, be sure to select the packages <span class="emphasis"><em>tar</em></span> 
+            (or <span class="emphasis"><em>unzip</em></span>) and <span class="emphasis"><em>cvs</em></span>. You can also install the 
+            <span class="emphasis"><em>gettext-devel</em></span> package, so you wont need to get an external gettext installation later.
+            If you have already installed Cygwin, type the following command to see what package are currently installed.
+            </p>
+                  <pre class="screen">cygcheck -c</pre>
+                  <p> If the packages mentioned above are not present, run Cygwin setup again 
+            and add the missing packages.</p>
+                </div>
+                <div class="note">
+                  <h3 class="title">Note</h3>
+                  <p>
+          To enable you to execute PHP scripts easily, set the path to the PHP binary in your 
+            <code class="filename">.bashrc</code> (in <code class="filename">C:\cygwin\home\Administrator\</code> by default):
+            </p>
+                  <pre class="screen">export PATH=$PATH:/cygdrive/c/ms4w/Apache/cgi-bin</pre>
+                  <p>
+            The example above is true if the PHP binary are installed in <code class="filename">C:\ms4w\Apache\cgi-bin</code>.</p>
+                  <p>If you do not want to install the <span class="emphasis"><em>cvs</em></span> and <span class="emphasis"><em>gettext</em></span> Cygwin package, 
+            you need to add also the path to the external CVS and gettext binaries. 
+            </p>
+                  <pre class="screen">export PATH=$PATH:/cygdrive/c/program Files/GnuWin32/bin
+export PATH=$PATH:/cygdrive/c/program Files/TortoiseCVS</pre>
+                  <p>
+            See the note in 
+            <a class="xref" href="user.install.html#user.install.win32.installer.dos" title="1.1.4.3.1. CartoWeb Setup with DOS">Section 1.1.4.3.1, “CartoWeb Setup with DOS”</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.install.demo"></a>1.2. Demos</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.install.demo.intoduction"></a>1.2.1. Introduction</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        A few demos are embedded in CartoWeb to demonstrate the range of functionalities that CartoWeb offers and give users examples on how to implement them:
+        </p>
+            <div class="itemizedlist">
+              <ul>
+                <li><span class="emphasis"><em>demoCW3</em></span>: this is an overview of the standard functionalities 
+            that are somehow visible for an end-user in CartoWeb,</li>
+                <li><span class="emphasis"><em>demoPlugins</em></span>: it shows the new functionalities that 
+            are available in latest CartoWeb versions,</li>
+                <li><span class="emphasis"><em>demoEdit</em></span>: a simple demonstration of the geographical objects 
+            edition and persistent storage tools.</li>
+                <li><span class="emphasis"><em>demoToolTips</em></span>: it demonstrates the usage of the tooltips using 
+            pseudo real data. Follow the installation notes below and also the specific database 
+            installation in <a class="xref" href="user.install.html#user.install.demo.tooltips" title="1.2.5. ToolTips demo specific installation">Section 1.2.5, “ToolTips demo specific installation”</a></li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <p>
+        Demo data are freely downloadable. Next section explains how to install them. 
+        Configuration and programming details are then described.
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.install.demo.quickinstall"></a>1.2.2. Installation</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        Before installing these demos, you need to have a working CartoWeb installation. You can refer to the previous chapters how to install it.
+      </p>
+            <p>
+        To install the demoCW3 project, you need to gather the data by launching the <span class="emphasis"><em>cw3setup.php</em></span> with the <span class="emphasis"><em>--fetch-demo</em></span> option.
+      </p>
+            <p>
+        On the other hand, the demoPlugins project uses plugins that work with databases. Consequently some databases settings and configuration are required. 
+        We describe here how to install these databases and how to use <span class="emphasis"><em>cw3setup.php</em></span>.
+      </p>
+            <p>
+        Step by step guide:
+      </p>
+            <div class="orderedlist">
+              <ol>
+                <li>
+                  <p><b>Install PostgreSQL with PostGIS support. </b>
+              <span class="emphasis"><em>Prerequisite</em></span>: Postgresql &gt;= 8.0
+              </p>
+                  <div class="note">
+                    <h3 class="title">Note</h3>
+                    <p>
+                If you are on Debian, you can have a look at <a class="xref" href="appendix.debian_mapserver.html" title="Appendix A. Mapserver Debian Installation">Appendix A, <i>Mapserver Debian Installation</i></a>
+              </p>
+                  </div>
+                  <p>
+            </p>
+                </li>
+                <li>
+                  <p><b>Create a PostgreSQL database using the following command: </b>
+              </p>
+                  <pre class="screen">$ createdb demo_plugins</pre>
+                  <p>
+            </p>
+                </li>
+                <li>
+                  <p><b>Integrate PostGIS functionalities in this database. </b>
+              Typically, you can type:
+              </p>
+                  <pre class="screen">
+$ createlang plpgsql demo_plugins
+$ psql -d demo_plugins -f lwpostgis.sql
+$ psql -d demo_plugins -f spatial_ref_sys.sql</pre>
+                  <p>
+              </p>
+                  <div class="note">
+                    <h3 class="title">Note</h3>
+                    <p>
+                <span class="emphasis"><em>psql</em></span> is a terminal-based front-end for PostgreSQL. It enables you to type
+                in queries interactively, issue them to PostgreSQL, and see the query results.
+                Don't forget to specify its location on your system to use it.
+                If the <span class="emphasis"><em>lwpostgis.sql</em></span> and <span class="emphasis"><em>
+                spatial_ref_sys.sql</em></span> files aren't in the current directory, you have to specify their path.
+              </p>
+                  </div>
+                  <p> 
+            </p>
+                </li>
+                <li>
+                  <p><b>Create tables used by the locate plugin to allow you to do a recenter
+            on features by searching their names. </b>  
+              To do so, you should export the free downloadable layers <span class="emphasis"><em>airport, agglo, 
+              district</em></span> and <span class="emphasis"><em>town</em></span> in PostgreSQL/PostGIS tables by typing 
+              the following command:
+              </p>
+                  <pre class="screen">
+$ shp2pgsql -I aerofacp.shp airport &gt; /tmp/airport.sql
+$ psql -d demo_plugins -f /tmp/airport.sql
+
+$ shp2pgsql -I builtupa.shp agglo &gt; /tmp/agglo.sql
+$ psql -d demo_plugins -f /tmp/agglo.sql
+
+$ shp2pgsql -I polbnda.shp district &gt; /tmp/district.sql
+$ psql -d demo_plugins -f /tmp/district.sql
+
+$ shp2pgsql -I mispopp.shp town &gt; /tmp/town.sql
+$ psql -d demo_plugins -f /tmp/town.sql</pre>
+                  <p>
+              </p>
+                  <div class="note">
+                    <h3 class="title">Note</h3>
+                    <p>
+                <span class="emphasis"><em>shp2pgsql</em></span> is a command-line program that exports a shapefile into SQL commands.
+                Don't forget to specify its location on your system to use it.
+                You have to specify the path to the shapefiles if they aren't in the current directory.
+              </p>
+                  </div>
+                  <p>
+            </p>
+                </li>
+                <li>
+                  <p><b>Execute <code class="filename">cw3setup.php</code>. </b>
+              file, with the <span class="emphasis"><em>--fetch-demo</em></span> option to download geographical data.
+            </p>
+                </li>
+                <li>
+                  <p><b>cw3setup.php Options. </b>
+              To finish demoPlugins installation, you will need to launch the <code class="filename">cw3setup.php</code>
+              with the <span class="emphasis"><em>--config-from-file</em></span> parameter pointing to a property file 
+              containing database configuration informations. Such a file is provided in the 
+              <code class="filename">cartoweb3/projects/demoPlugins/demo.properties</code> file. You need to edit this file
+              and change the parameter to match your environment. In particular the <span class="emphasis"><em>DB_HOST</em></span>, 
+              <span class="emphasis"><em>DB_USER</em></span>, <span class="emphasis"><em>DB_PASSWD</em></span> and <span class="emphasis"><em>DB_PORT</em></span> options
+              need to match your database access configuration.
+              <span class="emphasis"><em>DB_LOCATE_NAME</em></span> must be set to the name
+              of the database for the locate plugin.
+              This file contains comments about the description of each variables.
+              Here's an example how to call the <span class="emphasis"><em>cw3setup.php</em></span> script with the 
+              <span class="emphasis"><em>--config-from-file</em></span> option.
+              </p>
+                  <pre class="screen">php cw3setup.php --install --base-url http://www.example.com/cartoweb 
+                --config-from-file projects/demoPlugins/demo.properties</pre>
+                  <p>
+            </p>
+                </li>
+              </ol>
+            </div>
+            <p>
+        </p>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>
+        Routing fonctionnalities are also integrated in this demo. But they need a  more advanced configuration
+        and the PgRouting module installed in the database, so they aren't integrated in the basic installation.
+        The steps to integrate routing fonctionnalities and create database tables are described in a dedicated chapter
+        of the User Documentation: <a class="xref" href="user.routing.html" title="27. Routing [plugin]">Chapter 27, <i>Routing <sub>[plugin]</sub></i></a>
+        </p>
+            </div>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.install.demo.routing"></a>1.2.3. Routing specific installation</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        Routing installation instructions have moved to a dedicated chapter in the User Documentation:
+        <a class="xref" href="user.routing.html" title="27. Routing [plugin]">Chapter 27, <i>Routing <sub>[plugin]</sub></i></a>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.install.demo.locate"></a>1.2.4. Locate Plugin specific installation</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        This plugin allows user to search features by their names, and recenter on them.
+      </p>
+            <p>
+        By typing the first letters of a name, user is given a list of corresponding
+        names. Clicking on one of them recenters the map on it.
+        </p>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>
+        In the <code class="filename">locate.ini</code>, you also need to specify the layers on which you want to do a search
+        by name and the sql statements to request the database.
+        </p>
+            </div>
+            <p>
+        </p>
+            <div class="tip">
+              <h3 class="title">Tip</h3>
+              <p>
+        Ensure that the tables have the correct privileges (GRANT SELECT) in
+         the database.
+        </p>
+            </div>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.install.demo.tooltips"></a>1.2.5. ToolTips demo specific installation</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        </p>
+            <div class="tip">
+              <h3 class="title">Tip</h3>
+              <p>The database used to store data is the same as for the demoPlugins</p>
+            </div>
+            <p>
+        </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p><b>Create the tables for layers radio and gsm. </b>
+                </p>
+                  <div class="note">
+                    <h3 class="title">Note</h3>
+                    <p>
+                  To do so, convert the radio and gsm data from shapefile to postGIS tables.
+                  The shapefiles should be available in 
+                  <code class="filename">projects/demoCW3/server_conf/demoCW3/data</code> where all
+                  demos data are.
+                </p>
+                  </div>
+                  <p>
+                </p>
+                  <pre class="screen">
+$ shp2pgsql -I radio.shp radio &gt; /tmp/radio.sql 
+$ psql -d demo_plugins -f /tmp/radio.sql
+
+$ shp2pgsql -I gsm.shp gsm &gt; /tmp/gsm.sql
+$ psql -d demo_plugins -f /tmp/gsm.sql
+</pre>
+                  <p>
+              </p>
+                </li>
+                <li>
+                  <p><b>Create the table for channel data. </b>
+              </p>
+                  <pre class="screen">$ psql -d demo_plugins -f channels.sql </pre>
+                  <p>
+              The <code class="filename">channels.sql</code> is located in the 
+              <code class="filename">projects/demoToolTips/server_conf/demoToolTips/sql</code>
+              folder</p>
+                </li>
+                <li>
+                  <p><b>Launch the install script in your CartoWeb root directory. </b>
+                </p>
+                  <pre class="screen">php cw3setup.php --install --base-url &lt;base-url&gt; --profile development
+                 --project demoToolTips --config-from-file projects/demoPlugins/demo.properties</pre>
+                  <p>
+              </p>
+                </li>
+              </ul>
+            </div>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.install.demo.details"></a>1.2.6. Plugins extensions further information</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        The aim of this part is to give you further informations on creation of demoPlugins and 
+        demoEdit plugins extensions. If you create a new plugin or adapt an existing one, we guess 
+        it will be helpful to take these plugins extensions for example or use one of these two 
+        resources:
+        </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+              User HowTo: <a class="ulink" href="http://www.cartoweb.org/cwiki/HowTo">http://www.cartoweb.org/cwiki/HowTo</a>,
+            </li>
+                <li>
+              Dev tutorial new plugins part: <a class="xref" href="dev.newplugin.html" title="2. New Plugins">Chapter 2, <i>New Plugins</i></a>.
+            </li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.install.demo.details.demoRouting"></a>1.2.6.1. demoRouting Extension</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+          Routing installation instructions have moved to a dedicated chapter in the User Documentation:
+          <a class="xref" href="user.routing.html" title="27. Routing [plugin]">Chapter 27, <i>Routing <sub>[plugin]</sub></i></a>
+        </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.install.demo.details.demoEdit"></a>1.2.6.2. demoEdit Extension</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Some useful tips are available in <a class="xref" href="user.edit.html#user.edit.howto" title="14.3. How To">Section 14.3, “How To”</a>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

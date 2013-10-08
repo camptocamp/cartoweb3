@@ -1,0 +1,346 @@
+<html>
+<head>
+<title>Docs for page po2mo.php</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">Scripts</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_Scripts.html" class="menu">class tree: Scripts</a> ]
+		  [ <a href="../elementindex_Scripts.html" class="menu">index: Scripts</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+	<div id="todolist">
+			<p><a href="../todolist.html">Todo List</a></p>
+	</div>
+      <b>Packages:</b><br />
+              <a href="../li_CartoWeb3.html">CartoWeb3</a><br />
+              <a href="../li_Client.html">Client</a><br />
+              <a href="../li_Common.html">Common</a><br />
+              <a href="../li_CorePlugins.html">CorePlugins</a><br />
+              <a href="../li_Htdocs.html">Htdocs</a><br />
+              <a href="../li_Plugins.html">Plugins</a><br />
+              <a href="../li_Scripts.html">Scripts</a><br />
+              <a href="../li_Server.html">Server</a><br />
+              <a href="../li_Tests.html">Tests</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../Scripts/_doc_cartoweb3_scripts_clean_php.html">		clean.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_client2pot_php.html">		client2pot.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_cwprof_php.html">		cwprof.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_makedoc_php.html">		makedoc.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_makemaps_php.html">		makemaps.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_po2mo_php.html">		po2mo.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_pot_tools_php.html">		pot_tools.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_server2pot_php.html">		server2pot.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_viewsConverter_php.html">		viewsConverter.php
+		</a><br>
+	  </div><br />
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../Scripts/ViewConverter.html">ViewConverter</a><br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Procedural File: po2mo.php</h1>
+Source Location: /scripts/po2mo.php<br /><br />
+
+<br>
+<br>
+
+
+<h2>Page Details:</h2>
+po2mo.php - compile PO files<br /><br /><p>This program is free software; you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by  the Free Software Foundation; either version 2 of the License, or  (at your option) any later version.</p><p>This program is distributed in the hope that it will be useful,  but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License for more details.</p><p>You should have received a copy of the GNU General Public License  along with this program; if not, write to the Free Software  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</p><p>Usage:  php po2mo.php [projectname]</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>version:</b>&nbsp;&nbsp;</td><td>$Id: po2mo.php,v 1.29 2006/04/10 10:08:37 sypasche Exp $</td>
+  </tr>
+  <tr>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Yves Bolognini &lt;<a href="mailto:yves.bolognini@camptocamp.com">yves.bolognini@camptocamp.com</a>&gt;</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+<h4>Includes:</h4>
+<div class="tags">
+require_once(<a href="../Scripts/_doc_cartoweb3_scripts_pot_tools_php.html">CARTOWEB_HOME.'scripts/pot_tools.php'</a>) [line 35]<br />
+require_once(<a href="../Common/_doc_cartoweb3_common_ProjectHandler_php.html">CARTOWEB_HOME.'common/ProjectHandler.php'</a>) [line 47]<br />
+Project handler class for constants<br /><br />require_once(<a href="../Client/_doc_cartoweb3_client_Internationalization_php.html">CARTOWEB_HOME.'client/Internationalization.php'</a>) [line 36]<br />
+require_once(CARTOWEB_HOME.'cw3setup.php') [line 38]<br />
+</div>
+<br /><br />
+<br /><br />
+  <hr />
+	<a name="defineCALLED_BY_CW3_SETUP"></a>
+	<h3>CALLED_BY_CW3_SETUP <span class="smalllinenumber">[line 39]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>CALLED_BY_CW3_SETUP = false</code>
+    </td></tr></table>
+    </td></tr></table>
+
+        <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+  <hr />
+	<a name="defineCARTOCLIENT_LOCALEDIR"></a>
+	<h3>CARTOCLIENT_LOCALEDIR <span class="smalllinenumber">[line 33]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>CARTOCLIENT_LOCALEDIR = CARTOWEB_HOME.'locale/'</code>
+    </td></tr></table>
+    </td></tr></table>
+
+        <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+  <hr />
+	<a name="defineCARTOCLIENT_PODIR"></a>
+	<h3>CARTOCLIENT_PODIR <span class="smalllinenumber">[line 32]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>CARTOCLIENT_PODIR = 'po/'</code>
+    </td></tr></table>
+    </td></tr></table>
+
+        <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+<br />
+  <hr />
+	<a name="functioncompile"></a>
+	<h3>compile <span class="smalllinenumber">[line 266]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>boolean compile(
+string $project, string $fileName)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Compiles PO files into MO<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>true if OK</td>
+  </tr>
+</table>
+</div>
+    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$project</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$fileName</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functiongetIniArray"></a>
+	<h3>getIniArray <span class="smalllinenumber">[line 83]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>array getIniArray(
+[string $project = NULL])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Retrieves config from upstream and project client.ini.<br /><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$project</b>&nbsp;&nbsp;</td>
+        <td>project name (optional)</td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functiongetLocales"></a>
+	<h3>getLocales <span class="smalllinenumber">[line 54]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>array getLocales(
+string $project)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Finds locales by looking for my_project.lang.po files<br /><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$project</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functiongetMapIdFromIni"></a>
+	<h3>getMapIdFromIni <span class="smalllinenumber">[line 311]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string getMapIdFromIni(
+string $project, [array $iniArray = NULL])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Retrieves the 'mapId' parameter in project client.ini config.<br /><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$project</b>&nbsp;&nbsp;</td>
+        <td>project name</td>
+      </tr>
+		      <tr>
+        <td class="type">array&nbsp;&nbsp;</td>
+        <td><b>$iniArray</b>&nbsp;&nbsp;</td>
+        <td>array of ini parameters (optional)</td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functiongetMapPo"></a>
+	<h3>getMapPo <span class="smalllinenumber">[line 105]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string getMapPo(
+string $project, [string $mapId = null])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Retrieves PO files from server.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>retrieved file name</td>
+  </tr>
+</table>
+</div>
+    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$project</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$mapId</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionmerge"></a>
+	<h3>merge <span class="smalllinenumber">[line 209]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>boolean merge(
+string $project, string $file1, string $file2, string $file2Project, mixed $output)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Merges two PO files<br /><br /><p>Writes out all messages of first file, then writes out messages from  second file if not present in first one.</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>true if OK</td>
+  </tr>
+</table>
+</div>
+    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$project</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$file1</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$file2</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$file2Project</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Fri, 21 Sep 2007 13:30:56 +0200 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

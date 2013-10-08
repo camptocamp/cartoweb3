@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>7. Unit Tests</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="dev.code_convention.html">
+       &lt; Code Convention</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="dev.code_documentation.html">Code Documentation &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.dev.html">Developer Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="dev.unit_test.html#dev.unit_test.intro">7.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.unit_test.html#dev.unit_test.writing">7.2. Writing Tests</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="dev.unit_test.html#dev.unit_test.writing.base">7.2.1. General Information About Writing Tests</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.unit_test.html#dev.unit_test.writing.framework">7.2.2. Specific Information for Tests</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.unit_test.html#unit_test.running">7.3. Running Tests</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="dev.unit_test"></a>7. Unit Tests</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.unit_test.intro"></a>7.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Unit tests are an important componant in the CartoWeb development 
+    environment. 
+    The framework used for unit testing is based on  
+      <a href="http://www.phpunit.de/en/index.php">PHPUnit2</a>,
+   a <span class="acronym">PEAR</span> package.
+   For more informations abouth PHPUnit2, see <a href="http://pear.php.net/reference/PHPUnit2-2.0.3/">http://pear.php.net/reference/PHPUnit2-2.0.3/</a>
+  </p>
+          <p>
+    PHPUnit2 is included in the libraries shipped with CartoWeb. Thus, no 
+    installation is needed to run and write new tests.
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.unit_test.writing"></a>7.2. Writing Tests</h2>
+              </div>
+            </div>
+          </div>
+          <p>Information about writing tests for CartoWeb can be separated into
+    two parts. First part about writing Unit tests in general, useful for
+    people new to PhpUnit. Then a part more specific about the infrastructure 
+    which is available in CartoWeb for writing tests.</p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.unit_test.writing.base"></a>7.2.1. General Information About Writing Tests</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+   Test cases are located in directory <code class="filename">tests</code> for testing
+   the core of CartoWeb and in the directoies <code class="filename">&lt;project&gt;/tests</code>
+   for for tests specific to project <code class="filename">&lt;project&gt;</code>.
+   Inside these <code class="filename">tests</code> directories, path hierarchy mirrors
+   the existing hierarchy they are testing. For instance, the <code class="filename">tests</code>
+   hierarchy for the core CartoWeb testing is the following:
+   </p>
+            <pre class="screen">client
+    CartoclientTest.php
+    CartoserverServiceTest.php
+    AllTests.php
+common
+    BasicTypesTest.php
+    AllTests.php
+coreplugins
+    AllTests.php
+    ...
+plugins
+    AllTests.php
+    ...
+</pre>
+            <p>
+
+    For the <code class="literal">test_main</code> project, the hierarchy is the following:
+   </p>
+            <pre class="screen">coreplugins
+    AllTests.php
+    ...
+plugins
+    AllTests.php
+    ...
+misc
+    AllTests.php
+    &lt; misc tests &gt;
+    ...
+...</pre>
+            <p>
+
+  </p>
+            <p>
+   Each directory including tests root directory has a file named 
+   <code class="filename">AllTests.php</code>.  This is called a test suite. 
+   It is used to run all tests of a specific directory (ie "package").
+  </p>
+            <div class="warning">
+              <h3 class="title">Warning</h3>
+              <p>
+   All test case and test suite classes must have the name 
+   of their file relative path without extension, with '/'
+   replaced by '_'. For instance, class 
+   <code class="constant">client_CartoclientTest</code> file name must be 
+   <code class="filename">&lt;cartoweb3_root&gt;/tests/client/CartoclientTest.php</code>.
+   </p>
+            </div>
+            <p>
+
+  </p>
+            <p>
+  The following example shows a test in <code class="filename">common/BasicTypeTest.php</code> 
+  file:
+   </p>
+            <div class="example">
+              <a id="id2573807"></a>
+              <p class="title">
+                <b>Example 7.1. Simple test case (<code class="filename">BasicTypesTests.php</code>)</b>
+              </p>
+              <pre class="programlisting">&lt;?php
+require_once 'PHPUnit2/Framework/TestCase.php';
+require_once(CARTOWEB_HOME . 'common/basic_types.php');
+
+class common_BasicTypesTest extends PHPUnit2_Framework_TestCase {
+
+        public function testBboxFrom2Points() {
+
+                $bbox = new Bbox();
+                $point1 = new Point(12, 34);
+                $point2 = new Point(56, 78);
+                $bbox-&gt;SetFrom2Points($point1, $point2);
+
+                $this-&gt;assertEquals(12, $bbox-&gt;minx);
+                $this-&gt;assertEquals(34, $bbox-&gt;miny);
+                $this-&gt;assertEquals(56, $bbox-&gt;maxx);
+                $this-&gt;assertEquals(78, $bbox-&gt;maxy);
+        }
+}
+?&gt;</pre>
+            </div>
+            <p>
+  </p>
+            <p>
+   Each function with name starting with 'test' will be considered as
+   a test case by the automated test runner. You may also want to use 
+   functions <code class="function">setUp()</code> and <code class="function">tearDown()</code>
+   to initialize and clean a test environment.
+  </p>
+            <p>
+   Method <code class="function">assertEquals</code> tests if two values have 
+   the same values. If not, the test will be added to the final report as failure.
+  </p>
+            <p>
+    As stated previously, all test classes have to belong to a test suite. The
+    next example shows how such a test suite is built, by grouping all tests
+    together in the <code class="methodname">suite()</code> method.
+  </p>
+            <div class="example">
+              <a id="id2596590"></a>
+              <p class="title">
+                <b>Example 7.2. 
+    Test suite (<code class="filename">AllTests.php</code>) 
+   </b>
+              </p>
+              <pre class="programlisting">&lt;?php
+
+require_once 'PHPUnit2/Framework/TestSuite.php';
+require_once 'CartoclientTest.php';
+require_once 'CartoserverServiceTest.php';
+
+class client_AllTests {
+
+        public static function suite() {
+
+                $suite = new PHPUnit2_Framework_TestSuite;
+
+                $suite-&gt;addTestSuite('client_CartoclientTest');
+                $suite-&gt;addTestSuite('client_CartoserverServiceTest');
+
+                return $suite;
+        }
+}
+?&gt;
+</pre>
+            </div>
+            <p>
+  </p>
+            <p>
+    All test suites are then grouped together into the root test suite. It is
+    shown there for information.
+  </p>
+            <div class="example">
+              <a id="id2584496"></a>
+              <p class="title">
+                <b>Example 7.3. 
+    Root directory's AllTests.php:
+   </b>
+              </p>
+              <p>
+    </p>
+              <pre class="programlisting">&lt;?php
+
+require_once 'PHPUnit2/Framework/TestSuite.php';
+require_once 'client/AllTests.php';
+require_once 'common/AllTests.php';
+
+class AllTests {
+
+        public static function suite() {
+
+                $suite = new PHPUnit2_Framework_TestSuite;
+
+                $suite-&gt;addTest(client_AllTests::suite());
+                $suite-&gt;addTest(common_AllTests::suite());
+
+                return $suite;
+        }
+}
+?&gt;</pre>
+              <p>
+   </p>
+            </div>
+            <p>
+  </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.unit_test.writing.framework"></a>7.2.2. Specific Information for Tests</h3>
+                </div>
+              </div>
+            </div>
+            <p>This section describes specific features developped in CartoWeb
+      for running tests, and infrastructure classes for more simple test 
+      case writing.</p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.unit_test.writing.framework.httpunit"></a>7.2.2.1. HttpUnit Based Tests</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+          To test features of the cartoclient, the 
+            <a href="http://httpunit.sourceforge.net/">HttpUnit</a>
+          software is used.
+        It is written in Java, and there is no Php port. The http unit tests 
+        are run if you have a JVM in you path.
+        </p>
+              <p>
+        For more information about running HttpUnit tests, see the
+         <code class="filename">tests/client/httpunit/README</code> file in 
+         the CartoWeb distribution.
+        </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.unit_test.writing.framework.plugins"></a>7.2.2.2. Testing CartoWeb Plugins</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+          Plugins are a main component in CartoWeb architecture. That's why
+          there is support to maintain common code used for testing plugins.
+          As described in <a href="dev.unit_test.html#dev.unit_test.writing.base" title="7.2.1. General Information About Writing Tests">Section 7.2.1, &#8220;General Information About Writing Tests&#8221;</a> the tests
+          for plugins have to mirror the file hierarchy of the base application.
+          That's why there are <code class="filename">coreplugins</code> and 
+          <code class="filename">plugins</code> directories where test for core plugins 
+          and plugins are stored respectively.
+          </p>
+              <div class="note">
+                <h3 class="title">Note</h3>
+                <p>Tests are also available for projects. So, to test
+            a plugin in a project, the path of the test will be 
+              <code class="filename">&lt;cartoweb3&gt;/&lt;projectname&gt;/tests/plugin/&lt;pluginname&gt;
+                </code></p>
+              </div>
+              <p>
+        </p>
+              <p>
+        Testing plugins is separated into two tasks:
+        </p>
+              <div class="orderedlist">
+                <ol>
+                  <li>Locally testing client, common or server classes. For 
+              plugin client classes, it requires a CartoClient environment
+              available, and identically a CartoServer environment 
+              for testing server classes.</li>
+                  <li>
+              Remote plugin tests, throught the webservice API. This kind of tests
+              are related to the server plugins, that's why we chose to put them
+              in the <code class="filename">server</code> folder of plugins.
+            </li>
+                </ol>
+              </div>
+              <p>
+        </p>
+              <p>
+          For the first point mentionned above, general Unit tests rules apply, as
+          described in <a href="dev.unit_test.html#dev.unit_test.writing.base" title="7.2.1. General Information About Writing Tests">Section 7.2.1, &#8220;General Information About Writing Tests&#8221;</a>.
+        </p>
+              <p>
+          For the second point stated, a help class named 
+            <code class="classname">client_CartoserverServiceTest</code> can be extended
+            by the testing classes. In turn, <code class="classname">client_CartoserverServiceTest</code>
+            extends other classes which offer additional helpful methods. For
+            the complete list of available methods, please have a look at the 
+            generate API docs (as more may be added in future). The main useful
+            methods are <code class="methodname">createRequest()</code> for initializing
+            a new request, <code class="methodname">getMap()</code> for lanching the 
+            request.
+        </p>
+              <div class="tip">
+                <h3 class="title">Tip</h3>
+                <p>Having a look at an existing plugin test case is the best starting
+          point for writing new tests.</p>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.unit_test.writing.framework.projects"></a>7.2.2.3. Tests for projects</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+          Each CartoWeb project can have its set of tests directly inside the project,
+          in a directory <code class="filename">tests</code>. Inside this directory, you have to
+          use the same hierarchy as in the main <code class="filename">tests</code> directory.
+        </p>
+              <p>
+        Inside these <code class="filename">tests</code> directories, the same mechanism is used
+        for testing as the main <code class="filename">tests</code> directory. The best way
+        to get started is to have a look at the <code class="literal">test_main</code> project
+        for a starting point.
+        </p>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.unit_test.writing.framework.projects.invoking"></a>7.2.2.3.1. Invoking tests for a specific project</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>
+          For now, only the command line can be used for invoking tests for a specific project.
+          An environment variable CARTOWEB_TEST_PROJECT can be used to define which test to launch.
+          Under a Unix like shell enviroment, the command line to use is:
+         </p>
+                <pre class="screen">CARTOWEB_TEST_PROJECT=&lt;myproject&gt; &lt;php-bin&gt; phpunit.php projects_AllTests projects/AllTests.php</pre>
+                <p>
+          </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="unit_test.running"></a>7.3. Running Tests</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   Unit tests are runned using the command line interface (CLI).
+   To run a test case or a test suite, type the following
+   command in directory <code class="filename">&lt;cartoweb3_root&gt;/tests</code>:
+   </p>
+          <pre class="screen">&lt;php-bin&gt; phpunit.php &lt;test-class&gt; &lt;php-file&gt;</pre>
+          <p>
+   Where &lt;php-bin&gt; is the PHP binary, &lt;test-class&gt;
+   is the name of the test class 
+   (<code class="literal">AllTests</code>, <code class="literal">client_AllTests</code>, 
+    <code class="literal">client_CartoclientTest</code>, etc.) and &lt;php-file&gt;
+   is the name of the PHP file containing the test case 
+   (<code class="filename">client/CartoclientTest.php</code>).
+  </p>
+          <p>
+  Result should look like this:
+   </p>
+          <pre class="screen">PHPUnit 2.0.3 by Sebastian Bergmann.
+
+.......F.....
+
+Time: 0.0410950183868
+There was 1 failure:
+1) testpointtobbox
+expected same: &lt;113&gt; was not: &lt;123&gt;
+/home/yves/cartoweb3-proto2/tests/common/BasicTypesTest.php:59
+/home/yves/cartoweb3-proto2/tests/phpunit.php:24
+
+FAILURES!!!
+Tests run: 12, Failures: 1, Errors: 0, Incomplete Tests: 0.
+Content-type: text/html
+X-Powered-By: PHP/5.0.1</pre>
+          <p>
+   In this case, 12 tests were run with one failure.
+  </p>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

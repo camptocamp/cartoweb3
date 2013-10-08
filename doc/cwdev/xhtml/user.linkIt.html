@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>29. Saving Map Context as an URL [plugin] (exportLinkIt)</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.bboxHistory.html">
+       &lt; Bounding box history plugin </a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.stats.html">CartoWeb and WMS Usage Statistics  &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.linkIt.html#user.linkIt.activate">29.1. Plugin Activation</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.linkIt.html#user.linkIt.config">29.2. Plugin Configuration</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.linkIt"></a>29. Saving Map Context as an URL <sub>[plugin] (exportLinkIt)</sub></h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p>The exportLinkIt plugin displays in CartoWeb interface a URL that saves the main caracteristics of the current page.
+    Saved data are selected layers, layers switch id, recentering info (center and scale), mapsize as well as outlined shapes 
+    and map queries.
+    </p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.linkIt.activate"></a>29.1. Plugin Activation</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+        To activate the plugin, add it to 
+        <em class="parameter"><code>loadPlugins</code></em> from CartoClient configuration file: 
+        <code class="filename">client_conf/client.ini</code>.
+        For instance: </p>
+          <pre class="programlisting">loadPlugins = exportLinkIt</pre>
+          <p>
+      </p>
+          <p>
+        You also need to add the plugin output variable <em class="parameter"><code>{$linkIt}</code></em> into the project main template <code class="filename">templates/cartoclient.tpl</code> (see upstream template for instance). It is recommended to add it outside of the main CartoWeb &lt;form&gt; tag since the generated HTML may contain an additional &lt;form&gt; tag. Use CSS to place the result box.
+      </p>
+          <p>
+        Ajax is used to generate and display the resulting URL, using the Prototype Javascript Framework. If your CartoWeb does not run in the <em class="parameter"><code>ajaxOn</code></em> mode, you need to add the Prototype file in the main template <code class="filename">templates/cartoclient.tpl</code>. To do so add the following HTML code within the &lt;head&gt; tag: </p>
+          <pre class="programlisting">{if $linkIt|default:'' &amp;&amp; !$ajaxOn}&lt;script type="text/javascript" src="{r type=js}prototype.js{/r}"&gt;&lt;/script&gt;{/if}</pre>
+          <p>
+      </p>
+          <p>If Ajax mode is on, add the following code at the end of the "ajax = on" section of <code class="filename">templates/cartoclient_ajaxHeader.tpl</code> if it is customized in your project. If you use the regular <code class="filename">templates/cartoclient_ajaxHeader.tpl</code>, the JS script is already included.
+      </p>
+          <pre class="programlisting">{if $linkIt|default:''}&lt;script type="text/javascript" src="{r type=js plugin=exportLinkIt}linkit.js{/r}"&gt;&lt;/script&gt;{/if}</pre>
+          <p>
+      </p>
+          <p>Also add the CSS file inclusion in <code class="filename">templates/cartoclient.tpl</code>:
+      </p>
+          <pre class="programlisting">{if $linkIt|default:''}&lt;link rel="stylesheet" type="text/css" href="{r type=css plugin=exportLinkIt}linkIt.css{/r}" /&gt;{/if}</pre>
+          <p>
+      </p>
+          <div class="warning">
+            <h3 class="title">Warning</h3>
+            <p>Your toolbar.tpl MUST contains the '{if !$tool-&gt;oneshot}...{/if}' condition on the tool activation action!!!</p>
+            <p>This is especialy important if you overrided that template in your project. Please compare with the latest cvs version of the toolbar.tpl file to be sure you have the correct conditional code.</p>
+          </div>
+          <p>Finally right before the <em class="parameter"><code>&lt;/body&gt;</code></em> closing tag of your <code class="filename">templates/cartoclient.tpl</code> add
+      </p>
+          <pre class="programlisting">{if $linkIt|default:''}{$linkIt}{/if}</pre>
+          <p>
+      </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.linkIt.config"></a>29.2. Plugin Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <p>Generated URL GET parameters may be obfuscated or "compressed" by setting the <em class="parameter"><code>compressUrl</code></em> to <em class="parameter"><code>true</code></em> (default is <em class="parameter"><code>false</code></em>) in <code class="filename">client_conf/exportLinkIt.ini</code>. When obfuscation/compression is activated, regular URLs (with standard CartoWeb GET parameters) are still accepted.</p>
+          <p>Generated URL may be rather long and thus overflow browsers or servers limits. <em class="parameter"><code>urlMaxLength</code></em> can be used to  make CartoWeb output a warning message when the generated URL is longer than the specified value.</p>
+          <p>For instance:</p>
+          <pre class="programlisting">compressUrl = true
+urlMaxLength = 2000</pre>
+          <div class="note">
+            <h3 class="title">Note</h3>
+            <p>
+        The Generated URL will only contains the query parameters if the queried layers have the <span class="emphasis"><em>id_attribute_string</em></span> metadata specified in the mapfile! (see <a class="xref" href="user.query.html#user.query.mapfile.metadata" title="9.3.2. Meta Data">Section 9.3.2, “Meta Data”</a>)
+      </p>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

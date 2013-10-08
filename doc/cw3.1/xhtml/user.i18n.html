@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>15. Internationalization</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.security.html">
+       &lt; Security Configuration</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.template.html">Templating &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.i18n.html#user.i18n.translations">15.1. Translations</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.i18n.html#user.i18n.translations.config">15.1.1. Configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.i18n.html#user.i18n.translations.template">15.1.2. PO Templates</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.i18n.html#user.i18n.translations.translating">15.1.3. Translating</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.i18n.html#user.i18n.translations.compiling">15.1.4. Compiling PO to MO</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.i18n.html#user.i18n.translations.example">15.1.5. Example</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.i18n.html#user.i18n.translations.debug">15.1.6. Debuging translation problems</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.i18n.html#user.i18n.encoding">15.2. Character Set Encoding Configuration</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.i18n"></a>15. Internationalization</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.i18n.translations"></a>15.1. Translations</h2>
+              </div>
+            </div>
+          </div>
+          <p> Translation handling in CartoWeb was designed to use <a href="http://www.gnu.org/software/gettext/manual">gettext</a>
+            . However internationalization architecture is ready for other translation
+            systems.</p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.i18n.translations.config"></a>15.1.1. Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p> For now only gettext translation system is implemented. If gettext is not
+                installed, you can use a dummy translation system which translates
+                nothing. To use gettext, you will need to have PHP gettext module
+                installed.</p>
+            <p>Translation system is now automatically set to gettext if gettext is
+                installed otherwise it's disabled. Parameter
+                <span class="emphasis"><em>I18nClass</em></span> is now deprecated. </p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.i18n.translations.config.linux"></a>15.1.1.1. Unix-like</h4>
+                  </div>
+                </div>
+              </div>
+              <p>In Unix-like environments, file
+                    <code class="filename">/etc/locale.alias</code> contains aliases to
+                    installed locales. For each language used, a line must be present in
+                    this file. The alias ('fr' in the example below) must point to a locale
+                    installed on the system.</p>
+              <pre class="programlisting">...
+fr    fr_CH.ISO-8859-1
+...</pre>
+              <p>You will need to run <span><strong class="command">locale-gen</strong></span> after editing
+                    <code class="filename">/etc/locale.alias</code> to regenerate system's
+                    locales. </p>
+              <p> To install a locale on a Debian installation, use following command
+                    with root priviledges:</p>
+              <pre class="screen">dpkg-reconfigure locales</pre>
+              <p>If package locales has never been installed, you have to install it
+                    before:</p>
+              <pre class="screen">apt-get install locales</pre>
+              <p>Two scripts have been prepared to check if gettext is correctly installed
+                    on the system:</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li> <code class="filename">script/testgettext.sh</code>: This
+                            will compile and run a small C program that will test
+                            <span><strong class="command">xgettext</strong></span> and
+                            <span><strong class="command">msgfmt</strong></span>.</li>
+                  <li> <code class="filename">script/testgettext.php</code>: Given
+                            that gettext was correctly installed on the system, this will
+                            test that gettext works in PHP.</li>
+                </ul>
+              </div>
+              <div class="note">
+                <h3 class="title">Note</h3>
+                <p>These scripts need that locales have been correctly configured.
+                    They were tested on GNU/Linux with a Debian/Sarge install.</p>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.i18n.translations.config.win32"></a>15.1.1.2. Win32</h4>
+                  </div>
+                </div>
+              </div>
+              <p>In order to have the language translation working correctly in
+                    Cartoweb with Gettext, you need to have the languages you want to use
+                    installed in the <span class="emphasis"><em>Input Locales</em></span> of Windows
+                    (windows 2000: Control Panel &gt; Regional Options &gt; Input Locales.
+                    windows XP: Control Panel &gt; Regional and Language Options &gt; Details &gt;
+                    Settings)</p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.i18n.translations.template"></a>15.1.2. PO Templates</h3>
+                </div>
+              </div>
+            </div>
+            <p> Texts to be translated can be found in: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> Smarty templates using <a href="http://sourceforge.net/projects/smarty-gettext/">
+                        SmartyGettext</a> (see <a href="user.template.html#user.template.i18n" title="16.2. Internationalization">Section 16.2, &#8220;Internationalization&#8221;</a>)</li>
+                <li> Client plugins .ini files (for instance map sizes) </li>
+                <li> Server plugins .ini files (for instance scales labels) </li>
+                <li> Mapfile's .ini and .map (layers labels) </li>
+                <li> Client and server PHP code (see <a href="dev.i18n.html#dev.i18n.translations" title="4.1. Translations">Section 4.1, &#8220;Translations&#8221;</a>) </li>
+              </ul>
+            </div>
+            <p> To generate PO templates, you will need to launch scripts on server and on
+                client. Templates are generated in directory
+                <code class="filename">&lt;cartoweb_home&gt;/projects/&lt;project_name&gt;/po</code>. If translation files
+                (see <a href="user.i18n.html#user.i18n.translations.translating" title="15.1.3. Translating">Section 15.1.3, &#8220;Translating&#8221;</a>) already
+                exist, a merge is done using <a href="http://www.gnu.org/software/gettext/manual/html_chapter/gettext_6.html#SEC37">
+                <span><strong class="command">msgmerge</strong></span></a> command. Follow these
+                steps:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>generate project and mapfile templates on server:
+                        
+                        <pre class="screen">cd &lt;cartoweb_home&gt;/scripts
+php server2pot.php</pre>For
+                        each mapfile, two templates will be generated:
+                        <code class="filename">server.po</code> and
+                        <code class="filename">server.&lt;mapfile_name&gt;.po</code>
+                        </li>
+                <li>generate project template on client:
+                        
+                        <pre class="screen">cd &lt;cartoweb_home&gt;/scripts
+php client2pot.php</pre>For
+                        each project, one template will be generated:
+                        <code class="filename">client.po</code>
+                        </li>
+              </ul>
+            </div>
+            <p>It is possible to specify for which project you want to generate the .po
+                file. Simply add the project name as a parameter when launching the scripts
+                client2pot and server2pot:
+                </p>
+            <pre class="screen">php server2pot.php myprojectname</pre>
+            <p> If you do
+                not specify a project name, the .po files will be generated for all projects.
+                </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.i18n.translations.translating"></a>15.1.3. Translating</h3>
+                </div>
+              </div>
+            </div>
+            <p> As for any gettext system, translating PO files can be done in Emacs, in
+                    <a href="http://poedit.sourceforge.net/">Poedit</a> or
+                in any text editor. </p>
+            <p> Translated PO files must be saved under name
+                <code class="filename">&lt;template_name&gt;.&lt;lang&gt;.po</code> ; where
+                &lt;lang&gt; is the 2-letters ISO language: en, fr, de, etc.. For instance,
+                the mapfile test of test_main project will have three PO files in its PO
+                directory for a complete french translation: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> <code class="filename">server.fr.po</code> </li>
+                <li> <code class="filename">server.test.fr.po</code> </li>
+                <li> <code class="filename">client.fr.po</code> </li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.i18n.translations.compiling"></a>15.1.4. Compiling PO to MO</h3>
+                </div>
+              </div>
+            </div>
+            <p> To compile all PO files to MO files (gettext's binary format), use the
+                following commands on client side. This should be done each time
+                configuration (client or server) is updated, and after each system update.
+                All languages are compiled at the same time.
+                
+                </p>
+            <pre class="screen">cd &lt;cartoweb_home&gt;/scripts
+php po2mo.php</pre>
+            <p>
+                Warning: When CartoWeb is installed in SOAP mode, the script uses PHP curl
+                functions to retrieve PO files from server to client. PHP curl module must be
+                installed. </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.i18n.translations.example"></a>15.1.5. Example</h3>
+                </div>
+              </div>
+            </div>
+            <p> To translate texts in french for project test_project and map file
+                projectmap, follow these steps: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> On server:<pre class="screen">cd &lt;cartoweb_home&gt;/scripts
+php server2pot.php</pre>Copy
+                        <code class="filename">&lt;cartoweb_home&gt;/projects/test_project/po/server.po</code>
+                        to
+                        <code class="filename">&lt;cartoweb_home&gt;/projects/test_project/po/server.fr.po</code>
+                        and
+                        <code class="filename">&lt;cartoweb_home&gt;/projects/test_project/po/server.projectmap.po</code>
+                        to
+                        <code class="filename">&lt;cartoweb_home&gt;/projects/test_project/po/server.projectmap.fr.po</code>
+                        . Edit french files with Poedit (or any editor). </li>
+                <li> On client:<pre class="screen">cd &lt;cartoweb_home&gt;/scripts
+php client2pot.php</pre> Copy
+                        <code class="filename">&lt;cartoweb_home&gt;/projects/test_project/po/server.po</code>
+                        to
+                        <code class="filename">&lt;cartoweb_home&gt;/projects/test_project/po/server.fr.po</code>
+                        . Edit french file with Poedit (or any editor).  Merge and compile files with the following commands:<pre class="screen">cd &lt;cartoweb_home&gt;/scripts
+php po2mo.php</pre> Now you should have the file
+                        <code class="filename">test_project.projectmap.mo</code> in
+                        directory
+                        <code class="filename">&lt;cartoweb_home&gt;/locale/fr/LC_MESSAGES</code>
+                        . The directory <code class="filename">fr/LC_MESSAGES</code> will be
+                        created if it does not exist. </li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.i18n.translations.debug"></a>15.1.6. Debuging translation problems</h3>
+                </div>
+              </div>
+            </div>
+            <p>There can be several reasons why the translation is not working.</p>
+            <p>First you need to check if gettext is correctly installed and configured.
+                For so run the following scripts:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li><pre class="screen">cd &lt;cartoweb_home&gt;/scripts
+./testgettext.sh</pre> This will test if Gettext is correctly installed in your system
+                        <div class="note"><h3 class="title">Note</h3><p>Unix-like system only, this script is not intended for
+                            Windows users</p></div></li>
+                <li><pre class="screen">cd &lt;cartoweb_home&gt;/scripts
+php testgettext.php</pre>This will test if Gettext works correctly with php </li>
+              </ul>
+            </div>
+            <p>Once you have verified Gettext is installed and run correctly, check if
+                there are no errors in your <span class="emphasis"><em>po</em></span> files.</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>Verify you do no have duplicate <span class="emphasis"><em>msgid</em></span> in
+                        your po files. Each <span class="emphasis"><em>msgid</em></span> must be unique in
+                        a po file. A typical error message would be:<pre class="screen">Error message: Failure while launching "msgcat --to-code=iso-8859-1 --use-first --output=/www/cartoweb3/projects/demo/po/demo.en.po 
+/www/cartoweb3/projects/demo/po/demo.en.po /www/cartoweb3/projects/demo/po/client.en.po" 
+(output is /www/cartoweb3/projects/demo/po/client.en.po:392: duplicate message definition
+/www/cartoweb3/projects/demo/po/client.en.po:390: ...this is the location of the first definition
+msgcat: found 1 fatal error)</pre><span class="emphasis"><em>duplicate message definition</em></span> on line
+                        392 in <span class="emphasis"><em>client.en.po</em></span> </li>
+                <li>Check if you have several <span class="emphasis"><em>fuzzy</em></span> entries
+                        in your <span><strong class="keycap">merged</strong></span> po file (the file that is
+                        automatically created by gettext, merging the client and server
+                        po files). This happens when you have used the same
+                        <span class="emphasis"><em>msgid</em></span> in different po files. <div class="note"><h3 class="title">Note</h3><p> Each po file contain a single <span class="emphasis"><em>fuzzy</em></span>
+                            entry at the beginning, this should not be removed</p><pre class="screen">...
+#, fuzzy
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2005-09-13 09:36+0200\n"
+...</pre></div>
+                        </li>
+                <li>Gettext automatically comments <span class="emphasis"><em>msgid</em></span>
+                        and <span class="emphasis"><em>msgstr</em></span> that are not found anymore in
+                        your templates. Commented lines start with <span><strong class="keycap">#</strong></span>.
+                        Sometimes this is unwelcome, simply uncomment the lines.</li>
+                <li>If your CartoWeb profile is set to
+                        <span class="emphasis"><em>production</em></span> (<a href="user.config.html#user.config.common" title="4.1. Common client.ini and &#10;      server.ini Options">Section 4.1, &#8220;Common <code class="filename">client.ini</code> and 
+      <code class="filename">server.ini</code> Options&#8221;</a>), do not forget to clean
+                        the temporary templates files by typing:<pre class="screen">php cw3setup-php --clean</pre>See <a href="user.install.html#user.install.main.setup.example.clean" title="1.1.3.2.4. Cleaning Generated Files (Map, PDF, Temporary Files and Smarty Cache)">Section 1.1.3.2.4, &#8220;Cleaning Generated Files (Map, PDF, Temporary Files and Smarty Cache)&#8221;</a> for
+                        more details. <div class="note"><h3 class="title">Note</h3><p>It can also be usefull sometimes in
+                            <span class="emphasis"><em>development</em></span> mode.</p></div>
+                        </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.i18n.encoding"></a>15.2. Character Set Encoding Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <p> Character set configuration is needed when CartoWeb strings may include
+            international characters with accents, or other special characters. Two types
+            of encodings must be set: </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>how files (map files, configuration files, etc.) are encoded on
+                    server and on client. To set this encoding, add the following line in
+                    <code class="filename">server.ini</code> and in
+                    <code class="filename">client.ini</code>:<pre class="programlisting">
+EncoderClass.config = &lt;encoder_class&gt;</pre></li>
+              <li>how CartoWeb exports (including HTML output) must be encoded. To
+                    set this encoding, add the following line in
+                    <code class="filename">client.ini</code>:<pre class="programlisting">
+EncoderClass.output = &lt;encoder_class&gt;</pre></li>
+            </ul>
+          </div>
+          <p>Where &lt;encoder_class&gt; is the class used for encoding. Currently,
+            following encoder classes are implemented: </p>
+          <div class="itemizedlist">
+            <ul>
+              <li><code class="classname">EncoderISO</code>: handles strings coded in
+                    ISO-8859-1 </li>
+              <li><code class="classname">EncoderUTF</code>: handles strings coded in
+                    UTF-8</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

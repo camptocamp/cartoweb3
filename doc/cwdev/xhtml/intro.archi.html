@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>3. Architecture</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="intro.feature.html">
+       &lt; Cartographic Functionalities</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="cartoweb.user.html">User Manual &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.intro.html">Presentation and Architecture</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="intro.archi.html#intro.archi.intro">3.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="intro.archi.html#intro.archi.mapserver">3.2. MapServer / MapScript</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="intro.archi.html#intro.archi.cs">3.3. Web-Service Architecture - SOAP</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="intro.archi.html#intro.archi.modular">3.4. Modularity: Projects and Plugins</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="intro.archi.html#intro.archi.modular.plugins">3.4.1. Plugins</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="intro.archi.html#intro.archi.modular.projects">3.4.2. Projects</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="intro.archi.html#intro.archi.template">3.5. Templates</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="intro.archi.html#intro.archi.user">3.6. Users and Roles</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="intro.archi.html#intro.archi.performance">3.7. Performance Enhancement</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="intro.archi"></a>3. Architecture</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.archi.intro"></a>3.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   CartoWeb uses an innovative design and state-of-the-art technologies. The following sections briefly review the main employed approaches.
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.archi.mapserver"></a>3.2. MapServer / MapScript</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   CartoWeb is based on the <a class="ulink" href="http://mapserver.gis.umn.edu/">UMN MapServer</a> engine. Interactions between CartoWeb and MapServer are achieved using the MapServer <a class="ulink" href="http://mapserver.gis.umn.edu/doc44/phpmapscript-class-guide.html">PHP/Mapscript</a> module.
+  </p>
+          <p>
+   MapServer must be installed prior to any CartoWeb setup.
+  </p>
+          <p>
+   MapServer resources:
+   </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>MapServer HomePage: <a class="ulink" href="http://mapserver.gis.umn.edu/">http://mapserver.gis.umn.edu/</a></li>
+              <li>MapServer Download: <a class="ulink" href="http://mapserver.gis.umn.edu/dload.html">http://mapserver.gis.umn.edu/dload.html</a></li>
+              <li>MapServer Documentation: <a class="ulink" href="http://mapserver.gis.umn.edu/doc.html">http://mapserver.gis.umn.edu/doc.html</a></li>
+              <li>MapServer PHP/Mapscript Class Reference <a class="ulink" href="http://mapserver.gis.umn.edu/doc44/phpmapscript-class-guide.html">http://mapserver.gis.umn.edu/doc44/phpmapscript-class-guide.html</a></li>
+            </ul>
+          </div>
+          <p>
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.archi.cs"></a>3.3. Web-Service Architecture - SOAP</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   One of the CartoWeb specificities is its ability to work along a client-server model as well as a stand-alone application. Thus it is possible to host a CartoWeb client (known as CartoClient) on one machine and have it requesting a CartoWeb server (known as CartoServer), located on a separated server. A CartoServer can be called by several CartoClient simultaneously. On the other hand, a CartoClient can query several CartoServer for instance in the frame of different "projects" (<a class="xref" href="intro.archi.html#intro.archi.modular.projects" title="3.4.2. Projects">Section 3.4.2, “Projects”</a>).  
+  </p>
+          <div class="screenshot">
+            <div class="mediaobject">
+              <img src="image/intro/images/schema_flux.png" alt="CartoWeb exchanges scheme" />
+            </div>
+          </div>
+          <p>
+   CartoWeb offers two "access" modes :
+   </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>
+      as a web-service. CartoClient and CartoServer then interact using remote procedures based upon <a class="ulink" href="http://www.w3.org/TR/soap12/">SOAP</a>.
+     </li>
+              <li>
+      as a standalone application. Procedures are then performed directly between CartoWeb components, bypassing the SOAP calls.
+     </li>
+            </ul>
+          </div>
+          <p>
+  </p>
+          <div class="screenshot">
+            <div class="mediaobject">
+              <img src="image/intro/images/schema_architecture1.png" alt="CartoWeb Direct/SOAP modes" />
+            </div>
+          </div>
+          <div class="screenshot">
+            <div class="mediaobject">
+              <img src="image/intro/images/schema_architecture2.png" alt="CartoWeb Multi-client mode" />
+            </div>
+          </div>
+          <p>
+   Of course it is possible to combine the above architectures as shown on the following figure:
+  </p>
+          <div class="screenshot">
+            <div class="mediaobject">
+              <img src="image/intro/images/schema_architecture3.png" alt="CartoWeb composition of architectures" />
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.archi.modular"></a>3.4. Modularity: Projects and Plugins</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="intro.archi.modular.plugins"></a>3.4.1. Plugins</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    CartoWeb buzzword is modularity. The application is built as a set of bricks that interact with each other. Those bricks are called "plugins". Each plugin performs a special group of tasks such as map browsing, layers management, images properties, users permissions, data objects querying, exportation and much more. CartoWeb is shipped with a set of standard plugins that can be separately activated or not. It is possible to write your own plugins or customize existing ones as well.
+   </p>
+            <div class="screenshot">
+              <div class="mediaobject">
+                <img src="image/intro/images/schema_modules.png" alt="CartoWeb modular architecture" />
+              </div>
+            </div>
+            <p>
+    Regular plugins, including how to configure them, are precisely described in <a class="xref" href="cartoweb.user.html" title="Part II. User Manual">Part II, “User Manual”</a>. For more information about how to write or customize plugins, see <a class="xref" href="dev.newplugin.html" title="2. New Plugins">Chapter 2, <i>New Plugins</i></a>.
+   </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="intro.archi.modular.projects"></a>3.4.2. Projects</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    Projects are used to separate the upstream application from its customizations. They contains all the modifications and adaptations you could have performed to make CartoWeb suit your needs: layout templates, pictos, special configurations, personal plugins etc. 
+   </p>
+            <p>
+    By using projects you can:
+    </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>keep the general application clean from tricky modifications that would compromise the future upgrades</li>
+                <li>gather your project files to easily save and copy them to another CartoWeb instance. For example when copying them from your test server to your production one.</li>
+                <li>run different projects on the same CartoWeb instance.</li>
+              </ul>
+            </div>
+            <p>
+    For more information about projects, see <a class="xref" href="user.project.html" title="3. Projects Handling">Chapter 3, <i>Projects 
+    Handling</i></a>.
+   </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.archi.template"></a>3.5. Templates</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   CartoWeb layout customization is achieved using the well-known and powerful <a class="ulink" href="http://smarty.php.net/">Smarty</a> template engine. For more information about templating see <a class="xref" href="user.template.html" title="18. Templating">Chapter 18, <i>Templating</i></a>.
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.archi.user"></a>3.6. Users and Roles</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   CartoWeb enables to define and manage different levels of permissions. Thus it is possible to restrict some (or all) functionalities to some users or categories of users. For more information about users and roles see <a class="xref" href="user.security.html" title="15. Security Configuration">Chapter 15, <i>Security Configuration</i></a>.
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="intro.archi.performance"></a>3.7. Performance Enhancement</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   CartoWeb takes benefits of several caching systems to speed up its execution. All the possibilities are detailed in <a class="xref" href="user.caches.html" title="5. Caches Configuration">Chapter 5, <i>Caches Configuration</i></a>.
+  </p>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

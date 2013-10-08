@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>7. Navigation</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.layers.html">
+       &lt; Layers</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.images.html">
+    Image Format Options
+   &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.location.html#user.location.client">7.1. Client-side Configuration</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.location.html#user.location.server">7.2. Server-side Configuration</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.location.html#user.location.mapfile">7.3. Related Elements Elsewhere</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.location"></a>7. Navigation</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p> The plugin location is the core plugin that deals with geographic 
+    navigation on the map. It handles bboxes (visible areas) and scales; it 
+    drives the tools zoom-in, zoom-out and panning, the directional arrows 
+    around the main map and the overview map. </p>
+        <p> The corresponding configuration files are 
+    <code class="filename">location.ini</code> (client-side) and 
+    <code class="filename">location.ini</code> (server-side). </p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.location.client"></a>7.1. Client-side Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <p> Here are the options that can be set: </p>
+          <div class="itemizedlist">
+            <ul>
+              <li> 
+          scalesActive<a id="id2590898" class="indexterm"></a>: 
+          boolean, if true, the scales dropdown list is displayed (default: 
+          false). If no visible scales are defined on the server, a simple 
+          input text will be displayed. </li>
+              <li> 
+          recenterActive<a id="id2597269" class="indexterm"></a>: 
+          boolean, if true, the coords recentering form is displayed (default: 
+          false) </li>
+              <li> 
+          idRecenterActive<a id="id2563235" class="indexterm"></a>: 
+          boolean, if true, the id recentering fields will be displayed 
+          (default: false) </li>
+              <li> 
+          idRecenterLayers<a id="id2625642" class="indexterm"></a> 
+          the comma separated list of layers which will appear in the id 
+          recentering selection form. If this list is absent, all msLayers 
+          appear in the form. </li>
+              <li> 
+          shortcutsActive<a id="id2623251" class="indexterm"></a>: 
+          boolean, if true, the shortcuts (direct access dropdown list) are 
+          displayed (default: false) </li>
+              <li> 
+          scaleUnitLimit<a id="id2623264" class="indexterm"></a>: 
+          scale above which DHTML measures use km ; below, they use m. </li>
+              <li> panRatio<a id="id2623276" class="indexterm"></a>: 
+          ratio for panning by clicking directional arrows. Default is 1 (no 
+          overlap, no gap). Values below 1 result in an overlap of the old and 
+          the new maps; values above 1 in a gap between these two maps. </li>
+              <li> 
+          weightZoomIn<a id="id2623290" class="indexterm"></a>: 
+          integer defining display order of the zoom_in tool icon in toolbar 
+          (if not specified, default to 10). A negative weight disables the 
+          tool. </li>
+              <li> 
+          weightZoomOut<a id="id2623304" class="indexterm"></a>: 
+          see weightZoomIn (default to 11) </li>
+              <li> weightPan<a id="id2623316" class="indexterm"></a>: 
+          see weightZoomIn (default to 12) </li>
+              <li> crosshairSymbol<a id="id2623327" class="indexterm"></a>:
+               (integer) numerical id of symbol to use to materialize recentering point 
+               (see your <em class="parameter"><code>symbolset</code></em> file)</li>
+              <li> crosshairSymbolSize<a id="id2623343" class="indexterm"></a>:
+               integer defining the size used to display the recentering crosshair symbol.</li>
+              <li> crosshairSymbolColor<a id="id2623356" class="indexterm"></a>:
+               RGB code (comma-separated list of integers) of the crosshair color.</li>
+              <li> showRefMarks<a id="id2627386" class="indexterm"></a>: if true, will add
+                reference marks to the main map. Reference marks configuration is set on
+                server. </li>
+            </ul>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.location.server"></a>7.2. Server-side Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <p> Here are the options that can be set: </p>
+          <div class="itemizedlist">
+            <ul>
+              <li> minScale<a id="id2627415" class="indexterm"></a>: if 
+          set, minimal scale allowed. </li>
+              <li> maxScale<a id="id2627426" class="indexterm"></a>: if 
+          set, maximal scale allowed </li>
+              <li> 
+          scaleModeDiscrete<a id="id2627437" class="indexterm"></a>: 
+          boolean, if true, only specified scales (see below) can be set. 
+          </li>
+              <li> zoomFactor<a id="id2627449" class="indexterm"></a>: 
+          the zoom factor to use whan scaleModeDiscrete is set to false. </li>
+              <li> noBboxAdjusting<a id="id2627462" class="indexterm"></a>: 
+          If set to true, all data contained in the initial extent (mapfile)
+          is visible on the full extent (first) map. This case is the default 
+          mapserver behavior. If set to false (default), the user won't be 
+          able to see anything outside the initial extent, even on full extent 
+          map.</li>
+              <li> 
+          scales.#.value<a id="id2627478" class="indexterm"></a> 
+          (# = 0, 1, 2, ...): available value of the scale in discrete mode. 
+          </li>
+              <li> 
+          scales.#.label<a id="id2627490" class="indexterm"></a> 
+          (# = 0, 1, 2, ...): label of the scale, to be displayed in the 
+          dropdown list on the client. </li>
+              <li> 
+          scales.#.visible<a id="id2627503" class="indexterm"></a> 
+          (# = 0, 1, 2, ...): boolean, if true, the scale is displayed in the 
+          dropdown list. If false, this scale can only be selected by 
+          zoom-in/zoom-out. Default is true. </li>
+              <li> 
+          shortcuts.#.label<a id="id2627517" class="indexterm"></a> 
+          (# = 0, 1, 2, ...): label of the shortcut; appears in the direct 
+          access dropdown list on the client. </li>
+              <li> 
+          shortcuts.#.bbox<a id="id2618262" class="indexterm"></a> 
+          (# = 0, 1, 2, ...): geographic bbox of the shortcut. </li>
+              <li> 
+          recenterMargin<a id="id2618272" class="indexterm"></a>: 
+          margin to add around the centered-on object (valid for lines and 
+          polygons). Expressed in percent of the width/height of the object.
+          If not set, recenterDefaultScale is used. 
+          </li>
+              <li> 
+          recenterDefaultScale<a id="id2618287" class="indexterm"></a>: 
+          fixed scale to use when recentering. Mandatory when centered-on object
+          is a point.</li>
+              <li> refMarksSymbol<a id="id2618299" class="indexterm"></a>: symbol used to draw
+                lines for reference marks (typically an ellipse). </li>
+              <li> refMarksSymbolSize<a id="id2618313" class="indexterm"></a>: size in pixel of
+                symbol used to draw lines for reference marks (typically 1 or 2). </li>
+              <li> refMarksSize<a id="id2618326" class="indexterm"></a>: size of reference
+                marks. Size is fixed and won't change with scale. </li>
+              <li> refMarksColor<a id="id2618340" class="indexterm"></a>: color of reference
+                marks (comma-separated R, G and B values). </li>
+              <li> refMarksTransparency<a id="id2618353" class="indexterm"></a>: transparency
+                of reference marks. </li>
+              <li> refMarksOrigin<a id="id2618366" class="indexterm"></a>: origin for
+                reference marks (comma-separated X and Y values, typically "0, 0").
+                </li>
+              <li> refMarksInterval.#.maxScale<a id="id2618379" class="indexterm"></a>:
+                maximum scale for corresponding interval. </li>
+              <li> refMarksInterval.#.interval<a id="id2618392" class="indexterm"></a>: real interval
+                between two reference marks (comma-separated X and Y values). </li>
+              <li> refLinesActive<a id="id2618406" class="indexterm"></a>: if true, will display
+                reference marks on page borders. </li>
+              <li> refLinesSize<a id="id2618419" class="indexterm"></a>: size in pixel of
+                reference marks on page borders. </li>
+              <li> refLinesFontSize<a id="id2618432" class="indexterm"></a>: size of font for
+                reference marks on page borders.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.location.mapfile"></a>7.3. Related Elements Elsewhere</h2>
+              </div>
+            </div>
+          </div>
+          <p> <a id="id2618452" class="indexterm"></a>The maximal extent 
+      of the geographical zone is set by the EXTENT command in the mapfile. 
+      </p>
+          <p> <a id="id2618461" class="indexterm"></a>The initial 
+      bbox is set by the active initialMapState. It is to be configured in the 
+      <code class="filename">myMap.ini</code> file, using the following syntax: </p>
+          <p> mapInfo.initialMapStates.initialMapStateId.location.bbox = 
+      "xmin,ymin,xmax,ymax" </p>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

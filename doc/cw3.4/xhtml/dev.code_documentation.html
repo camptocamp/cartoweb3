@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>8. Code Documentation</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="dev.unit_test.html">
+       &lt; Unit Tests</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="dev.debug.html">Logging and Debugging &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.dev.html">Developer Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="dev.code_documentation.html#dev.code_documentation.generating">8.1. Generating Documentation</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.code_documentation.html#dev.code_documentation.docblocks">8.2. DocBlocks</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="dev.code_documentation.html#dev.code_documentation.docblocks.types">8.2.1. DocBlocks Types</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.code_documentation.html#dev.code_documentation.docblocks.content">8.2.2. DocBlocks Contents</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.code_documentation.html#dev.code_documentation.docblocks.example">8.2.3. Example</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="dev.code_documentation"></a>8. Code Documentation</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p> CartoWeb code documentation is generated using <a href="http://www.phpdoc.org/">PhpDocumentor</a>, a JavaDoc-style doc 
+    generator. CartoWeb already includes version 1.3.0rc3 of PhpDocumentor. 
+    </p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.code_documentation.generating"></a>8.1. Generating Documentation</h2>
+              </div>
+            </div>
+          </div>
+          <p> Documentation is generated using script 
+      <code class="filename">makedoc.php</code>: 
+        </p>
+          <pre class="screen">cd scripts
+php makedoc.php</pre>
+          <p>
+        This will generate documentation in directory 
+      <code class="filename">CARTOWEB_HOME/documentation/apidoc</code>. </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.code_documentation.docblocks"></a>8.2. DocBlocks</h2>
+              </div>
+            </div>
+          </div>
+          <p> DocBlocks are comments located at the beginning of a file, or just 
+      before a class, a method, a function outside a class or a variable 
+      declaration. These comments will be parsed by PhpDocumentor to generate 
+      documentation. </p>
+          <p> For a full description of DocBlocks, see <a href="http://phpdoc.org/docs/HTMLSmartyConverter/default/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html#basics.docblock">official 
+      PhpDocumentor documentation</a>. </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.code_documentation.docblocks.types"></a>8.2.1. DocBlocks Types</h3>
+                </div>
+              </div>
+            </div>
+            <p> In CartoWeb we use:
+        </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>Page-level DocBlocks: one DocBlock for each PHP file.
+              </li>
+                <li>Class, method, class variable and function (outside a class)
+              DocBlocks: one DocBlock for each. </li>
+                <li> Require, include, define: if needed, one DocBlock for
+              each or all.</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.code_documentation.docblocks.content"></a>8.2.2. DocBlocks Contents</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> Short description: if needed, a one line description. 
+              </li>
+                <li> Long description: if needed, a longer description. </li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <p>
+        </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> @package &lt;package&gt; (file, class): we use one package
+              for each directory which contains PHP files, it means there are
+              the following packages: Client, Server, Common, CorePlugins,
+              Plugins, Scripts, Tests. </li>
+                <li> @author &lt;author&gt; (file): author with email address.
+              </li>
+                <li> @version $Id:$ (file): always
+              '$Id:$', content automatically set by CVS. </li>
+                <li> @param &lt;type&gt; [&lt;description&gt;] (method): type
+              mandatory, description if needed. </li>
+                <li> @return &lt;type&gt; [&lt;description&gt;] (method): type
+              mandatory, description if needed. </li>
+                <li> @var &lt;type&gt; [&lt;description&gt;] (variable): type
+              mandatory, description if needed. </li>
+                <li> {@link [&lt;class&gt;|&lt;method&gt;]} (anywhere): to add
+              a hyperlink to a class or method. </li>
+                <li> @see [&lt;class&gt;|&lt;method&gt;] (anywhere): to add a
+              reference to a class or method. @see is also used for interface
+              implementation: Because PhpDocumentor doesn't inherit tags
+              @param, @return, etc. and because we don't want to copy/paste
+              these tags, we add a simple @see tag to interface method
+              definition. See example below. </li>
+              </ul>
+            </div>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.code_documentation.docblocks.example"></a>8.2.3. Example</h3>
+                </div>
+              </div>
+            </div>
+            <p>Here is a code example. Please note:
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> $simpleVariable doesn't need a description, but @var tag is
+            mandatory. </li>
+                <li> here constructor doesn't need a description. </li>
+                <li> getters and setters are too simple to have a description, but
+            don't forget the @param and @return! </li>
+                <li> use (but not abuse) of {@link} and @see. This can be really
+            useful to navigate through documentation. </li>
+              </ul>
+            </div>
+            <p>
+    </p>
+            <p>
+      </p>
+            <pre class="programlisting">&lt;?php
+/**
+ * Test file 
+ *
+ * The purpose of this file is to show an example of how to use
+ * PhpDocumentor DocBlocks in CartoWeb.
+ * @package MyPackage
+ * @author Gustave Dupond &lt;gustave.dupond@camptocamp.com&gt;
+ * @version $Id:$
+ */
+
+/**
+ * This is a require description
+ */
+require_once('required_file.php');
+
+/**
+ * This is a short description of MyClass
+ * 
+ * MyClass long descrition.
+ * @package MyPackage
+ */
+class MyClass extends MySuperClass {
+
+        /**
+         * @var int
+         */
+        public $simpleVariable;
+
+        /** 
+         * @var MyVarClass
+         */
+        public $simpleObjectVariable;
+
+        /**
+         * This variable needs a description
+         * @var string
+         */
+        public $notSoSimpleVariable;
+
+        /**
+         * @param int
+         */
+        function __construct($initialValue) {
+                parent::__construct();
+                $this-&gt;simpleVariable = $initialValue;
+                $this-&gt;simpleObjectVariable = NULL;
+                $this-&gt;notSoSimpleVariable = '';
+        }
+
+        /**
+         * @param int
+         */
+        function setSimpleVariable($newValue) {
+                $this-&gt;simpleVariable = $newValue;
+        }
+
+        /**
+         * @return int
+         */
+        function getSimpleVariable() {
+                return $this-&gt;simpleVariable;
+        } 
+
+        /**
+         * This is a short description for method
+         *
+         * This is a longer description. Don't forget to have a 
+         * look here {@link MyLinkClass::myLinkMethod()}. blah blah.
+         * @param string description of first parameter
+         * @param MyParamClass description of second parameter
+         * @return boolean true if everything's fine
+         * @see MyInterestingClass
+         */
+        function myMethod($myFirstParameter, $mySecondParameter) {
+                // blah blah
+
+                return true;
+        }
+
+        /**
+         * @see MyInterface::myImplementingMethod()
+         */
+        function myImplementingMethod($myParameter) {
+                // blah blah
+
+                return true;
+        } 
+
+        function myOverridingMethod($myParameter) {
+                // blah blah
+
+                return true;
+        } 
+}
+?&gt;</pre>
+            <p>
+    </p>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,115 @@
+<!--		
+		/* body */	
+		body 
+		{
+			font-size : 12px;
+			font-family : Verdana, Arial, sans-serif;
+			background-color : #EEEEEE;
+			margin : 10px;		
+		}
+		
+		/* global layer */
+		div.main
+		{
+			border-style : dashed;
+			border-width : 1px;
+			border-color : #A5A5A5;	
+			padding : 10px;
+			margin-left:auto;
+			margin-right:auto;
+
+			background-repeat : no-repeat;			
+			
+			text-align : left;
+			
+			width : 750px;
+			height : auto;
+		}
+		
+		/* text layer */
+		div.text
+		{
+			background-color : #FFFFFF;
+
+			border-style : groove;
+			border-width : 1px;
+			border-color : #111111;	
+			
+			padding : 5px;
+			
+			width: auto;
+			height : auto;
+			
+			text-align : justify;							
+			text-indent : 10px;			
+			overflow : auto;	
+		}
+		div.text_foot
+		{		
+			border-width : 1px;
+			border-color : #111111;	
+			
+			padding : 5px;
+			
+			width: auto;
+			height : auto;
+
+			margin-top : 10px;
+			
+			text-align : right;							
+			text-indent : 10px;			
+			overflow : auto;	
+		}
+		
+		div.code
+		{
+			background-color : #FFFFFF;
+
+			border-style : groove;
+			border-width : 1px;
+			border-color : red;	
+			
+			padding : 5px;
+			margin-top :10px;
+			margin-left :10px;
+			margin-right :10px;
+			width: auto;
+			height : auto;
+			
+			text-align : justify;							
+			text-indent : 10px;			
+			overflow : auto;
+		}
+					
+		/* different link states */
+		a:link
+		{
+			color:#0000AA;
+			text-decoration:none;
+		}
+
+		a:hover
+		{
+			color:#AAAAAA;
+			text-decoration:none;
+		}
+
+		a:visited
+		{
+			color:#000033;
+			text-decoration:none;
+		}
+		
+		/* horizontal line */
+		hr
+		{
+			border:0;
+			height:1px;
+			color:#aaaaaa;
+			background-color:#aaaaaa;
+			width:50%;
+			margin-left:auto;
+			margin-right:auto;
+		}
+
+-->

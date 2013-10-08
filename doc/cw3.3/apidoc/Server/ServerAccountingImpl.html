@@ -1,0 +1,411 @@
+<html>
+<head>
+<title>Docs For Class ServerAccountingImpl</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">Server</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_Server.html" class="menu">class tree: Server</a> ]
+		  [ <a href="../elementindex_Server.html" class="menu">index: Server</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+	<div id="todolist">
+			<p><a href="../todolist.html">Todo List</a></p>
+	</div>
+      <b>Packages:</b><br />
+              <a href="../li_CartoWeb3.html">CartoWeb3</a><br />
+              <a href="../li_Client.html">Client</a><br />
+              <a href="../li_Common.html">Common</a><br />
+              <a href="../li_CorePlugins.html">CorePlugins</a><br />
+              <a href="../li_Plugins.html">Plugins</a><br />
+              <a href="../li_Scripts.html">Scripts</a><br />
+              <a href="../li_Server.html">Server</a><br />
+              <a href="../li_Tests.html">Tests</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../Server/_doc_cartoweb3_server_Cartoserver_php.html">		Cartoserver.php
+		</a><br>
+			<a href="../Server/_doc_cartoweb3_common_Encoding_php.html">		Encoding.php
+		</a><br>
+			<a href="../Server/_doc_cartoweb3_server_MapInfoHandler_php.html">		MapInfoHandler.php
+		</a><br>
+			<a href="../Server/_doc_cartoweb3_server_MapResultCache_php.html">		MapResultCache.php
+		</a><br>
+			<a href="../Server/_doc_cartoweb3_server_ServerContext_php.html">		ServerContext.php
+		</a><br>
+			<a href="../Server/_doc_cartoweb3_server_ServerPlugin_php.html">		ServerPlugin.php
+		</a><br>
+			<a href="../Server/_doc_cartoweb3_server_ServerPluginHelper_php.html">		ServerPluginHelper.php
+		</a><br>
+			<a href="../Server/_doc_cartoweb3_server_SoapXMLCache_php.html">		SoapXMLCache.php
+		</a><br>
+	  </div><br />
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../Server/Cartoserver.html">Cartoserver</a><br />
+	    		<a href="../Server/CartoserverException.html">CartoserverException</a><br />
+	    		<a href="../Server/ClientResponder.html">ClientResponder</a><br />
+	    		<a href="../Server/ClientResponderAdapter.html">ClientResponderAdapter</a><br />
+	    		<a href="../Server/ClientResponderHelper.html">ClientResponderHelper</a><br />
+	    		<a href="../Server/CoreProvider.html">CoreProvider</a><br />
+	    		<a href="../Server/CoreProviderHelper.html">CoreProviderHelper</a><br />
+	    		<a href="../Server/Encoder.html">Encoder</a><br />
+	    		<a href="../Server/InitProvider.html">InitProvider</a><br />
+	    		<a href="../Server/InitProviderHelper.html">InitProviderHelper</a><br />
+	    		<a href="../Server/MapInfoHandler.html">MapInfoHandler</a><br />
+	    		<a href="../Server/MapResultCache.html">MapResultCache</a><br />
+	    		<a href="../Server/ServerAccountingImpl.html">ServerAccountingImpl</a><br />
+	    		<a href="../Server/ServerConfig.html">ServerConfig</a><br />
+	    		<a href="../Server/ServerContext.html">ServerContext</a><br />
+	    		<a href="../Server/ServerMapInfoCache.html">ServerMapInfoCache</a><br />
+	    		<a href="../Server/ServerPlugin.html">ServerPlugin</a><br />
+	    		<a href="../Server/ServerPluginConfig.html">ServerPluginConfig</a><br />
+	    		<a href="../Server/ServerPluginHelper.html">ServerPluginHelper</a><br />
+	    		<a href="../Server/ShapeConverter.html">ShapeConverter</a><br />
+	    		<a href="../Server/ShapeConverterFacade.html">ShapeConverterFacade</a><br />
+	    		<a href="../Server/SoapXMLCache.html">SoapXMLCache</a><br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Class: ServerAccountingImpl</h1>
+Source Location: /server/ServerAccounting.php<br /><br />
+
+
+<table width="100%" border="0">
+<tr><td valign="top">
+
+<h3><a href="#class_details">Class Overview</a></h3>
+<pre><a href="../Common/Accounting.html">Accounting</a>
+   |
+   --ServerAccountingImpl</pre><br />
+<div class="description">Server implementation of accounting management.</div><br /><br />
+<h4>Author(s):</h4>
+<ul>
+          <li>Sylvain Pasche &lt;<a href="mailto:sylvain.pasche@camptocamp.com">sylvain.pasche@camptocamp.com</a>&gt;</li>
+      </ul>
+
+
+
+
+    
+
+
+</td>
+
+
+
+<td valign="top">
+<h3><a href="#class_methods">Methods</a></h3>
+<ul>
+    <li><a href="../Server/ServerAccountingImpl.html#method__construct">__construct</a></li>
+    <li><a href="../Server/ServerAccountingImpl.html#methodgetConfig">getConfig</a></li>
+    <li><a href="../Server/ServerAccountingImpl.html#methodgetKind">getKind</a></li>
+    <li><a href="../Server/ServerAccountingImpl.html#methodgetMapId">getMapId</a></li>
+  </ul>
+</td>
+
+</tr></table>
+<hr />
+
+<table width="100%" border="0"><tr>
+
+
+
+
+<td valign="top">
+<h3>Inherited Variables</h3>
+<div class="tags">
+<h4>Class: <a href="../Common/Accounting.html">Accounting</a></h4>
+<dl>
+<dt>
+  <a href="../Common/Accounting.html#var$accountings">Accounting::$accountings</a>
+  </dt>
+<dd>
+   
+</dd>
+<dt>
+  <a href="../Common/Accounting.html#var$active">Accounting::$active</a>
+  </dt>
+<dd>
+   
+</dd>
+<dt>
+  <a href="../Common/Accounting.html#var$cacheHit">Accounting::$cacheHit</a>
+  </dt>
+<dd>
+   
+</dd>
+<dt>
+  <a href="../Common/Accounting.html#var$instance">Accounting::$instance</a>
+  </dt>
+<dd>
+   
+</dd>
+<dt>
+  <a href="../Common/Accounting.html#var$pluginLoaded">Accounting::$pluginLoaded</a>
+  </dt>
+<dd>
+   
+</dd>
+</dl>
+</div>
+</td>
+
+<td valign="top">
+<h3>Inherited Methods</h3>
+<div class="tags">
+<h4>Class: <a href="../Common/Accounting.html">Accounting</a></h4>
+<dl>
+    <dt>
+    <a href="../Common/Accounting.html#method__construct">Accounting::__construct()</a>
+  </dt>
+  <dd>
+    Constructor. Can't be called directly, use getInstance() instead.
+  </dd>
+    <dt>
+    <a href="../Common/Accounting.html#methodaccount">Accounting::account()</a>
+  </dt>
+  <dd>
+    Records an accounting message
+  </dd>
+    <dt>
+    <a href="../Common/Accounting.html#methodgetConfig">Accounting::getConfig()</a>
+  </dt>
+  <dd>
+    Returns the client or server configuration object
+  </dd>
+    <dt>
+    <a href="../Common/Accounting.html#methodgetInstance">Accounting::getInstance()</a>
+  </dt>
+  <dd>
+    Returns the instance of this class.
+  </dd>
+    <dt>
+    <a href="../Common/Accounting.html#methodgetKind">Accounting::getKind()</a>
+  </dt>
+  <dd>
+    Returns type of Accoungint ('client' or 'server')
+  </dd>
+    <dt>
+    <a href="../Common/Accounting.html#methodgetMapId">Accounting::getMapId()</a>
+  </dt>
+  <dd>
+    Returns the mapId of the current map.
+  </dd>
+    <dt>
+    <a href="../Common/Accounting.html#methodisActive">Accounting::isActive()</a>
+  </dt>
+  <dd>
+    Returns true if accounting is active and enabled
+  </dd>
+    <dt>
+    <a href="../Common/Accounting.html#methodpluginLoaded">Accounting::pluginLoaded()</a>
+  </dt>
+  <dd>
+    Needs to be called by accounting plugin, to detect case when the  accounting plugin was not enabled and accouting is turned on.
+  </dd>
+    <dt>
+    <a href="../Common/Accounting.html#methodreset">Accounting::reset()</a>
+  </dt>
+  <dd>
+    Resets accounting messages
+  </dd>
+    <dt>
+    <a href="../Common/Accounting.html#methodsave">Accounting::save()</a>
+  </dt>
+  <dd>
+    Saves all accounting messages to persistent storage. This should be called  only once per request (client or server).
+  </dd>
+    <dt>
+    <a href="../Common/Accounting.html#methodsaveDb">Accounting::saveDb()</a>
+  </dt>
+  <dd>
+    Saves an accounting packet (merge of all accounting messages) to database
+  </dd>
+    <dt>
+    <a href="../Common/Accounting.html#methodsaveFile">Accounting::saveFile()</a>
+  </dt>
+  <dd>
+    Saves an accounting packet (merge of all accounting messages) to file
+  </dd>
+    <dt>
+    <a href="../Common/Accounting.html#methodsetActive">Accounting::setActive()</a>
+  </dt>
+  <dd>
+    Sets whether accounting is active or not. Can be used to disable
+  </dd>
+    <dt>
+    <a href="../Common/Accounting.html#methodsetCacheHit">Accounting::setCacheHit()</a>
+  </dt>
+  <dd>
+    Tells accounting that a cache hit occured. This is used to prevent  false error message in some situations.
+  </dd>
+  </dl>
+</div>
+</td>
+
+</tr></table>
+<hr />
+
+<a name="class_details"></a>
+<h3>Class Details</h3>
+<div class="tags">
+[line 31]<br />
+Server implementation of accounting management.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Sylvain Pasche &lt;<a href="mailto:sylvain.pasche@camptocamp.com">sylvain.pasche@camptocamp.com</a>&gt;</td>
+  </tr>
+</table>
+</div>
+</div><br /><br />
+<div class="top">[ <a href="#top">Top</a> ]</div><br />
+
+
+<hr />
+<a name="class_methods"></a>
+<h3>Class Methods</h3>
+<div class="tags">
+  <hr />
+	<a name="method__construct"></a>
+	<h3>constructor __construct <span class="smalllinenumber">[line 36]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>ServerAccountingImpl __construct(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Constructor<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+Overrides <a href="../Common/Accounting.html#method__construct">Accounting::__construct()</a> (Constructor. Can't be called directly, use getInstance() instead.)<br /><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetConfig"></a>
+	<h3>method getConfig <span class="smalllinenumber">[line 59]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void getConfig(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+  <tr>
+    <td><b>see:</b>&nbsp;&nbsp;</td><td><a href="../Common/Accounting.html#methodgetConfig">Accounting::getConfig()</a></td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+Overrides <a href="../Common/Accounting.html#methodgetConfig">Accounting::getConfig()</a> (Returns the client or server configuration object)<br /><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetKind"></a>
+	<h3>method getKind <span class="smalllinenumber">[line 43]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void getKind(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+  <tr>
+    <td><b>see:</b>&nbsp;&nbsp;</td><td><a href="../Common/Accounting.html#methodgetKind">Accounting::getKind()</a></td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+Overrides <a href="../Common/Accounting.html#methodgetKind">Accounting::getKind()</a> (Returns type of Accoungint ('client' or 'server'))<br /><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetMapId"></a>
+	<h3>method getMapId <span class="smalllinenumber">[line 50]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void getMapId(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+  <tr>
+    <td><b>see:</b>&nbsp;&nbsp;</td><td><a href="../Common/Accounting.html#methodgetMapId">Accounting::getMapId()</a></td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+Overrides <a href="../Common/Accounting.html#methodgetMapId">Accounting::getMapId()</a> (Returns the mapId of the current map.)<br /><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+</div><br />
+
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Wed, 30 Aug 2006 21:57:47 +0200 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

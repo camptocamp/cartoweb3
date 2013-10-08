@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>9. Logging and Debugging</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="dev.code_documentation.html">
+       &lt; Code Documentation</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="dev.performance.html">Performance Tests &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.dev.html">Developer Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="dev.debug.html#dev.debug.intro">9.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.debug.html#dev.debug.log">9.2. Logging</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="dev.debug.html#dev.debug.log.enable">9.2.1. Log4php Activation</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.debug.html#dev.debug.log.config">9.2.2. Log4php Configuration Files</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.debug.html#dev.debug.log.default_location">9.2.3. Default Log File Location</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.debug.html#id2655008">9.2.4. Using Log4php in Source Files</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.debug.html#dev.debug.debug">9.3. Debugging</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="dev.debug.html#dev.debug.debug.stacktraces">9.3.1. Understanding Exceptions and Stack Traces</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.debug.html#dev.debug.debug.directmode">9.3.2. Using Direct for More Verbosity</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="dev.debug"></a>9. Logging and Debugging</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.debug.intro"></a>9.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+  This chapter is about the logging framework used in CartoWeb, and gives some
+  tips for debugging the application. The two concepts are somewhat related, as
+  logging is often used as a way to ease debugging.
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.debug.log"></a>9.2. Logging</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Logging is an important feature for being able to see what happens, debug
+    more easily the application, and track invalid or unexpected situations.
+  </p>
+          <p>
+    The logging framework used for CartoWeb is 
+      <a href="http://logging.apache.org/log4php/">Log4php</a>. Log4php is a portage
+    to Php of the famous Log4j Java logging library. Thus, Log4php has lots 
+    of similarities with Log4j, and users familiar with it will have no
+    problems understanding it.
+  </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.debug.log.enable"></a>9.2.1. Log4php Activation</h3>
+                </div>
+              </div>
+            </div>
+            <p>To activate the logging with the default settings, uncomment the line :
+    </p>
+            <pre class="programlisting">
+    ;log4php.rootLogger=DEBUG, A1
+      </pre>
+            <p>
+    in <code class="filename">client_conf/cartoclientLogger.properties</code>
+  </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.debug.log.config"></a>9.2.2. Log4php Configuration Files</h3>
+                </div>
+              </div>
+            </div>
+            <p>Log4php settings are customizable in the 
+      <code class="filename">client_conf/cartoclientLogger.properties</code>
+      configuration file on the CartoClient and 
+      <code class="filename">server_conf/cartoserverLogger.properties</code>
+      on the CartoServer.</p>
+            <p>
+      For the detailed syntax of the configuration file, see the Log4php
+      documentation. A very short introduction is given there. The line
+      <code class="literal">"log4php.rootLogger=DEBUG, A1"</code> can be 
+      uncommented, which will activate the loggers defined in the lines
+      starting with <code class="literal">log4php.appender.NAME</code>, 
+      (where <code class="literal">NAME</code> is the name in the list 
+        <code class="literal">"DEBUG, A1"</code>). After the loggers are activated, the
+      the log output will be redirected to the corresponding location.
+      In the line <code class="literal">log4php.appender.A1.file="LOG_HOME/cartoclient.log"</code>
+      the <code class="literal">LOG_HOME</code> variable has a special meaning: it is expanded
+      to the <code class="filename">log</code> directory of the CartoWeb distribution.
+    </p>
+            <p>
+      One powerful feature of Log4php, among others, is the ability to filter 
+      log message according to their severity. Each log message has a severity
+      which may be <code class="literal">ALL, DEBUG, INFO, WARN, ERROR, FATAL, OFF</code>.
+      As described in the configuration file comments, the lines like 
+      <code class="literal">log4php.logger.CLASSNAME</code> can be used to apply a filtering
+      of the log message for the class <code class="literal">CLASSNAME</code>. For instance,
+      adding a line <code class="literal">"log4php.logger.Cartoclient = INFO"</code>, means 
+      that only log message of severity INFO or above will be printed. This 
+      is useful to avoid displaying unwanted log messages.
+    </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.debug.log.default_location"></a>9.2.3. Default Log File Location</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+      Default log messages will be written to 
+        <code class="filename">log/cartoclient.log</code> and the CartoServer ones to
+        <code class="filename">log/cartoserver.log</code>. Of course, the
+      Log4php configuration files can be adapted to write messages elsewhere.
+    </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="id2655008"></a>9.2.4. Using Log4php in Source Files</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+      The Log4php usage in code is quite easy.
+      </p>
+            <div class="orderedlist">
+              <ol>
+                <li>For objects, it is advised to store a 
+            <code class="classname">Logger</code> object as an instance variable
+            <pre class="programlisting">
+class MyClass {
+    /**
+     * @var Logger
+     */
+    private $log;
+    
+    [...]
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this-&gt;log =&amp; LoggerManager::getLogger(__CLASS__);
+        [ ... ]
+        parent::__construct();
+    }  </pre>
+            For non object, a reference to a <code class="classname">Logger</code>
+            object can be obtained this way:
+                <pre class="programlisting">
+  $log =&amp; LoggerManager::getLogger(__METHOD__);  </pre>
+                <div class="tip"><h3 class="title">Tip</h3><p>
+                    Using <code class="constant">__METHOD__</code> allows the same line
+                    to be used independently of the method where it is located.
+                  </p></div>
+            </li>
+                <li>On the <code class="classname">Logger</code> object, several methods
+            can be used to log messages: 
+              <code class="literal">debug(), info(), warn(), error(), fatal()</code>
+           They take a <code class="literal">string</code> as argument, which is the
+           message to log. Example:
+                     <pre class="programlisting">
+  $this-&gt;log-&gt;debug('My Message'); // Inside objects
+  $log-&gt;warn('My Message');        // Outside objects  </pre>
+           </li>
+              </ol>
+            </div>
+            <p>
+    </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.debug.debug"></a>9.3. Debugging</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Debugging is a large topic. Everyone has its preference over the tool to
+    be used like using an integrated debugging tool inside an <span class="acronym">IDE</span>,
+    using print statements, code printing and reading, ...
+    Because of this, this section does not tells what tools to use, but rather
+    gives some tips when debugging.
+  </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.debug.debug.stacktraces"></a>9.3.1. Understanding Exceptions and Stack Traces</h3>
+                </div>
+              </div>
+            </div>
+            <p>When a failure is encountered in CartoWeb the Php5 mechanism for
+      exceptions handling is used to manage exception and display stack
+      traces. People knowing the <span class="trademark">Java</span>&#8482; 
+      language will be familiar with such stack traces. The following example
+      shows such a stack trace display. It is easily understood as the list
+      of functions called, and the line numbers where the call happened.
+      </p>
+            <pre class="screen">Failure
+
+class:   SoapFault
+message:   Error [8, Undefined property:  ServerMapquery::$currentQeury, 
+         /var/www/cartoweb3/coreplugins/mapquery/server/ServerMapquery.php, 222]
+Backtrace:
+
+file: 182 - /var/www/cartoweb3/common/Common.php
+call: Common::cartowebErrorHandler()
+
+file: 222 - /var/www/cartoweb3/coreplugins/mapquery/server/ServerMapquery.php
+call: Common::cartowebErrorHandler()
+
+file: 222 - /var/www/cartoweb3/coreplugins/mapquery/server/ServerMapquery.php
+call: ServerMapquery::queryByBbox()
+
+file: 248 - /var/www/cartoweb3/coreplugins/query/server/ServerQuery.php
+call: ServerMapquery-&gt;queryByBbox(8, "Undefined property:  
+     ServerMapquery::$currentQeury", 
+     "/var/www/cartoweb3/coreplugins/mapquery/server...", 222, Array(2))
+
+file: 369 - /var/www/cartoweb3/coreplugins/query/server/ServerQuery.php
+call: ServerQuery-&gt;queryLayer("polygon", Object(Bbox))
+
+file: 58 - /var/www/cartoweb3/server/ServerPluginHelper.php
+call: ServerQuery-&gt;handlePreDrawing(Object(Bbox), Object(QuerySelection))
+
+file: 96 - /var/www/cartoweb3/server/ServerPluginHelper.php
+call: ClientResponderHelper-&gt;callHandleFunction(Object(QueryRequest))</pre>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.debug.debug.directmode"></a>9.3.2. Using Direct for More Verbosity</h3>
+                </div>
+              </div>
+            </div>
+            <p>In some situations, a fatal error on the server will display a 
+      message with not much verbosity:</p>
+            <pre class="screen">Failure
+
+class: SoapFault
+message: parse error, unexpected T_VARIABLE</pre>
+            <p> 
+        The fact no line number and Php file is displayed is a
+        limitation of the Php SOAP implementation (workarounds are 
+        welcomed ;-) ).</p>
+            <p>
+          In such a situation, a solution for this problem is to enable the
+          CartoWeb direct access mode of operation. Direct access mode is set 
+          with the <code class="constant">cartoserverDirectAccess</code> parameter of the 
+            <code class="filename">client_conf/client.ini</code> configuration file. For 
+            more details about this parameter, see 
+              <a href="user.config.html#user.config.client" title="4.2. &#10;      client.ini&#10;    ">Section 4.2, &#8220;
+      <code class="filename">client.ini</code>
+    &#8221;</a>.
+        </p>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

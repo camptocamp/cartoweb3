@@ -1,0 +1,184 @@
+<html>
+<head>
+<title>Docs for page clean.php</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">Scripts</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_Scripts.html" class="menu">class tree: Scripts</a> ]
+		  [ <a href="../elementindex_Scripts.html" class="menu">index: Scripts</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+      <b>Packages:</b><br />
+              <a href="../li_Client.html">Client</a><br />
+              <a href="../li_Common.html">Common</a><br />
+              <a href="../li_CorePlugins.html">CorePlugins</a><br />
+              <a href="../li_Plugins.html">Plugins</a><br />
+              <a href="../li_Scripts.html">Scripts</a><br />
+              <a href="../li_Server.html">Server</a><br />
+              <a href="../li_Tests.html">Tests</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../Scripts/_doc_cartoweb3_scripts_clean_php.html">		clean.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_client2pot_php.html">		client2pot.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_cwprof_php.html">		cwprof.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_makedoc_php.html">		makedoc.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_po2mo_php.html">		po2mo.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_pot_tools_php.html">		pot_tools.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_server2pot_php.html">		server2pot.php
+		</a><br>
+	  </div><br />
+      
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Procedural File: clean.php</h1>
+Source Location: /scripts/clean.php<br /><br />
+
+<br>
+<br>
+
+
+<h2>Page Details:</h2>
+clean.php - cleans old images, old map results and old SOAP XML cache files<br /><br /><p>Cleans: <ul><li>Images not associated with map result</li><li>Images associated with map result / SOAP XML, including corresponding
+   map result / SOAP XML</li><li>Empty map results /SOAP XML</li></ul>  Usage:  ./clean.php &lt;cache_image_max_age&gt; [&lt;simple_image_max_age&gt;]</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Yves Bolognini &lt;<a href="mailto:yves.bolognini@camptocamp.com">yves.bolognini@camptocamp.com</a>&gt;</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+<h4>Includes:</h4>
+<div class="tags">
+require_once(<a href="../Common/_doc_cartoweb3_common_Serializable_php.html">CARTOCOMMON_HOME.'common/Serializable.php'</a>) [line 32]<br />
+require_once(<a href="../Common/_doc_cartoweb3_common_Request_php.html">CARTOCOMMON_HOME.'common/Request.php'</a>) [line 33]<br />
+require_once(<a href="../Common/_doc_cartoweb3_common_Common_php.html">CARTOCOMMON_HOME.'common/Common.php'</a>) [line 29]<br />
+require_once(<a href="../CorePlugins/_doc_cartoweb3_coreplugins_images_common_Images_php.html">CARTOSERVER_HOME.'coreplugins/images/common/Images.php'</a>) [line 34]<br />
+</div>
+<br /><br />
+<br /><br />
+  <hr />
+	<a name="defineCARTOCOMMON_HOME"></a>
+	<h3>CARTOCOMMON_HOME <span class="smalllinenumber">[line 22]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>CARTOCOMMON_HOME = realpath(dirname(__FILE__).'/..').'/'</code>
+    </td></tr></table>
+    </td></tr></table>
+
+    Common home dir<br /><br />    <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+  <hr />
+	<a name="defineCARTOSERVER_HOME"></a>
+	<h3>CARTOSERVER_HOME <span class="smalllinenumber">[line 27]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>CARTOSERVER_HOME = realpath(dirname(__FILE__).'/..').'/'</code>
+    </td></tr></table>
+    </td></tr></table>
+
+    Server home dir<br /><br />    <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+<br />
+  <hr />
+	<a name="functionloadMapResults"></a>
+	<h3>loadMapResults <span class="smalllinenumber">[line 112]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>array loadMapResults(
+string $resultCachedir)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Gets all links between images and MapResults<br /><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$resultCachedir</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionloadSoapXMLs"></a>
+	<h3>loadSoapXMLs <span class="smalllinenumber">[line 155]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>array loadSoapXMLs(
+string $soapCachedir)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Gets all links between images and SOAP XMLs<br /><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$soapCachedir</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionusage"></a>
+	<h3>usage <span class="smalllinenumber">[line 184]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void usage(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Prints usage<br /><br />    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Wed,  6 Apr 2005 12:06:29 +0200 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

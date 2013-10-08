@@ -1,0 +1,628 @@
+<html>
+<head>
+<title>Docs For Class ResourceHandler</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">Common</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_Common.html" class="menu">class tree: Common</a> ]
+		  [ <a href="../elementindex_Common.html" class="menu">index: Common</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+      <b>Packages:</b><br />
+              <a href="../li_CartoWeb3.html">CartoWeb3</a><br />
+              <a href="../li_client.html">client</a><br />
+              <a href="../li_Client.html">Client</a><br />
+              <a href="../li_Common.html">Common</a><br />
+              <a href="../li_CorePlugins.html">CorePlugins</a><br />
+              <a href="../li_Plugins.html">Plugins</a><br />
+              <a href="../li_Scripts.html">Scripts</a><br />
+              <a href="../li_Server.html">Server</a><br />
+              <a href="../li_Tests.html">Tests</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_BasicTypes_php.html">		BasicTypes.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_Common_php.html">		Common.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_Config_php.html">		Config.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_CwSerializable_php.html">		CwSerializable.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_Log4phpInit_php.html">		Log4phpInit.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_MapInfo_php.html">		MapInfo.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_Message_php.html">		Message.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_PluginBase_php.html">		PluginBase.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_PluginManager_php.html">		PluginManager.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_ProjectHandler_php.html">		ProjectHandler.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_Request_php.html">		Request.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_ResourceHandler_php.html">		ResourceHandler.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_SecurityManager_php.html">		SecurityManager.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_server_ServerProjectHandler_php.html">		ServerProjectHandler.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_StructHandler_php.html">		StructHandler.php
+		</a><br>
+			<a href="../Common/_generating_scripts_cartoweb3_doc_common_Utils_php.html">		Utils.php
+		</a><br>
+	  </div><br />
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../Common/Bbox.html">Bbox</a><br />
+	    		<a href="../Common/CartocommonException.html">CartocommonException</a><br />
+	    		<a href="../Common/CartowebException.html">CartowebException</a><br />
+	    		<a href="../Common/ChildrenSwitch.html">ChildrenSwitch</a><br />
+	    		<a href="../Common/Common.html">Common</a><br />
+	    		<a href="../Common/Config.html">Config</a><br />
+	    		<a href="../Common/ConfigParser.html">ConfigParser</a><br />
+	    		<a href="../Common/CwSerializable.html">CwSerializable</a><br />
+	    		<a href="../Common/Dimension.html">Dimension</a><br />
+	    		<a href="../Common/Feature.html">Feature</a><br />
+	    		<a href="../Common/GeoDimension.html">GeoDimension</a><br />
+	    		<a href="../Common/I18nNoop.html">I18nNoop</a><br />
+	    		<a href="../Common/InitialLocation.html">InitialLocation</a><br />
+	    		<a href="../Common/InitialMapState.html">InitialMapState</a><br />
+	    		<a href="../Common/Layer.html">Layer</a><br />
+	    		<a href="../Common/LayerBase.html">LayerBase</a><br />
+	    		<a href="../Common/LayerClass.html">LayerClass</a><br />
+	    		<a href="../Common/LayerContainer.html">LayerContainer</a><br />
+	    		<a href="../Common/LayerGroup.html">LayerGroup</a><br />
+	    		<a href="../Common/LayerState.html">LayerState</a><br />
+	    		<a href="../Common/Line.html">Line</a><br />
+	    		<a href="../Common/Location.html">Location</a><br />
+	    		<a href="../Common/MapInfo.html">MapInfo</a><br />
+	    		<a href="../Common/MapInfoCache.html">MapInfoCache</a><br />
+	    		<a href="../Common/MapRequest.html">MapRequest</a><br />
+	    		<a href="../Common/MapResult.html">MapResult</a><br />
+	    		<a href="../Common/Message.html">Message</a><br />
+	    		<a href="../Common/PluginBase.html">PluginBase</a><br />
+	    		<a href="../Common/PluginConfig.html">PluginConfig</a><br />
+	    		<a href="../Common/PluginManager.html">PluginManager</a><br />
+	    		<a href="../Common/Point.html">Point</a><br />
+	    		<a href="../Common/Polygon.html">Polygon</a><br />
+	    		<a href="../Common/ProjectHandler.html">ProjectHandler</a><br />
+	    		<a href="../Common/Rectangle.html">Rectangle</a><br />
+	    		<a href="../Common/ResourceHandler.html">ResourceHandler</a><br />
+	    		<a href="../Common/SecurityContainer.html">SecurityContainer</a><br />
+	    		<a href="../Common/SecurityManager.html">SecurityManager</a><br />
+	    		<a href="../Common/ServerProjectHandler.html">ServerProjectHandler</a><br />
+	    		<a href="../Common/Shape.html">Shape</a><br />
+	    		<a href="../Common/SoapFault.html">SoapFault</a><br />
+	    		<a href="../Common/StructHandler.html">StructHandler</a><br />
+	    		<a href="../Common/Utils.html">Utils</a><br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Class: ResourceHandler</h1>
+Source Location: /common/ResourceHandler.php<br /><br />
+
+
+<table width="100%" border="0">
+<tr><td valign="top">
+
+<h3><a href="#class_details">Class Overview</a></h3>
+<pre></pre><br />
+<div class="description">Class to manage resource accesses</div><br /><br />
+
+
+
+
+
+
+
+</td>
+
+<td valign="top">
+<h3><a href="#class_vars">Variables</a></h3>
+<ul>
+    <li><a href="../Common/ResourceHandler.html#var$cartoclientBaseUrl">$cartoclientBaseUrl</a></li>
+    <li><a href="../Common/ResourceHandler.html#var$cartoserverBaseUrl">$cartoserverBaseUrl</a></li>
+    <li><a href="../Common/ResourceHandler.html#var$directAccess">$directAccess</a></li>
+    <li><a href="../Common/ResourceHandler.html#var$projectHandler">$projectHandler</a></li>
+  </ul>
+</td>
+
+
+<td valign="top">
+<h3><a href="#class_methods">Methods</a></h3>
+<ul>
+    <li><a href="../Common/ResourceHandler.html#method__construct">__construct</a></li>
+    <li><a href="../Common/ResourceHandler.html#methodconvertXhtml">convertXhtml</a></li>
+    <li><a href="../Common/ResourceHandler.html#methodgetFinalUrl">getFinalUrl</a></li>
+    <li><a href="../Common/ResourceHandler.html#methodgetGeneratedUrl">getGeneratedUrl</a></li>
+    <li><a href="../Common/ResourceHandler.html#methodgetHtdocsUrl">getHtdocsUrl</a></li>
+    <li><a href="../Common/ResourceHandler.html#methodgetIconUrl">getIconUrl</a></li>
+    <li><a href="../Common/ResourceHandler.html#methodgetPathOrAbsoluteUrl">getPathOrAbsoluteUrl</a></li>
+  </ul>
+</td>
+
+</tr></table>
+<hr />
+
+<table width="100%" border="0"><tr>
+
+
+
+
+
+
+</tr></table>
+<hr />
+
+<a name="class_details"></a>
+<h3>Class Details</h3>
+<div class="tags">
+[line 30]<br />
+Class to manage resource accesses<br /><br /><p>It handles the registration of Url provider objects.</p><br /></div><br /><br />
+<div class="top">[ <a href="#top">Top</a> ]</div><br />
+
+<hr />
+<a name="class_vars"></a>
+<h3>Class Variables</h3>
+<div class="tags">
+	<a name="var$cartoclientBaseUrl"></a>
+	<p></p>
+	<h4>$cartoclientBaseUrl = <span class="value"></span></h4>
+	<p>[line 48]</p>
+  The URL to the cartoclient base<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>string</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$cartoserverBaseUrl"></a>
+	<p></p>
+	<h4>$cartoserverBaseUrl = <span class="value"></span></h4>
+	<p>[line 54]</p>
+  The URL to the cartoserver base.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>string</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$directAccess"></a>
+	<p></p>
+	<h4>$directAccess = <span class="value"></span></h4>
+	<p>[line 42]</p>
+  True if the client is in direct access mode.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>boolean</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$projectHandler"></a>
+	<p></p>
+	<h4>$projectHandler = <span class="value"></span></h4>
+	<p>[line 36]</p>
+  The project handler to use for getting current project name<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td><a href="../Common/ProjectHandler.html">ProjectHandler</a></td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+</div><br />
+
+<hr />
+<a name="class_methods"></a>
+<h3>Class Methods</h3>
+<div class="tags">
+  <hr />
+	<a name="method__construct"></a>
+	<h3>constructor __construct <span class="smalllinenumber">[line 62]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>ResourceHandler __construct(
+Config
+$config, ProjectHandler
+$projectHandler)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Constructor<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type"><a href="../Common/Config.html">Config</a>&nbsp;&nbsp;</td>
+        <td><b>$config</b>&nbsp;&nbsp;</td>
+        <td>the current configuration object</td>
+      </tr>
+          <tr>
+        <td class="type"><a href="../Common/ProjectHandler.html">ProjectHandler</a>&nbsp;&nbsp;</td>
+        <td><b>$projectHandler</b>&nbsp;&nbsp;</td>
+        <td>the current project handler.</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodconvertXhtml"></a>
+	<h3>method convertXhtml <span class="smalllinenumber">[line 79]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string convertXhtml(
+string
+$url, [boolean
+$back = false])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Replaces some URL characters by XHTML-proof ones.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>filtered URL</td>
+  </tr>
+  <tr>
+    <td><b>static:</b>&nbsp;&nbsp;</td><td></td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$url</b>&nbsp;&nbsp;</td>
+        <td>URL to filter</td>
+      </tr>
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$back</b>&nbsp;&nbsp;</td>
+        <td>if true reverts conversion: from XHTML to plain</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetFinalUrl"></a>
+	<h3>method getFinalUrl <span class="smalllinenumber">[line 102]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>A getFinalUrl(
+string
+$relativeUrl, boolean
+$client, [boolean
+$forceAbsolute = false], [boolean
+$useXhtml = true])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Processes a relative URL to a resource, and convert it so that it is  accessible on the client templates.<br /><br /><p>The relative url may be relative to the client or the server base Url.  Whenever possible, the returned URL will be relative to the cartoclient.  The relative URL is possible if the $forceAbsolute parameter is false and  the resource is on the client or directAccess is enabled.</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>relative URL to the resource if possible, or an absolute one</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$relativeUrl</b>&nbsp;&nbsp;</td>
+        <td>The relative URL to a resource to convert</td>
+      </tr>
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$client</b>&nbsp;&nbsp;</td>
+        <td>True for resources on the client, false for server</td>
+      </tr>
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$forceAbsolute</b>&nbsp;&nbsp;</td>
+        <td>True to obtain an absolute URL in any case</td>
+      </tr>
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$useXhtml</b>&nbsp;&nbsp;</td>
+        <td>True to make URL XHTML-compliant</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetGeneratedUrl"></a>
+	<h3>method getGeneratedUrl <span class="smalllinenumber">[line 197]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void getGeneratedUrl(
+string
+$resource)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Returns an URL to access files inside the directory of generated files  (like generated mapserver images, pdf files, ...)  This can be used for server or client resources.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$resource</b>&nbsp;&nbsp;</td>
+        <td>the resource to access (this is the resource name relative  to the directory of generated files (www-data usually))</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetHtdocsUrl"></a>
+	<h3>method getHtdocsUrl <span class="smalllinenumber">[line 154]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void getHtdocsUrl(
+string
+$plugin, string
+$project, string
+$resource)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Returns the URL for resources in htdocs directory (may be in projects  and plugins)  This is only relevent for client resources.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$plugin</b>&nbsp;&nbsp;</td>
+        <td>the plugin name</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$project</b>&nbsp;&nbsp;</td>
+        <td>the project name</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$resource</b>&nbsp;&nbsp;</td>
+        <td>the resource to access. It may contain a path, like  css/style.css, or gfx/my_icon.png</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetIconUrl"></a>
+	<h3>method getIconUrl <span class="smalllinenumber">[line 184]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void getIconUrl(
+string
+$project, string
+$mapId, string
+$resource)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Returns an URL to access icon images inside icons subdirectory where the  mapfile is located.<br /><br /><p>This is only relevent for server resources.</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$project</b>&nbsp;&nbsp;</td>
+        <td>the project name</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$mapId</b>&nbsp;&nbsp;</td>
+        <td>the mapId to use</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$resource</b>&nbsp;&nbsp;</td>
+        <td>the resource to access (icon name, without path)</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetPathOrAbsoluteUrl"></a>
+	<h3>method getPathOrAbsoluteUrl <span class="smalllinenumber">[line 133]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string getPathOrAbsoluteUrl(
+string
+$relativeUrl, [boolean
+$client = false])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		From a relative resource URL, returns either a  path to the corresponding  file on the file system, if accessible (only for client resources, or  server in direct access mode). Otherwise, it will return the absolute  URL to the resource.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>The path to the resource file on the filesystem, if  accessible, or the absolute URL to the resource</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$relativeUrl</b>&nbsp;&nbsp;</td>
+        <td>The relative URL to a resource</td>
+      </tr>
+          <tr>
+        <td class="type">boolean&nbsp;&nbsp;</td>
+        <td><b>$client</b>&nbsp;&nbsp;</td>
+        <td>True for resources on the client, false for server</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+</div><br />
+
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Fri, 11 Nov 2005 11:00:11 +0000 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

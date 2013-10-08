@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>27. Bounding box history plugin</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.routing.html">
+       &lt; Routing Plugin</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="cartoweb.dev.html">Developer Manual &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.bboxHistory.html#user.bboxHistory.activate">27.1. Plugin activation</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.bboxHistory"></a>27. Bounding box history plugin</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p>The bboxHistory plugin allow the user to navigate through the bbox he
+    or she visits: just like the back and forward buttons of a web browser.
+    </p>
+        <p>
+    Note that the ajax mode must be enabled to use the plugin and it has no configuration file.
+    </p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.bboxHistory.activate"></a>27.1. Plugin activation</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+        To activate the plugin, add it to 
+        <em class="parameter"><code>loadPlugins</code></em> from CartoClient configuration file: 
+        <code class="filename">client_conf/client.ini</code>.
+        For instance: </p>
+          <pre class="programlisting">loadPlugins = bboxHistory</pre>
+          <p>
+      </p>
+          <p>
+        You also need to add the plugin's template into the project template <code class="filename">templates/cartoclient.tpl</code>.
+        For instance:
+</p>
+          <pre class="programlisting">
+...
+{include file="toolbar.tpl" group=1 header=1}
+{include file="toolbar.tpl" group=2}
+{$bboxHistoryForm}
+...
+</pre>
+          <p>
+      </p>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

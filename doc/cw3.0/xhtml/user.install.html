@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>1. Installation</title>
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.68.1" />
+    <link rel="start" href="index.html" title="CartoWeb Documentation" />
+    <link rel="up" href="cartoweb.user.html" title="Part II. User Manual" />
+    <link rel="prev" href="cartoweb.user.html" title="Part II. User Manual" />
+    <link rel="next" href="user.structure.html" title="2. Structure" />
+  </head>
+  <body>
+    <div id="navtoc">
+      <div id="nav">
+        <dl>
+          <dt>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </dt>
+          <dt>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </dt>
+        </dl>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <dl>
+          <dt>
+            <span class="sect1">
+              <a href="user.install.html#user.install.prerequisite">1.1. Prerequisite for Installing CartoWeb</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="user.install.html#user.install.3.0.0">1.2. Installation Instructions for Version 3.0.0</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="sect1">
+              <a href="user.install.html#user.install.unix">1.3. UNIX-like Install</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect2">
+                  <a href="user.install.html#user.install.unix.commands.list">1.3.1. List of Available Commands</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="user.install.html#user.install.unix.commands.details">1.3.2. Commands Details</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="sect1">
+              <a href="user.install.html#user.install.win32">1.4. Windows Install</a>
+            </span>
+          </dt>
+        </dl>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.install"></a>1. Installation</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage"></div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.install.prerequisite"></a>1.1. Prerequisite for Installing CartoWeb</h2>
+              </div>
+            </div>
+          </div>
+          <p>CartoWeb depends on several sofware components needed for its proper
+    working. Some are required and others optional, depending on what you
+    intend to do.
+    
+     </p>
+          <div class="variablelist">
+            <p class="title">
+              <b>Required software</b>
+            </p>
+            <dl>
+              <dt>
+                <span class="term">PHP &gt;= 5.0.3<sup>[<a id="id2476269" href="#ftn.id2476269">1</a>]</sup></span>
+              </dt>
+              <dd> See <a href="http://www.php.net">http://www.php.net</a> for more informations.
+            You will need to have some features available in PHP
+            <div class="itemizedlist"><ul><li>SOAP: This is required by CartoWeb as it uses SOAP
+                  webservices.</li><li>Gettext (optional): You need the Gettext module if you want
+                  to enable the Internationalisation in CartoWeb. See
+                  <a href="user.i18n.html" title="14. Internationalization">Chapter 14, <i>Internationalization</i></a> for configuration.
+                  <div class="note"><h3 class="title">Note</h3><p> If you are using the demo, you need to have Gettext
+                      support installed, as it uses Gettext by default.
+                    </p></div>
+                </li><li>Curl (optional): Some scripts (like i18n) need Curl 
+                  to fetch files remotely.</li></ul></div>
+            </dd>
+              <dt>
+                <span class="term">Mapserver PHP MapScript (from MapServer &gt;= 4.4)</span>
+              </dt>
+              <dd>See <a href="http://www.maptools.org/php_mapscript/">http://www.maptools.org/php_mapscript/</a>
+            for more information and installation instructions.</dd>
+              <dt>
+                <span class="term">PostgreSQL with PostGIS suppport (optional)</span>
+              </dt>
+              <dd>If you want spatial database support in CartoWeb you
+            will need to install PostGIS of the PostgreSQL database.
+            See <a href="http://postgis.refractions.net/">http://postgis.refractions.net/</a> 
+            for more information.</dd>
+            </dl>
+          </div>
+          <p>
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.install.3.0.0"></a>1.2. Installation Instructions for Version 3.0.0</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    For version 3.0.0, the installer is not yet completely ready. These are
+    instructions about how to install CartoWeb with this version. These
+    notes are temporary and will be removed once the installer is totally
+    fonctional.
+  </p>
+          <p>
+    Step by step guide:
+    </p>
+          <div class="orderedlist">
+            <ol>
+              <li>Download CartoWeb source from <a href="http://www.cartoweb.org/">http://www.cartoweb.org/</a>.
+          It is recommended that you download the version with demo for a better
+          user experience.</li>
+              <li>
+          Uncompress the archive somewhere in your path accessible by your Web 
+          server.
+        </li>
+              <li>
+          Point your Web browser to the file located in 
+          <code class="filename">htdocs/info.php</code>, and check that the PHP
+          information page displays correctly (meaning PHP is correctly setup)
+          and that you have a section called MapScript in this page.
+          If it is not the case, CartoWeb will not run correctly. You should
+          install and setup PHP and PHP MapScript correctly. See 
+            <a href="user.install.html#user.install.prerequisite" title="1.1. Prerequisite for Installing CartoWeb">Section 1.1, &#8220;Prerequisite for Installing CartoWeb&#8221;</a>.
+        
+          If you intend to use the CartoWeb demo, you need to have a section
+          called Gettext in the previous output.
+        </li>
+              <li>CartoWeb needs some file to be writable by the Web Server
+          such as the directory where generated images are stored. To set up
+          these permissions, you need to launch the PHP installer with an argument.
+          This needs to be done on the command line (launch <code class="literal">cmd.exe</code>
+          on Windows). You also need to find the path to your PHP executable. For 
+          instance <code class="filename">c:\wamp\php\php.exe</code> on Windows, or 
+          <code class="filename">/var/lib/cgi-bin/php</code> on Unix (just example, they may
+          differ). Once located, launch the following command:
+          <pre class="screen">php cw3setup.php perms</pre>
+          Replacing <code class="literal">php</code> with the path to your PHP.</li>
+              <li>You can now configure CartoWeb with your desired options. If you
+          want to quickly test the demo, you need only one option to be modifed.
+          Open in your favorite editor the file named
+            <code class="filename">client_conf/client.ini</code>.
+          Find the line containing the value <code class="literal">cartoclientBaseUrl</code>.
+          Uncomment this line (removing the first <code class="literal">;</code> character
+          and set on the right side the URL which is used to access the 
+          <code class="filename">htdocs</code>directory inside CartoWeb.
+          For instance, if you need to type <code class="filename">http://localhost/cartoweb3/htdocs/info.php</code>
+          to access the PHP information page, then the value to put there will be
+          <code class="filename">http://localhost/cartoweb3/htdocs/</code>.
+        
+          Then, do the same for the option <code class="literal">cartoserverBaseUrl</code> 
+          just below.</li>
+              <li>(Optional) If you did not download CartoWeb with the demo included,
+          and want to install it afterward, you can get the demo data
+          and extract it inside the <code class="filename">projects/demo/server_conf/demo</code>
+          directory (this will give you a <code class="filename">projects/demo/server_conf/demo/data</code>
+          new directory with the data.
+        On Unix, you can type the following in a shell:
+          <pre class="screen">cd projects/demo/server_conf/demo
+wget http://www.cartoweb.org/downloads/cartoweb-demodata-3.0.0.tar.gz
+tar xvzf cartoweb-demodata-3.0.0.tar.gz</pre>
+        On Windows, you can use a graphical extractor to do the same
+        (you can use <a href="http://www.7-zip.org/">http://www.7-zip.org/</a>).
+        </li>
+              <li>
+          You should now be able to point your browser to the 
+            <code class="filename">htdocs/demo.php</code> file, and see CartoWeb in action
+          (if you have the demo data).
+          If you don't have the demo, you can use the more simple test project
+          with the <code class="filename">htdocs/client.php</code> URL.
+        </li>
+            </ol>
+          </div>
+          <p>
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.install.unix"></a>1.3. UNIX-like Install<sup>[<a id="id2576840" href="#ftn.id2576840">2</a>]</sup></h2>
+              </div>
+            </div>
+          </div>
+          <div class="note">
+            <h3 class="title">Note</h3>
+            <p>
+      For version 3.0.0 installation, please refer to <a href="user.install.html#user.install.3.0.0" title="1.2. Installation Instructions for Version 3.0.0">Section 1.2, &#8220;Installation Instructions for Version 3.0.0&#8221;</a>.
+  </p>
+          </div>
+          <div class="note">
+            <h3 class="title">Note</h3>
+            <p>
+      If you are using the Debian distribution, you can easily install PHP and Mapserver. 
+      See <a href="appendix.debian_mapserver.html" title="Appendix A. Mapserver Debian Installation">Appendix A, <i>Mapserver Debian Installation</i></a>.
+  </p>
+          </div>
+          <p>
+    CartoWeb installer is "cw3setup.php", located in the root directory of the application:
+    Simply run </p>
+          <pre class="screen">php -f cw3setup.php</pre>
+          <p> to setup the application.
+  </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.install.unix.commands.list"></a>1.3.1. List of Available Commands</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+</p>
+            <pre class="screen">(no command, by default): install cartoweb3
+cvs                     : install cartoweb3 from cvs
+check                   : check configuration
+get[=user]              : CVS checkout with user name [anonymous]
+get_libs                : get required libraries
+dirs                    : create user directories
+perms[=www-data]        : set writing perms for web-user [www-data]
+                          - set ownership if ran as superuser,
+                          - give write permission instead.
+createConfig            : create the new configuration (install .dist files)
+setupLinks              : link or copy paths for web browser
+removeLinks             : remove all links created by setupLinks.
+                          - super user rights required to remove dynamic content
+setup[=path]            : setup a new project in existing installation
+mkDirs                  : create all cache directories
+rmDirs                  : remove all temporary files AND directories
+remove                  : remove cartoweb3
+</pre>
+            <p>
+    </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.install.unix.commands.details"></a>1.3.2. Commands Details</h3>
+                </div>
+              </div>
+            </div>
+            <div class="itemizedlist">
+              <ul>
+                <li>(no command, by default): install CartoWeb from a download.</li>
+                <li>cvs: install CartoWeb from a cvs checkout. You must have cvs access configured and cvs login done with the right user name.</li>
+                <li>check: check if the configuration meet requirements.</li>
+                <li>get[=user]: CVS checkout with user name "user". You must have done succesfully a cvs login before.</li>
+                <li>get_libs: fetch required libraries. You need an internet connection.</li>
+                <li>perms[=www-data]: set writing perms for web-user [www-data]. Set the ownership if ran as superuser, and give write permission instead. Warning: the second choice is secureless.</li>
+                <li>createConfig: create configuration from .dist files.</li>
+                <li>setupLinks: setup symbolic links for a <a href="user.config.html#user.config.client" title="4.2. &#10;      client.ini&#10;    ">SymLink</a> configuration.</li>
+                <li>removeLinks: remove links created by setupLinks.</li>
+                <li>setup[=path]: setup a new CartoWeb project from project sources located in path. </li>
+                <li>mkDirs: make user-writeables directories.</li>
+                <li>rmDirs: remove user-writeable directories.</li>
+                <li>remove: try to completely remove CartoWeb. Super-user rights may be required for user-writed directories removal.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.install.win32"></a>1.4. Windows Install</h2>
+              </div>
+            </div>
+          </div>
+          <div class="note">
+            <h3 class="title">Note</h3>
+            <p>
+      For version 3.0.0 installation, please refer to <a href="user.install.html#user.install.3.0.0" title="1.2. Installation Instructions for Version 3.0.0">Section 1.2, &#8220;Installation Instructions for Version 3.0.0&#8221;</a>.
+  </p>
+          </div>
+          <p>
+   The process is as simple as for UNIX, but the windows installer is not available yet.
+  </p>
+        </div>
+        <div id="footnotes">
+          <hr />
+          <div class="footnote">
+            <p><sup>[<a id="ftn.id2476269" href="#id2476269">1</a>] </sup>
+            This implies that you have a Web Server configured to execute
+            PHP scripts, such as Apache (<a href="http://httpd.apache.org">http://httpd.apache.org</a>)
+          </p>
+          </div>
+          <div class="footnote">
+            <p><sup>[<a id="ftn.id2576840" href="#id2576840">2</a>] </sup>
+    If you are using Debian, and you need to install Mapserver, you can have a 
+    look at <a href="appendix.debian_mapserver.html" title="Appendix A. Mapserver Debian Installation">Appendix A, <i>Mapserver Debian Installation</i></a>
+    </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>Appendix D. 
+  DocBook Documentation Generation
+ </title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="appendix.create_new_project.html">
+       &lt; Create a New Project</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="cartoweb.index.html">Index &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="appendix.make_doc.html#appendix.make_doc.unix">D.1. 
+   Documentation Generation on UNIX-like System
+  </a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="appendix.make_doc.html#appendix.make_doc.unix.tiny_docbook">D.1.1. 
+    Tiny DocBook Install
+   </a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="appendix.make_doc.html#appendix.make_doc.unix.link">D.1.2. 
+    Create a Symbolic Link to Documentation Source
+   </a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="appendix.make_doc.html#appendix.make_doc.unix.xhtml">D.1.3. 
+    XHTML Generation
+   </a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="appendix.make_doc.html#appendix.make_doc.unix.pdf">D.1.4. 
+    PDF Generation
+   </a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="appendix.make_doc.html#appendix.make_doc.cygwin">D.2. 
+   Documentation Generation on Windows using Cygwin
+  </a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="appendix.make_doc"></a>Appendix D. 
+  DocBook Documentation Generation
+ </h2>
+    </div>
+    <div id="content">
+      <div class="appendix" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p>
+  CartoWeb documentation source are in <a href="http://www.docbook.org">DocBook XML</a> format and located in
+  <code class="filename">documentation/user_manual/source</code> in CartoWeb
+  archive.
+ </p>
+        <p>
+  You may want to generate it by yourself in order to produce <span class="acronym">XHTML
+  </span> or <span class="acronym">PDF</span> output.
+ </p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="appendix.make_doc.unix"></a>D.1. 
+   Documentation Generation on UNIX-like System
+  </h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="appendix.make_doc.unix.tiny_docbook"></a>D.1.1. 
+    Tiny DocBook Install
+   </h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    Uncompress the <a href="http://www.cartoweb.org/downloads/docbook/tiny-docbook-1-6-16.tar.bz2">
+    tiny-docbook-1-6-17.tar.bz2</a> archive somewhere in your filesystem.
+   </p>
+            <p>
+    Execute:
+    </p>
+            <pre class="screen">
+$ ./configure --enable-install
+$ make install</pre>
+            <p>
+    to install and configure Tiny DocBook environment.
+   </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="appendix.make_doc.unix.link"></a>D.1.2. 
+    Create a Symbolic Link to Documentation Source
+   </h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    Create a symbolic link in the Tiny DocBook install directory pointing to
+    the CartoWeb documentation sources <code class="filename">
+    &lt;cartoweb_home&gt;/documentation/user_manual/source</code> , like
+    that:
+    </p>
+            <pre class="screen">$ ln -s CARTOWEB_HOME/documentation/user_manual/source</pre>
+            <p>
+   </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="appendix.make_doc.unix.xhtml"></a>D.1.3. 
+    XHTML Generation
+   </h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    Then, to generate an <span class="acronym">XHTML</span> version of the
+    documentation, execute as follow:
+    </p>
+            <pre class="screen">
+$ ./configure
+$ make xhtml</pre>
+            <p>
+    Output result will be generated in <code class="filename">xhtml/</code> directory.
+   </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="appendix.make_doc.unix.pdf"></a>D.1.4. 
+    PDF Generation
+   </h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    To generate a pdf version of the documentation, execute instead:
+    </p>
+            <pre class="screen">
+$ ./configure
+$ make pdf</pre>
+            <p>
+    Resulting pdf will be generated in <code class="filename">book.pdf</code> file.
+    </p>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>
+      You need to have at least a <span class="acronym">JRE</span> (or <span class="acronym">JDK
+      </span>) installed on your system in order to generate <span class="acronym">PDF
+      </span>. The environment variable <code class="literal">JAVA_HOME</code> must
+      also be rightly set, e.g
+      </p>
+              <pre class="screen">
+$ export JAVA_HOME=dir_path_where_jre_is_put_on_your_system</pre>
+              <p>
+     </p>
+            </div>
+            <p>
+   </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="appendix.make_doc.cygwin"></a>D.2. 
+   Documentation Generation on Windows using Cygwin
+  </h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   At this time, the only known way to generate xhml or pdf version of the
+   documentation on Windows is by using Cygwin.
+  </p>
+          <p>
+   You will need to install the following Cygwin packages:
+   <span class="emphasis"><em>
+    libxml2, libxslt, make
+   </em></span>
+   .
+  </p>
+          <p>
+   Then follow the same instructions as for UNIX-like system <a href="appendix.make_doc.html#appendix.make_doc.unix" title="D.1. &#10;   Documentation Generation on UNIX-like System&#10;  ">Section D.1, &#8220;
+   Documentation Generation on UNIX-like System
+  &#8221;</a>.
+  </p>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

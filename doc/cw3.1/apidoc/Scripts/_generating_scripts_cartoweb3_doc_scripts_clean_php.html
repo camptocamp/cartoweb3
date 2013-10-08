@@ -1,0 +1,212 @@
+<html>
+<head>
+<title>Docs for page clean.php</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">Scripts</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_Scripts.html" class="menu">class tree: Scripts</a> ]
+		  [ <a href="../elementindex_Scripts.html" class="menu">index: Scripts</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+      <b>Packages:</b><br />
+              <a href="../li_CartoWeb3.html">CartoWeb3</a><br />
+              <a href="../li_client.html">client</a><br />
+              <a href="../li_Client.html">Client</a><br />
+              <a href="../li_Common.html">Common</a><br />
+              <a href="../li_CorePlugins.html">CorePlugins</a><br />
+              <a href="../li_Plugins.html">Plugins</a><br />
+              <a href="../li_Scripts.html">Scripts</a><br />
+              <a href="../li_Server.html">Server</a><br />
+              <a href="../li_Tests.html">Tests</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../Scripts/_generating_scripts_cartoweb3_doc_scripts_clean_php.html">		clean.php
+		</a><br>
+			<a href="../Scripts/_generating_scripts_cartoweb3_doc_scripts_client2pot_php.html">		client2pot.php
+		</a><br>
+			<a href="../Scripts/_generating_scripts_cartoweb3_doc_scripts_cwprof_php.html">		cwprof.php
+		</a><br>
+			<a href="../Scripts/_generating_scripts_cartoweb3_doc_scripts_makedoc_php.html">		makedoc.php
+		</a><br>
+			<a href="../Scripts/_generating_scripts_cartoweb3_doc_scripts_makemaps_php.html">		makemaps.php
+		</a><br>
+			<a href="../Scripts/_generating_scripts_cartoweb3_doc_scripts_po2mo_php.html">		po2mo.php
+		</a><br>
+			<a href="../Scripts/_generating_scripts_cartoweb3_doc_scripts_pot_tools_php.html">		pot_tools.php
+		</a><br>
+			<a href="../Scripts/_generating_scripts_cartoweb3_doc_scripts_server2pot_php.html">		server2pot.php
+		</a><br>
+			<a href="../Scripts/_generating_scripts_cartoweb3_doc_scripts_viewsConverter_php.html">		viewsConverter.php
+		</a><br>
+	  </div><br />
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../Scripts/ViewConverter.html">ViewConverter</a><br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Procedural File: clean.php</h1>
+Source Location: /scripts/clean.php<br /><br />
+
+<br>
+<br>
+
+
+<h2>Page Details:</h2>
+clean.php - cleans old files: images, map results, PDF and SOAP XML cache<br /><br /><p>Cleans: <ul><li>Images not associated with map result</li><li>Images associated with map result / SOAP XML, including corresponding
+   map result / SOAP XML</li><li>Exported PDF files as well as temporary images used to generate them</li><li>Empty map results /SOAP XML</li></ul>  Usage:  ./clean.php &lt;cache_image_max_age&gt; [&lt;simple_image_max_age&gt;]</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>version:</b>&nbsp;&nbsp;</td><td>$Id: _generating_scripts_cartoweb3_doc_scripts_clean_php.html,v 1.1 2005/11/11 11:06:34 sypasche Exp $</td>
+  </tr>
+  <tr>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Yves Bolognini &lt;<a href="mailto:yves.bolognini@camptocamp.com">yves.bolognini@camptocamp.com</a>&gt;</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+<h4>Includes:</h4>
+<div class="tags">
+require_once(<a href="../CorePlugins/_generating_scripts_cartoweb3_doc_coreplugins_images_common_Images_php.html">CARTOWEB_HOME.'coreplugins/images/common/Images.php'</a>) [line 31]<br />
+require_once(<a href="../Common/_generating_scripts_cartoweb3_doc_common_CwSerializable_php.html">CARTOWEB_HOME.'common/CwSerializable.php'</a>) [line 29]<br />
+require_once(<a href="../Common/_generating_scripts_cartoweb3_doc_common_Common_php.html">CARTOWEB_HOME.'common/Common.php'</a>) [line 26]<br />
+require_once(<a href="../Common/_generating_scripts_cartoweb3_doc_common_Request_php.html">CARTOWEB_HOME.'common/Request.php'</a>) [line 30]<br />
+</div>
+<br /><br />
+<br /><br />
+  <hr />
+	<a name="defineCARTOWEB_HOME"></a>
+	<h3>CARTOWEB_HOME <span class="smalllinenumber">[line 24]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>CARTOWEB_HOME = realpath(dirname(__FILE__).'/..').'/'</code>
+    </td></tr></table>
+    </td></tr></table>
+
+    Common home dir<br /><br />    <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+<br />
+  <hr />
+	<a name="functiondeleteOldFiles"></a>
+	<h3>deleteOldFiles <span class="smalllinenumber">[line 173]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void deleteOldFiles(
+string $cachedir, [bool $deleteAll = false])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Deletes files older than cache age from given directory.<br /><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$cachedir</b>&nbsp;&nbsp;</td>
+        <td>path of directory to clean</td>
+      </tr>
+		      <tr>
+        <td class="type">bool&nbsp;&nbsp;</td>
+        <td><b>$deleteAll</b>&nbsp;&nbsp;</td>
+        <td>if true, all old files are deleted, else (default) only empty ones.</td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionloadMapResults"></a>
+	<h3>loadMapResults <span class="smalllinenumber">[line 99]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>array loadMapResults(
+string $resultCachedir)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Gets all links between images and MapResults<br /><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$resultCachedir</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionloadSoapXMLs"></a>
+	<h3>loadSoapXMLs <span class="smalllinenumber">[line 142]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>array loadSoapXMLs(
+string $soapCachedir)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Gets all links between images and SOAP XMLs<br /><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$soapCachedir</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionusage"></a>
+	<h3>usage <span class="smalllinenumber">[line 190]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void usage(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Prints usage<br /><br />    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Fri, 11 Nov 2005 10:59:43 +0000 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

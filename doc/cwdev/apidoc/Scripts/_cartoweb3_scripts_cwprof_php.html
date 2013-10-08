@@ -1,0 +1,408 @@
+<html>
+<head>
+<title>Docs for page cwprof.php</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">Scripts</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_Scripts.html" class="menu">class tree: Scripts</a> ]
+		  [ <a href="../elementindex_Scripts.html" class="menu">index: Scripts</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+	<div id="todolist">
+			<p><a href="../todolist.html">Todo List</a></p>
+	</div>
+      <b>Packages:</b><br />
+              <a href="../li_CartoWeb3.html">CartoWeb3</a><br />
+              <a href="../li_Client.html">Client</a><br />
+              <a href="../li_Common.html">Common</a><br />
+              <a href="../li_CorePlugins.html">CorePlugins</a><br />
+              <a href="../li_dompdf.html">dompdf</a><br />
+              <a href="../li_Htdocs.html">Htdocs</a><br />
+              <a href="../li_Plugins.html">Plugins</a><br />
+              <a href="../li_Scripts.html">Scripts</a><br />
+              <a href="../li_Server.html">Server</a><br />
+              <a href="../li_Tests.html">Tests</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../Scripts/_cartoweb3_scripts_clean_php.html">		clean.php
+		</a><br>
+			<a href="../Scripts/_cartoweb3_scripts_client2pot_php.html">		client2pot.php
+		</a><br>
+			<a href="../Scripts/_cartoweb3_scripts_cwprof_php.html">		cwprof.php
+		</a><br>
+			<a href="../Scripts/_cartoweb3_scripts_makedoc_php.html">		makedoc.php
+		</a><br>
+			<a href="../Scripts/_cartoweb3_scripts_makemaps_php.html">		makemaps.php
+		</a><br>
+			<a href="../Scripts/_cartoweb3_scripts_po2mo_php.html">		po2mo.php
+		</a><br>
+			<a href="../Scripts/_cartoweb3_scripts_pot_tools_php.html">		pot_tools.php
+		</a><br>
+			<a href="../Scripts/_cartoweb3_scripts_server2pot_php.html">		server2pot.php
+		</a><br>
+			<a href="../Scripts/_cartoweb3_scripts_viewsConverter_php.html">		viewsConverter.php
+		</a><br>
+	  </div><br />
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../Scripts/ViewConverter.html">ViewConverter</a><br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Procedural File: cwprof.php</h1>
+Source Location: /scripts/cwprof.php<br /><br />
+
+<br>
+<br>
+
+
+<h2>Page Details:</h2>
+cwprof.php - Computes execution times for client, server and Mapserver<br /><br /><p>This command line script takes one or two APD trace files and computes  execution times for the client, the server and Mapserver.</p><p>First usage is used with a single trace file (direct, client or server).  Second usage looks for most recent trace file(s) in a directory.</p><p>&quot;-local&quot; option indicates that client and server trace files are located  in the same directory. In this case, the script will parse the two files  and give a merged result.</p><p>Usage:     ./cwprof.php &lt;trace_file&gt;  or ./cwprof.php [-local] &lt;trace_dir&gt;</p><p>Original code was pprofp, a script included in the APD distribution.</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Yves Bolognini &lt;<a href="mailto:yves.bolognini@camptocamp.com">yves.bolognini@camptocamp.com</a>&gt;</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+<br /><br />
+<br /><br />
+<br />
+  <hr />
+	<a name="functionby_avgcpu"></a>
+	<h3>by_avgcpu <span class="smalllinenumber">[line 526]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int by_avgcpu(
+mixed $a, mixed $b)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionby_calls"></a>
+	<h3>by_calls <span class="smalllinenumber">[line 537]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int by_calls(
+mixed $a, mixed $b)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionby_c_rtime"></a>
+	<h3>by_c_rtime <span class="smalllinenumber">[line 553]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int by_c_rtime(
+mixed $a, mixed $b)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionby_c_stime"></a>
+	<h3>by_c_stime <span class="smalllinenumber">[line 569]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int by_c_stime(
+mixed $a, mixed $b)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionby_c_time"></a>
+	<h3>by_c_time <span class="smalllinenumber">[line 516]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int by_c_time(
+mixed $a, mixed $b)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionby_c_utime"></a>
+	<h3>by_c_utime <span class="smalllinenumber">[line 585]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int by_c_utime(
+mixed $a, mixed $b)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionby_mem"></a>
+	<h3>by_mem <span class="smalllinenumber">[line 593]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int by_mem(
+mixed $a, mixed $b)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionby_rtime"></a>
+	<h3>by_rtime <span class="smalllinenumber">[line 545]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int by_rtime(
+mixed $a, mixed $b)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionby_stime"></a>
+	<h3>by_stime <span class="smalllinenumber">[line 561]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int by_stime(
+mixed $a, mixed $b)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionby_time"></a>
+	<h3>by_time <span class="smalllinenumber">[line 506]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int by_time(
+mixed $a, mixed $b)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionby_utime"></a>
+	<h3>by_utime <span class="smalllinenumber">[line 577]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int by_utime(
+mixed $a, mixed $b)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functiongetFile"></a>
+	<h3>getFile <span class="smalllinenumber">[line 346]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void getFile(
+string $dir, int $pos, string 2)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Returns the pos-th last file in a directory<br /><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>2</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$dir</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+		      <tr>
+        <td class="type">int&nbsp;&nbsp;</td>
+        <td><b>$pos</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionnum_cmp"></a>
+	<h3>num_cmp <span class="smalllinenumber">[line 491]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int num_cmp(
+float $a, float $b)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Compares to numbers.<br /><br /><p>Returns 1 if int($a) &gt; int($b),  -1 if int($a) &lt; int($b)  else 0</p><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">float&nbsp;&nbsp;</td>
+        <td><b>$a</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+		      <tr>
+        <td class="type">float&nbsp;&nbsp;</td>
+        <td><b>$b</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionparseFile"></a>
+	<h3>parseFile <span class="smalllinenumber">[line 33]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>array parseFile(
+string $fileName)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Main parsing function<br /><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$fileName</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionparse_info"></a>
+	<h3>parse_info <span class="smalllinenumber">[line 469]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void parse_info(
+string $tag, PHP $datasource, array &$cfg)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$tag</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+		      <tr>
+        <td class="type">PHP&nbsp;&nbsp;</td>
+        <td><b>$datasource</b>&nbsp;&nbsp;</td>
+        <td>resource handle</td>
+      </tr>
+		      <tr>
+        <td class="type">array&nbsp;&nbsp;</td>
+        <td><b>&$cfg</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+  <hr />
+	<a name="functionusage"></a>
+	<h3>usage <span class="smalllinenumber">[line 455]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void usage(
+[string $message = NULL])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Prints usage with an error message<br /><br />    <br /><br />
+	
+    		<h4>Parameters</h4>
+    <table border="0" cellspacing="0" cellpadding="0">
+		      <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$message</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+				</table>
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Mon, 09 Sep 2013 13:30:51 +0200 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

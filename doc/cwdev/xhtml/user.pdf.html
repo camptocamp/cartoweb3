@@ -1,0 +1,1400 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>12. PDF Export [plugin]</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.output.html">
+       &lt; Export Plugins </a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.views.html">Views  &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.pdf.html#user.pdf.intro">12.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.pdf.html#user.pdf.reference">12.2. Configuration Reference</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.pdf.html#user.pdf.reference.general">12.2.1. General Configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.pdf.html#user.pdf.reference.format">12.2.2. Formats Configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.pdf.html#user.pdf.reference.block">12.2.3. Blocks Configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.pdf.html#user.pdf.reference.colors">12.2.4. Colors definition</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.pdf.html#user.pdf.tutorial">12.3. Tutorial</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.pdf.html#user.pdf.tutorial.principle">12.3.1. General Principle</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.pdf.html#user.pdf.tutorial.overall">12.3.2. Overall Configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.pdf.html#user.pdf.tutorial.form">12.3.3. Form Settings</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.pdf.html#user.pdf.tutorial.block">12.3.4. Blocks Configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.pdf.html#user.pdf.tutorial.roles">12.3.5. Roles Management</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.pdf"></a>12. <a id="id2979807" class="indexterm"></a>PDF Export <sub>[plugin]</sub></h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.pdf.intro"></a>12.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   This chapter describes how to configure PDF export,
+   using <code class="filename">client_conf/exportPdf.ini</code> parameters.
+  </p>
+          <p>
+   First part (<a class="xref" href="user.pdf.html#user.pdf.reference" title="12.2. Configuration Reference">Section 12.2, “Configuration Reference”</a>) is a comprehensive reference of user-available configuration parameters. Second part (<a class="xref" href="user.pdf.html#user.pdf.tutorial" title="12.3. Tutorial">Section 12.3, “Tutorial”</a>) is intended to be a small tutorial giving explanations and examples about how to configure the PDF exportation tool.
+  </p>
+          <p>Please note that an alternative <em class="parameter"><code>exportDomPdf</code></em> plugin is available as well. It is based on the <a class="ulink" href="http://www.digitaljunkies.ca/dompdf/">dompdf</a> library to convert HTML/CSS into a PDF document. See <a class="xref" href="user.output.html#user.output.dompdf" title="11.7. PDF Export Using Dompdf">Section 11.7, “PDF Export Using Dompdf”</a></p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.pdf.reference"></a>12.2. Configuration Reference</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.pdf.reference.general"></a>12.2.1. <a id="id3028523" class="indexterm"></a>General Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    Parameters are named using a &lt;object&gt;.&lt;property&gt; convention.
+    These parameters are grouped within dedicated objects 
+    that deal with separated aspects of the export. For instance:
+   </p>
+            <pre class="programlisting">general.horizontalMargin = 10
+general.verticalMargin = 10
+
+formats.A4.label = A4
+formats.A4.bigDimension = 297</pre>
+            <p>
+    Some objects handle the general description of the PDF document
+    as well as user form generation: "general" and "formats".
+   </p>
+            <p>
+    Other objects are "blocks"-typed. They deal with block presentation
+    (color, size, content, etc.) and positioning. Blocks are basic
+    entities of the PDF document: text, images. For instance overview,
+    mainmap, scalebar, title are described with block objects.
+   </p>
+            <p>
+    To factorize blocks description, it is possible to describe a 
+    "template" block object that defines the default configuration
+    of blocks. Those default settings are then overriden by each
+    block specific description.
+   </p>
+            <p>
+    </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> <em class="parameter"><code>general.guiMode</code></em> (string): type of GUI used. Must
+            be either 'classic' (default) or 'rotate'. 'rotate' mode adds the possibility to rotate
+            the map to be printed directly on screen. </li>
+                <li>
+       <em class="parameter"><code>general.formats</code></em> (comma-separated list of strings): ids of available 
+       sheet sizes. Must match format objects names 
+       (see <a class="link" href="user.pdf.html#user.pdf.reference.format" title="12.2.2. Formats Configuration">Formats configuration</a> below).
+      </li>
+                <li>
+       <em class="parameter"><code>general.defaultFormat</code></em> (string): default selected/used format. 
+       Must be one of the above list items.
+      </li>
+                <li>
+       <em class="parameter"><code>general.resolutions</code></em> (comma-separated list of integers): 
+       list of available resolutions in dot-per-inch (dpi). To have legend icons generated in same
+       resolutions, you must configure resolutions in plugin Layers (see <a class="xref" href="user.layers.html#user.layers.legend" title="6.4. Layers Legends">Section 6.4, “Layers Legends”</a>).
+      </li>
+                <li>
+       <em class="parameter"><code>general.defaultResolution</code></em> (integer): default selected/used
+       resolution. Must be one of the above list items.
+      </li>
+                <li>
+       <em class="parameter"><code>general.scales</code></em> (comma-separated list of integers): 
+       list of available printing scales (1000 should be read 1:1000). Used only when guiMode is 'rotate'.
+      </li>
+                <li>
+       <em class="parameter"><code>general.defaultScale</code></em> (integer): default printing
+       scale. Must be one of the above list items. Used only when guiMode is 'rotate'.
+      </li>
+                <li>
+       <em class="parameter"><code>general.defaultOrientation</code></em> (portrait|landscape): sheet 
+       orientation. The same orientation is used for every pages 
+       of the PDF document.
+      </li>
+                <li>
+       <em class="parameter"><code>general.activatedBlocks</code></em> (comma-separated list of strings): names
+       of blocks that will be used in the document. Names must match
+       block objects names. See <a class="link" href="user.pdf.html#user.pdf.reference.block" title="12.2.3. Blocks Configuration">Blocks configuration</a> section.
+      </li>
+                <li>
+       <em class="parameter"><code>general.overviewScaleFactor</code></em> (float): sets the extension of the overview map. The bigger this parameter, the wider the extension. 
+       Default: 10.
+      </li>
+                <li>
+       <em class="parameter"><code>general.overviewColor</code></em> (string): sets the inner color of the current map outline in the overview. 
+       Default: 'none'.
+      </li>
+                <li>
+       <em class="parameter"><code>general.overviewOutlineColor</code></em> (string): sets the border color of the current map outline in the overview. 
+       Default: 'red'.
+      </li>
+                <li> <em class="parameter"><code>general.showRefMarks</code></em> (boolean): if true,
+            reference marks are added to the exported main map. They are never displayed
+            on the overview.</li>
+                <li>
+       <em class="parameter"><code>general.pdfEngine</code></em> (CwFpdf|PdfLibLite): name of the PDF engine to
+       use. For now only FPDF is available and must be called using 
+       "CwFpdf" pdfEngine value. A PDFLib Lite version is (very) 
+       partially implemented and as a result should not be used for now
+       (pdfEngine value: "PdfLibLite").
+      </li>
+                <li>
+       <em class="parameter"><code>general.pdfVersion</code></em> (string): PDF version that must be 
+       used (only available with "PdfLibLite" pdfEngine).
+      </li>
+                <li>
+       <em class="parameter"><code>general.output</code></em> (inline|attachment|link|redirection): 
+       indicates how generated PDF file must be output (default: 
+       redirection). "inline": file is generated and displayed on the 
+       fly (might not work with buggy IE). "attachment": generated on 
+       the fly but a dialog box asks the user weither the file must 
+       be opened or saved. "link": PDF file is actually written on the 
+       server and a link pointing towards it is displayed. "redirection": 
+       PDF file is written on the server and than user's browser is 
+       automatically redirected towards it.
+      </li>
+                <li>
+       <em class="parameter"><code>general.filename</code></em> (string): indicates how generated PDF files 
+       must be named. It is possible to specify a date-formatting 
+       using PHP date format (see <a class="ulink" href="http://php.net/date">http://php.net/date</a>). Default is 
+       <code class="filename">map-[date,dMY-His].pdf</code> which gives for instance 
+       <code class="filename">map-03Jan2005-193256.pdf</code>.
+      </li>
+                <li>
+       <em class="parameter"><code>general.distUnit</code></em> (mm|cm|pt|in): unit used to measure blocks 
+       distance properties. Only one unit can be used in the 
+       whole configuration.
+      </li>
+                <li>
+       <em class="parameter"><code>general.horizontalMargin</code></em> (float): horizontal distance between
+       the sheet border and the useful area (in distUnit).
+      </li>
+                <li>
+       <em class="parameter"><code>general.verticalMargin</code></em> (float): vertical distance between the
+       sheet border and the useful area (in distUnit).
+      </li>
+                <li>
+       <em class="parameter"><code>general.allowedRoles</code></em> (comma-separated list of strings): list of roles allowed to print PDF documents.
+      </li>
+                <li>
+       <em class="parameter"><code>general.importRemotePng</code></em> (boolean): if true, remote PNG files (gathered using a URL) are copied in a local directory before being included in the PDF document. This option is recommended when using physically separated CartoClient and CartoServer (See <a class="xref" href="user.config.html" title="4. Configuration Files">Chapter 4, <i>Configuration Files</i></a>).
+      </li>
+                <li>
+       <em class="parameter"><code>general.extraFonts</code></em> (comma-separated list of strings): list of additional fonts to import in FPDF (not available for other pdfEngines). Each font contains the font family name, the font style (optional) and the font PHP definition file (optional), separated by "/". PHP definition files must be uploaded in FPDF fonts directory. Parameters are described in <a class="ulink" href="http://fpdf.org/en/doc/addfont.htm">FPDF AddFont() documentation</a>. Definition files generation is explained <a class="ulink" href="http://fpdf.org/en/tutorial/tuto7.htm">here</a>. Example:
+       <pre class="programlisting">general.extraFonts = Comic/I/comici.php, MyFont/BI/myfontbi.php, MyOtherFont</pre>
+      </li>
+                <li>
+       <em class="parameter"><code>general.outputFormat</code></em> (string): define a specific outputFormat to use for the exported image. A corresponding OUTPUTFORMAT must exist in the mapfile.
+      </li>
+                <li>
+       <em class="parameter"><code>general.specialLayers.&lt;layername&gt;.addBlocks</code></em> (comma-separated list of strings): if layer <em class="parameter"><code>layername</code></em> is activated, the given blocks will be added to the list of activated blocks (see <em class="parameter"><code>general.activatedBlocks</code></em>). To add blocks for several layers, use dedicated lines with matching layer names.
+      </li>
+                <li>
+       <em class="parameter"><code>general.specialLayers.&lt;layername&gt;.removeBlocks</code></em> (comma-separated list of strings): if layer <em class="parameter"><code>layername</code></em> is activated, the given blocks will be removed from the list of activated blocks (see <em class="parameter"><code>general.activatedBlocks</code></em>). To remove blocks for several layers, use dedicated lines with matching layer names.
+      </li>
+              </ul>
+            </div>
+            <p>
+   </p>
+            <p>
+    PHP built-in default values:
+    </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+       pdfEngine: CwFpdf
+      </li>
+                <li>
+       pdfVersion: 1.3
+      </li>
+                <li>
+       guiMode: classic
+      </li>
+                <li>
+       distUnit:        mm
+      </li>
+                <li>
+       horizontalMargin: 10
+      </li>
+                <li>
+       verticalMargin: 10
+      </li>
+                <li>
+       formats: NULL
+      </li>
+                <li>
+       defaultFormat: NULL
+      </li>
+                <li>
+       resolutions: 96      
+      </li>
+                <li>
+       defaultResolution: 96
+      </li>
+                <li>
+       activatedBlocks: NULL
+      </li>
+                <li>
+       filename: map-[date,dMY-His].pdf
+      </li>
+                <li>
+       overviewScaleFactor: 10
+      </li>
+                <li>
+       overviewColor: NULL
+      </li>
+                <li>
+       overviewOutlineColor: red
+      </li>
+                <li>
+       output: redirection
+      </li>
+                <li>
+       allowedRoles: (empty ie. nobody)
+      </li>
+                <li>
+       importRemotePng: false
+      </li>
+                <li>
+       extraFonts: NULL
+      </li>
+              </ul>
+            </div>
+            <p>
+   </p>
+            <div class="tip">
+              <h3 class="title">Tip</h3>
+              <p>
+     Should you use the <em class="parameter"><code>rotate guiMode</code></em>, do not forget to add a general PROJECTION tag in your mapfile. For instance:
+</p>
+              <pre class="programlisting">PROJECTION
+  "init=epsg:21781"
+END</pre>
+              <p>
+    </p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.pdf.reference.format"></a>12.2.2. <a id="id3027113" class="indexterm"></a>Formats Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    Formats are described as a set of "formats" sub-objects. For instance:
+   </p>
+            <pre class="programlisting">formats.A4.bigDimension = 297
+formats.A4.smallDimension = 210
+
+formats.A3.label = A3
+formats.A3.bigDimension = 420</pre>
+            <p>
+    Format ids (A3, A4, etc.) must match those listed in general.formats.
+    </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+       <em class="parameter"><code>formats.</code></em>&lt;format_name&gt;<em class="parameter"><code>.label</code></em> (string): user-friendly name. Is 
+       translated using Cw3I18n device <a class="xref" href="user.i18n.html" title="17. Internationalization">Chapter 17, <i>Internationalization</i></a>.
+      </li>
+                <li>
+       <em class="parameter"><code>formats.</code></em>&lt;format_name&gt;<em class="parameter"><code>.bigDimension</code></em> (float): 
+       largest sheet side (in distUnit).
+      </li>
+                <li>
+       <em class="parameter"><code>formats.</code></em>&lt;format_name&gt;<em class="parameter"><code>.smallDimension</code></em> (float): 
+       smallest sheet side (in distUnit).
+      </li>
+                <li>
+       <em class="parameter"><code>formats.</code></em>&lt;format_name&gt;<em class="parameter"><code>.horizontalMargin</code></em> (float):
+       optional, if set, overrides general.horizontalMargin for 
+       the given format.
+      </li>
+                <li>
+       <em class="parameter"><code>formats.</code></em>&lt;format_name&gt;<em class="parameter"><code>.verticalMargin</code></em> (float): 
+       optional, if set, overrides general.verticalMargin 
+       for the given format.
+      </li>
+                <li>
+       <em class="parameter"><code>formats.</code></em>&lt;format_name&gt;<em class="parameter"><code>.maxResolution</code></em> (integer): 
+       optional, maximum allowed resolution for the given format.
+       If selected resolution is above maxResolution, it will 
+       be set to maxResolution value.
+      </li>
+                <li>
+       <em class="parameter"><code>formats.</code></em>&lt;format_name&gt;<em class="parameter"><code>.allowedRoles</code></em> (comma-separated list of strings): list of roles allowed to use the format.
+      </li>
+              </ul>
+            </div>
+            <p>
+   </p>
+            <p>
+    PHP built-in default values: all format parameters have 
+    NULL default values except <em class="parameter"><code>allowedRoles</code></em> ("all").
+   </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.pdf.reference.block"></a>12.2.3. <a id="id3024506" class="indexterm"></a>Blocks Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    All blocks parameters are optional since default values are 
+    hard-coded in the PDF export plugin PHP code (see code 
+    documentation for PdfBlock class). Those default properties 
+    can be partially or totally overriden using a template object 
+    whose syntax is similar to this:
+   </p>
+            <pre class="programlisting">template.type = text
+template.fontFamily = times
+template.fontSize = 12
+template.fontItalic = false</pre>
+            <p>
+    whereas real blocks are described this way:
+   </p>
+            <pre class="programlisting">blocks.title.weight = 10
+blocks.title.verticalBasis = top
+blocks.title.verticalMargin = 15</pre>
+            <p>
+    "Template"-described properties have a global scope whereas "blocks"
+    ones are specific to the given block. Properties names are identical 
+    for both "template" and "blocks" objects. Properties not related with
+    the given block type are generally ignored (for instance "fontSize" 
+    is not taken into account if block is an image). A lots of properties 
+    use CSS-like denominations and effects. All following parameters names
+    must be precede by either "template." or 
+    "blocks.&lt;block_name&gt;." prefixes.
+    </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+       <em class="parameter"><code>type</code></em> (text|image|table|legend): block type, indicates what kind 
+       of processing must be applied.
+      </li>
+                <li>
+       <em class="parameter"><code>content</code></em> (string): optional, for "text" blocks: the textual content 
+       ; for "image" blocks, the image filename ; for "table" blocks, 
+       a comma-separated list of textual content (limited to one row, 
+       commas delimit cells).
+      </li>
+                <li>
+       <em class="parameter"><code>fontFamily</code></em> (string): name of font family to use. Naming
+       depends on used pdfEngine.
+      </li>
+                <li>
+       <em class="parameter"><code>fontSize</code></em> (float) : font size in points (pt)
+      </li>
+                <li>
+       <em class="parameter"><code>fontItalic</code></em> (boolean): if true, text will be emphasized.
+      </li>
+                <li>
+       <em class="parameter"><code>fontBold</code></em> (boolean): if true, text will be bold-weighted.
+      </li>
+                <li>
+       <em class="parameter"><code>fontUnderline</code></em> (boolean): if true, text will be underlined.
+      </li>
+                <li>
+       <em class="parameter"><code>color</code></em> (string): color of text in hexadecimal code #rrggbb.
+       A few color aliases ("white", "black") are available as well.
+      </li>
+                <li>
+       <em class="parameter"><code>backgroundColor</code></em> (string): background color in hexadecimal
+       code or color aliases.
+      </li>
+                <li>
+       <em class="parameter"><code>borderWidth</code></em> (float): border line width in distUnit.
+      </li>
+                <li>
+       <em class="parameter"><code>borderColor</code></em> (string): border line color in hexadecimal
+       code or color aliases.
+      </li>
+                <li>
+       <em class="parameter"><code>borderStyle</code></em> (solid|dashed|dotted): border line style. 
+       Only available with "PdfLibLite" pdfEngine. "solid" value
+       is used for other pdfEngines.
+      </li>
+                <li>
+       <em class="parameter"><code>padding</code></em> (float): vertical and horizontal distance between
+       block content and its borders in distUnit.
+      </li>
+                <li>
+       <em class="parameter"><code>horizontalMargin</code></em> (float): horizontal margin in distUnit
+       around the block (outside borders).
+      </li>
+                <li>
+       <em class="parameter"><code>verticalMargin</code></em> (float): vertical margin in distUnit around 
+       the block (outside borders).
+      </li>
+                <li>
+       <em class="parameter"><code>horizontalBasis</code></em> (left|right): indicates what document side 
+       must be used for horizontal positioning.
+      </li>
+                <li>
+       <em class="parameter"><code>verticalBasis</code></em> (top|bottom): indicates what document side must
+       be used for vertical positioning.
+      </li>
+                <li>
+       <em class="parameter"><code>hCentered</code></em> (boolean): if true, block is horizontally centered
+       (overloads horizontalBasis property).
+      </li>
+                <li>
+       <em class="parameter"><code>vCentered</code></em> (boolean): if true, block is vertically centered
+       (overloads verticalBasis property).
+      </li>
+                <li>
+       <em class="parameter"><code>textAlign</code></em> (center|left|right): indicates how content must be 
+       horizontally aligned within the block extent.
+      </li>
+                <li>
+       <em class="parameter"><code>verticalAlign</code></em> (center|top|bottom): indicates how content must
+       be vertically aligned within the block extent.
+      </li>
+                <li>
+       <em class="parameter"><code>orientation</code></em> (horizontal|vertical): indicates if content will be 
+       displayed form left to right or from bottom to top (only for 
+       text blocks).
+      </li>
+                <li>
+       <em class="parameter"><code>zIndex</code></em> (integer): indicates how overlapping blocks must be stacked.
+       The higher the zIndex, the higher the block in the stack (foreground).
+      </li>
+                <li>
+       <em class="parameter"><code>weight</code></em> (integer): indicates in what order, blocks with the same
+       zIndex must be processed. Low-weighted blocks are handled first.
+      </li>
+                <li>
+       <em class="parameter"><code>inNewPage</code></em> (boolean): indicates if a new page must be added before
+       printing the block.
+      </li>
+                <li>
+       <em class="parameter"><code>inLastPages</code></em> (boolean): indicates if block must be added in a new
+       page at the end of the document.
+      </li>
+                <li>
+       <em class="parameter"><code>width</code></em> (float): block width in distUnit.
+      </li>
+                <li>
+       <em class="parameter"><code>height</code></em> (float): block height in distUnit.
+      </li>
+                <li>
+       <em class="parameter"><code>multiPage</code></em> (boolean): if true, given block will be displayed on 
+       every document page.
+      </li>
+                <li>
+       <em class="parameter"><code>parent</code></em> (string): if specified, current block will be printed inside 
+       given parent block.
+      </li>
+                <li>
+       <em class="parameter"><code>inFlow</code></em> (boolean): if true, block will be printed right after previous
+       block, preserving the vertical alignment.
+      </li>
+                <li>
+       <em class="parameter"><code>caption</code></em> (string): for "table" blocks only: name of separated block 
+       used to describe table caption formatting.
+      </li>
+                <li>
+       <em class="parameter"><code>headers</code></em> (string): for "table" blocks only: name of separated block
+       used to describe table headers (colunms titles) formatting.
+      </li>
+                <li>
+       <em class="parameter"><code>allowedRoles</code></em> (comma-separated list of strings): list of roles allowed to draw the current block.
+      </li>
+                <li>
+       <em class="parameter"><code>i18n</code></em> (boolean): if true, block content is translated using CartoWeb Gettext system ("i18n" stands for InternationalizatioN). Translated contents may be standard texts or even URLs (useful for instance to display a logo adapted to the used language).
+      </li>
+              </ul>
+            </div>
+            <p>
+   </p>
+            <p>
+    Some additional block-properties are available but are automatically set 
+    depending on other parameter values and thus are not listed 
+    above ("private" access).
+   </p>
+            <p>
+    PHP built-in default values:
+    </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+       type: NULL
+      </li>
+                <li>
+       content: (empty string)
+      </li>
+                <li>
+       fontFamily: times
+      </li>
+                <li>
+       fontSize: 12
+      </li>
+                <li>
+       fontItalic: false
+      </li>
+                <li>
+       fontBold: false
+      </li>
+                <li>
+       fontUnderline: false 
+      </li>
+                <li>
+       color: black
+      </li>
+                <li>
+       backgroundColor: white
+      </li>
+                <li>
+       borderWidth: 1
+      </li>
+                <li>
+       borderColor: black
+      </li>
+                <li>
+       borderStyle: solid
+      </li>
+                <li>
+       padding: 0
+      </li>
+                <li>
+       horizontalMargin: 0
+      </li>
+                <li>
+       verticalMargin: 0
+      </li>
+                <li>
+       horizontalBasis: left
+      </li>
+                <li>
+       verticalBasis: top
+      </li>
+                <li>
+       hCentered: false
+      </li>
+                <li>
+       vCentered: false
+      </li>
+                <li>
+       textAlign: center
+      </li>
+                <li>
+       verticalAlign: center
+      </li>
+                <li>
+       orientation: horizontal
+      </li>
+                <li>
+       zIndex: 1
+      </li>
+                <li>
+       weight: 50
+      </li>
+                <li>
+       inNewPage: false
+      </li>
+                <li>
+       inLastPages: false
+      </li>
+                <li>
+       width: NULL
+      </li>
+                <li>
+       height: NULL
+      </li>
+                <li>
+       multiPage: false
+      </li>
+                <li>
+       parent: false
+      </li>
+                <li>
+       inFlow: true
+      </li>
+                <li>
+       caption: (empty string)
+      </li>
+                <li>
+       headers: (empty string)
+      </li>
+                <li>
+       allowedRoles: all
+      </li>
+                <li>
+       i18n: false
+      </li>
+              </ul>
+            </div>
+            <p>
+   </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.pdf.reference.colors"></a>12.2.4. <a id="id3032640" class="indexterm"></a>Colors definition</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    Colors definitions in <code class="filename">exportPdf.ini</code> configuration file are done using hexadecimal color codes or a few textual aliases such as <em class="parameter"><code>white</code></em>, <em class="parameter"><code>black</code></em>, <em class="parameter"><code>red</code></em>, <em class="parameter"><code>green</code></em>, <em class="parameter"><code>blue</code></em>. For instance:
+    </p>
+            <pre class="programlisting">
+general.overviewOutlineColor = red
+template.backgroundColor     = white
+template.borderColor         = #000000   ; hexadecimal code for black
+blocks.title.color           = #0000ff   ; hexadecimal code for blue</pre>
+            <p>
+   </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.pdf.tutorial"></a>12.3. Tutorial</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.pdf.tutorial.principle"></a>12.3.1. General Principle</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    The PDF document to generate is described using elementary objects blocks:
+   </p>
+            <p>
+    </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+       texts: titles, copyrights, dates...
+      </li>
+                <li>
+       images: maps, logos...
+      </li>
+                <li>
+       tables: queries results...
+      </li>
+                <li>
+       legend: list of icons+labels for each printed layers
+      </li>
+              </ul>
+            </div>
+            <p>
+   </p>
+            <p>
+    Those blocks are drawn and positioned on the document pages according to properties detailed in each block.
+   </p>
+            <p>
+    In addition, some data must be specified to describe the general document characteristics such as formats (pages size), orientation, available resolutions, PDF engine and more.
+   
+   </p>
+            <p>
+    Parameters containing several values are represented using comma-separated lists of strings/integers. If some values contain special characters such as accentuated letters, quotes or other exclamation marks, it may be wiser to encapsulate the whole parameter value between double quotes ("). 
+   </p>
+            <div class="warning">
+              <h3 class="title">Warning</h3>
+              <p>
+    Note3: don't forget to activate the plugin by adding it in the <em class="parameter"><code>loadPlugins</code></em> from BOTH CartoClient and CartoServer configuration files: <code class="filename">client_conf/client.ini</code> and <code class="filename">server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</code>. For instance:
+    </p>
+              <pre class="programlisting">; in client_conf/client.ini:
+loadPlugins = hilight, outline, exportPdf
+
+; in server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini:
+mapInfo.loadPlugins = hilight, outline, exportPdf</pre>
+              <p>
+   </p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.pdf.tutorial.overall"></a>12.3.2. <a id="id3032810" class="indexterm"></a>Overall Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>Two objects are available for overall configuration:</p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.pdf.tutorial.overall.general"></a>12.3.2.1. <a id="id3032828" class="indexterm"></a>general</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+     This is where you can set the list of available resolutions and formats (made available to the user through dropdown menus). Use commas to separate the available values. <em class="parameter"><code>defaultResolution</code></em> and <em class="parameter"><code>defaultFormat</code></em> are used to preselect options in the matching dropdowns. If for some reason the system failed to determine what resolution and format the user desires, it will use those default values.
+    </p>
+              <p>
+     Specify the default orientation to select in user interface as well. You don't need to set a list of available orientations since it is already fixed to "portrait, landscape".
+    </p>
+              <p>
+     The <em class="parameter"><code>activatedBlocks</code></em> parameter lists the blocks that may be drawn in the document. It does not mean that they will. For instance the title block will not appear if no title input has been submitted by the user.
+    </p>
+              <p>
+     Choose the PDF generator you want to use. For now only FPDF is fully available. PDFLib is only partially implemented and should not be used.
+    </p>
+              <p>
+     Set the <em class="parameter"><code>output</code></em> parameter in order to choose how the generated file will be served: download box, link, inline...
+    </p>
+              <p>
+     The <em class="parameter"><code>distUnit</code></em> parameter is very important since it sets the unit used to measure the length specified in every blocks. However it does not affect font sizes, that are always indicated in points (pt).
+    </p>
+              <p>
+     <em class="parameter"><code>horizontalMargin</code></em> and <em class="parameter"><code>verticalMargin</code></em> indicate how much space will be kept blank around each page. No block will be printed below these distances from the sheets borders. Note that these values can be overriden in the formats description. 
+    </p>
+              <p>For instance:</p>
+              <pre class="programlisting">general settings
+general.guiMode = classic
+general.formats = A4, A3
+general.defaultFormat = A4
+general.resolutions = 96, 150, 300
+general.defaultResolution = 96
+general.overviewScaleFactor = 10
+general.defaultOrientation = portrait
+general.activatedBlocks = mainmap, title, note, scalebar, overview, 
+                          copyright, queryResult, page, legend,
+                          logo, scaleval, tlcoords, brcoords
+
+general.pdfEngine = CwFpdf
+general.pdfVersion = 1.3
+general.output = inline
+general.filename = "map-[date,dMY-Hi].pdf"
+general.distUnit = mm
+general.horizontalMargin = 10
+general.verticalMargin = 10
+general.importRemotePng = false</pre>
+              <p>
+     Some overview map settings are available as well. The <em class="parameter"><code>overviewScaleFactor</code></em> indicates how wide the overview will be compared to the mainmap actual extent. <em class="parameter"><code>overviewColor</code></em> and <em class="parameter"><code>overviewOutlineColor</code></em> respectively set the inner and border colors of the mainmap outline in the overview map. Note that the <em class="parameter"><code>outline</code></em> plugin must be activated (ie. added in the <code class="filename">client.ini</code> <em class="parameter"><code>loadPlugins</code></em> parameter) for those settings to be taken into account.
+    </p>
+              <div class="tip">
+                <h3 class="title">Tip</h3>
+                <p>
+      To use the classical MapServer keymap in place of the overview, set the overview block <em class="parameter"><code>content</code></em> parameter to <em class="parameter"><code>static</code></em> (see <a class="xref" href="user.pdf.html#user.pdf.tutorial.block" title="12.3.4. Blocks Configuration">Section 12.3.4, “Blocks Configuration”</a>) as follows:
+     </p>
+                <pre class="programlisting">blocks.overview.content = static</pre>
+                <p>
+      In that case parameters <em class="parameter"><code>overviewScaleFactor</code></em>, <em class="parameter"><code>overviewColor</code></em>, <em class="parameter"><code>overviewOutlineColor</code></em> are ignored.
+     </p>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.pdf.tutorial.overall.formats"></a>12.3.2.2. <a id="id3033035" class="indexterm"></a>formats</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+     Formats objects describe the PDF pages sizes (<em class="parameter"><code>bigDimension</code></em>, <em class="parameter"><code>smallDimension</code></em>). One can describe as many formats as desired. Moreover there is no theoritical page size limit except that the bigger the maps, the longer the document generation.
+    </p>
+              <p>
+     A format is determined by its biggest dimension (<em class="parameter"><code>bigDimension</code></em>) and its smallest dimension (<em class="parameter"><code>smallDimension</code></em>).
+    </p>
+              <p>
+     The <em class="parameter"><code>label</code></em> parameter will be translated using Cw3 I18n internationalization system (<a class="xref" href="user.i18n.html" title="17. Internationalization">Chapter 17, <i>Internationalization</i></a>). It is not required to be identical to the format object id. On the other hand, the latter id must be textually listed in <em class="parameter"><code>general.formats</code></em> parameter or else it will not be taken into account.
+    </p>
+              <p>
+     In addition, a couple of format parameters can be specified: <em class="parameter"><code>horizontalMargin</code></em> and <em class="parameter"><code>verticalMargin</code></em> override the corresponding general parameters if different margins must be applied for the given format. <em class="parameter"><code>maxResolution</code></em> indicates the highest allowed resolution for the given format: it enables to limit the applied resolution when, for instance, printing big-dimensioned maps.
+    </p>
+              <p>
+     For instance: 
+    </p>
+              <pre class="programlisting">; formats settings
+formats.A4.label = A4
+formats.A4.bigDimension = 297
+formats.A4.smallDimension = 210
+
+formats.A3.label = A3
+formats.A3.bigDimension = 420
+formats.A3.smallDimension = 297
+formats.A3.horizontalMargin = 30
+formats.A3.verticalMargin = 30
+formats.A3.maxResolution = 150</pre>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.pdf.tutorial.form"></a>12.3.3. Form Settings</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+     The HTML interface of the PDF tool is fully customisable by:
+     </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+        editing the <em class="parameter"><code>general</code></em> attributes for formats, resolutions and orientation lists (see <a class="xref" href="user.pdf.html#user.pdf.tutorial.overall.general" title="12.3.2.1. general">Section 12.3.2.1, “general”</a> above).
+       </li>
+                <li>
+        adding or editing blocks <em class="parameter"><code>content</code></em> parameters to specify default values for text inputs (such as title or note) and other options (legend, scalebar, overview, query results,...). See <a class="xref" href="user.pdf.html#user.pdf.tutorial.block" title="12.3.4. Blocks Configuration">Section 12.3.4, “Blocks Configuration”</a>. For instance:
+        <pre class="programlisting">blocks.title.content = "My default title"
+blocks.scalebar.content = 1  ; scalebar is checked by default
+blocks.legend.content = in   ; legend is checked as included in map by default</pre>
+       </li>
+              </ul>
+            </div>
+            <p>
+    </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.pdf.tutorial.block"></a>12.3.4. <a id="id3033204" class="indexterm"></a>Blocks Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    Whatever their types (image, text, table, legend, north), blocks use the same PHP object model and, as a result, the same object properties. Some parameters can be used in several ways depending on the block type. Some others are simply ignored.
+   </p>
+            <p>
+    Blocks naming is quite free but some names are reserved to system-defined blocks such as <em class="parameter"><code>title, mainmap, overview, scalebar, note, copyright, queryResult, legend, page, scaleval, tlcoords, brcoords, north, currentuser</code></em>. System blocks should not be renamed.
+   </p>
+            <p>
+    Note that blocks that are not mentioned in <em class="parameter"><code>general.activatedBlocks</code></em> won't be displayed in any case.
+   </p>
+            <pre class="programlisting">general.activatedBlocks = mainmap, title, note, scalebar, overview,
+                          copyright, queryResult, page, legend,
+                          logo, scaleval, tlcoords, brcoords, north</pre>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.pdf.tutorial.block.template"></a>12.3.4.1. <a id="id3033258" class="indexterm"></a>Block Template and Overriding</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+     Since all blocks descriptions are based on the same PdfBlock object, a template block has been defined to factorize blocks common configuration (for instance font-family, background color, borders, padding, etc.). It is also a way to specify default blocks parameters values. It is then possible to personalize blocks by overriding those properties within the block own description. Blocks configuration overriding can be schemed as follows:
+    </p>
+              <p>
+     PHP PdfBlock (hard coded) &gt;&gt;&gt; block template (user configured) &gt;&gt;&gt; final block (user configured)
+    </p>
+              <p>
+     Note that it is not necessary to redefine properties in blocks or in their template if their current values (defined in "parent" structures) are already OK.
+    </p>
+              <p>
+     For instance: 
+    </p>
+              <pre class="programlisting">; blocks default settings
+template.type = text
+template.fontFamily = times
+template.fontSize = 12
+template.fontItalic = false
+template.fontBold = false
+template.color = black
+template.backgroundColor = white
+template.borderWidth = 0.25
+template.borderColor = black
+template.borderStyle = solid
+template.padding = 3
+template.horizontalMargin = 0
+template.verticalMargin = 0
+template.horizontalBasis = left
+template.verticalBasis = top
+template.hCentered = false
+template.zIndex = 1
+template.textAlign = center
+template.verticalAlign = center
+template.orientation = horizontal</pre>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.pdf.tutorial.block.positioning"></a>12.3.4.2. <a id="id3033314" class="indexterm"></a>Blocks Positioning</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+     CartoWeb uses a CSS-like syntax for blocks description and positioning. Description depends on the block type and is detailed in following sections.
+    </p>
+              <p>
+     Blocks are positioned one after the other, beginning by the ones with the lowest <em class="parameter"><code>zIndex</code></em> (vertical position: the low-zIndex'ed blocks are placed under the high-zIndexed ones - ie. closer to the background). When blocks have equal zIndexes, those with lowest <em class="parameter"><code>weight</code></em> are processed first. Eventually, if blocks have identical zIndexes and weights, the system will use <em class="parameter"><code>general.activatedBlocks</code></em> order to make its choice.
+    </p>
+              <p>
+     Blocks with different zIndexes wil not interact except if one is marked has the other's <em class="parameter"><code>parent</code></em>: in that situation the child block will be located inside the parent block instead of using the general referencial. All following siblings will share the same parent block except if they have a <em class="parameter"><code>inFlow = false</code></em> property. Parent blocks must have lower zIndexes than their children.
+    </p>
+              <p>
+     For instance: 
+    </p>
+              <pre class="programlisting">blocks.mainmap.zIndex = 0
+blocks.mainmap.weight = 10
+
+[...]
+
+blocks.overview.parent = mainmap
+blocks.overview.zIndex = 1</pre>
+              <p>
+     Block margins are used to position a given block. Horizontal positioning is achieved by specifying the <em class="parameter"><code>horizontalBasis</code></em> (the side of the document - left|right - used as a reference) and the <em class="parameter"><code>horizontalMargin</code></em> (the latter value tells how far in distUnit the block will be spaced from the reference line). For instance to position a block at 10mm from the document right side, use the following configuration :
+    </p>
+              <pre class="programlisting">general.distUnit = mm
+
+[...]
+
+blocks.myBlock.horizontalBasis = right
+blocks.myBlock.horizontalMargin = 10</pre>
+              <p>
+     If you want to horizontally center a block, it is simply done using
+    </p>
+              <pre class="programlisting">blocks.myBlock.hCentered = true</pre>
+              <p>
+     Block centering overloads any other kind of positioning (margin...).
+    </p>
+              <p>
+     Vertical positioning is achieved in the same way (substitute the dedicated keywords).
+    </p>
+              <p>
+     The <em class="parameter"><code>inFlow</code></em> parameter defaults to true (except if set differently in the template block). As a result, blocks with the same <em class="parameter"><code>zIndex</code></em> will be positioned right below the first block preserving the left-side alignment. To cancel this behavior, set <em class="parameter"><code>inFlow</code></em> to false. In that case, the given block will be positioned related to the previous block using margin or centering ways. 
+    </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.pdf.tutorial.block.text"></a>12.3.4.3. <a id="id3033464" class="indexterm"></a>Text Blocks</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+     Text blocks are boxes with a textual content. The text is set in the <em class="parameter"><code>content</code></em> parameter in case of a static block. <em class="parameter"><code>content</code></em> has to be left blank for visitor-set blocks such as title or note. Text formatting is achieved using usual CSS-like parameter : <em class="parameter"><code>fontFamily</code></em>, <em class="parameter"><code>fontSize</code></em> (expressed in points!!), <em class="parameter"><code>color</code></em>. Small exception: <em class="parameter"><code>fontItalic</code></em>, <em class="parameter"><code>fontBold</code></em>, <em class="parameter"><code>fontUnderline</code></em> are booleans.
+    </p>
+              <p>
+     Box properties (background color, border size, color and style, padding) are set in the same way whatever the block type is.
+    </p>
+              <p>
+     Width is generally detected automatically according to the text length. On the other hand, the system has poor means to evaluate its height, so it is recommended to set it by hand. Note that padding (space between border and content) is taken into account only in the horizontal direction for text blocks. To remove a block border, one can simply set its width (<em class="parameter"><code>borderWidth</code></em>) to 0. Note that some border styling parameters are not available with all pdfEngines.
+    </p>
+              <p>
+     For instance: 
+    </p>
+              <pre class="programlisting">
+blocks.title.zIndex = 2
+blocks.title.weight = 10
+blocks.title.verticalBasis = top
+blocks.title.verticalMargin = 15
+blocks.title.hCentered = true
+blocks.title.fontSize = 20
+blocks.title.fontItalic = true
+blocks.title.fontBold = true
+blocks.title.fontUnderline = true
+blocks.title.backgroundColor = #eeeeee
+blocks.title.height = 15</pre>
+              <p>
+     It is possible to specify a text content in the configuration file by using the <em class="parameter"><code>content</code></em> parameter. Note that <em class="parameter"><code>\n</code></em> strings in the <em class="parameter"><code>content</code></em> value will result in line feeds in the final block.
+     </p>
+              <pre class="programlisting">
+blocks.myText.content = "This is myText block content!"
+
+blocks.myText2.content = "myText2 block\nis multilined."</pre>
+              <p>
+    </p>
+              <p>
+     Text blocks content may also be retrieved from external data source such as text files or databases using following syntaxes. "Connection" parts are separated by a "~". First part indicates what medium (<em class="parameter"><code>file</code></em>|<em class="parameter"><code>db</code></em>) is used:
+     </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li><em class="parameter"><code>file</code></em>: file source<pre class="programlisting">
+blocks.myText.content = "file~my/source/file/path"</pre>
+        The source file path can either be a absolute URL or a filesystem path. Relative filesystem paths are allowed and are based on the CartoWeb root path. For instance:
+       <pre class="programlisting">
+blocks.myText.content = "file~http://myserver/mysourcefile.txt"
+blocks.myText.content = "file~C:\mydir\mysourcefile.txt"
+blocks.myText.content = "file~/home/johndoe/mysourcefile.txt"
+blocks.myText.content = "file~www-data/mysourcefile.txt"</pre>
+        If your source file contains several lines or <em class="parameter"><code>\n</code></em> strings, the generated block will also be multilined.
+       </li>
+                  <li><em class="parameter"><code>db</code></em>: database source<pre class="programlisting">
+blocks.myText.content = "db~DSN~SQL query"</pre>
+        The DSN (Data Source Name) gives the database connection parameters. Any DSN format supported by PEAR::DB can be used. See PEAR::DB manual for more info about DSNs at <a class="ulink" href="http://pear.php.net/manual/en/package.database.db.intro-dsn.php">http://pear.php.net/manual/en/package.database.db.intro-dsn.php</a>. Note that you can call any database server type as long as it is supported by PEAR::DB and that your PHP distribution has the matching extension enabled.
+       
+        For security reasons, only SELECT SQL queries are allowed but there is no other limitation. On the other hand, the query results are basically rendered using a new line for each result line and simply separating result elements with blank spaces. 
+       For instance:<pre class="programlisting">
+blocks.myText.content = "db~pgsql://user:password@localhost/dbname~select name,
+                         phone_number from phone_book where area_id = 12"</pre></li>
+                </ul>
+              </div>
+              <p>
+    </p>
+              <p>
+     </p>
+              <div class="tip">
+                <h3 class="title">Tip</h3>
+                <p>It is possible to make some text blocks have their contents translated by setting their <em class="parameter"><code>i18n</code></em> parameter to <em class="parameter"><code>true</code></em>. For instance:</p>
+                <pre class="programlisting">blocks.myTextBlock.content = "This text will be translated."
+blocks.myTextBlock.i18n = true</pre>
+                <p>Translatable blocks are CartoWeb built-in blocks <em class="parameter"><code>copyright</code></em> and <em class="parameter"><code>date</code></em> as well as your own text blocks. Some other CartoWeb built-in blocks such as <em class="parameter"><code>legend</code></em>, <em class="parameter"><code>scaleval</code></em>, <em class="parameter"><code>page</code></em> or query results table blocks are translated anyway.</p>
+                <p>Note that you will have to explicitly add those entries to your Gettext PO files since there is no way for script <code class="filename">client2pot.php</code> to automatically detect them!</p>
+              </div>
+              <p>
+     </p>
+              <div class="tip">
+                <h3 class="title">Tip</h3>
+                <p>The <em class="parameter"><code>date</code></em> text block is fully customizable. You may specify the date format using PHP date formatting (<a class="ulink" href="http://php.net/date">http://php.net/date</a>). Both configurations are correct:</p>
+                <pre class="programlisting">; use [] to add the date string in complete sentence:
+blocks.date.content = "Generated on [Y/m/d H:i] by CartoWeb3"
+
+; or if the date string is alone:
+blocks.date.content = "Y/m/d H:i"</pre>
+                <p>If you want to have the date block translated, set its <em class="parameter"><code>i18n</code></em> parameter to <em class="parameter"><code>true</code></em> and add the translated version (including date format) to your PO files.</p>
+              </div>
+              <p>
+    </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.pdf.tutorial.block.image"></a>12.3.4.4. <a id="id3033824" class="indexterm"></a>Image Blocks</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+     Image blocks are used to display the maps (main + overview), the scalebar and other user-defined pictures such as logos or diagrams. Except for system image blocks (maps + scalebar), the image file location must be specified in content using either an absolute URL or an absolute path within the server file system. It is also possible to use a relative file path based on the CartoClient root directory (eg. <code class="filename">htdocs/gfx/layout/c2c.png</code>).
+    </p>
+              <p>
+     <em class="parameter"><code>width</code></em> and <em class="parameter"><code>height</code></em> have to be set by the user.
+    </p>
+              <p>
+     For instance: 
+    </p>
+              <pre class="programlisting">blocks.logo.type = image
+blocks.logo.content = http://server/gfx/layout/c2c.png
+blocks.logo.width = 40
+blocks.logo.height = 7
+blocks.logo.padding = 2
+blocks.logo.parent = mainmap
+blocks.logo.horizontalBasis = right
+blocks.logo.inFlow = false
+blocks.logo.horizontalMargin = 5
+blocks.logo.verticalMargin = 5</pre>
+              <p>
+     </p>
+              <div class="tip">
+                <h3 class="title">Tip</h3>
+                <p>If you want to switch the image file depending on the used language, set the block <em class="parameter"><code>i18n</code></em> parameter to <em class="parameter"><code>true</code></em> and add languages matching URLs/filepathes to your PO files.</p>
+              </div>
+              <p>
+    </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.pdf.tutorial.block.table"></a>12.3.4.5. <a id="id3033905" class="indexterm"></a>Table Blocks</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+     Tables blocks are used to represent tabular data such as query results. A table is composed of a caption row (title), a headers row (columns/fields titles) and one or more data rows. All cells can only contain textual content.
+    </p>
+              <p>
+     The table block describes how data cells will be rendered (font, text color, background color...) using the same parameters than for text blocks. The table width will be computed according to the cells content with a upper limit materialized by the page or the parent block available extent. If the max extent is reached, line feeds will be added automatically to the cells contents. The <em class="parameter"><code>height</code></em> parameter gives the height of a single-lined row (and not the total table height!). Note that if a table is too high to fit a page, page breaks will automatically be added.
+    </p>
+              <p>
+     Caption and headers are described using separated blocks. They are specified by filling the table block <em class="parameter"><code>caption</code></em> and <em class="parameter"><code>headers</code></em> fields with the matching blocks ids. Since they are not standalone, there is no need to activate the blocks in the <em class="parameter"><code>general.activatedBlocks</code></em> list. That way it is possible to set the caption and headers layouts separately from the general table one (which is their default layout). Note that these subblocks are optional and will not be displayed if no content can be determined for them. The same headers and caption subblocks can be shared amongst several table blocks.
+    </p>
+              <p>
+     CartoWeb output table content (and its caption and headers subblocks) is automatically determined. But it is also possible to user-define independent tables by filling the table and its caption/headers <em class="parameter"><code>content</code></em>: cells content are represented as comma-separated string lists (only one row available for table data).
+    </p>
+              <p>
+     For instance: 
+    </p>
+              <pre class="programlisting">blocks.queryResult.type = table
+blocks.queryResult.inNewPage = true
+blocks.queryResult.caption = tableCaption
+blocks.queryResult.headers = tableHeaders
+blocks.queryResult.height = 10
+blocks.queryResult.verticalMargin = 10
+blocks.queryResult.hCentered = true
+
+blocks.tableCaption.backgroundColor = #ff0000
+blocks.tableCaption.color = white
+blocks.tableCaption.content = "Table test"
+blocks.tableCaption.height = 15
+
+blocks.tableHeaders.backgroundColor = #ffaaaa
+blocks.tableHeaders.fontBold = true
+blocks.tableHeaders.color = #eeeeff</pre>
+              <div class="tip">
+                <h3 class="title">Tip</h3>
+                <p>
+      A special table block exists to specify which TableGroup (see
+      <a class="xref" href="dev.newplugin.html#dev.newplugin.special.tables.structures" title="2.4.3.1. Tables Structures">Section 2.4.3.1, “Tables Structures”</a>) you want to display in the PDF.
+     </p>
+                <pre class="programlisting">blocks.queryResult.content = query</pre>
+                <p>
+      In that case only the TableGroup <em class="parameter"><code>query</code></em> is
+      visible but you can specify more than one, separate by comma. If this block is not defined in the configuration file,
+      all TableGroup are visible in the PDF file (backward compatibility). 
+     </p>
+              </div>
+              <p>
+     The query results data come from the plugin Table which offers
+     the mechanism of table rules (see <a class="xref" href="dev.newplugin.html#dev.newplugin.special.tables.setrules" title="2.4.3.2. Setting Rules">Section 2.4.3.2, “Setting Rules”</a>) 
+     which describes how tables must be displayed. You can also add
+     table rules specificaly for the PDF output like this example : 
+    </p>
+              <pre class="programlisting">$outputType = $this-&gt;cartoclient-&gt;getOutputType();
+
+if ($outputType == Cartoclient::OUTPUT_HTML_VIEWER) {
+    /* rules for HTML output */
+}
+
+if ($outputType == 'pdf') {
+    /* rules for PDF output */
+}</pre>
+              <p><em class="parameter"><code>outputType</code></em> is generally the export plugin name without the "export" prefix.</p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.pdf.tutorial.block.legend"></a>12.3.4.6. <a id="id3034067" class="indexterm"></a>Legend Block</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+     There is usually only one instance of legend block in a CartoWeb PDF document. It gives the list of the {selected layer/class + icon} couples. Content is automatically retrieved according to selected layers. You only need to set the text formatting and row height (as for a table block). Legend blocks does not provide any table-like headers or caption.
+    </p>
+              <p>
+     You can avoid that a given set of layers be displayed in the legend blocks (no change on the maps) by listing the "forbidden" layers ids in the legend block <em class="parameter"><code>content</code></em> parameter, prefixing each layer id with an exclamation point ("!"). For instance: 
+    </p>
+              <pre class="programlisting">blocks.legend.content = "!background, !layer3"</pre>
+              <p>
+      Note the double quotes around the content value that contains special characters such as "!".
+     </p>
+              <p>
+      Two behavior are offered to the visitor: embedding the legend block in the map or printing it in a separated page. First case is OK when there is little legend items to print (block is limited to one column) whereas the second possibility enables to display lots of legend items, using several columns if needed. In the map-embedded case, if the overview map is printed, the legend block <em class="parameter"><code>width</code></em> will be automatically set to the overview <em class="parameter"><code>width</code></em> value.
+     </p>
+              <p>
+      For instance: 
+    </p>
+              <pre class="programlisting">blocks.legend.type = legend
+blocks.legend.zIndex = 1
+blocks.legend.weight = 40
+blocks.legend.fontSize = 8
+blocks.legend.height = 5
+blocks.legend.width = 50
+blocks.legend.padding = 1.5
+blocks.legend.verticalMargin = 10
+blocks.legend.horizontalMargin = 10
+blocks.legend.content = "!nix"</pre>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.pdf.tutorial.block.north"></a>12.3.4.7. <a id="id3034150" class="indexterm"></a>North Arrow Block</h4>
+                  </div>
+                </div>
+              </div>
+              <p> There is usually only one instance of north arrow block in a CartoWeb PDF document. It
+        displays an arrow (or any image) that will automatically show the north direction.
+        Path set in arrow block <em class="parameter"><code>content</code></em> parameter is relative to
+        CartoWeb root directory. </p>
+              <p>
+      For instance: 
+    </p>
+              <pre class="programlisting">blocks.north.type = north
+blocks.north.content = "plugins/exportPdf/htdocs/gfx/arrow.png"
+blocks.north.width = 10
+blocks.north.height = 36
+blocks.north.padding = 2
+blocks.north.parent = mainmap
+blocks.north.verticalBasis = bottom
+blocks.north.horizontalBasis = left
+blocks.north.inFlow = false
+blocks.north.horizontalMargin = 15
+blocks.north.verticalMargin = 5</pre>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.pdf.tutorial.block.currentuser"></a>12.3.4.8. <a id="id3034193" class="indexterm"></a>Currentuser Block</h4>
+                  </div>
+                </div>
+              </div>
+              <p>You can use the <em class="parameter"><code>currentuser</code></em> block to display somewhere the username of the user who initiated the pdf generation.</p>
+              <p>
+      This block do not require any special parameters beside the common positionning and styling.
+    </p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.pdf.tutorial.roles"></a>12.3.5. <a id="id3034222" class="indexterm"></a>Roles Management</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+    CartoWeb enables to perform roles restrictions on most of the PDF document parts: general access, formats, resolutions, blocks. All these elements can be restricted to some authorized users.
+    For a more detailed discussion of the concept of security restriction and roles, see <a class="xref" href="user.security.html" title="15. Security Configuration">Chapter 15, <i>Security Configuration</i></a>.
+   </p>
+            <p>
+    To do so, simply add to considered objects/blocks an <em class="parameter"><code>allowedRoles</code></em> property set to the comma-separated list of roles you want to restrict them to.
+   </p>
+            <p>
+    For instance: 
+   </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+      to enable PDF printing only for <em class="parameter"><code>loggedIn</code></em> users, use:
+     <pre class="programlisting">general.allowedRoles = loggedIn</pre></li>
+                <li>
+      to reserve A3 format to editors or admins, use:
+     <pre class="programlisting">formats.A4.allowedRoles = editor, admin</pre></li>
+                <li>
+      to set a resolution limit for <em class="parameter"><code>anonymous</code></em> users when printing in A3, you can define 2 similar formats with different <em class="parameter"><code>maxResolution</code></em> and <em class="parameter"><code>allowedRoles</code></em> properties:
+     <pre class="programlisting">general.formats = A4, A3, A3full
+
+[...]
+
+formats.A4.label = A4
+formats.A4.bigDimension = 297
+formats.A4.smallDimension = 210
+
+formats.A3.label = A3
+formats.A3.bigDimension = 420
+formats.A3.smallDimension = 297
+formats.A3.maxResolution = 150
+formats.A3.allowedRoles = anonymous
+
+formats.A3full.label = A3full 
+formats.A3full.bigDimension = 420
+formats.A3full.smallDimension = 297
+formats.A3full.allowedRoles = loggedIn</pre>
+      Note that all formats that may be used must any way be specified in <em class="parameter"><code>general.formats</code></em>.
+     </li>
+                <li>
+      to hide a block for non-admin users, use:
+     <pre class="programlisting">blocks.overview.allowedRoles = admin</pre></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

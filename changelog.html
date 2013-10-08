@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta name="language" content="en" />
+ <meta name="copyright" content="(c) 2005- camptocamp" />
+ <link rel="stylesheet" type="text/css" href="css/cw.css" />
+ <title>CartoWeb - ChangeLog</title>
+</head>
+<body>
+ <div id="menu">
+  <ul>
+   <li><a href="./">Home</a></li>
+   <!-- <li><a href="./demo.html">Demos</a></li> -->
+   <li><a href="./downloads.html">Downloads</a></li>
+   <li><a href="./documentation.html">Documentation</a></li>
+   <li><a href="./contribs.html">Contribs</a></li>
+   <!-- <li><a href="./cwiki/">Wiki</a></li> -->
+   <!-- <li><a href="./cwiki/FrequentlyAskedQuestions">FAQ</a></li> -->
+   <li><a href="./contact.html">Contact &amp; Help</a></li>
+  </ul>
+  <p id="download"><a href="./downloads.html"><span>CartoWeb 3.5.0<br />Download Now!</span></a></p>
+  <form method="get" action="http://www.google.com/search">
+  <p>
+    <input type="text" name="q" value="" maxlength="255" class="cwsearch" accesskey="s" /><br />
+    <select name="sitesearch" class="cwsearch">
+      <option value="cartoweb.org" selected="selected">whole site</option>
+      <option value="lists.maptools.org/pipermail/cartoweb-users">CW-users ML</option>
+      <option value="lists.maptools.org/pipermail/cartoweb-dev">CW-dev ML</option>
+      <option value="cartoweb.org/doc/cwdev/xhtml">HEAD manual</option>
+      <option value="cartoweb.org/doc/cw3.5/xhtml">3.5 manual</option>
+      <option value="cartoweb.org/doc/cw3.4/xhtml">3.4 manual</option>
+      <option value="cartoweb.org/doc/cw3.3/xhtml">3.3 manual</option>
+      <option value="cartoweb.org/doc/cw3.2/xhtml">3.2 manual</option>
+      <option value="cartoweb.org/doc/cw3.1/xhtml">3.1 manual</option>
+      <option value="cartoweb.org/doc/cw3.0/xhtml">3.0 manual</option>
+      <option value="cartoweb.org/cwiki">wiki</option>
+      <option value="cartoweb.org/doc/cwdev/apidoc">HEAD API doc</option>
+      <option value="cartoweb.org/doc/cw3.5/apidoc">3.5 API doc</option>
+      <option value="cartoweb.org/doc/cw3.4/apidoc">3.4 API doc</option>
+      <option value="cartoweb.org/doc/cw3.3/apidoc">3.3 API doc</option>
+      <option value="cartoweb.org/doc/cw3.2/apidoc">3.2 API doc</option>
+      <option value="cartoweb.org/doc/cw3.1/apidoc">3.1 API doc</option>
+      <option value="cartoweb.org/doc/cw3.0/apidoc">3.0 API doc</option>
+    </select>
+    <input value="Search!" type="submit" />
+  </p>
+  </form>
+ </div>
+ <p id="header">
+<span id="title">CartoWeb</span><br /><span id="subtitle">Advanced Geographical Information System for the Web</span>
+ </p>
+ <div id="content">
+
+<h1>CartoWeb3 ChangeLog</h1>
+
+<h2>Version 3.5.0</h2>
+
+<p>(2008-09-04)</p>
+<ul>
+<li>Added new "currentuser" pdf block to output current user login name.</li>
+<li>Added new "timeoutBeforeHide" parameter for toolTips timeout value.</li>
+<li>No more forced "folder" id by plugin! now use 'folderId' parameter in .ini (doc 4.4.3)(bug 1814).</li>
+<li>Added parameters for general encoding of data sources and specific encoding by layers (EncoderClass.data, data_encoding) (doc 16.3).</li>
+<li>Added input definition parameter in edit plugin metadata definition and support for input type "hidden" and "textarea" (edit_rendering) (doc 14.2.1).</li>
+<li>Fixed: toolTips now respect min/max scale of related layers.</li>
+<li>Added circle drawing tool in outline plugin</li>
+<li>Extended support of outline GET parameters to enable description of several shapes - possibly of different types - at once</li>
+<li>Extended support of query GET parameters to enable querying of multiple objets - possibly from different layers - at once </li>
+<li>Added exportLinkIt plugin (returns URL of current page state)</li>
+<li>Added layerFilter plugin: generates a layer attributes filter form and applies the resulting filters</li>
+<li>Added throttling plugin: used to temporary ban ip that have overflowed configurable requests/second rules</li>
+<li>Added support for outputFormat in export plugins, implemented in exportPdf </li>
+<li>Fixed: proper javascript error handling in plugin's Ajax response evaluation</li>
+<li>Added ServerMapquery::queryByMsShape(), useful to perform queries using MapScript ShapeObj objects</li>
+<li>Added statsReports plugin / stats script: generate human readable visual report based on Cartoweb and WMS log</li>
+<li>Added portuguese translations (thanks to <a href="http://www.k2sistemas.com.br/">K2 Sistemas</a>)</li>
+<li>Added security parameter "security_view" for children switching</li>
+<li>Added config in exportPdf to show/hide some blocks if some layers are activated</li>
+<li>Added displayMeasures parameter in plugin Outline to display area/distance in label</li>
+<li>Unit tests now use PHPUnit 3 instead of PHPUnit 2</li>
+<li>Upgraded PEAR libs + added MDB2</li>
+<li>Added: PDFrotate: recentering, manual rotation</li>
+<li>Fixed: PDFrotate: stability issues </li>
+<li>Added: AJAX: general access points (onBeforeAjaxCallGeneral &amp; onAfterAjaxCallGeneral) made available to all plugins</li>
+<li>Added: Layers switch: possibility to define any switch as the default switch</li>
+<li>Upgraded Prototype to 1.6.0 (bug 1763)</li>
+<li>Added: "force_map_refresh" parameter and related mecanism to bypass map request cache (bug 1850)</li>
+<li>Fixed: compatibility issue with eAccelerator (bug 1804)</li>
+<li>Fixed: proper encoding/decoding if encoding in browser different from UTF8 (bug 1534)</li>
+<li>Fixed: project id correctly recovered if/when accessing a project via client.php (bug 1748)</li>
+<li>Fixed: displayed coordinates when using PDF rotate mode (bug 1282)</li>
+</ul>
+
+<h2>Version 3.4.0</h2>
+
+<p>(2007-09-21)</p>
+<ul>
+<li>Added some new images plugin filter parameters:
+  <ul>
+    <li>Map image size set dynamically via GET parameters ;</li>
+    <li>Image mode now allow output of map, keymap and scalebar separately.</li>
+  </ul>
+</li>
+<li>Made URLs clickable in exportPdf documents.</li>
+<li>Added addRowSelector table rule tool.</li>
+<li>Added GET capabilities to outline plugin to generate on-the-fly point, line or polygon outline via URL.</li>
+<li>Added new --clean-views and --clean-accounting options to cw3setup.php</li>
+<li>Added LDAP storage for auth plugin</li>
+<li>LayerOverlay accepts 'filter' and 'filteritem' attributes (patch from Dirk Jesko)</li>
+<li>Added 'db_direct' method to store accounting information</li>
+<li>Added free (user) scale input in location coreplugin</li>
+<li>Added 'bboxHistory' plugin: allows the user to navigate through bbox history.</li>
+<li>Added WMS browser light and OgcLayerLoader plugins to make WMS layers loading more user-friendly.</li>
+<li>Added exportRtf plugin which gives the possibility to export the map in a RTF format.</li>
+<li>Added multiple resolutions for legend icons.</li>
+<li>Added exportImg plugin, similar to mode=image but via a template and allowing direct access to the generated ima
+ge.</li>
+</ul>
+
+<h2>Version 3.3.0</h2>
+
+<p>(2006-08-31)</p>
+<ul>
+  <li>Added accounting infrastucture, to log request informations. This can be used for statistics.</li>
+  <li>Added tools for queries by point, polygon and circle (in addition to existing query-by-bbox tool).</li>
+  <li>Added AJAX support in plugins.</li>
+  <li>Added WMS-layers browsing plugin.</li>
+  <li>Added hooks capabilities in views processing.</li>
+  <li>Added sampleProject, a start project to build your own ones upon it.</li>
+  <li>Added DXF export.</li>
+  <li>Added geostatistical plugin for choropleth map visualization.</li>
+</ul>
+
+<h2>Version 3.2.0</h2>
+
+<p>(2006-02-14)</p>
+<ul>
+  <li>Added mapOverlay plugin to dynamically search, create, update or delete mapfile elements.</li>
+  <li>Added edition plugin ("edit") to create, edit or delete geographical data on the browser.</li>
+  <li>Added "toolPicker", an extensible JavaScript tool to choose colors and symbols.</li>
+  <li>Added support for GIF images in PDF export.</li>
+  <li>Added support for additional fonts in PDF export.</li>
+  <li>PDF form inputs are now saved while browsing the viewer and their initial states are set in config files.</li>
+  <li>Added built-in toolbar rendering switching system: radio buttons, icons borders, icons switching.</li>
+  <li>Improved cw3setup.php (installation script) to focus on given projects.</li>
+  <li>Added "rotate" mode for PDF export: selection of to-be-exported rectangle, including rotation.</li>
+  <li>Added optional reference marks on displayed map and/or PDF export.</li>
+  <li>Many bugfixes and improvements.</li> 
+</ul>
+
+<h2>Version 3.1.0</h2>
+
+<p>(2005-11-10)</p>
+<ul>
+ <li>Redesigned DHTML map interface as a convenient object-oriented API.</li>
+ <li>Added JavaScript constraints for polygons: maximum number of points, no crossing.</li>
+ <li>Added new improved tabs interface.</li>
+ <li>Added support of styles with shapes and labels in outline plugin.</li>
+ <li>Added new profile parameter for quick development/production switch.</li>
+ <li>Added possibility to separate toolbar icons in several groups dispatched wherever in the interface layout.</li>
+ <li>Improved PDF export plugin:
+  <ul>
+   <li>Support for multiline text blocks ;</li>
+   <li>Support for external data source (files, databases) for text blocks ;</li>
+   <li>Debugged overview extent ;</li>
+   <li>Customizable overview outline colors ;</li>
+   <li>Overview can use viewer keymap.</li>
+  </ul>
+ </li>
+ <li>Redesigned installation script. Added Windows installation wizard (.exe installer).</li>
+ <li>Added views plugin.</li>
+ <li>Added routing plugin.</li>
+ <li>Added layers reordering plugin.</li>
+ <li>Added raw-image output switch.</li>
+ <li>Renamed class Serializable to CwSerializable (for PHP 5.0.4+ compatibility).</li>
+ <li>Added possibility to create output-format specific tables rules (eg. only for PDF, only for HTML, only for CSV...).</li>
+ <li>Switched most private plugins methods and members to "protected" in order to facilitate plugin extension.</li>
+ <li>Added support for dynamic mapfiles (generation using PHP templates) and multiple mapfiles switching.</li>
+ <li>Added support for dynamic changes on layers tree (aka "layers children switching").</li>
+ <li>Moved I18n PO files to projects directories.</li>
+ <li>Optimized export plugins (HTML, CSV, PDF, etc.) that now uses the main CartoWeb page (separated export.php pages are deprecated).</li>
+</ul>
+
+<h2>Version 3.0.0</h2>
+
+<p>(2005-04-01)</p>
+<p>Initial release.</p>
+
+</div>
+<p id="footer">&copy; 2002-2008 <a href="./">CartoWeb</a> by <a href="http://www.camptocamp.com/">Camptocamp SA</a></p>
+</body>
+</html>

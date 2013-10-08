@@ -1,0 +1,475 @@
+<html>
+<head>
+<title>Docs For Class MapInfoHandler</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">Server</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_Server.html" class="menu">class tree: Server</a> ]
+		  [ <a href="../elementindex_Server.html" class="menu">index: Server</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+      <b>Packages:</b><br />
+              <a href="../li_CartoWeb3.html">CartoWeb3</a><br />
+              <a href="../li_client.html">client</a><br />
+              <a href="../li_Client.html">Client</a><br />
+              <a href="../li_Common.html">Common</a><br />
+              <a href="../li_CorePlugins.html">CorePlugins</a><br />
+              <a href="../li_Plugins.html">Plugins</a><br />
+              <a href="../li_Scripts.html">Scripts</a><br />
+              <a href="../li_Server.html">Server</a><br />
+              <a href="../li_Tests.html">Tests</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../Server/_generating_scripts_cartoweb3_doc_server_Cartoserver_php.html">		Cartoserver.php
+		</a><br>
+			<a href="../Server/_generating_scripts_cartoweb3_doc_common_Encoding_php.html">		Encoding.php
+		</a><br>
+			<a href="../Server/_generating_scripts_cartoweb3_doc_server_MapInfoHandler_php.html">		MapInfoHandler.php
+		</a><br>
+			<a href="../Server/_generating_scripts_cartoweb3_doc_server_MapResultCache_php.html">		MapResultCache.php
+		</a><br>
+			<a href="../Server/_generating_scripts_cartoweb3_doc_server_ServerContext_php.html">		ServerContext.php
+		</a><br>
+			<a href="../Server/_generating_scripts_cartoweb3_doc_server_ServerPlugin_php.html">		ServerPlugin.php
+		</a><br>
+			<a href="../Server/_generating_scripts_cartoweb3_doc_server_ServerPluginHelper_php.html">		ServerPluginHelper.php
+		</a><br>
+			<a href="../Server/_generating_scripts_cartoweb3_doc_server_SoapXMLCache_php.html">		SoapXMLCache.php
+		</a><br>
+	  </div><br />
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../Server/Cartoserver.html">Cartoserver</a><br />
+	    		<a href="../Server/CartoserverException.html">CartoserverException</a><br />
+	    		<a href="../Server/ClientResponder.html">ClientResponder</a><br />
+	    		<a href="../Server/ClientResponderAdapter.html">ClientResponderAdapter</a><br />
+	    		<a href="../Server/ClientResponderHelper.html">ClientResponderHelper</a><br />
+	    		<a href="../Server/CoreProvider.html">CoreProvider</a><br />
+	    		<a href="../Server/CoreProviderHelper.html">CoreProviderHelper</a><br />
+	    		<a href="../Server/Encoder.html">Encoder</a><br />
+	    		<a href="../Server/InitProvider.html">InitProvider</a><br />
+	    		<a href="../Server/InitProviderHelper.html">InitProviderHelper</a><br />
+	    		<a href="../Server/MapInfoHandler.html">MapInfoHandler</a><br />
+	    		<a href="../Server/MapResultCache.html">MapResultCache</a><br />
+	    		<a href="../Server/ServerConfig.html">ServerConfig</a><br />
+	    		<a href="../Server/ServerContext.html">ServerContext</a><br />
+	    		<a href="../Server/ServerMapInfoCache.html">ServerMapInfoCache</a><br />
+	    		<a href="../Server/ServerPlugin.html">ServerPlugin</a><br />
+	    		<a href="../Server/ServerPluginConfig.html">ServerPluginConfig</a><br />
+	    		<a href="../Server/ServerPluginHelper.html">ServerPluginHelper</a><br />
+	    		<a href="../Server/SoapXMLCache.html">SoapXMLCache</a><br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Class: MapInfoHandler</h1>
+Source Location: /server/MapInfoHandler.php<br /><br />
+
+
+<table width="100%" border="0">
+<tr><td valign="top">
+
+<h3><a href="#class_details">Class Overview</a></h3>
+<pre></pre><br />
+<div class="description">This class constructs the MapInfo structure. It will use the MapInfo cache  when available.</div><br /><br />
+
+
+
+
+
+
+
+</td>
+
+<td valign="top">
+<h3><a href="#class_vars">Variables</a></h3>
+<ul>
+    <li><a href="../Server/MapInfoHandler.html#var$iniPath">$iniPath</a></li>
+    <li><a href="../Server/MapInfoHandler.html#var$log">$log</a></li>
+    <li><a href="../Server/MapInfoHandler.html#var$mapId">$mapId</a></li>
+    <li><a href="../Server/MapInfoHandler.html#var$mapInfo">$mapInfo</a></li>
+    <li><a href="../Server/MapInfoHandler.html#var$projectHandler">$projectHandler</a></li>
+    <li><a href="../Server/MapInfoHandler.html#var$serverContext">$serverContext</a></li>
+  </ul>
+</td>
+
+
+<td valign="top">
+<h3><a href="#class_methods">Methods</a></h3>
+<ul>
+    <li><a href="../Server/MapInfoHandler.html#method__construct">__construct</a></li>
+    <li><a href="../Server/MapInfoHandler.html#methodfillDynamicKeymap">fillDynamicKeymap</a></li>
+    <li><a href="../Server/MapInfoHandler.html#methodfillDynamicMap">fillDynamicMap</a></li>
+    <li><a href="../Server/MapInfoHandler.html#methodgetMapInfo">getMapInfo</a></li>
+    <li><a href="../Server/MapInfoHandler.html#methodgetServerContext">getServerContext</a></li>
+    <li><a href="../Server/MapInfoHandler.html#methodloadMapInfo">loadMapInfo</a></li>
+  </ul>
+</td>
+
+</tr></table>
+<hr />
+
+<table width="100%" border="0"><tr>
+
+
+
+
+
+
+</tr></table>
+<hr />
+
+<a name="class_details"></a>
+<h3>Class Details</h3>
+<div class="tags">
+[line 32]<br />
+This class constructs the MapInfo structure. It will use the MapInfo cache  when available.<br /><br /></div><br /><br />
+<div class="top">[ <a href="#top">Top</a> ]</div><br />
+
+<hr />
+<a name="class_vars"></a>
+<h3>Class Variables</h3>
+<div class="tags">
+	<a name="var$iniPath"></a>
+	<p></p>
+	<h4>$iniPath = <span class="value"></span></h4>
+	<p>[line 57]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>string</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$log"></a>
+	<p></p>
+	<h4>$log = <span class="value"></span></h4>
+	<p>[line 37]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>Logger</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$mapId"></a>
+	<p></p>
+	<h4>$mapId = <span class="value"></span></h4>
+	<p>[line 62]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>string</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$mapInfo"></a>
+	<p></p>
+	<h4>$mapInfo = <span class="value"></span></h4>
+	<p>[line 47]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td><a href="../Common/MapInfo.html">MapInfo</a></td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$projectHandler"></a>
+	<p></p>
+	<h4>$projectHandler = <span class="value"></span></h4>
+	<p>[line 52]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td><a href="../Common/ProjectHandler.html">ProjectHandler</a></td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$serverContext"></a>
+	<p></p>
+	<h4>$serverContext = <span class="value"></span></h4>
+	<p>[line 42]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td><a href="../Server/ServerContext.html">ServerContext</a></td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+</div><br />
+
+<hr />
+<a name="class_methods"></a>
+<h3>Class Methods</h3>
+<div class="tags">
+  <hr />
+	<a name="method__construct"></a>
+	<h3>constructor __construct <span class="smalllinenumber">[line 68]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>MapInfoHandler __construct(
+ServerContext
+$serverContext)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Constructor<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type"><a href="../Server/ServerContext.html">ServerContext</a>&nbsp;&nbsp;</td>
+        <td><b>$serverContext</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodfillDynamicKeymap"></a>
+	<h3>method fillDynamicKeymap <span class="smalllinenumber">[line 101]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void fillDynamicKeymap(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Fills dynamic general keymap information.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodfillDynamicMap"></a>
+	<h3>method fillDynamicMap <span class="smalllinenumber">[line 87]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void fillDynamicMap(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Fills dynamic general map information, like map name.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetMapInfo"></a>
+	<h3>method getMapInfo <span class="smalllinenumber">[line 174]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code><a href="../Common/MapInfo.html">MapInfo</a> getMapInfo(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetServerContext"></a>
+	<h3>method getServerContext <span class="smalllinenumber">[line 80]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code><a href="../Server/ServerContext.html">ServerContext</a> getServerContext(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Returns the server context<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodloadMapInfo"></a>
+	<h3>method loadMapInfo <span class="smalllinenumber">[line 123]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code><a href="../Common/MapInfo.html">MapInfo</a> loadMapInfo(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Constructs a MapInfo object, by reading ini files and calling plugins.<br /><br /><p>This method should not be called directly. Use getMapInfo() instead,  which manages the cache.</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+</div><br />
+
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Fri, 11 Nov 2005 11:00:04 +0000 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>Appendix B. Apache &amp; Mapserver Windows Manual Installation</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="appendix.debian_mapserver.html">
+       &lt; Mapserver Debian Installation</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="appendix.create_new_project.html">Create a New Project &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="appendix.windows_manual_install.html#appendix.windows_manual_install.apache">B.1. Apache/PHP5 Install</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="appendix.windows_manual_install.html#appendix.windows_manual_install.mapserver">B.2. Mapserver/Mapscript Install</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="appendix.windows_manual_install"></a>Appendix B. Apache &amp; Mapserver Windows Manual Installation</h2>
+    </div>
+    <div id="content">
+      <div class="appendix" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p>This page describes the step-by-step procedure to install Cartoweb3 on Windows, using WAMP, 
+  Mapscript and Cartoweb.</p>
+        <p>The following configuration was tested:
+    </p>
+        <div class="itemizedlist">
+          <ul>
+            <li>Windows 2000</li>
+            <li>WAMP 1.4.4 (Apache 1.3.33 + PHP 5.0.4)</li>
+            <li>Mapserver 4.5</li>
+            <li>Cartoweb 3.0.0 and Cartoweb3 CVS-version</li>
+          </ul>
+        </div>
+        <p>
+  </p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="appendix.windows_manual_install.apache"></a>B.1. Apache/PHP5 Install</h2>
+              </div>
+            </div>
+          </div>
+          <p>Cartoweb requires php5. MS4W only supports php4.3 so we will need WAMP (1.4.4 or greater). 
+    You can get the installation package here: <a href="http://www.wampserver.com/download.php">http://www.wampserver.com/download.php</a></p>
+          <p>Launch the setup by clicking on the executable file you just downloaded (here <code class="filename">wamp5_1.4.4.exe</code>). 
+    Keep default install options:
+      </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>Install WAMP in <code class="filename">C:\wamp</code></li>
+              <li>Set www root folder as <code class="filename">C:\wamp\www</code></li>
+            </ul>
+          </div>
+          <p>  
+    </p>
+          <p>Once installation is completed:
+      </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>If WAMP didn't loaded automatically (icon in the system tray in the lower right of the 
+          screen), load it (Stat menu, Programs, WampServer, Start Wampserver)</li>
+              <li>Type http://localhost in a browser</li>
+              <li>Once the page has loaded, click on Tools &gt; phpinfo() (http://localhost/exemples/phpinfo.php) 
+          to display the complete PHPINFO information.</li>
+              <li>Take note of the path to the <code class="filename">php.ini</code> file (Configuration File (php.ini) Path). It should 
+          look like <code class="filename">C:\wamp\apache\php.ini</code></li>
+              <li>Open the file <code class="filename">php.ini</code> in any text editor and go to the Dynamic Extensions section. 
+          Activate the SOAP, Curl and Gettext extensions. Simply remove the ";" at the beginning of 
+          the lines.</li>
+            </ul>
+          </div>
+          <p>
+    </p>
+          <p>If you can not see the extension in the list, you will need to add it manually:</p>
+          <pre class="screen">
+extension=php_soap.dll
+extension=php_curl.dll
+extension=php_gettext.dll</pre>
+          <p>The corresponding DLL files must be present in the extensions folder of PHP. It should be 
+    <code class="filename">C:\wamp\php\ext</code> by default. If you can not find it, look in the PHPINFO ("local value" for parameter 
+    extension_dir, visible in <code class="filename">php.ini</code> as well), you will notice something like <code class="filename">C:/wamp/php/ext/</code>.
+      </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>Restart Apache (left-click on the WAMP icon in the systray &gt; Apache &gt; Restart Service)</li>
+              <li>Check in the PHPINFO if the new extensions loaded correctly (look for a section with their name).</li>
+            </ul>
+          </div>
+          <p>
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="appendix.windows_manual_install.mapserver"></a>B.2. Mapserver/Mapscript Install</h2>
+              </div>
+            </div>
+          </div>
+          <p>You need a Mapscript version compiled for PHP5/Win32. You can get one here: 
+      <a href="http://www.maptools.org/dl/mapserver-4.5-win32-php5.0.3.zip">http://www.maptools.org/dl/mapserver-4.5-win32-php5.0.3.zip</a>
+    </p>
+          <p>
+      If the link doesn't work, go to 
+      <a href="http://dl.maptools.org/dl/">http://dl.maptools.org/dl/</a> and look for mapserver-4.5-win32-php5.0.3.zip or newer.
+      </p>
+          <div class="note">
+            <h3 class="title">Note</h3>
+            <p>MapServer for Windows/PHP5 archives are also available on CartoWeb website at <a href="http://cartoweb.org/downloads.html#msw">http://cartoweb.org/downloads.html#msw</a>. Additional instructions for installing DLL's are given in the matching README.txt files.</p>
+          </div>
+          <p>
+      </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>Once you have downloaded the archive, uncompress it in any directory.</li>
+              <li>The README.txt included in the archive tells you where you must place the various files:
+            <div class="itemizedlist"><ul><li>Unzip gdal-1.2.5.zip, libcurl-7.10.7_dll.zip, xerces_dll.zip, ECW_DLL.zip, 
+                pdfdll.zip, libpq.zip in <code class="filename">C:\WINNT\System32</code> if you are using Windows 2000/NT 
+                (<code class="filename">C:\Windows\System32</code> for XP and <code class="filename">C:\Windows\System</code> for 95/98/Me)</li><li>Move <code class="filename">php_mapscript_45.dll</code> in the extensions folder of PHP (see PHPINFO, 
+                default is <code class="filename">C:\wamp\php\ext</code>). The file <code class="filename">php_proj.dll</code> is outdated, you can ignore it.</li><li>Open <code class="filename">php.ini</code> and add a call to this extension:
+                <pre class="screen">
+extension=php_mapscript_45.dll</pre>
+                </li></ul></div>          
+          </li>
+              <li>Restart Apache and check that the mapscript module is loaded correctly (look in PHPINFO)</li>
+              <li>Install Proj4 by following the instructions in URL indicated in the README.txt: 
+          <a href="http://mapserver.gis.umn.edu/cgi-bin/wiki.pl?WindowProjHowTo">http://mapserver.gis.umn.edu/cgi-bin/wiki.pl?WindowProjHowTo</a> &gt; Using Prebuilt Binaries
+            <div class="itemizedlist"><ul><li>Download the archive Proj4 here: 
+                <a href="ftp://ftp.remotesensing.org/proj/proj446_win32_bin.zip">ftp://ftp.remotesensing.org/proj/proj446_win32_bin.zip</a></li><li>Uncompress it in C:\. If you want to install it elsewhere, look at point 2 of Using Prebuilt Binaries</li><li>Point 3 in the README is irrelevant in our case.</li></ul></div>  
+          </li>
+              <li>
+            CartoWeb setup script <code class="filename">cw3setup.php</code> requires an "unzip" program to uncompress libraries and demo data archives. If you don't have one installed, download one on the Web (type "unzip.exe" in your favorite search engine) and put it for instance in your <code class="filename">C:\Windows</code> directory.
+          </li>
+            </ul>
+          </div>
+          <p>     
+    </p>
+          <div class="note">
+            <h3 class="title">Note</h3>
+            <p>The .exe in the Mapserver archive are not needed.</p>
+          </div>
+          <div class="note">
+            <h3 class="title">Note</h3>
+            <p>If you are using 
+    Windows XP, it may be necessary to modify the extension_dir value in php.ini by using "\" 
+    instead of "/"</p>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

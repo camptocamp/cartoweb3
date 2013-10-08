@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>10. Annotation and Redlining [plugin] (outline)</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.query.html">
+       &lt; Queries </a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.output.html">Export Plugins  &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.annotate.html#user.annotate.client">10.1. Client-side Configuration</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.annotate.html#user.annotate.client.ini">10.1.1. outline.ini</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.annotate.html#user.annotate.server">10.2. Server-side Configuration</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.annotate.html#user.annotate.server.ini">10.2.1. outline.ini</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.annotate.html#user.annotate.mapfile">10.3. Related Elements in Mapfile</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.annotate.html#user.annotate.mapfile.layers">10.3.1. Layers</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.annotate.html#user.annotate.mapfile.label">10.3.2. Labels</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.annotate.html#user.annotate.getparam">10.4. GET Parameters</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.annotate.html#user.annotate.getparam.paramlist">10.4.1. Accepted Parameters</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.annotate.html#user.annotate.toolpicker">10.5. The ToolPicker</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.annotate.html#user.annotate.toolpicker.what">10.5.1. What is the ToolPicker</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.annotate.html#user.annotate.toolpicker.install">10.5.2. Installation</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.annotate.html#user.annotate.toolpicker.usage">10.5.3. ToolPicker Usage</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.annotate.html#user.annotate.toolpicker.default">10.5.4. ToolPicker Default Values</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.annotate.html#user.annotate.toolpicker.exemples">10.5.5. Examples of Usage</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.annotate.html#user.annotate.toolpicker.new">10.5.6. Creating New Tools</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.annotate"></a>10. Annotation and Redlining <sub>[plugin] (outline)</sub></h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p> Imagine you want to draw some features (points, lines, polygons ...) 
+    in your map to show specific data and/or print it. The outline plugin is 
+    what you need. </p>
+        <p> It allows you to draw features and to annotate them with label texts. 
+    </p>
+        <p> It's also possible to use polygons shapes as a mask layer see "Mask 
+    mode". User can choose between mask or draw mode with radio buttons. See 
+    <a class="xref" href="user.annotate.html#user.annotate.server.ini" title="10.2.1. outline.ini">Section 10.2.1, “outline.ini”</a> for more information. </p>
+        <p> Shapes colors and styles should be set with specific configuration in 
+    the mapfile (See <a class="xref" href="user.annotate.html#user.annotate.mapfile" title="10.3. Related Elements in Mapfile">Section 10.3, “Related Elements in Mapfile”</a>). </p>
+        <p>The total area of the drawn polygons is displayed on the 
+    interface.</p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.annotate.client"></a>10.1. Client-side Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.annotate.client.ini"></a>10.1.1. outline.ini</h3>
+                </div>
+              </div>
+            </div>
+            <p>Here are the options that can be set on the client: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+            multipleShapes<a id="id2591669" class="indexterm"></a>: 
+            boolean, if true, the user is allowed to draw multiple shapes. That 
+            means that drawn features remain until browser session is closed. 
+            If false, will outline only one shape at a time, new feature simply 
+            erases / overrides currently drawn one. When he wants, the user can 
+            erase all the drawn feature by clicking on the "outline_clear" form 
+            button (default true). </li>
+                <li> labelMode<a id="id2648757" class="indexterm"></a>: 
+            boolean, if true, user is asked to input a label text that is drawn 
+            to annotate drawn shape. </li>
+                <li> displayMeasures<a id="id2649940" class="indexterm"></a>: 
+            boolean, if true, label text will contain surface or distance measure. </li>
+                <li> 
+            weightOutlinePoint<a id="id2649955" class="indexterm"></a>: 
+            integer defining display order of the outline_point tool icon in 
+            toolbar (if not specified, default to 70). A negative weight 
+            disables the tool. </li>
+                <li> 
+            weightOutlineLine<a id="id2649973" class="indexterm"></a>: 
+            see weightOutlinePoint (default to 71) </li>
+                <li> 
+            weightOutlineRectangle<a id="id2649988" class="indexterm"></a>: 
+            see weightOutlinePoint (default to 72) </li>
+                <li> 
+            weightOutlinePoly<a id="id2650003" class="indexterm"></a>: 
+            see weightOutlinePoint (default to 73) </li>
+                <li> 
+            weightOutlineCircle<a id="id2650018" class="indexterm"></a>: 
+            see weightOutlinePoint (default to 74) </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.annotate.server"></a>10.2. Server-side Configuration</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.annotate.server.ini"></a>10.2.1. outline.ini</h3>
+                </div>
+              </div>
+            </div>
+            <p>Here are the options that can be set on the server: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+            pointLayer<a id="id2650060" class="indexterm"></a>: 
+            defines the name of the mapserver LAYER set in the mapfile to 
+            display points.</li>
+                <li> lineLayer<a id="id2650076" class="indexterm"></a>: 
+            defines the name of the mapserver LAYER set in the mapfile to 
+            display lines.</li>
+                <li> polygonLayer<a id="id2650092" class="indexterm"></a>: 
+            defines the name of the mapserver LAYER set in the mapfile to 
+            display polygons. Note that rectangles are displayed as polygons. 
+            </li>
+                <li> maskColor<a id="id2650110" class="indexterm"></a>: 
+            defines the RGB color of the mask. This color is used to fill the 
+            polygons outside's area. Drawn polys will appear as holes in a 
+            colored sheet, showing the map under. This parameter is optional 
+            and set by default to 255 255 255 (white). </li>
+                <li> 
+            areaFactor<a id="id2650129" class="indexterm"></a>: 
+            defines an optional value for ratio by which the area is multiplied 
+            before it is returned to the client. For example, people can use it 
+            to convert square meters to square kilometers. </li>
+                <li> 
+            areaPrecision<a id="id2650146" class="indexterm"></a>: 
+            defines an optional way to obtain a formatted area surface value. 
+<div class="literallayout"><p>"{(int) nb decimal}#{(str) decimal separator}#{(str) thousand separator}"<br />
+</p></div>If areaPrecision is present in outline.ini (server_conf) without any parameters the 
+          following formatter will be apply : 2 decimal, .(dot) as decimal separator, " "(space) as thousand separator.
+          which correspond to the areaPrecision = "2#.# ". It's better to double-quote your parameter, avoiding trouble by the ini parser
+          if you want to use a space at the end. 
+          If you want a 4 decimal, with comma decimal separator, and single-quote for thousand separator you would change this to 
+          areaPrecision = "4#,#'"
+          Note : this is absolutely not locales aware, you could only have one formater for all language your project support.
+          Would perharps change with php6 version. 
+          </li>
+                <li> symbolPickerHilight = inversed|borderhilight: set the hilight
+mode to use in the SymbolPicker interface. See 
+<a class="xref" href="user.annotate.html#user.annotate.toolpicker.usage.symbol" title="10.5.3.2. SymbolPicker">Section 10.5.3.2, “SymbolPicker”</a>.</li>
+                <li> symbolSize<a id="id2609100" class="indexterm"></a>: 
+            defines the size (in pixel) of the symbold images generated when using the
+            symbolPicker. The value is used for width and height. The default value is 30.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.annotate.mapfile"></a>10.3. Related Elements in Mapfile</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.annotate.mapfile.layers"></a>10.3.1. Layers</h3>
+                </div>
+              </div>
+            </div>
+            <p>Specific layers must be set in the mapfile in order to draw the 
+        shapes:</p>
+            <pre class="programlisting">
+LAYER
+  NAME "cartoweb_point_outline"
+  TYPE POINT
+  ...
+END
+
+LAYER
+  NAME "cartoweb_line_outline"
+  TYPE LINE
+  ...
+END
+
+LAYER
+  NAME "cartoweb_polygon_outline"
+  TYPE POLYGON
+  ...
+END</pre>
+            <p> Don't forget that layers names must be set in the server-side 
+        outline.ini file (See <a class="xref" href="user.annotate.html#user.annotate.server.ini" title="10.2.1. outline.ini">Section 10.2.1, “outline.ini”</a>) 
+        </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.annotate.mapfile.label"></a>10.3.2. Labels</h3>
+                </div>
+              </div>
+            </div>
+            <p>In case of using labels (i.e. labelMode set to true, see <a class="xref" href="user.annotate.html#user.annotate.client.ini" title="10.1.1. outline.ini">Section 10.1.1, “outline.ini”</a>), a LABEL object is needed in the 
+        layers' class. </p>
+            <p>Example:</p>
+            <pre class="programlisting">
+LAYER
+  NAME "cartoweb_point_outline"
+  TYPE POINT
+  ...
+  CLASS
+    STYLE
+      ...
+    END
+    LABEL
+      FONT Vera
+      TYPE truetype
+      COLOR 51 51 51
+      SIZE 10
+    END
+  END
+END</pre>
+            <p> You will find more examples looking in the test.map 
+        file in server_conf directory. </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.annotate.getparam"></a>10.4. GET Parameters</h2>
+              </div>
+            </div>
+          </div>
+          <p>Creates outline drawing on-the-fly by passing a geometry type and one 
+    or more point coordinates via the URL.</p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.annotate.getparam.paramlist"></a>10.4.1. Accepted Parameters</h3>
+                </div>
+              </div>
+            </div>
+            <p>Parameters list</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>outline_point
+          <pre class="screen">http://www.example.com/cartoweb/myproject.php?outline_point=611748,5232242</pre>
+          </li>
+                <li>outline_line
+          <pre class="screen">http://www.example.com/cartoweb/myproject.php?outline_line=611748,5232242;748204,5232242;748204,5050300;611748,5050300</pre>
+          </li>
+                <li>outline_poly
+          <pre class="screen">http://www.example.com/cartoweb/myproject.php?outline_poly=611748,5232242;748204,5232242;748204,5050300;611748,5050300;611748,5232242</pre>
+          </li>
+                <li>outline_circle
+          <pre class="screen">http://www.example.com/cartoweb/myproject.php?outline_circle=611748,5232242;50000</pre>
+          </li>
+                <li>It is possible to describe several shapes, including of different types:<pre class="screen">http://www.example.com/cartoweb/myproject.php?outline_point[]=611748,5232242&amp;outline_point[]=748204,5232242&amp;outline_line=611748,5232242;748204,5232242;748204,5050300;611748,5050300</pre></li>
+                <li>Customized labels may be linked to shapes using the following syntax:<pre class="screen">http://www.example.com/cartoweb/myproject.php?outline_circle=611748,5232242;50000|some+blue+circle</pre></li>
+              </ul>
+            </div>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>If you do not want to have persistent outline, you can add the 
+          <span class="emphasis"><em>prevent_save_session</em></span> parameter in the URL. For example:
+            </p>
+              <pre class="screen">http://www.example.com/cartoweb/myproject.php?outline_point=611748,5232242&amp;prevent_save_session</pre>
+              <p>
+            This may be useful if you use the <span class="emphasis"><em>mode=image</em></span> output:
+            </p>
+              <pre class="screen">http://www.example.com/cartoweb/myproject.php?mode=image&amp;outline_point=611748,5232242&amp;prevent_save_session</pre>
+              <p>
+        </p>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.annotate.toolpicker"></a>10.5. The ToolPicker</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.annotate.toolpicker.what"></a>10.5.1. What is the ToolPicker</h3>
+                </div>
+              </div>
+            </div>
+            <p>The ToolPicker is a mini javascript framework used to display 
+dynamically on screen several DHTML tools.</p>
+            <p>Some tools come pre-included:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>ColorPicker : The ColorPicker allows the user to pick a color. 
+He/she can either pick it from a gradient map, use RGB or HSL slider, input 
+RGB or HSL values , input an hexadecial value or pick it from a preselected 
+list of colors. The color value is then returned to the main page.</li>
+                <li>SymbolPicker : The SymbolPicker allows the user to pick a 
+symbol in a predefined list of symbols. The symbols are generated off the 
+.sym file on the serverside of CartoWeb. The symbol is then returned to the 
+main page.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.annotate.toolpicker.install"></a>10.5.2. Installation</h3>
+                </div>
+              </div>
+            </div>
+            <p>To use the ToolPicker in a project, simply enable it in your 
+client.ini configuration file, by setting toolPickerOn = true.</p>
+            <p>The ToolPicker requires the corresponding script, css and template 
+      in the cartoclient.tpl file.</p>
+            <p>In the header :
+        </p>
+            <pre class="programlisting">&lt;link rel="stylesheet" type="text/css" href="css/toolPicker.css" /&gt;</pre>
+            <p>
+      In the body, preferably at the end :
+        </p>
+            <pre class="programlisting">{include file="toolPicker.tpl"}</pre>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.annotate.toolpicker.usage"></a>10.5.3. ToolPicker Usage</h3>
+                </div>
+              </div>
+            </div>
+            <p>The main ToolPicker function accepts 3 parameters, 2 are mandatory, 
+      the last is optional.
+        </p>
+            <pre class="programlisting">toolPicker( string tool_id_list, string tool_input_list [, string tool_output_list])</pre>
+            <p>
+       </p>
+            <p>
+              <span class="bold">
+                <strong>tool_id_list</strong>
+              </span>
+            </p>
+            <p>You can initialize one or more tools at once. The 
+       <span class="emphasis"><em>tool_id_list</em></span> parameter is composed of one or more 
+       numerical values, separated by comma and enclosed by quotes 
+       (or simplequotes). Example: '2' or '1,4' or '3,2,1'</p>
+            <p>The order of the id influes on the order of the tool panels when 
+       displayed on screen.</p>
+            <p><span class="bold"><strong>tool_input_list</strong></span> and <span class="bold"><strong>tool_output_list</strong></span></p>
+            <p>The script needs an input value and will return an output value. 
+       The input value is retrieved from an html input element. In the same 
+       way the output value is returned to an html input element.</p>
+            <p>The script needs as many input element id as initialised tools. 
+       If two tools are initialised (parameter <span class="emphasis"><em>tool_id_list</em></span>), <span class="emphasis"><em>tool_input_list</em></span> must also contain two input id. 
+       Ids are separated by comma and enclosed by quotes (or simplequotes). 
+       Example: 'return_id_tool_4,return_id_tool_2'</p>
+            <p>The first input id corresponds to the first tool id in <span class="emphasis"><em>tool_id_list</em></span>.</p>
+            <p>A different id can be specified if the element storing the output 
+       value must be different from the element storing the input value. The 
+       same rule applies to <span class="emphasis"><em>tool_input_list</em></span> and <span class="emphasis"><em>tool_output_list</em></span>.</p>
+            <p>See <a class="xref" href="user.annotate.html#user.annotate.toolpicker.exemples" title="10.5.5. Examples of Usage">Section 10.5.5, “Examples of Usage”</a></p>
+            <p>Each tool also have some particularities:</p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.annotate.toolpicker.usage.color"></a>10.5.3.1. ColorPicker</h4>
+                  </div>
+                </div>
+              </div>
+              <p>When a color is selected, the script will set the css property <span class="emphasis"><em>background-color</em></span> of a div in the template 
+        accordingly to the color picked.</p>
+              <p>The id of the div is based on the output element id (if it 
+        specified, if not, the input element id is used), to which a 
+        <span class="emphasis"><em>_d</em></span> is added.</p>
+              <p>Example, if the input element id is 
+        <span class="emphasis"><em>return_color_12</em></span>, the id of the div used to display 
+        the color will be <span class="emphasis"><em>return_color_12_d</em></span>.</p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.annotate.toolpicker.usage.symbol"></a>10.5.3.2. SymbolPicker</h4>
+                  </div>
+                </div>
+              </div>
+              <p>When a symbol is selected, the script will set the css property <span class="emphasis"><em>background-image</em></span> of a div in the template 
+        accordingly to the symbol picked.</p>
+              <p>The id of the div is based on the output element id (if it 
+        specified, if not, the input element id is used), to which a 
+        <span class="emphasis"><em>_d</em></span> is added.</p>
+              <p>Example, if the input element id is 
+        <span class="emphasis"><em>return_symbol_12</em></span>, the id of the div used to display 
+        the symbol will be <span class="emphasis"><em>return_symbol_12_d</em></span>.</p>
+              <p>The SymbolPicker is used with CartoWeb outline plugin usually, 
+        but it also can be used without the plugin.</p>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.annotate.toolpicker.usage.symbol.within"></a>10.5.3.2.1. Within the Outline Plugin</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>In CartoWeb <span class="emphasis"><em>server_conf/yourprojectname/outline.ini</em></span> 
+          file defines a list of symbols to use. For each kind of symbols 
+          you want to use:
+          </p>
+                <pre class="programlisting">pointSymbols = "circle, square, star [, anyothersymbol, ... ]"</pre>
+                <p>
+          </p>
+                <p>All these symbol names <span class="bold"><strong>MUST BE</strong></span> 
+          defined in the .sym file in 
+          <span class="emphasis"><em>server_conf/yourprojectname/</em></span>.</p>
+                <p>If you want to add language support for the symbol name, add 
+          the following parameter in 
+          <span class="emphasis"><em>server_conf/yourprojectname/outline.ini</em></span>:
+          </p>
+                <pre class="programlisting">pointSymbols.labels = "symbolname1, symbolname2 [, anyothername, ... ]"</pre>
+                <p>
+          </p>
+                <p>These names will be used to translate into the chosen language 
+          using the gettext functionnality. Add the corresponding translations 
+          in the server .po files.</p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.annotate.toolpicker.usage.symbol.without"></a>10.5.3.2.2. Without the Outline Plugin (Standalone Use)</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>If you do not use the outline plugin, you will need to set the 
+          following javaScript variable somewhere in your page:
+          </p>
+                <pre class="programlisting">&lt;script type="text/javascript"&gt;
+  /*&lt;![CDATA[*/
+    var imgPath = 'path/to/symbol/images/';
+    var symbolType = 'type/of/image/files/'; //jpeg, gif, png, whatever
+
+    var symbolNamesArray = new Array("symbolfilename1","symbolfilename2" [,"othersymbolfilename", ...] );
+
+    var symbolLabelArray = new Array("symbollabel1","symbollabel2" [,"othersymbollabel", ...] );
+  /*]]&gt;*/
+&lt;/script&gt;</pre>
+                <p>
+           </p>
+                <p><span class="emphasis"><em>symbolNamesArray</em></span> contains the list of 
+           filename to use for your images.</p>
+                <p><span class="emphasis"><em>symbolLabelArray</em></span> contains the list of 
+           label used on screen for the symbols.</p>
+                <p>Create your symbol images and put them in 
+           <span class="emphasis"><em>path/to/symbol/images/</em></span>. You also need to 
+           create hilighted versions of your images, give them the same 
+           filename but add the suffix '_over'. Exemple: symbol_1.gif -&gt; 
+           symbol_1_over.gif</p>
+                <p>Put them in the same folder.</p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.annotate.toolpicker.usage.symbol.hilight"></a>10.5.3.2.3. Symbol Hilight Mode</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>There are two modes to hilight the selected symbol in the 
+          <span class="emphasis"><em>SymbolPicker</em></span> interface. You can select between 
+          <span class="emphasis"><em>border hilight</em></span> and 
+          <span class="emphasis"><em>inverted image</em></span>. <span class="emphasis"><em>border hilight</em></span> 
+          simply use a css property to hilight the border of the selected symbol. 
+          <span class="emphasis"><em>inverted image</em></span> need the php library GD to create 
+          an inverted version of the symbol, which is then used for the selected 
+          symbol.</p>
+                <p>The hiligh mode is set in the <span class="emphasis"><em>server_conf/outline.ini</em></span> 
+          file:</p>
+                <div class="itemizedlist">
+                  <ul>
+                    <li>symbolPickerHilight = inversed|borderhilight</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.annotate.toolpicker.default"></a>10.5.4. ToolPicker Default Values</h3>
+                </div>
+              </div>
+            </div>
+            <p>If the toolPicker is used with the Outline plugin, the default 
+      values for Color, OutlineColor, Transparency and Symbol are set in the 
+      mapfile.</p>
+            <p>The default layer name are cartoweb_point_outline, 
+      cartoweb_line_outline and cartoweb_polygon_outline</p>
+            <p>See <a class="xref" href="user.annotate.html#user.annotate.server.ini" title="10.2.1. outline.ini">Section 10.2.1, “outline.ini”</a></p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.annotate.toolpicker.exemples"></a>10.5.5. Examples of Usage</h3>
+                </div>
+              </div>
+            </div>
+            <pre class="programlisting">toolPicker('4','outline_point_symbol')</pre>
+            <p>this will call the symbol picker (id 4), the input id is <span class="emphasis"><em>outline_point_symbol</em></span>, and the output id will be <span class="emphasis"><em>outline_point_symbol</em></span> too</p>
+            <pre class="programlisting">toolPicker('1','outline_point_color', 'color_return')</pre>
+            <p>this will call the color picker, the input id is 
+      <span class="emphasis"><em>outline_point_color</em></span>, and the output id will be <span class="emphasis"><em>color_return</em></span></p>
+            <pre class="programlisting">toolPicker('4,1','symbol_input,color_input', 'return_symbol,return_color')</pre>
+            <p>this will call the symbol picker and the color picker, the input 
+      id is <span class="emphasis"><em>symbol_input</em></span> for the first tool (here the 
+      symbol picker) and <span class="emphasis"><em>color_input</em></span> for the second tool 
+      (color picker), and the output id will be 
+      <span class="emphasis"><em>return_symbol</em></span> for the first tool and 
+      <span class="emphasis"><em>return_color</em></span> for the second.</p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.annotate.toolpicker.new"></a>10.5.6. Creating New Tools</h3>
+                </div>
+              </div>
+            </div>
+            <p>You can add new tools.</p>
+            <p>Add the new tool name in the <span class="emphasis"><em>toolArrayRef</em></span> 
+      array at the begining of the script.
+      </p>
+            <pre class="programlisting">var toolArrayRef =  new Array( 'colorPicker', 
+                                'hashArray',
+                                'pencilArray',
+                                'symbolArray',
+                                'yourTool');</pre>
+            <p>
+      </p>
+            <p>Create the following four functions, these functions can be empty.
+      </p>
+            <pre class="programlisting">function yourToolInit(inputValue) { ... }
+function yourToolSetup() { ... }
+function yourToolReturn() {
+    ...
+    return someValue;
+}
+function yourToolDisplay(targetElm) { ... }</pre>
+            <p>
+      </p>
+            <p>The Init function is used to set the incoming values. It is always 
+      called when the ToolPicker starts. It receives the input value recovered 
+      from the main page.</p>
+            <p>The Setup function can be used to do all the actions you want.</p>
+            <p>The Return function is used to return a value to the main page.</p>
+            <p>The Display function is used to display something in the main page. 
+      It receives the id of the target element to use 
+      (<span class="emphasis"><em>something_d</em></span>).</p>
+            <p>Add the following four function definitions:
+      </p>
+            <pre class="programlisting">functionList["yourToolInit"]=yourToolInit;
+functionList["yourToolSetup"]=yourToolSetup;
+functionList["yourToolReturn"]=yourToolReturn;
+functionList["yourToolDisplay"]=yourToolDisplay;</pre>
+            <p>
+      These are needed because of the dynamic function call inside the 
+      framework, which do not use the eval() function to increase performances.
+      </p>
+            <p>The width of the tool area available on screen is 245 pixel. Height 
+      is variable.</p>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

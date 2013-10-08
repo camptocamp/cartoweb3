@@ -1,0 +1,521 @@
+<html>
+<head>
+<title>Docs For Class Stats</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">CartoWeb3</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_CartoWeb3.html" class="menu">class tree: CartoWeb3</a> ]
+		  [ <a href="../elementindex_CartoWeb3.html" class="menu">index: CartoWeb3</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+	<div id="todolist">
+			<p><a href="../todolist.html">Todo List</a></p>
+	</div>
+      <b>Packages:</b><br />
+              <a href="../li_CartoWeb3.html">CartoWeb3</a><br />
+              <a href="../li_Client.html">Client</a><br />
+              <a href="../li_Common.html">Common</a><br />
+              <a href="../li_CorePlugins.html">CorePlugins</a><br />
+              <a href="../li_Htdocs.html">Htdocs</a><br />
+              <a href="../li_Plugins.html">Plugins</a><br />
+              <a href="../li_Scripts.html">Scripts</a><br />
+              <a href="../li_Server.html">Server</a><br />
+              <a href="../li_Tests.html">Tests</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../CartoWeb3/_cartoweb3_scripts_accounting_badGuyFinder_php.html">		badGuyFinder.php
+		</a><br>
+			<a href="../CartoWeb3/_cartoweb3_plugins_exportRtf_client_ClientExportRtf_php.html">		ClientExportRtf.php
+		</a><br>
+			<a href="../CartoWeb3/_cartoweb3_projects_demoToolTips_plugins_projectToolTips_client_CustomLayers_php.html">		CustomLayers.php
+		</a><br>
+			<a href="../CartoWeb3/_cartoweb3_plugins_exportRtf_client_PageCode_php.html">		PageCode.php
+		</a><br>
+			<a href="../CartoWeb3/_cartoweb3_scripts_testgettext_php.html">		testgettext.php
+		</a><br>
+	  </div><br />
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../CartoWeb3/PageCode.html">PageCode</a><br />
+	    		<a href="../CartoWeb3/Radio_ptQueryableLayer.html">Radio_ptQueryableLayer</a><br />
+	    		<a href="../CartoWeb3/Stats.html">Stats</a><br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Class: Stats</h1>
+Source Location: /scripts/accounting/badGuyFinder.php<br /><br />
+
+
+<table width="100%" border="0">
+<tr><td valign="top">
+
+<h3><a href="#class_details">Class Overview</a></h3>
+<pre></pre><br />
+<div class="description">********************************************************************</div><br /><br />
+
+
+
+
+
+
+
+</td>
+
+<td valign="top">
+<h3><a href="#class_vars">Variables</a></h3>
+<ul>
+    <li><a href="../CartoWeb3/Stats.html#var$badGuyTime">$badGuyTime</a></li>
+    <li><a href="../CartoWeb3/Stats.html#var$count">$count</a></li>
+    <li><a href="../CartoWeb3/Stats.html#var$curNbSameScale">$curNbSameScale</a></li>
+    <li><a href="../CartoWeb3/Stats.html#var$ips">$ips</a></li>
+    <li><a href="../CartoWeb3/Stats.html#var$lastScale">$lastScale</a></li>
+    <li><a href="../CartoWeb3/Stats.html#var$lastTime">$lastTime</a></li>
+    <li><a href="../CartoWeb3/Stats.html#var$maxNbSameScale">$maxNbSameScale</a></li>
+    <li><a href="../CartoWeb3/Stats.html#var$scales">$scales</a></li>
+    <li><a href="../CartoWeb3/Stats.html#var$sessionIds">$sessionIds</a></li>
+    <li><a href="../CartoWeb3/Stats.html#var$ua">$ua</a></li>
+  </ul>
+</td>
+
+
+<td valign="top">
+<h3><a href="#class_methods">Methods</a></h3>
+<ul>
+    <li><a href="../CartoWeb3/Stats.html#methodadd">add</a></li>
+    <li><a href="../CartoWeb3/Stats.html#methodcanDelete">canDelete</a></li>
+    <li><a href="../CartoWeb3/Stats.html#methodgetMaxNbSameScale">getMaxNbSameScale</a></li>
+    <li><a href="../CartoWeb3/Stats.html#methodisBadGuy">isBadGuy</a></li>
+    <li><a href="../CartoWeb3/Stats.html#method__toString">__toString</a></li>
+  </ul>
+</td>
+
+</tr></table>
+<hr />
+
+<table width="100%" border="0"><tr>
+
+
+
+
+
+
+</tr></table>
+<hr />
+
+<a name="class_details"></a>
+<h3>Class Details</h3>
+<div class="tags">
+[line 105]<br />
+********************************************************************<br /><br /><p>*******************************************************************</p><br /></div><br /><br />
+<div class="top">[ <a href="#top">Top</a> ]</div><br />
+
+<hr />
+<a name="class_vars"></a>
+<h3>Class Variables</h3>
+<div class="tags">
+	<a name="var$badGuyTime"></a>
+	<p></p>
+	<h4>$badGuyTime = <span class="value">0</span></h4>
+	<p>[line 114]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$count"></a>
+	<p></p>
+	<h4>$count = <span class="value">0</span></h4>
+	<p>[line 106]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$curNbSameScale"></a>
+	<p></p>
+	<h4>$curNbSameScale = <span class="value">0</span></h4>
+	<p>[line 108]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$ips"></a>
+	<p></p>
+	<h4>$ips = <span class="value">array()</span></h4>
+	<p>[line 112]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$lastScale"></a>
+	<p></p>
+	<h4>$lastScale = <span class="value"></span></h4>
+	<p>[line 107]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$lastTime"></a>
+	<p></p>
+	<h4>$lastTime = <span class="value"></span></h4>
+	<p>[line 110]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$maxNbSameScale"></a>
+	<p></p>
+	<h4>$maxNbSameScale = <span class="value">0</span></h4>
+	<p>[line 109]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$scales"></a>
+	<p></p>
+	<h4>$scales = <span class="value">array()</span></h4>
+	<p>[line 113]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$sessionIds"></a>
+	<p></p>
+	<h4>$sessionIds = <span class="value">array()</span></h4>
+	<p>[line 111]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$ua"></a>
+	<p></p>
+	<h4>$ua = <span class="value"></span></h4>
+	<p>[line 115]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+</div><br />
+
+<hr />
+<a name="class_methods"></a>
+<h3>Class Methods</h3>
+<div class="tags">
+  <hr />
+	<a name="methodadd"></a>
+	<h3>method add <span class="smalllinenumber">[line 117]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void add(
+mixed
+&$fields)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodcanDelete"></a>
+	<h3>method canDelete <span class="smalllinenumber">[line 179]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void canDelete(
+mixed
+$old)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodgetMaxNbSameScale"></a>
+	<h3>method getMaxNbSameScale <span class="smalllinenumber">[line 139]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void getMaxNbSameScale(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>private</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodisBadGuy"></a>
+	<h3>method isBadGuy <span class="smalllinenumber">[line 174]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void isBadGuy(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="method__toString"></a>
+	<h3>method __toString <span class="smalllinenumber">[line 143]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void __toString(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+</div><br />
+
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Thu, 04 Sep 2008 11:39:06 +0200 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

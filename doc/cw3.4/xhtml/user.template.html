@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>17. Templating</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.i18n.html">
+       &lt; Internationalization</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.accounting.html">Accounting &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.template.html#user.template.intro">17.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.template.html#user.template.i18n">17.2. Internationalization</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.template.html#user.template.resource">17.3. Resources</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.template"></a>17. <a id="id2596408" class="indexterm"></a>Templating</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.template.intro"></a>17.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   <a id="id2572846" class="indexterm"></a>Smarty Template Engine is a convenient way to write HTML templates for dynamic pages.
+   It enables to delocalize a great amount of layout processing. Thus it is pretty easy to customize a CartoWeb application layout without affecting the application core.
+  </p>
+          <p>
+   CartoWeb templates are located in <code class="filename">templates/</code>
+   root directory and in plugins <code class="filename">templates/</code> directories
+   (see <a href="user.structure.html#user.structure.plugin" title="2.3. Plugins">Section 2.3, &#8220;Plugins&#8221;</a>).
+  </p>
+          <p>
+   More info about Smarty templates can be found here:
+   <a href="http://smarty.php.net">http://smarty.php.net</a>. A comprehensive online documentation including a reference and examples is available in various languages here: <a href="http://smarty.php.net/docs.php">http://smarty.php.net/docs.php</a>.
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.template.i18n"></a>17.2. <a id="id2565130" class="indexterm"></a>Internationalization</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   It is possible - and recommended! - to use the <a href="http://smarty.incutio.com/?page=SmartyGettext">SmartyGettext</a> tool in order to translate template-embedded textual strings. Texts to be translated are identified using the <em class="parameter"><code>{t}</code></em> tag:
+  </p>
+          <pre class="programlisting">&lt;p&gt;{t}Default text, please translate me{/t}&lt;/p&gt;
+&lt;p&gt;{t name="John Doe"}Hello my name is %1{/t}&lt;/p&gt;
+&lt;p&gt;{t 1='one' 2='two' 3='three'}The 1st parameter is %1, the 2nd is %2 and the 3nd %3.{/t}&lt;/p&gt;</pre>
+          <p>
+    It is also possible to use the "|tr" smarty modifier if you want to apply some Smarty transformations on a translated string:
+  </p>
+          <pre class="programlisting">{assign var="label" value="Themes"}
+&lt;div {if $label|tr|count_characters:true &lt; 10}style="width:72px;"{/if}&gt;{$label|tr}&lt;/div&gt;</pre>
+          <p>
+   See also <a href="user.i18n.html" title="16. Internationalization">Chapter 16, <i>Internationalization</i></a>
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.template.resource"></a>17.3. <a id="id2635866" class="indexterm"></a>Resources</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   Resources are identified using the <em class="parameter"><code>{r}</code></em> tag. <em class="parameter"><code>{r}</code></em> tags have a mandatory <em class="parameter"><code>type</code></em> attribute and an optional <em class="parameter"><code>plugin</code></em> one. First attribute is used to indicate the relative file location (files are grouped by types) in the file system whereas the second one tells what plugin uses the resource. Filename is placed between opening and closing tags.
+  </p>
+          <p>
+   For instance to get the <code class="filename">logo.png</code> file located in <code class="filename">htdocs/gfx/layout/</code>, type in your template:
+   </p>
+          <pre class="programlisting">&lt;img src="{r type=gfx/layout}logo.png{/r}" alt="" /&gt;</pre>
+          <p>
+   To get the zoom-in icons from the <em class="parameter"><code>location</code></em> plugin, type:
+   </p>
+          <pre class="programlisting">&lt;img src="{r type=gfx plugin=location}zoom_in.gif{/r}" alt="" /&gt;</pre>
+          <p>
+  </p>
+          <p>
+   Following list shows all CartoWeb resource types.
+  </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>
+     Htdocs root directory
+    <div class="itemizedlist"><ul><li>
+        path: <code class="filename">/htdocs/css/toto.css</code>
+       </li><li>
+        Smarty: <code class="filename">{r type=css}toto.css{/r}</code>
+       </li><li>
+        generated URL: <code class="filename">css/toto.css</code>
+       </li></ul></div></li>
+              <li>
+     Coreplugins
+    <div class="itemizedlist"><ul><li>
+        path: <code class="filename">/coreplugins/layers/htdocs/css/toto.css</code>
+       </li><li>
+        Smarty: <code class="filename">{r type=css plugin=layers}toto.css{/r}</code>
+       </li><li>
+        generated URL: <code class="filename">layers/css/toto.css</code>
+       </li></ul></div></li>
+              <li>
+     Plugins
+    <div class="itemizedlist"><ul><li>
+        path: <code class="filename">/plugins/hello/htdocs/css/toto.css</code>
+       </li><li>
+        Smarty: <code class="filename">{r type=css plugin=hello}toto.css{/r}</code>
+       </li><li>
+        generated URL: <code class="filename">hello/css/toto.css</code>
+       </li></ul></div></li>
+              <li>
+     Projects 
+    <div class="itemizedlist"><ul><li>
+        path: <code class="filename">/projects/myproject/htdocs/css/toto.css</code>
+       </li><li>
+        Smarty: <code class="filename">{r type=css}toto.css{/r}</code>
+       </li><li>
+        generated URL: <code class="filename">myproject/css/toto.css</code>
+       </li></ul></div></li>
+              <li>
+     Projects Coreplugins (override)
+    <div class="itemizedlist"><ul><li>
+        path: <code class="filename">/projects/myproject/coreplugins/layers/htdocs/css/toto.css</code>
+       </li><li>
+        Smarty: <code class="filename">{r type=css plugin=layers}toto.css{/r}</code>
+       </li><li>
+        generated URL: <code class="filename">myproject/layers/css/toto.css</code>
+       </li></ul></div></li>
+              <li>
+     Projects Plugins (override)
+    <div class="itemizedlist"><ul><li>
+        path: <code class="filename">/projects/myproject/plugins/hello/htdocs/css/toto.css</code>
+       </li><li>
+        Smarty: <code class="filename">{r type=css plugin=hello}toto.css{/r}</code>
+       </li><li>
+        generated URL: <code class="filename">myproject/hello/css/toto.css</code>
+       </li></ul></div></li>
+              <li>
+     Projects specific plugins
+    <div class="itemizedlist"><ul><li>
+        path: <code class="filename">/projects/myproject/plugins/myplugin/htdocs/css/toto.css</code>
+       </li><li>
+        Smarty: <code class="filename">{r type=css plugin=myplugin}toto.css{/r}</code>
+       </li><li>
+        generated URL: <code class="filename">myproject/myplugin/css/toto.css</code>
+       </li></ul></div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

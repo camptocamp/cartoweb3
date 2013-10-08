@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>3. Projects 
+    Handling</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.structure.html">
+       &lt; Structure</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.config.html">Configuration Files &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.project.html#user.project.intro">3.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.project.html#user.project.use">3.2. Using Projects</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.project.html#user.project.use.apache">3.2.1. Apache Environment Variable</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.project.html#user.project.use.txt">3.2.2. Using <code class="filename">current_project.txt</code></a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.project.html#user.project.use.get">3.2.3. Using a GET Parameter</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.project.html#user.project.use.dropdown">3.2.4. Using the Projects Drop-down List</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.project.html#user.project.use.client">3.2.5. Using a Modified <code class="filename">client.php</code></a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.project"></a>3. <a id="id2562005" class="indexterm"></a>Projects 
+    Handling</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.project.intro"></a>3.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p> Projects are used to customize a CartoWeb application to your 
+      needs. By creating a new project you can override templates, resources 
+      files (pictures, style sheets, JavaScript files, etc.), configuration 
+      files and even add new plugins or modify existing ones. </p>
+          <p> It is strongly recommended to use projects when deploying a 
+      CartoWeb application with non-standard layout or plugins. The main 
+      reason is the necessity to keep upstream files unchanged in order to 
+      easily apply the application upgrades. </p>
+          <p> Projects are in fact a mirrored collection of directories and files 
+      from the original architecture. Files placed in a project are in most 
+      cases used preferentially to the original files. There is an exception 
+      with plugins PHP classes: the latter must be extended and not simply 
+      overridden. In projects you can also add brand new files (for instance new 
+      plugins) that have no original version in the upstream structure. Fore 
+      more details about how to write or customize plugins in projects, see 
+      <a href="dev.newplugin.html" title="2. New Plugins">Chapter 2, <i>New Plugins</i></a> in <a href="cartoweb.dev.html" title="Part III. Developer Manual">Part III, &#8220;Developer Manual&#8221;</a>. 
+      </p>
+          <p> Note that you don't need to duplicate the whole CartoWeb structure 
+      in your projects. Only directories that contain overriding files have to 
+      be created. In .ini files, only variables set in projects are overridden. 
+      Other variables keep the values set in upstream .ini files.</p>
+          <p> Following files can be "overridden":</p>
+          <div class="itemizedlist">
+            <ul>
+              <li> <code class="filename">client_conf/*.ini</code> (client.ini and plugins 
+          configuration files) </li>
+              <li>
+          <code class="filename">[core]plugins/*/client/*.php</code>
+        </li>
+              <li>
+          <code class="filename">[core]plugins/*/common/*.php</code>
+        </li>
+              <li>
+          <code class="filename">[core]plugins/*/server/*.php</code>
+        </li>
+              <li>
+          <code class="filename">[core]plugins/*/htdocs/*.php</code>
+        </li>
+              <li>
+          <code class="filename">[core]plugins/*/templates/*.tpl</code>
+        </li>
+              <li>
+          <code class="filename">htdocs/css/*.css</code>
+        </li>
+              <li>
+          <code class="filename">htdocs/js/*.js</code>
+        </li>
+              <li>
+          <code class="filename">htdocs/gfx/layout/*.gif</code>
+        </li>
+              <li>
+          <code class="filename">server_conf/server.ini</code>
+        </li>
+              <li> <code class="filename">server_conf/&lt;mapId&gt;/*.ini</code> 
+          (&lt;mapId&gt;.ini and plugins configuration files) </li>
+              <li>
+          <code class="filename">templates/*.tpl</code>
+        </li>
+            </ul>
+          </div>
+          <a id="id2560683" class="indexterm"></a>
+          <p> You can add project-specific mapfiles in directory 
+      <code class="filename">/projects/my_project/server_conf/my_mapfile</code>. To 
+      point to the new mapfile, change the mapId value in 
+      <code class="filename">/projects/my_project/client_conf/client.ini</code>. </p>
+          <p> You can add project-specific plugins in directory 
+      <code class="filename">/projects/my_project/plugins</code>. To load the new 
+      plugin, add its name in <code class="filename">client.ini</code> and/or 
+      <code class="filename">my_mapfile.ini</code> (loadPlugins variable). </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.project.use"></a>3.2. Using Projects</h2>
+              </div>
+            </div>
+          </div>
+          <p> There are several ways to tell CartoWeb what project to use: 
+      </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.project.use.apache"></a>3.2.1. Apache Environment Variable</h3>
+                </div>
+              </div>
+            </div>
+            <p> Set environment variable CW3_PROJECT in Apache configuration. 
+        </p>
+            <pre class="programlisting">
+&lt;Directory /your/cartoclient/path/&gt;
+ Options FollowSymLinks
+ Action php-script /cgi-bin/php5
+ AddHandler php-script .php
+ 
+ # [...]
+
+ SetEnv CW3_PROJECT your_project_name
+&lt;/Directory&gt;</pre>
+            <p> Warning: You will need Apache's Env module to 
+        use SetEnv command. To load this module, add the following line to your 
+        Apache configuration: 
+        </p>
+            <pre class="programlisting">LoadModule env_module /usr/lib/apache/1.3/mod_env.so</pre>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.project.use.txt"></a>3.2.2. Using <code class="filename">current_project.txt</code></h3>
+                </div>
+              </div>
+            </div>
+            <p> Add a file named <code class="filename">current_project.txt</code> in 
+        CartoWeb root directory. This file must contain a single line with 
+        project name. </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.project.use.get"></a>3.2.3. Using a GET Parameter</h3>
+                </div>
+              </div>
+            </div>
+            <p> You can pass a GET parameter 
+        <em class="parameter"><code>project=YOUR_PROJECT</code></em> to the 
+        <code class="filename">client.php</code> script, for instance: 
+        </p>
+            <pre class="programlisting">http://path.to/cartoweb/client.php?project=myProject</pre>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.project.use.dropdown"></a>3.2.4. Using the Projects Drop-down List</h3>
+                </div>
+              </div>
+            </div>
+            <p> Have a look at the configuration of 
+        <code class="filename">client.ini</code> described in <a href="user.config.html#user.config.client" title="4.2. &#10;      client.ini&#10;    ">Section 4.2, &#8220;
+      <code class="filename">client.ini</code>
+    &#8221;</a>, in particular directives 
+        <em class="parameter"><code>showProjectChooser</code></em> and 
+        <em class="parameter"><code>availableProjects</code></em>, to display the project 
+        selection drop-down menu. </p>
+            <p> If <em class="parameter"><code>showProjectChooser</code></em> is true, a dropdown 
+        menu will appear in your CartoClient interface, giving the list of 
+        all projects available in your <code class="filename">/projects/</code> 
+        directory. Selecting one will make it the active one. Your choice is 
+        propagated from page to page. Note that if the selected project has 
+        <em class="parameter"><code>showProjectChooser</code></em> set to false, the project 
+        selection dropdown will no more appear, keeping you from activating 
+        another project. To go back to the initial project, call the initial 
+        <code class="filename">client.php</code> page without posting the HTML 
+        form.</p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.project.use.client"></a>3.2.5. Using a Modified <code class="filename">client.php</code></h3>
+                </div>
+              </div>
+            </div>
+            <p> This should be avoided in production, but may be useful in 
+        development if you have to frequently switch the working project: add 
+        a new file <code class="filename">client_myproject.php</code> in the root htdocs 
+        directory. This file only sets the environment variable and then calls 
+        the normal <code class="filename">client.php</code>. Each project has so its own 
+        URL. </p>
+            <pre class="programlisting">&lt;?php
+  $_ENV['CW3_PROJECT'] = 'myproject';
+  require_once('client.php');
+?&gt;</pre>
+            <p> </p>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,2356 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>1. Calling Plugins</title>
+    <link rel="stylesheet" href="default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.68.1" />
+    <link rel="start" href="index.html" title="CartoWeb Documentation" />
+    <link rel="up" href="cartoweb.dev.html" title="Part III. Developer Manual" />
+    <link rel="prev" href="cartoweb.dev.html" title="Part III. Developer Manual" />
+    <link rel="next" href="dev.newplugin.html" title="2. New Plugins" />
+  </head>
+  <body>
+    <div id="navtoc">
+      <div id="nav">
+        <dl>
+          <dt>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </dt>
+          <dt>
+            <a accesskey="u" href="cartoweb.dev.html">Developer Manual</a>
+          </dt>
+        </dl>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <dl>
+          <dt>
+            <span class="sect1">
+              <a href="dev.soapcalls.html#dev.soapcalls.structures">1.1. Standard Structures</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.structures.simpletypes">1.1.1. Simple Types</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.structures.shapes">1.1.2. Shapes</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.structures.tables">1.1.3. Tables</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="sect1">
+              <a href="dev.soapcalls.html#dev.soapcalls.getmapinfo">1.2. Call to getMapInfo</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.getmapinfo.global">1.2.1. Global Server Configuration</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.getmapinfo.layers">1.2.2. Layers</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.getmapinfo.location">1.2.3. Location</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="sect1">
+              <a href="dev.soapcalls.html#dev.soapcalls.getmap">1.3. Call to getMap</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.getmap.global">1.3.1. Global Structures</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.getmap.images">1.3.2. Images</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.getmap.layers">1.3.3. Layers</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.getmap.location">1.3.4. Location</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.getmap.query">1.3.5. Query</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.getmap.outline">1.3.6. Outline</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="sect1">
+              <a href="dev.soapcalls.html#dev.soapcalls.examples">1.4. Examples</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.examples.getmapinfo">1.4.1. Retrieving Server Configuration</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.examples.pointscale">1.4.2. Getting a Map Using a Point and a Scale</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="sect2">
+                  <a href="dev.soapcalls.html#dev.soapcalls.examples.query">1.4.3. Executing a Query</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+        </dl>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="dev.soapcalls"></a>1. Calling Plugins</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage"></div>
+        <p>This chapter describes the structure of SOAP calls to CartoWeb server 
+    methods in order to obtain cartographic data.</p>
+        <p>Global WSDL code can be found in file 
+    <code class="filename">CARTOWEB_HOME/server/cartoserver.wsdl</code>. WSDL code 
+    specific to plugins are located in 
+    <code class="filename">PLUGIN_HOME/common/plugin_name.wsdl.inc</code>. Interesting 
+    parts from these files are copied in the following sections.</p>
+        <p>Complete WSDL code dynamically generated for a map ID is accessible at 
+    the URL 
+    <code class="filename">CARTOWEB_URL/cartoserver.wsdl.php?mapId=project_name.mapfile_name</code>. 
+    </p>
+        <p>SOAP method getMapInfo is used to retrieve server configuration 
+    information, such as available layers, initial state, etc.. It shouldn't be 
+    called each time a map is requested. A mechanism based on a timestamp is 
+    available to be sure configuration is up-to-date (see <a href="dev.soapcalls.html#dev.soapcalls.getmapinfo" title="1.2. Call to getMapInfo">Section 1.2, &#8220;Call to getMapInfo&#8221;</a>).</p>
+        <p>SOAP method getMap is used each time a new map or related information 
+    are needed.</p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.soapcalls.structures"></a>1.1. Standard Structures</h2>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.structures.simpletypes"></a>1.1.1. Simple Types</h3>
+                </div>
+              </div>
+            </div>
+            <p>These types are used in different other structures.</p>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="ArrayOfString"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>array - list of character strings</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="Dimension"&gt;
+  &lt;all&gt;
+    &lt;element name="width" type="xsd:int"/&gt;
+    &lt;element name="height" type="xsd:int"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>width - width in pixels</li>
+                <li>height - height in pixels</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="GeoDimension"&gt;
+  &lt;all&gt;
+    &lt;element name="dimension" type="types:Dimension"/&gt;
+    &lt;element name="bbox" type="types:Bbox"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>dimension - dimensions in pixels</li>
+                <li>bbox - bounding box (see <a href="dev.soapcalls.html#dev.soapcalls.structures.shapes" title="1.1.2. Shapes">Section 1.1.2, &#8220;Shapes&#8221;</a> for a description of 
+            type Bbox)</li>
+              </ul>
+            </div>
+            <p>
+    </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.structures.shapes"></a>1.1.2. Shapes</h3>
+                </div>
+              </div>
+            </div>
+            <p>These types define a hierarchy of shapes. As heritage and 
+      polymorphism cannot be used, type Shape includes all attibutes of its 
+      children types.</p>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="Bbox"&gt;
+  &lt;all&gt;
+    &lt;element name="minx" type="xsd:double"/&gt;
+    &lt;element name="miny" type="xsd:double"/&gt;
+    &lt;element name="maxx" type="xsd:double"/&gt;
+    &lt;element name="maxy" type="xsd:double"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>minx - minimum x coordinate</li>
+                <li>miny - minimum y coordinate</li>
+                <li>maxx - maximum x coordinate</li>
+                <li>maxy - maximum y coordinate</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="Point"&gt;
+  &lt;all&gt;
+    &lt;element name="x" type="xsd:double"/&gt;
+    &lt;element name="y" type="xsd:double"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>x - x coordinate</li>
+                <li>y - y coordinate</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="ArrayOfPoint"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType" wsdl:arrayType="types:Point[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>array - list of points</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="Shape"&gt;
+  &lt;all&gt;
+    &lt;element name="className" type="xsd:string"/&gt;
+    &lt;element name="x" type="xsd:double" minOccurs="0"/&gt;
+    &lt;element name="y" type="xsd:double" minOccurs="0"/&gt;
+    &lt;element name="minx" type="xsd:double" minOccurs="0"/&gt;
+    &lt;element name="miny" type="xsd:double" minOccurs="0"/&gt;
+    &lt;element name="maxx" type="xsd:double" minOccurs="0"/&gt;
+    &lt;element name="maxy" type="xsd:double" minOccurs="0"/&gt;
+    &lt;element name="points" type="types:ArrayOfPoint" minOccurs="0"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>className - shape class name: "Point", "Bbox", "Rectangle", 
+            "Line" or "Polygon"</li>
+                <li>x - x coordinate (Point)</li>
+                <li>y - y coordinate (Point)</li>
+                <li>minx - minimum x coordinate (Bbox or Rectangle)</li>
+                <li>miny - minimum y coordinate (Bbox or Rectangle)</li>
+                <li>maxx - maximum x coordinate (Bbox or Rectangle)</li>
+                <li>maxy - maximum y coordinate (Bbox or Rectangle)</li>
+                <li>points - list of points (Line or Polygon)</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="ArrayOfShape"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType" wsdl:arrayType="types:Shape[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>array - list of shapes</li>
+              </ul>
+            </div>
+            <p>
+    </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.structures.tables"></a>1.1.3. Tables</h3>
+                </div>
+              </div>
+            </div>
+            <p>These types define a table structure, used in particular in Query 
+      plugin (see <a href="dev.soapcalls.html#dev.soapcalls.getmap.query" title="1.3.5. Query">Section 1.3.5, &#8220;Query&#8221;</a>).</p>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="TableRow"&gt;
+  &lt;all&gt;
+    &lt;element name="rowId" type="xsd:string"/&gt;
+    &lt;element name="cells" type="types:ArrayOfString"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>rowId - row ID</li>
+                <li>cells - cell contents (see <a href="dev.soapcalls.html#dev.soapcalls.structures.simpletypes" title="1.1.1. Simple Types">Section 1.1.1, &#8220;Simple Types&#8221;</a> for a description 
+            of type ArrayOfString)</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="ArrayOfTableRow"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:TableRow[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>array - list of rows</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="Table"&gt;
+  &lt;all&gt;
+    &lt;element name="tableId" type="xsd:string"/&gt;
+    &lt;element name="tableTitle" type="xsd:string"/&gt;
+    &lt;element name="numRows" type="xsd:integer"/&gt;
+    &lt;element name="totalRows" type="xsd:integer"/&gt;
+    &lt;element name="offset" type="xsd:integer"/&gt;
+    &lt;element name="columnIds" type="types:ArrayOfString"/&gt;
+    &lt;element name="columnTitles" type="types:ArrayOfString"/&gt;
+    &lt;element name="noRowId" type="xsd:boolean"/&gt;
+    &lt;element name="rows" type="types:ArrayOfTableRow"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>tableId - table ID</li>
+                <li>tableTitle - table title</li>
+                <li>numRows - number of rows in table</li>
+                <li>totalRows - total number of rows in context (for future 
+            use)</li>
+                <li>offset - current position in context rows (for future 
+            use)</li>
+                <li>columnIds - column IDs (see <a href="dev.soapcalls.html#dev.soapcalls.structures.simpletypes" title="1.1.1. Simple Types">Section 1.1.1, &#8220;Simple Types&#8221;</a> for a description 
+            of type ArrayOfString)</li>
+                <li>columnTitles - column titles (see <a href="dev.soapcalls.html#dev.soapcalls.structures.simpletypes" title="1.1.1. Simple Types">Section 1.1.1, &#8220;Simple Types&#8221;</a> for a description 
+            of type ArrayOfString)</li>
+                <li>noRowId - if true, table rows contain no row IDs</li>
+                <li>rows - list of rows</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="ArrayOfTable"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType" wsdl:arrayType="types:Table[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>array - list of tables</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="TableGroup"&gt;
+  &lt;all&gt;
+    &lt;element name="groupId" type="xsd:string"/&gt;
+    &lt;element name="groupTitle" type="xsd:string"/&gt;
+    &lt;element name="tables" type="types:ArrayOfTable"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>groupId - ID of table group</li>
+                <li>groupTitle - title of table group</li>
+                <li>tables - list of tables</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="ArrayOfTableGroup"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:TableGroup[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>array - list of table groups</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="TableFlags"&gt;
+  &lt;all&gt;
+    &lt;element name="returnAttributes" type="xsd:boolean"/&gt;
+    &lt;element name="returnTable" type="xsd:boolean"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>returnAttributes - if true, will return attributes (row cells) 
+            in addition to row IDs</li>
+                <li>returnTable - if false, won't return any table information. 
+            This can be useful for instance when hilighting an object on which 
+            no information is needed</li>
+              </ul>
+            </div>
+            <p>
+    </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.soapcalls.getmapinfo"></a>1.2. Call to getMapInfo</h2>
+              </div>
+            </div>
+          </div>
+          <p>This method returns server configuration, which includes layers, 
+    initial states and other plugin-specific configuration. Variables returned 
+    by this method are set in server configuration files described in <a href="cartoweb.user.html" title="Part II. User Manual">Part II, &#8220;User Manual&#8221;</a>.</p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.getmapinfo.global"></a>1.2.1. Global Server Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>This includes layers configuration and initial states.</p>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="LayerState"&gt;
+  &lt;all&gt;
+    &lt;element name="id" type="xsd:string"/&gt;
+    &lt;element name="hidden" type="xsd:boolean"/&gt;
+    &lt;element name="frozen" type="xsd:boolean"/&gt;
+    &lt;element name="selected" type="xsd:boolean"/&gt;
+    &lt;element name="unfolded" type="xsd:boolean"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>id - layer state ID</li>
+                <li>hidden - if true, layer isn't displayed in tree and attribute 
+            selected cannot be modified</li>
+                <li>frozen - if true, layer is displayed in tree but attribute 
+            selected cannot be modified </li>
+                <li>selected - if true, layer is displayed as selected in 
+            tree</li>
+                <li>unfolded - if true, layer tree is displayed unfolded (layer 
+            groups)</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="ArrayOfLayerState"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:LayerState[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>array - list of layer states</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="InitialLocation"&gt;
+  &lt;all&gt;
+    &lt;element name="bbox" type="types:Bbox"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>bbox - initial bounding box (see <a href="dev.soapcalls.html#dev.soapcalls.structures.shapes" title="1.1.2. Shapes">Section 1.1.2, &#8220;Shapes&#8221;</a> for a description of 
+            type Bbox)</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="InitialMapState"&gt;
+  &lt;all&gt;
+    &lt;element name="id" type="xsd:string"/&gt;
+    &lt;element name="location" type="types:InitialLocation"/&gt;
+    &lt;element name="layers" type="types:ArrayOfLayerState"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>id - initial state ID</li>
+                <li>location - initial location</li>
+                <li>layers - list of layer states</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="ArrayOfInitialMapState"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:InitialMapState[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>array - list of initial states</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="MapInfo"&gt;
+  &lt;all&gt;
+    &lt;element name="timestamp" type="xsd:integer"/&gt;
+    &lt;element name="mapLabel" type="xsd:string"/&gt;
+    &lt;element name="keymapGeoDimension" type="types:GeoDimension"/&gt;
+    &lt;element name="initialMapStates"
+             type="types:ArrayOfInitialMapState"/&gt;
+    ...elements specific to plugins...
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>timestamp - timestamp of last update. This timestamp is 
+            transferred each time method getMap is called, so client knows when 
+            configuration was modified (see also <a href="dev.soapcalls.html#dev.soapcalls.getmap.global.request" title="1.3.1.1. Global Request">Section 1.3.1.1, &#8220;Global Request&#8221;</a>) </li>
+                <li>mapLabel - name of map as defined in mapfile</li>
+                <li>keymapGeoDimension - pixel and geographical dimension 
+            information for key map</li>
+                <li>initialMapStates - list of initial states</li>
+              </ul>
+            </div>
+            <p>
+    </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.getmapinfo.layers"></a>1.2.2. Layers</h3>
+                </div>
+              </div>
+            </div>
+            <p>This includes configuration specific to Layers plugin, ie. list
+      of all available layers and their properties.</p>
+            <p>  
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="ArrayOfLayerId"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType" wsdl:arrayType="xsd:string[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>array - list of layer IDs</li>
+              </ul>
+            </div>
+            <p>
+        </p>
+            <pre class="programlisting">
+&lt;complexType name="Layer"&gt;
+  &lt;all&gt;
+    &lt;element name="className" type="xsd:string"/&gt;
+    &lt;element name="id" type="xsd:string"/&gt;
+    &lt;element name="label" type="xsd:string"/&gt;
+    &lt;element name="children" type="types:ArrayOfLayerId" minOccurs="0"/&gt;
+    &lt;element name="minScale" type="xsd:double"/&gt;
+    &lt;element name="maxScale" type="xsd:double"/&gt;
+    &lt;element name="icon" type="xsd:string"/&gt;
+    &lt;element name="link" type="xsd:string"/&gt;
+    &lt;element name="aggregate" type="xsd:boolean" minOccurs="0"/&gt;
+    &lt;element name="rendering" type="xsd:string" minOccurs="0"/&gt;
+    &lt;element name="metadata" type="types:ArrayOfString" minOccurs="0"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>className - layer class name: "LayerGroup", "Layer" or 
+            "LayerClass"</li>
+                <li>id - layer ID</li>
+                <li>label - label to be displayed. This label is not yet translated 
+            using internationalization</li>
+                <li>children - list of children (layer IDs) separated by 
+            commas</li>
+                <li>minScale - minimum scale at which layer will be displayed</li>
+                <li>maxScale - maximum scale at which layer will be displayed</li>
+                <li>icon - filename of the static icon for the layer. Dynamic 
+            legends are described in <a href="user.layers.html#user.layers.legend" title="6.4. Layers Legends">Section 6.4, &#8220;Layers Legends&#8221;</a> 
+            </li>
+                <li>link - if set, layer name is clickable</li>
+                <li>aggregate - if true, children are not displayed and cannot be 
+            selected individually</li>
+                <li>rendering - how layer will be displayed: "tree", "block", 
+            "radio" or "dropdown". See <a href="user.layers.html" title="6. Layers">Chapter 6, <i>Layers</i></a> for more 
+            details on this option </li>
+                <li>metadata - list of meta data defined in server configuration 
+            file. Format of each string in list is "variable_name=value"</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="ArrayOfLayer"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType" wsdl:arrayType="types:Layer[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>array - list of layers</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="LayersInit"&gt;
+  &lt;all&gt;
+    &lt;element name="notAvailableIcon" type="xsd:string"/&gt;
+    &lt;element name="notAvailablePlusIcon" type="xsd:string"/&gt;
+    &lt;element name="notAvailableMinusIcon" type="xsd:string"/&gt;
+    &lt;element name="layers" type="types:ArrayOfLayer"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>notAvailableIcon - filename of icon for not available layer 
+            (current scale is above or below this layer maximum/minimum 
+            scale)</li>
+                <li>notAvailablePlusIcon - filename of icon for not available layer 
+            (current scale is above this layer maximum scale)</li>
+                <li>notAvailableMinusIcon - filename of icon for not available 
+            layer (current scale is below this layer minimum scale)</li>
+                <li>layers - list of layers</li>
+              </ul>
+            </div>
+            <p>
+    </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.getmapinfo.location"></a>1.2.3. Location</h3>
+                </div>
+              </div>
+            </div>
+            <p>This includes configuration specific to Location plugin, ie. fixed 
+      scales, scales limits and shortcuts.</p>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="LocationScale"&gt;
+  &lt;all&gt;
+    &lt;element name="label" type="xsd:string"/&gt;
+    &lt;element name="value" type="xsd:double"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>label - scale caption</li>
+                <li>value - scale value to be set when scale is selected</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="ArrayOfLocationScale"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:LocationScale[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>array - list of scales</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="LocationShortcut"&gt;
+  &lt;all&gt;
+    &lt;element name="label" type="xsd:string"/&gt;
+    &lt;element name="bbox" type="types:Bbox"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>label - shortcut caption</li>
+                <li>bbox - bounding box to recenter on when shortcut is 
+            selected</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="ArrayOfLocationShortcut"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:LocationShortcut[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>array - list of shortcuts</li>
+              </ul>
+            </div>
+            <p>
+      </p>
+            <pre class="programlisting">
+&lt;complexType name="LocationInit"&gt;
+  &lt;all&gt;
+    &lt;element name="className" type="xsd:string"/&gt;
+    &lt;element name="scales" type="types:ArrayOfLocationScale"/&gt;
+    &lt;element name="minScale" type="xsd:double"/&gt;
+    &lt;element name="maxScale" type="xsd:double"/&gt;
+    &lt;element name="shortcuts" type="types:ArrayOfLocationShortcut"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+            <p>
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>className - "LocationInit" or extended class name if project 
+            implements an extension</li>
+                <li>scales - list of fixed scales</li>
+                <li>minScale - global minimum scale</li>
+                <li>maxScale - global maximum scale</li>
+                <li>shortcuts - list of bounding box shortcuts</li>
+              </ul>
+            </div>
+            <p>
+    </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.soapcalls.getmap"></a>1.3. Call to getMap</h2>
+              </div>
+            </div>
+          </div>
+          <p>For each plugin, SOAP XML format are described for both server calls 
+    (i.e. requests) and server results.</p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.getmap.global"></a>1.3.1. Global Structures</h3>
+                </div>
+              </div>
+            </div>
+            <p>Below is a description of general requests and results which include 
+    plugin-specific ones.</p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.soapcalls.getmap.global.request"></a>1.3.1.1. Global Request</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="MapRequest"&gt;
+  &lt;all&gt;
+    &lt;element name="mapId" type="xsd:string"/&gt;
+    ...elements specific to plugins...
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>mapId - map ID, ie. project name and mapfile name separated by 
+            a point</li>
+                </ul>
+              </div>
+              <p>
+    </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.soapcalls.getmap.global.result"></a>1.3.1.2. Global Result</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="Message"&gt;
+  &lt;all&gt;
+    &lt;element name="channel" type="xsd:integer"/&gt;
+    &lt;element name="message" type="xsd:string"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>channel - type of message: 1 = end user, 2 = developer</li>
+                  <li>message - text of the message</li>
+                </ul>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="ArrayOfMessage"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType" wsdl:arrayType="types:Message[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>array - list of messages</li>
+                </ul>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="MapResult"&gt;
+  &lt;all&gt;
+    &lt;element name="timestamp" type="xsd:integer"/&gt;
+    &lt;element name="serverMessages"
+             type="types:ArrayOfMessage" minOccurs="0"/&gt;
+    ...elements specific to plugins...
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>timestamp - timestamp which identifies the server 
+            configuration. If this timestamp changes, it means server 
+            configuration changed and a call to method getMapInfo is required 
+            to get latest version (see <a href="dev.soapcalls.html#dev.soapcalls.getmapinfo" title="1.2. Call to getMapInfo">Section 1.2, &#8220;Call to getMapInfo&#8221;</a>).</li>
+                  <li>serverMessages - list of messages returned by server</li>
+                </ul>
+              </div>
+              <p>
+    </p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.getmap.images"></a>1.3.2. Images</h3>
+                </div>
+              </div>
+            </div>
+            <p> The Images plugin generates MapServer images. The three types of 
+    images are main map, key map and scale bar. Basic parameters, such as image 
+    size, are defined in this request/result. More specific parameters, such as 
+    map location or content, are defined in other plugins. </p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.soapcalls.getmap.images.request"></a>1.3.2.1. Images Request</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="Image"&gt;
+  &lt;all&gt;
+    &lt;element name="isDrawn" type="xsd:boolean"/&gt;
+    &lt;element name="path" type="xsd:string"/&gt;
+    &lt;element name="width" type="xsd:int"/&gt;
+    &lt;element name="height" type="xsd:int"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>isDrawn - true if the image should be generated (when used in a 
+            request) or if it was generated (when returned in a result)</li>
+                  <li>path - relative path of generated image. Not used in 
+            request</li>
+                  <li>width - image width</li>
+                  <li>height - image height</li>
+                </ul>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="ImagesRequest"&gt;
+  &lt;all&gt;
+    &lt;element name="className" type="xsd:string"/&gt;
+    &lt;element name="mainmap" type="types:Image"/&gt;
+    &lt;element name="keymap" type="types:Image"/&gt;
+    &lt;element name="scalebar" type="types:Image"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>className - "ImagesRequest" or extended class name if project 
+            implements an extension</li>
+                  <li>mainmap - main map image information</li>
+                  <li>keymap - key map image information</li>
+                  <li>scalebar - scale bar image information</li>
+                </ul>
+              </div>
+              <p>
+    </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.soapcalls.getmap.images.result"></a>1.3.2.2. Images Result</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="ImagesResult"&gt;
+  &lt;all&gt;
+    &lt;element name="className" type="xsd:string"/&gt;
+    &lt;element name="mainmap" type="types:Image"/&gt;
+    &lt;element name="keymap" type="types:Image"/&gt;
+    &lt;element name="scalebar" type="types:Image"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>className - "ImagesResult" or extended class name if project 
+            implements an extension</li>
+                  <li>mainmap - main map image information (see <a href="dev.soapcalls.html#dev.soapcalls.getmap.images.request" title="1.3.2.1. Images Request">Section 1.3.2.1, &#8220;Images Request&#8221;</a> for a description 
+            of type Image)</li>
+                  <li>keymap - key map image information</li>
+                  <li>scalebar - scale bar image information</li>
+                </ul>
+              </div>
+              <p>
+    </p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.getmap.layers"></a>1.3.3. Layers</h3>
+                </div>
+              </div>
+            </div>
+            <p> The Layers plugin handles layers selection. Its request object 
+    includes list of layers to be displayed on main map. This plugin has no 
+    specific result object.</p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.soapcalls.getmap.layers.request"></a>1.3.3.1. Layers Request</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="LayersRequest"&gt;
+  &lt;all&gt;
+    &lt;element name="className" type="xsd:string"/&gt;
+    &lt;element name="layerIds" type="types:ArrayOfLayerId"/&gt;
+    &lt;element name="resolution" type="xsd:int"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>className - "LayersRequest" or extended class name if project 
+            implements an extension</li>
+                  <li>layerIds - list of layers to include in map generation (see 
+            <a href="dev.soapcalls.html#dev.soapcalls.structures.simpletypes" title="1.1.1. Simple Types">Section 1.1.1, &#8220;Simple Types&#8221;</a> for a 
+            description of type ArrayOfLayerId)</li>
+                  <li>resolution - MapServer resolution. Set this to null if you want 
+            to use default resolution</li>
+                </ul>
+              </div>
+              <p>
+    </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.soapcalls.getmap.layers.result"></a>1.3.3.2. Layers Result</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="LayersResult"&gt;
+  &lt;all&gt;
+    &lt;element name="className" type="xsd:string"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>className - "LayersResult" or extended class name if project 
+            implements an extension</li>
+                </ul>
+              </div>
+              <p>
+    </p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.getmap.location"></a>1.3.4. Location</h3>
+                </div>
+              </div>
+            </div>
+            <p> The Location plugin handles position and moves on the map. Its request 
+    process includes different position methods, such as recentering on a 
+    specific object or moves relative to previous position. It returns the new 
+    bounding box and scale.</p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.soapcalls.getmap.location.request"></a>1.3.4.1. Location Request</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;simpleType name="LocationType"&gt;
+  &lt;restriction base="xsd:string"&gt;
+    &lt;enumeration value="bboxLocationRequest"/&gt;
+    &lt;enumeration value="panLocationRequest"/&gt;
+    &lt;enumeration value="zoomPointLocationRequest"/&gt;
+    &lt;enumeration value="recenterLocationRequest"/&gt;
+  &lt;/restriction&gt;
+&lt;/simpleType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>bboxLocationRequest - recenters on a bounding box</li>
+                  <li>panLocationRequest - moves horizontaly/verticaly 
+            (panning)</li>
+                  <li>zoomPointLocationRequest - recenters on a point, includes 
+            relative zoom and fixed scale</li>
+                  <li>recenterLocationRequest - recenters on mapfile IDs</li>
+                </ul>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="LocationConstraint"&gt;
+  &lt;all&gt;
+    &lt;element name="maxBbox" type="types:Bbox"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>maxBbox - maximum bounding box. If given parameters lead to a 
+            larger bounding box, it will be cropped (see <a href="dev.soapcalls.html#dev.soapcalls.structures.shapes" title="1.1.2. Shapes">Section 1.1.2, &#8220;Shapes&#8221;</a> for a description of 
+            type Bbox)</li>
+                </ul>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="LocationRequest"&gt;
+  &lt;all&gt;
+    &lt;element name="className" type="xsd:string"/&gt;
+    &lt;element name="locationType"  type="types:LocationType"/&gt;
+    &lt;element name="bboxLocationRequest"
+             type="types:BboxLocationRequest" minOccurs="0"/&gt;
+    &lt;element name="panLocationRequest"
+             type="types:PanLocationRequest" minOccurs="0"/&gt;
+    &lt;element name="zoomPointLocationRequest"
+             type="types:ZoomPointLocationRequest" minOccurs="0"/&gt;
+    &lt;element name="recenterLocationRequest"
+             type="types:RecenterLocationRequest" minOccurs="0"/&gt;
+    &lt;element name="locationConstraint"
+             type="types:LocationConstraint" minOccurs="0"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>className - "LocationRequest" or extended class name if project 
+            implements an extension</li>
+                  <li>locationType - type of location</li>
+                  <li>bboxLocationRequest - bounding box request parameters (see 
+            <a href="dev.soapcalls.html#dev.soapcalls.getmap.location.request.bbox" title="1.3.4.1.1. BBox Request">Section 1.3.4.1.1, &#8220;BBox Request&#8221;</a>) 
+            </li>
+                  <li>panLocationRequest - panning request parameters (see <a href="dev.soapcalls.html#dev.soapcalls.getmap.location.request.pan" title="1.3.4.1.2. Pan Request">Section 1.3.4.1.2, &#8220;Pan Request&#8221;</a>)</li>
+                  <li>zoomPointLocationRequest - zoom, recenter on point parameters 
+            (see <a href="dev.soapcalls.html#dev.soapcalls.getmap.location.request.zoom" title="1.3.4.1.3. Zoom-Point Request">Section 1.3.4.1.3, &#8220;Zoom-Point Request&#8221;</a>)</li>
+                  <li>recenterLocationRequest - recenter on IDs parameters (see <a href="dev.soapcalls.html#dev.soapcalls.getmap.location.request.recenter" title="1.3.4.1.4. Recenter Request">Section 1.3.4.1.4, &#8220;Recenter Request&#8221;</a>)</li>
+                  <li>locationConstraint - constraint to be respected when location 
+            request is executed</li>
+                </ul>
+              </div>
+              <p>
+    </p>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.soapcalls.getmap.location.request.bbox"></a>1.3.4.1.1. BBox Request</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>
+        </p>
+                <pre class="programlisting">
+&lt;complexType name="BboxLocationRequest"&gt;
+  &lt;all&gt;
+    &lt;element name="bbox" type="types:Bbox"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+                <p>
+        </p>
+                <div class="itemizedlist">
+                  <ul>
+                    <li>bbox - bounding box to be recentered on (see <a href="dev.soapcalls.html#dev.soapcalls.structures.shapes" title="1.1.2. Shapes">Section 1.1.2, &#8220;Shapes&#8221;</a> for a description of 
+              type Bbox)</li>
+                  </ul>
+                </div>
+                <p>
+      </p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.soapcalls.getmap.location.request.pan"></a>1.3.4.1.2. Pan Request</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>
+        </p>
+                <pre class="programlisting">
+&lt;simpleType name="PanDirectionType"&gt;
+  &lt;restriction base="xsd:string"&gt;
+    &lt;enumeration value="VERTICAL_PAN_NORTH"/&gt;
+    &lt;enumeration value="VERTICAL_PAN_NONE"/&gt;
+    &lt;enumeration value="VERTICAL_PAN_SOUTH"/&gt;
+    &lt;enumeration value="HORIZONTAL_PAN_WEST"/&gt;
+    &lt;enumeration value="HORIZONTAL_PAN_NONE"/&gt;
+    &lt;enumeration value="HORIZONTAL_PAN_EAST"/&gt;
+  &lt;/restriction&gt;
+&lt;/simpleType&gt;</pre>
+                <p>
+        </p>
+                <div class="itemizedlist">
+                  <ul>
+                    <li>VERTICAL_PAN_NORTH - panning north</li>
+                    <li>VERTICAL_PAN_NONE - no vertical panning</li>
+                    <li>VERTICAL_PAN_SOUTH - panning south</li>
+                    <li>HORIZONTAL_PAN_WEST - panning west</li>
+                    <li>HORIZONTAL_PAN_NONE - no horizontal panning</li>
+                    <li>HORIZONTAL_PAN_EAST - panning east</li>
+                  </ul>
+                </div>
+                <p>
+        </p>
+                <pre class="programlisting">
+&lt;complexType name="PanDirection"&gt;
+  &lt;all&gt;
+    &lt;element name="verticalPan" type="types:PanDirectionType"/&gt;
+    &lt;element name="horizontalPan" type="types:PanDirectionType"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+                <p>
+        </p>
+                <div class="itemizedlist">
+                  <ul>
+                    <li>verticalPan - type of vertical panning</li>
+                    <li>horizontalPan - type of horizontal panning</li>
+                  </ul>
+                </div>
+                <p>
+        </p>
+                <pre class="programlisting">
+&lt;complexType name="PanLocationRequest"&gt;
+  &lt;all&gt;
+    &lt;element name="bbox" type="types:Bbox"/&gt;
+    &lt;element name="panDirection" type="types:PanDirection"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+                <p>
+        </p>
+                <div class="itemizedlist">
+                  <ul>
+                    <li>bbox - current bounding box (see <a href="dev.soapcalls.html#dev.soapcalls.structures.shapes" title="1.1.2. Shapes">Section 1.1.2, &#8220;Shapes&#8221;</a> for a description of 
+              type Bbox)</li>
+                    <li>panDirection - panning directions</li>
+                  </ul>
+                </div>
+                <p>
+      </p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.soapcalls.getmap.location.request.zoom"></a>1.3.4.1.3. Zoom-Point Request</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>
+        </p>
+                <pre class="programlisting">
+&lt;simpleType name="ZoomType"&gt;
+  &lt;restriction base="xsd:string"&gt;
+    &lt;enumeration value="ZOOM_DIRECTION_IN"/&gt;
+    &lt;enumeration value="ZOOM_DIRECTION_NONE"/&gt;
+    &lt;enumeration value="ZOOM_DIRECTION_OUT"/&gt;
+    &lt;enumeration value="ZOOM_FACTOR"/&gt;
+    &lt;enumeration value="ZOOM_SCALE"/&gt;
+  &lt;/restriction&gt;
+&lt;/simpleType&gt;</pre>
+                <p>
+        </p>
+                <div class="itemizedlist">
+                  <ul>
+                    <li>ZOOM_DIRECTION_IN - zoom in (default is x2)</li>
+                    <li>ZOOM_DIRECTION_NONE - no zoom, recenter on point only</li>
+                    <li>ZOOM_DIRECTION_OUT - zoom out (default is x0.5)</li>
+                    <li>ZOOM_FACTOR - zoom using a custom factor</li>
+                    <li>ZOOM_SCALE - zoom to a fixed scale</li>
+                  </ul>
+                </div>
+                <p>
+        </p>
+                <pre class="programlisting">
+&lt;complexType name="ZoomPointLocationRequest"&gt;
+  &lt;all&gt;
+    &lt;element name="bbox" type="types:Bbox"/&gt;
+    &lt;element name="point" type="types:Point"/&gt;
+    &lt;element name="zoomType" type="types:ZoomType"/&gt;
+    &lt;element name="zoomFactor" type="xsd:float" minOccurs="0"/&gt;
+    &lt;element name="scale" type="xsd:integer" minOccurs="0"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+                <p>
+        </p>
+                <div class="itemizedlist">
+                  <ul>
+                    <li>bbox - bounding box (unused when zoom type = 
+              ZOOM_SCALE)</li>
+                    <li>point - point to recenter on</li>
+                    <li>zoomType - type of zoom</li>
+                    <li>zoomFactor - zoom factor (unused when zoom type != 
+              ZOOM_FACTOR)</li>
+                    <li>scale - fixed scale (unused when zoom type != 
+              ZOOM_SCALE)</li>
+                  </ul>
+                </div>
+                <p>
+      </p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="dev.soapcalls.getmap.location.request.recenter"></a>1.3.4.1.4. Recenter Request</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>
+        </p>
+                <pre class="programlisting">
+&lt;complexType name="IdSelection"&gt;
+  &lt;all&gt;
+    &lt;element name="layerId" type="xsd:string"/&gt;
+    &lt;element name="idAttribute" type="xsd:string"/&gt;
+    &lt;element name="idType" type="xsd:string"/&gt;
+    &lt;element name="selectedIds" type="types:ArrayOfString"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+                <p>
+        </p>
+                <div class="itemizedlist">
+                  <ul>
+                    <li>layerId - ID of layer on which query will be executed</li>
+                    <li>idAttribute - name of ID attribute</li>
+                    <li>idType - type of ID attribute ("string" or "int")</li>
+                    <li>selectedIds - list of IDs</li>
+                  </ul>
+                </div>
+                <p>
+        </p>
+                <pre class="programlisting">
+&lt;complexType name="ArrayOfIdSelection"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:IdSelection[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+                <p>
+        </p>
+                <div class="itemizedlist">
+                  <ul>
+                    <li>array - list of ID selections</li>
+                  </ul>
+                </div>
+                <p>
+        </p>
+                <pre class="programlisting">
+&lt;complexType name="RecenterLocationRequest"&gt;
+  &lt;all&gt;
+    &lt;element name="idSelections" type="types:ArrayOfIdSelection"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+                <p>
+        </p>
+                <div class="itemizedlist">
+                  <ul>
+                    <li>idSelections - list of ID selections</li>
+                  </ul>
+                </div>
+                <p>
+      </p>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.soapcalls.getmap.location.result"></a>1.3.4.2. Location Result</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="LocationResult"&gt;
+  &lt;all&gt;
+    &lt;element name="className" type="xsd:string"/&gt;
+    &lt;element name="bbox" type="types:Bbox"/&gt;
+    &lt;element name="scale" type="xsd:double"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>className - "LocationResult" or extended class name if project 
+            implements an extension</li>
+                  <li>bbox - new bounding box (see <a href="dev.soapcalls.html#dev.soapcalls.structures.shapes" title="1.1.2. Shapes">Section 1.1.2, &#8220;Shapes&#8221;</a> for a description of 
+            type Bbox)</li>
+                  <li>scale - new scale</li>
+                </ul>
+              </div>
+              <p>
+    </p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.getmap.query"></a>1.3.5. Query</h3>
+                </div>
+              </div>
+            </div>
+            <p>The Query plugin allows to search objects, hilight them on map and 
+    return text results. Search can be executed from a rectangle selection 
+    and/or using a list of object IDs.</p>
+            <p>Query request object is not mandatory. For more information about Query 
+    plugin, see <a href="user.query.html" title="9. Queries">Chapter 9, <i>Queries</i></a>. </p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.soapcalls.getmap.query.request"></a>1.3.5.1. Query Request</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;simpleType name="QuerySelectionPolicy"&gt;
+  &lt;restriction base="xsd:string"&gt;
+    &lt;enumeration value="POLICY_XOR"/&gt;
+    &lt;enumeration value="POLICY_UNION"/&gt;
+    &lt;enumeration value="POLICY_INTERSECTION"/&gt;
+  &lt;/restriction&gt;
+&lt;/simpleType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>POLICY_XOR - XOR selection: when selecting a group of objects, 
+            already selected ones are unselected and not yet selected ones are 
+            selected (default type)</li>
+                  <li>POLICY_UNION - union selection: when selecting a group of 
+            objects, already selected ones are kept selected and not yet 
+            selected ones are selected</li>
+                  <li>POLICY_INTERSECTION - intersection selection: when selecting a 
+            group of objects, only already selected ones are kept 
+            selected</li>
+                </ul>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="QuerySelection"&gt;
+  &lt;all&gt;
+    &lt;element name="layerId" type="xsd:string"/&gt;
+    &lt;element name="idAttribute" type="xsd:string"/&gt;
+    &lt;element name="idType" type="xsd:string"/&gt;
+    &lt;element name="selectedIds" type="types:ArrayOfString"/&gt;
+    &lt;element name="useInQuery" type="xsd:boolean"/&gt;
+    &lt;element name="policy" type="types:QuerySelectionPolicy"/&gt;
+    &lt;element name="maskMode" type="xsd:boolean"/&gt;
+    &lt;element name="tableFlags" type="types:TableFlags"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>layerId - layer ID on which query will be executed</li>
+                  <li>idAttribute - name of ID attribute</li>
+                  <li>idType - type of ID attribute ("string" or "int")</li>
+                  <li>selectedIds - list of IDs</li>
+                  <li>useInQuery - if true, will force query to use this layer</li>
+                  <li>policy - type of selection</li>
+                  <li>maskMode - if true, will apply a mask instead of a simple 
+            selection. This won't work when using MapServer's hilighting 
+            feature (see <a href="user.query.html" title="9. Queries">Chapter 9, <i>Queries</i></a>) </li>
+                  <li>tableFlags - table flags (see <a href="dev.soapcalls.html#dev.soapcalls.structures.tables" title="1.1.3. Tables">Section 1.1.3, &#8220;Tables&#8221;</a> for a description of 
+            type TableFlags)</li>
+                </ul>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="ArrayOfQuerySelection"&gt;
+  &lt;complexContent&gt;
+    &lt;restriction base="enc11:Array"&gt;
+      &lt;attribute ref="enc11:arrayType"
+                 wsdl:arrayType="types:QuerySelection[]"/&gt;
+    &lt;/restriction&gt;
+  &lt;/complexContent&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>array - list of query selections</li>
+                </ul>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="QueryRequest"&gt;
+  &lt;all&gt;
+    &lt;element name="className" type="xsd:string"/&gt;
+    &lt;element name="bbox" type="types:Bbox"/&gt;
+    &lt;element name="queryAllLayers" type="xsd:boolean"/&gt;
+    &lt;element name="defaultMaskMode" type="xsd:boolean"/&gt;
+    &lt;element name="defaultTableFlags" type="types:TableFlags"/&gt;
+    &lt;element name="querySelections" type="types:ArrayOfQuerySelection"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>className - "QueryRequest" or extended class name if project 
+            implements an extension</li>
+                  <li>bbox - bounding box when querying with a rectangle (see <a href="dev.soapcalls.html#dev.soapcalls.structures.shapes" title="1.1.2. Shapes">Section 1.1.2, &#8220;Shapes&#8221;</a> for a description of 
+            type Bbox)</li>
+                  <li>queryAllLayers - if true, will execute query on all selected 
+            layers, ie. layers sent through Layers request (see <a href="dev.soapcalls.html#dev.soapcalls.getmap.layers.request" title="1.3.3.1. Layers Request">Section 1.3.3.1, &#8220;Layers Request&#8221;</a>). Unused when 
+            bounding box is not specified </li>
+                  <li>defaultMaskMode - mask mode for new layers (returned by query 
+            and but not yet in array querySelections). Unused when 
+            queryAllLayers = false</li>
+                  <li>defaultTableFlags - table flags for new layers (returned by 
+            query and but not yet in array querySelections, see <a href="dev.soapcalls.html#dev.soapcalls.structures.tables" title="1.1.3. Tables">Section 1.1.3, &#8220;Tables&#8221;</a> for a description of 
+            type TableFlags). Unused when queryAllLayers = false</li>
+                  <li>querySelections - list if query selections. It contains all 
+            objects that must be hilighted and can be used to maintain 
+            persistence of a selection</li>
+                </ul>
+              </div>
+              <p>
+    </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.soapcalls.getmap.query.result"></a>1.3.5.2. Query Result</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="QueryResult"&gt;
+  &lt;all&gt;
+    &lt;element name="className" type="xsd:string"/&gt;
+    &lt;element name="tableGroup" type="types:TableGroup"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>className - "QueryResult" or extended class name if project 
+            implements an extension</li>
+                  <li>tableGroup - group of tables which contains query results (one 
+            table per layer)</li>
+                </ul>
+              </div>
+              <p>
+    </p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.getmap.outline"></a>1.3.6. Outline</h3>
+                </div>
+              </div>
+            </div>
+            <p>The Outline plugin allows to draw shapes on the main map. Shapes can 
+    also be drawn as a mask, ie. as holes in a rectangle covering map. It 
+    returns total area covered by shapes.</p>
+            <p>Outline request is not mandatory. As Outline plugin is not a core 
+    plugin, it must be activated in order to use the following request/result 
+    objects. </p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.soapcalls.getmap.outline.request"></a>1.3.6.1. Outline Request</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="OutlineRequest"&gt;
+  &lt;all&gt;
+    &lt;element name="className" type="xsd:string"/&gt;
+    &lt;element name="shapes" type="types:ArrayOfShape"/&gt;
+    &lt;element name="maskMode" type="xsd:boolean"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>className - "OutlineRequest" or extended class name if project 
+            implements an extension</li>
+                  <li>shapes - list of shapes (can include points, rectangles, lines 
+            or polygons, see <a href="dev.soapcalls.html#dev.soapcalls.structures.shapes" title="1.1.2. Shapes">Section 1.1.2, &#8220;Shapes&#8221;</a> 
+            for a description of type Shape)</li>
+                  <li>maskMode - if true, will draw the complement of all shapes 
+            merged together</li>
+                </ul>
+              </div>
+              <p>
+    </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="dev.soapcalls.getmap.outline.result"></a>1.3.6.2. Outline Result</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+      </p>
+              <pre class="programlisting">
+&lt;complexType name="OutlineResult"&gt;
+  &lt;all&gt;
+    &lt;element name="className" type="xsd:string"/&gt;
+    &lt;element name="area" type="xsd:double"/&gt;
+  &lt;/all&gt;
+&lt;/complexType&gt;</pre>
+              <p>
+      </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>className - "OutlineResult" or extended class name if project 
+            implements an extension</li>
+                  <li>area - total area for all shapes</li>
+                </ul>
+              </div>
+              <p>
+    </p>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.soapcalls.examples"></a>1.4. Examples</h2>
+              </div>
+            </div>
+          </div>
+          <p>The following examples show simple SOAP calls using PHP.</p>
+          <p>To use these examples with your CartoWeb server, you'll have to modify 
+    the map ID and the layer names. Please note that in these examples, access 
+    to resources uses symbolic links (see <a href="user.config.html" title="4. Configuration Files">Chapter 4, <i>Configuration Files</i></a>).</p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.examples.getmapinfo"></a>1.4.1. Retrieving Server Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>First thing to do is to declare the SOAP client. Class SoapClient 
+      will need the WSDL code dynamically generated by script 
+      cartoserver.wsdl.php.</p>
+            <pre class="programlisting">
+&lt;?php
+
+$client = new SoapClient("http://url.to/server/cartoserver.wsdl.php"
+                         . "?mapId=swiss_project.swiss");       
+...</pre>
+            <p> Method only needs map ID as argument.</p>
+            <pre class="programlisting">
+try{
+    $result = $client-&gt;getMapInfo("swiss_project.swiss");
+    print_r($result);    
+} catch (SoapFault $fault) {
+    print $fault-&gt;faultstring;
+}
+            
+?&gt;</pre>
+            <p> </p>
+            <p> Result is shown below. It includes server configuration for the 
+      corresponding project and mapfile.</p>
+            <pre class="programlisting">
+stdClass Object
+(
+  [timeStamp] =&gt; 1107043488
+  [mapLabel] =&gt; Switzerland
+  [keymapGeoDimension] =&gt; stdClass Object
+    (
+      [dimension] =&gt; stdClass Object
+        (
+          [width] =&gt; 100
+          [height] =&gt; 100
+        )
+      [bbox] =&gt; stdClass Object
+        (
+          [minx] =&gt; 485000
+          [miny] =&gt; 65000
+          [maxx] =&gt; 835000
+          [maxy] =&gt; 298000
+        )
+    )
+  [initialMapStates] =&gt; Array
+    (
+      [0] =&gt; stdClass Object
+        (
+          [id] =&gt; default
+          [location] =&gt; stdClass Object
+            (
+              [bbox] =&gt; stdClass Object
+                (
+                  [minx] =&gt; 470000
+                  [miny] =&gt; 50000
+                  [maxx] =&gt; 860000
+                  [maxy] =&gt; 320000
+                )
+            )
+          [layers] =&gt; Array
+            (
+              [0] =&gt; stdClass Object
+                (
+                  [id] =&gt; swiss_layer_1
+                  [hidden] =&gt; 
+                  [frozen] =&gt; 
+                  [selected] =&gt; 1
+                  [unfolded] =&gt; 
+                )
+              [1] =&gt; stdClass Object
+                (
+                  [id] =&gt; swiss_layer_2
+                  [hidden] =&gt; 1
+                  [frozen] =&gt; 
+                  [selected] =&gt; 1
+                  [unfolded] =&gt; 
+                )
+            )
+        )
+    )
+  [layersInit] =&gt; stdClass Object
+  (
+  [notAvailableIcon] =&gt; gfx/icons/swiss_project/swiss/na.png
+  [notAvailablePlusIcon] =&gt; gfx/icons/swiss_project/swiss/nap.png
+  [notAvailableMinusIcon] =&gt; gfx/icons/swiss_project/swiss/nam.png
+  [layers] =&gt; Array
+    (
+      [0] =&gt; stdClass Object
+        (
+          [className] =&gt; LayerGroup
+          [id] =&gt; root
+          [label] =&gt; root
+          [children] =&gt; Array
+            (
+              [0] =&gt; swiss_layer_1
+              [1] =&gt; swiss_layer_2
+            )
+          [minScale] =&gt; 0
+          [maxScale] =&gt; 0
+          [icon] =&gt; 
+          [link] =&gt; 
+          [aggregate] =&gt; 
+          [rendering] =&gt; 
+          [metadata] =&gt; Array
+            (
+              [0] =&gt; foo=bar
+            )
+        )
+      [1] =&gt; stdClass Object
+        (
+          [className] =&gt; Layer
+          [id] =&gt; swiss_layer_1
+          [label] =&gt; Swiss Layer 1
+          [children] =&gt; Array
+            (
+            )
+          [minScale] =&gt; 0
+          [maxScale] =&gt; 0
+          [icon] =&gt; gfx/icons/swiss_project/swiss/icon_1.png
+          [link] =&gt; 
+          [metadata] =&gt; Array
+            (
+            )
+        )
+      [2] =&gt; stdClass Object
+        (
+          [className] =&gt; Layer
+          [id] =&gt; swiss_layer_2
+          [label] =&gt; Swiss Layer 2
+          [children] =&gt; Array
+            (
+            )
+          [minScale] =&gt; 1
+          [maxScale] =&gt; 20
+          [icon] =&gt; 
+          [link] =&gt; 
+          [metadata] =&gt; Array
+            (
+            )
+        )
+    )
+  [locationInit] =&gt; stdClass Object
+    (
+      [className] =&gt; LocationInit
+      [scales] =&gt; Array
+        (
+          [0] =&gt; stdClass Object
+            (
+              [label] =&gt; 1/50000
+              [value] =&gt; 50000
+            )
+          [1] =&gt; stdClass Object
+            (
+              [label] =&gt; 1/100000
+              [value] =&gt; 100000
+            )
+          [2] =&gt; stdClass Object
+            (
+              [label] =&gt; 1/500000
+              [value] =&gt; 500000
+            )
+        )
+      [minScale] =&gt; 25000
+      [maxScale] =&gt; 1000000
+      [shortcuts] =&gt; Array
+        (
+          [0] =&gt; stdClass Object
+            (
+              [label] =&gt; Romandie
+              [bbox] =&gt; stdClass Object
+                (
+                  [minx] =&gt; 475000
+                  [miny] =&gt; 65750
+                  [maxx] =&gt; 670000
+                  [maxy] =&gt; 212000
+                )
+            )
+        )
+    )
+)
+</pre>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.examples.pointscale"></a>1.4.2. Getting a Map Using a Point and a Scale</h3>
+                </div>
+              </div>
+            </div>
+            <p>The simpliest way to obtain a map from CartoWeb server is to send an 
+      X-Y location and a scale.</p>
+            <p>First thing to do is to declare the SOAP client. Class SoapClient 
+      will need the WSDL code dynamically generated by script 
+      cartoserver.wsdl.php.</p>
+            <pre class="programlisting">
+&lt;?php
+
+$client = new SoapClient("http://url.to/server/cartoserver.wsdl.php"
+                         . "?mapId=swiss_project.swiss");       
+...</pre>
+            <p> The map ID is required also in the request object. 
+      </p>
+            <pre class="programlisting">
+$request-&gt;mapId = 'swiss_project.swiss';
+...</pre>
+            <p> In this example, only main map and scale bar are 
+      requested. So key map's isDrawn attribute is set to false. 
+      </p>
+            <pre class="programlisting">
+$request-&gt;imagesRequest-&gt;className = 'ImagesRequest';
+
+$request-&gt;imagesRequest-&gt;mainmap-&gt;isDrawn = true;
+$request-&gt;imagesRequest-&gt;mainmap-&gt;path = '';
+$request-&gt;imagesRequest-&gt;mainmap-&gt;width = 500;
+$request-&gt;imagesRequest-&gt;mainmap-&gt;height = 500;
+$request-&gt;imagesRequest-&gt;mainmap-&gt;format = '';
+
+$request-&gt;imagesRequest-&gt;keymap-&gt;isDrawn = false;
+$request-&gt;imagesRequest-&gt;keymap-&gt;path = '';
+$request-&gt;imagesRequest-&gt;keymap-&gt;width = 0;
+$request-&gt;imagesRequest-&gt;keymap-&gt;height = 0;
+$request-&gt;imagesRequest-&gt;keymap-&gt;format = '';
+
+$request-&gt;imagesRequest-&gt;scalebar-&gt;isDrawn = true;
+$request-&gt;imagesRequest-&gt;scalebar-&gt;path = '';
+$request-&gt;imagesRequest-&gt;scalebar-&gt;width = 100;
+$request-&gt;imagesRequest-&gt;scalebar-&gt;height = 100;
+$request-&gt;imagesRequest-&gt;scalebar-&gt;format = '';
+...</pre>
+            <p> Two layers are displayed. Resolution attribute is set 
+      to null to keep standard Mapserver resolution. </p>
+            <pre class="programlisting">
+$request-&gt;layersRequest-&gt;className = 'LayersRequest';
+
+$request-&gt;layersRequest-&gt;layerIds = array('swiss_layer_1',
+                                          'swiss_layer_2');
+$request-&gt;layersRequest-&gt;resolution = null;
+...</pre>
+            <p>In this case, the location request object is of type 
+      zoom-point, and zoom type is set to ZOOM_SCALE. Bbox is unused but is 
+      required. </p>
+            <pre class="programlisting">
+$request-&gt;locationRequest-&gt;className = 'LocationRequest';
+
+$request-&gt;locationRequest-&gt;locationType = 'zoomPointLocationRequest';
+$request-&gt;locationRequest
+        -&gt;zoomPointLocationRequest-&gt;bbox-&gt;minx = 500000;
+$request-&gt;locationRequest
+        -&gt;zoomPointLocationRequest-&gt;bbox-&gt;miny = 100000;
+$request-&gt;locationRequest
+        -&gt;zoomPointLocationRequest-&gt;bbox-&gt;maxx = 600000;
+$request-&gt;locationRequest
+        -&gt;zoomPointLocationRequest-&gt;bbox-&gt;maxy = 200000;
+$request-&gt;locationRequest
+        -&gt;zoomPointLocationRequest-&gt;point-&gt;x = 550000;
+$request-&gt;locationRequest
+        -&gt;zoomPointLocationRequest-&gt;point-&gt;y = 150000;
+$request-&gt;locationRequest
+        -&gt;zoomPointLocationRequest-&gt;zoomType = 'ZOOM_SCALE';
+$request-&gt;locationRequest
+        -&gt;zoomPointLocationRequest-&gt;scale = 200000;
+...</pre>
+            <p> Now request object is ready, SOAP method is 
+      called.</p>
+            <pre class="programlisting">
+try{
+    $result = $client-&gt;getMap($request);
+    print_r($result);    
+} catch (SoapFault $fault) {
+    print $fault-&gt;faultstring;
+}
+            
+?&gt;</pre>
+            <p> </p>
+            <p> Result is shown below. It includes relative paths to generated 
+      images and new bounding box computed from requested scale.</p>
+            <pre class="programlisting">
+stdClass Object
+(
+  [timestamp] =&gt; 1107925732
+  [serverMessages] =&gt; Array
+    (
+    )
+  [imagesResult] =&gt; stdClass Object
+    (
+      [className] =&gt; ImagesResult
+      [mainmap] =&gt; stdClass Object
+        (
+          [isDrawn] =&gt; 1
+          [path] =&gt; images/110839565198671.jpg
+          [width] =&gt; 500
+          [height] =&gt; 500
+          [format] =&gt; 
+        )
+      [keymap] =&gt; stdClass Object
+        (
+          [isDrawn] =&gt; 
+          [path] =&gt; 
+          [width] =&gt; 
+          [height] =&gt; 
+          [format] =&gt; 
+        )
+      [scalebar] =&gt; stdClass Object
+        (
+          [isDrawn] =&gt; 1
+          [path] =&gt; images/110839565198672.png
+          [width] =&gt; 300
+          [height] =&gt; 31
+          [format] =&gt; 
+        )
+    )
+  [locationResult] =&gt; stdClass Object
+    (
+      [className] =&gt; LocationResult
+      [bbox] =&gt; stdClass Object
+        (
+          [minx] =&gt; 536770.840477
+          [miny] =&gt; 136770.840477
+          [maxx] =&gt; 563229.159523
+          [maxy] =&gt; 163229.159523
+        )
+      [scale] =&gt; 200000
+    )
+)</pre>
+            <p> </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.soapcalls.examples.query"></a>1.4.3. Executing a Query</h3>
+                </div>
+              </div>
+            </div>
+            <p>The following code shows how to use queries to display hilighted 
+      selection and to retrieve corresponding attributes.</p>
+            <p>First thing to do is to declare the SOAP client. Class SoapClient 
+      will need the WSDL code dynamically generated by script 
+      cartoserver.wsdl.php. </p>
+            <pre class="programlisting">
+&lt;?php
+
+$client = new SoapClient("http://url.to/server/cartoserver.wsdl.php"
+                         . "?mapId=swiss_project.swiss");       
+...</pre>
+            <p> The map ID is required also in the request 
+      object.</p>
+            <pre class="programlisting">
+$request-&gt;mapId = 'swiss_project.swiss';
+...</pre>
+            <p> In this example, only main map and key map are 
+      requested. So scale bar's isDrawn attribute is set to false. 
+      </p>
+            <pre class="programlisting">
+$request-&gt;imagesRequest-&gt;className = 'ImagesRequest';
+
+$request-&gt;imagesRequest-&gt;mainmap-&gt;isDrawn = true;
+$request-&gt;imagesRequest-&gt;mainmap-&gt;path = '';
+$request-&gt;imagesRequest-&gt;mainmap-&gt;width = 500;
+$request-&gt;imagesRequest-&gt;mainmap-&gt;height = 500;
+$request-&gt;imagesRequest-&gt;mainmap-&gt;format = '';
+
+$request-&gt;imagesRequest-&gt;keymap-&gt;isDrawn = true;
+$request-&gt;imagesRequest-&gt;keymap-&gt;path = '';
+$request-&gt;imagesRequest-&gt;keymap-&gt;width = 100;
+$request-&gt;imagesRequest-&gt;keymap-&gt;height = 100;
+$request-&gt;imagesRequest-&gt;keymap-&gt;format = '';
+
+$request-&gt;imagesRequest-&gt;scalebar-&gt;isDrawn = false;
+$request-&gt;imagesRequest-&gt;scalebar-&gt;path = '';
+$request-&gt;imagesRequest-&gt;scalebar-&gt;width = 0;
+$request-&gt;imagesRequest-&gt;scalebar-&gt;height = 0;
+$request-&gt;imagesRequest-&gt;scalebar-&gt;format = '';
+...</pre>
+            <p> Two layers are displayed. Resolution attribute is set 
+      to null to keep standard Mapserver resolution.</p>
+            <pre class="programlisting">
+$request-&gt;layersRequest-&gt;className = 'LayersRequest';
+
+$request-&gt;layersRequest-&gt;layerIds = array('swiss_layer_1',
+                                          'swiss_layer_2');
+$request-&gt;layersRequest-&gt;resolution = null;
+...</pre>
+            <p> In this case, the location request object is of type 
+      bbox. Only new bounding box is required. </p>
+            <pre class="programlisting">
+$request-&gt;locationRequest-&gt;className = 'LocationRequest';
+
+$request-&gt;locationRequest-&gt;locationType = 'bboxLocationRequest';
+$request-&gt;locationRequest-&gt;bboxLocationRequest-&gt;bbox-&gt;minx = 550000;
+$request-&gt;locationRequest-&gt;bboxLocationRequest-&gt;bbox-&gt;miny = 100000;
+$request-&gt;locationRequest-&gt;bboxLocationRequest-&gt;bbox-&gt;maxx = 600000;
+$request-&gt;locationRequest-&gt;bboxLocationRequest-&gt;bbox-&gt;maxy = 150000;
+...</pre>
+            <p> The query will be performed on a rectangle, on all 
+      selected layers (ie. layers defined in layers request object). IDs and 
+      attributes will be returned.</p>
+            <pre class="programlisting">
+$request-&gt;queryRequest-&gt;className = 'QueryRequest';
+
+$request-&gt;queryRequest-&gt;bbox-&gt;minx = 570000;
+$request-&gt;queryRequest-&gt;bbox-&gt;miny = 120000;
+$request-&gt;queryRequest-&gt;bbox-&gt;maxx = 580000;
+$request-&gt;queryRequest-&gt;bbox-&gt;maxy = 130000;
+$request-&gt;queryRequest-&gt;queryAllLayers = true;
+$request-&gt;queryRequest-&gt;defaultMaskMode = false;
+$request-&gt;queryRequest-&gt;defaultTableFlags-&gt;returnAttributes = true;
+$request-&gt;queryRequest-&gt;defaultTableFlags-&gt;returnTable = true;
+$request-&gt;queryRequest-&gt;querySelections = array();
+...</pre>
+            <p> Now request object is ready, SOAP method is 
+      called.</p>
+            <pre class="programlisting">
+try{
+    $result = $client-&gt;getMap($request);
+    print_r($result);    
+} catch (SoapFault $fault) {
+    print $fault-&gt;faultstring;
+}
+            
+?&gt;</pre>
+            <p> </p>
+            <p>Result is shown below. It includes relative paths to generated images 
+      and new scale computed from requested bounding box.</p>
+            <p>Query results include one table per layer. No results were found in 
+      layer swiss_layer_1 and two results in swiss_layer_2. As requested, 
+      attributes (here attribute_3 and attribute_4) are returned for each 
+      row.</p>
+            <pre class="programlisting">
+stdClass Object
+(
+  [timestamp] =&gt; 1107925732
+  [serverMessages] =&gt; Array
+    (
+    )
+  [imagesResult] =&gt; stdClass Object
+    (
+      [className] =&gt; ImagesResult
+      [mainmap] =&gt; stdClass Object
+        (
+          [isDrawn] =&gt; 1
+          [path] =&gt; images/110846607738541.jpg
+          [width] =&gt; 500
+          [height] =&gt; 500
+          [format] =&gt; 
+        )
+      [keymap] =&gt; stdClass Object
+        (
+          [isDrawn] =&gt; 1
+          [path] =&gt; images/110846607738542.png
+          [width] =&gt; 150
+          [height] =&gt; 99
+          [format] =&gt; 
+        )
+      [scalebar] =&gt; stdClass Object
+        (
+          [isDrawn] =&gt; 
+          [path] =&gt; 
+          [width] =&gt; 
+          [height] =&gt; 
+          [format] =&gt; 
+        )
+    )
+  [locationResult] =&gt; stdClass Object
+    (
+      [className] =&gt; LocationResult
+      [bbox] =&gt; stdClass Object
+        (
+          [minx] =&gt; 550000
+          [miny] =&gt; 100000
+          [maxx] =&gt; 600000
+          [maxy] =&gt; 150000
+        )
+      [scale] =&gt; 377952.96
+    )
+  [queryResult] =&gt; stdClass Object
+    (
+      [className] =&gt; QueryResult
+      [tableGroup] =&gt; stdClass Object
+        (
+          [groupId] =&gt; query
+          [groupTitle] =&gt; Query
+          [tables] =&gt; Array
+            (
+              [0] =&gt; stdClass Object
+                (
+                  [tableId] =&gt; swiss_layer_1
+                  [tableTitle] =&gt; swiss_layer_1
+                  [numRows] =&gt; 0
+                  [totalRows] =&gt; 0
+                  [offset] =&gt; 0
+                  [columnIds] =&gt; Array
+                    (
+                    )
+                  [columnTitles] =&gt; Array
+                    (
+                    )
+                  [noRowId] =&gt; 
+                  [rows] =&gt; Array
+                    (
+                    )
+                )
+              [1] =&gt; stdClass Object
+                (
+                  [tableId] =&gt; swiss_layer_2
+                  [tableTitle] =&gt; swiss_layer_2
+                  [numRows] =&gt; 2
+                  [totalRows] =&gt; 0
+                  [offset] =&gt; 0
+                  [columnIds] =&gt; Array
+                    (
+                      [0] =&gt; attribute_3
+                      [1] =&gt; attribute_4
+                    )
+                  [columnTitles] =&gt; Array
+                    (
+                      [0] =&gt; attribute_3
+                      [1] =&gt; attribute_4
+                    )
+                  [noRowId] =&gt; 
+                  [rows] =&gt; Array
+                    (
+                      [0] =&gt; stdClass Object
+                        (
+                          [rowId] =&gt; 123
+                          [cells] =&gt; Array
+                            (
+                              [0] =&gt; Foo
+                              [1] =&gt; 84.98
+                            )
+                        )
+                      [1] =&gt; stdClass Object
+                        (
+                          [rowId] =&gt; 456
+                          [cells] =&gt; Array
+                            (
+                              [0] =&gt; Bar
+                              [1] =&gt; 32.47
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)</pre>
+            <p> </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

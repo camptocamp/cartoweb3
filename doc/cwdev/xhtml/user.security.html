@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>15. Security Configuration</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.edit.html">
+       &lt; Editing </a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.throttling.html">Throttling Configuration &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.security.html#user.security.intro">15.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.security.html#user.security.auth">15.2. Auth Plugin</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.security.html#user.security.auth.users_roles">15.2.1. auth.ini (Client-side)</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.security.html#user.security.auth.special_roles">15.2.2. Special Role Names</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.security.html#user.security.global_permissions">15.3. Global CartoWeb Permissions</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.security.html#user.security.plugin_permissions">15.4. Plugin Specific Permissions</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.security.html#user.security.plugin_permissions.layers">15.4.1. Layers Related Permissions</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.security.html#user.security.plugin_permissions.pdf">15.4.2. PDF Printing Permissions</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.security"></a>15. Security Configuration</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.security.intro"></a>15.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p> Access to different parts of the CartoWeb can be allowed or denied 
+      according to who is currently using the application. </p>
+          <p> The following concepts are used in this chapter.</p>
+          <div class="variablelist">
+            <p class="title">
+              <b>Security Mechanisms Concepts</b>
+            </p>
+            <dl>
+              <dt>
+                <span class="term">User</span>
+              </dt>
+              <dd> Representation of a user accessing CartoWeb. If the user is 
+            not logged in, she is rerefenced as the 
+            <code class="constant">anonymous</code> user.</dd>
+              <dt>
+                <span class="term">Role</span>
+              </dt>
+              <dd> A user can have zero or more roles associated to her. These 
+            roles are used to allow or deny a permission to a resource of 
+            feature. </dd>
+              <dt>
+                <span class="term">Permissions</span>
+              </dt>
+              <dd>Permissions describe parts of the application which can be 
+            allowed or denied access. A permission can have roles for which 
+            access is allowed, and roles for which it is denied. </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.security.auth"></a>15.2. Auth Plugin</h2>
+              </div>
+            </div>
+          </div>
+          <p> The security system in CartoWeb was developped to be modular and 
+      to allow different authentications systems to be easily plugged-in. This 
+      section describes one implementation of authentication, user password and 
+      roles management, which is the auth plugin shipped with CartoWeb. 
+      </p>
+          <div class="screenshot">
+            <div class="mediaobject">
+              <img src="image/user/images/security.login_dialog.png" width="248" alt="Auth plugin login dialog" />
+            </div>
+          </div>
+          <p> The auth plugin is not a core plugin. That's why you need to enable 
+      it if you want to enable users to log-in. See <a class="xref" href="user.config.html" title="4. Configuration Files">Chapter 4, <i>Configuration Files</i></a> how to enable it in the list of plugins. If it is 
+      not activated the login dialog won't be available, so users will remain 
+      anonymous. </p>
+          <p> The next section describes the configuration file of the auth 
+      plugin. It is basically the management of usernames, passwords and roles. 
+      </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.security.auth.users_roles"></a>15.2.1. auth.ini (Client-side)</h3>
+                </div>
+              </div>
+            </div>
+            <p> The <code class="filename">auth.ini</code> configuration is located in the 
+        client. This file contains the list of usernames, their password and 
+        the roles they belong to: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+            authActive<a id="id3031354" class="indexterm"></a>: 
+            boolean Whether to show the Authentication login/logout buttons. 
+            (note: this is not related to the fact the authentication system 
+            will be active or not) </li>
+                <li> 
+            users.USERNAME<a id="id3031371" class="indexterm"></a> 
+            List of users and their passwords. <code class="constant">USERNAME</code> is 
+            the name of the user for whom the password is set. Passwords values 
+            are md5sums of the password. To get this value, you can type in a 
+            shell: <pre class="screen">echo -n 'mypassword' | md5sum</pre> Example: <pre class="programlisting">users.alice = e3e4faee0cc7fc55ad402f517cdaf40</pre></li>
+                <li> 
+            roles.USERNAME<a id="id3031409" class="indexterm"></a> 
+            List of roles for each user. <code class="constant">USERNAME</code> is 
+            replaced by the user for whom the roles are set. Some roles have a 
+            special meaning, see <a class="xref" href="user.security.html#user.security.auth.special_roles" title="15.2.2. Special Role Names">Section 15.2.2, “Special Role Names”</a> </li>
+              </ul>
+            </div>
+            <p>
+      It is possible to use three different locations where user and password are
+      stored. There are three mechanisms built-in in CartoWeb:
+      </p>
+            <div class="orderedlist">
+              <ol>
+                <li>.ini file</li>
+                <li>database</li>
+                <li>ldap</li>
+              </ol>
+            </div>
+            <p>
+      </p>
+            <p>
+      The parameter <code class="constant">securityContainer</code> controls which backend is
+      used.
+      </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+            securityContainer<a id="id3029797" class="indexterm"></a>: 
+            can be <code class="constant">ini</code> for the file storage,
+            <code class="constant">db</code> for the dabase storage, or 
+            <code class="constant">ldap</code> for the ldap storage.</li>
+              </ul>
+            </div>
+            <p>Parameters for database and ldap storage are described below</p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.security.auth.users_roles.db"></a>15.2.1.1. database storage</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="itemizedlist">
+                <ul>
+                  <li> 
+              dbSecurityDsn<a id="id3029837" class="indexterm"></a>:
+              The database connection string to be used. For instance 
+              <code class="literal">pgsql://user:password@localhost/test</code>.
+              </li>
+                  <li> 
+              dbSecurityQueryUser<a id="id3029859" class="indexterm"></a>:
+              The SQL query to perform to check a username/password pair is valid. It 
+              should return a row if the pair is correct. For instance:
+              <code class="literal">"SELECT * FROM users WHERE username='%s' AND password='%s'"</code>.
+              </li>
+                  <li> 
+              dbSecurityQueryRoles<a id="id3029883" class="indexterm"></a>:
+              The SQL query used to retrieve roles for a given user. It should return one column
+              with all roles for the user each row. For instance:
+              <code class="literal">"SELECT roles FROM users WHERE username='%s'"</code>
+              </li>
+                </ul>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.security.auth.users_roles.ldap"></a>15.2.1.2. ldap storage</h4>
+                  </div>
+                </div>
+              </div>
+              <p>The following parameters are inspired from Pear::Auth_Container_LDAP</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li> 
+              host<a id="id3029925" class="indexterm"></a>:
+              hostname of the server that hosts the ldap server
+              <code class="literal">localhost</code> (default), 
+              <code class="literal">ldap.netsols.de</code>.
+              </li>
+                  <li> 
+              port<a id="id3029953" class="indexterm"></a>:
+              Port number on which the ldap server listens
+              <code class="literal">389</code> (default).
+              </li>
+                  <li> 
+              basedn<a id="id3029974" class="indexterm"></a>:
+              the base dn (Distinguished Name) of the ldap server
+              For instance: <code class="literal">dc=ldap,dc=netsols,dc=de</code>
+              </li>
+                  <li> 
+              userattr<a id="id3027298" class="indexterm"></a>:
+              the user attribute to search for.
+              <code class="literal">uid</code> (default)
+              </li>
+                  <li> 
+              groupdn<a id="id3027319" class="indexterm"></a>:
+              gets prepended to basedn when searching for group.
+              For instance: <code class="literal">ou=Groups</code>
+              </li>
+                  <li> 
+              groupattr<a id="id3027341" class="indexterm"></a>:
+              the group attribute to search for.
+              <code class="literal">cn</code> (default)
+              </li>
+                  <li> 
+              groupfilter<a id="id3027362" class="indexterm"></a>:
+              filter that will be added to the search filter when
+              searching for a group:
+              <code class="literal">
+              (&amp;(groupattr=group)(memberattr=username)(groupfilter))
+              </code>
+              <code class="literal">(objectClass=groupOfUniqueNames)</code> (default).
+              For instance: <code class="literal">(objectClass=posixGroup)</code>
+              or <code class="literal">(cn=cw*)(objectClass=posixGroup)</code> if you 
+              have groups starting with "cw" specifically set for Cartoweb.
+              </li>
+                  <li> 
+              memberattr<a id="id3027405" class="indexterm"></a>:
+              the attribute of the group object where the user dn
+              may be found
+              <code class="literal">uniqueMember</code> (default)
+              </li>
+                  <li> 
+              groupscope<a id="id3027427" class="indexterm"></a>:
+              Scope for group searching: <code class="literal">one</code>, 
+              <code class="literal">sub</code> (default), or <code class="literal">base</code>
+              </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.security.auth.special_roles"></a>15.2.2. Special Role Names</h3>
+                </div>
+              </div>
+            </div>
+            <p>The auth plugin configuration described in the previous section 
+        references the notion of users and roles. Basically a role can be any 
+        string, the application will only use them as a way to check if a 
+        feature is allowed or not. However, a set of role name have a special 
+        meaning. They are described below.</p>
+            <div class="variablelist">
+              <p class="title">
+                <b>Special Roles</b>
+              </p>
+              <dl>
+                <dt>
+                  <span class="term">all<a id="id3027489" class="indexterm"></a></span>
+                </dt>
+                <dd>This role belongs to any user. It is useful in case a 
+              permission should not be restricted access.</dd>
+                <dt>
+                  <span class="term"> 
+            loggedIn<a id="id3027512" class="indexterm"></a></span>
+                </dt>
+                <dd>This role is given to all users who have logged in the 
+              application. It means they are identified to the system with a 
+              username. </dd>
+                <dt>
+                  <span class="term"> 
+            anonymous<a id="id3027535" class="indexterm"></a></span>
+                </dt>
+                <dd>This role is given to all users not known to the application. 
+              This role is attached to anyone who has not yet entered her 
+              username and password. </dd>
+              </dl>
+            </div>
+            <div class="example">
+              <a id="user.security.auth.users_roles.example"></a>
+              <p class="title">
+                <b>Example 15.1. Special Role Name Usage</b>
+              </p>
+              <div class="example-contents">
+                <pre class="programlisting">general.allowedRoles = loggedIn</pre>
+              </div>
+            </div>
+            <br class="example-break" />
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.security.global_permissions"></a>15.3. Global CartoWeb Permissions</h2>
+              </div>
+            </div>
+          </div>
+          <p> The whole application can be denied access to anonymous users: only 
+      authenticated (or a set) of users can access the application. Anonymous 
+      users arriving on the main page will see a login dialog page if they have 
+      no rights to view the page (if the <code class="constant">auth</code> plugin is 
+      not loaded, they will simply see a denied page). </p>
+          <p> This feature can be parametrized on the CartoClient in the 
+      <code class="filename">client.ini</code> configuration file:</p>
+          <div class="itemizedlist">
+            <ul>
+              <li> securityAllowedRoles = list : List of roles which are allowed to 
+          access the cartoweb. Set to 'all' if no if no restriction is given. (see <a class="xref" href="user.security.html#user.security.auth.special_roles" title="15.2.2. Special Role Names">Section 15.2.2, “Special Role Names”</a> for typical predefined roles)
+          </li>
+            </ul>
+          </div>
+          <div class="example">
+            <a id="user.security.global_permissions.example"></a>
+            <p class="title">
+              <b>Example 15.2. Global Permissions Usage</b>
+            </p>
+            <div class="example-contents">
+              <pre class="programlisting">securityAllowedRoles = loggedIn</pre>
+            </div>
+          </div>
+          <br class="example-break" />
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.security.plugin_permissions"></a>15.4. Plugin Specific Permissions</h2>
+              </div>
+            </div>
+          </div>
+          <p> The main part of permissions is set in the different plugins of 
+      CartoWeb. For instance, permissions related to which layer can be 
+      viewed are set in the layer plugin configuration files, and pdf printing 
+      permissions in the pdf plugin. These sections either describes the plugin 
+      permissions which can be used, or make references the the corresponding 
+      chapters. </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.security.plugin_permissions.layers"></a>15.4.1. Layers Related Permissions</h3>
+                </div>
+              </div>
+            </div>
+            <p>It is possible to restrict which layer can be viewed by a set of 
+        users. For instance, only logged in admin users can be allowed to view 
+        security sensitive layers.</p>
+            <p>These layer permissions are inherited by children. It means that if 
+        a parent LayerGroup is not allowed to be viewed, then all the children 
+        won't be visible.</p>
+            <p>The permissions for layer must be activated in the 
+        <code class="filename">layers.ini</code> CartoClient configuration file, and 
+        are set in the metadata of the mapfile or the 
+        <code class="filename">&lt;layers&gt;.ini</code> configuration file. The 
+        concept of metadata in mapfiles and .ini file is described in <a class="xref" href="user.layers.html#user.layers.metadata" title="6.3. Metadata in Mapfile and layers.ini">Section 6.3, “Metadata in Mapfile and <code class="filename">layers.ini</code>”</a>. The metadata key name which can be 
+        used is called <code class="constant">security_view</code> and contains a coma 
+        separated list of roles which are allowed to view this layer. If no 
+        such metadata key is associated to a layer or layerGroup, anyone can 
+        see the layer. </p>
+            <p> Heres the description of the <code class="filename">layers.ini</code> 
+        configuration file:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li> 
+            applySecurity<a id="id3025382" class="indexterm"></a>: 
+            True if the security check of layer access is activated. It might 
+            have a minor impact on performances, if a large number of layer is 
+            used. </li>
+              </ul>
+            </div>
+            <p> Here's an example of a security metadata key used in layer of the 
+        mapfile: </p>
+            <pre class="programlisting">METADATA
+    "exported_values" "security_view,some_specific_parameter"
+    "security_view" "admin" 
+    "some_specific_parameter" "value"
+  
+  "id_attribute_string" "FID|string"
+  "mask_transparency" "50"
+  "mask_color" "255, 255, 0"
+  "area_fixed_value" "10"
+END</pre>
+            <p> In this example, the layer containing this metadata description 
+        will only be visible for users having the <code class="constant">admin</code> 
+        role. </p>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>Notice the usage of the <code class="constant">exported_values</code> 
+          metadata key which lists the security related metadata key. It is 
+          explained in <a class="xref" href="user.layers.html#user.layers.metadata" title="6.3. Metadata in Mapfile and layers.ini">Section 6.3, “Metadata in Mapfile and <code class="filename">layers.ini</code>”</a></p>
+            </div>
+            <p>Now let's look the case where the metadata key is set on a layer 
+        group in the <code class="filename">&lt;layers&gt;.ini</code> configuration 
+        file: </p>
+            <pre class="programlisting">layers.group_admin.className = LayerGroup
+layers.group_admin.children = grid_defaulthilight 
+layers.group_admin.metadata.security_view = admin</pre>
+            <p> In this example, the <code class="constant">admin</code> role is set for 
+        the layerGroup called <code class="constant">group_admin</code>. You can notice 
+        the very similar syntax as used in the mapfile. </p>
+            <p> Security can also be set for a whole switch (see <a class="xref" href="user.layers.html#user.layers.tree.children" title="6.2.4. Children Switching">Section 6.2.4, “Children Switching”</a>): </p>
+            <pre class="programlisting">switches.switch1.label = Switch 1
+switches.switch1.security_view = admin
+switches.switch2.label = Switch 2</pre>
+            <p> In this case all layers set as children for this switch 
+        will only be visible for users having the 
+        <code class="constant">admin</code> role. </p>
+            <div class="warning">
+              <h3 class="title">Warning</h3>
+              <p>Don't forget to set <code class="constant">applySecurity</code> to True in 
+          the <code class="filename">layers.ini</code> CartoClient configuration file (in client_conf !), 
+          otherwise security metadata keys won't be taken into account.</p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.security.plugin_permissions.pdf"></a>15.4.2. PDF Printing Permissions</h3>
+                </div>
+              </div>
+            </div>
+            <p>The roles management in Pdf printing is explained in detail in 
+        <a class="xref" href="user.pdf.html" title="12. PDF Export [plugin]">Chapter 12, <i>PDF Export <sub>[plugin]</sub></i></a>. In particular, see <a class="xref" href="user.pdf.html#user.pdf.tutorial.roles" title="12.3.5. Roles Management">Section 12.3.5, “Roles Management”</a>. </p>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

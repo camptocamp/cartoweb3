@@ -1,0 +1,1033 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>6. Layers [coreplugin]</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.caches.html">
+       &lt; Caches Configuration</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.location.html">Navigation  &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.layers.html#user.layers.intro">6.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.layers.html#user.layers.tree">6.2. Hierarchy of Layers and Rendering</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.tree.types">6.2.1. Layers and LayerGroups</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.tree.layers">6.2.2. Layers Options</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.tree.layergroups">6.2.3. LayerGroups Options</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.tree.children">6.2.4. Children Switching</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.layers.html#user.layers.metadata">6.3. Metadata in Mapfile and <code class="filename">layers.ini</code></a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.metadata.mapfile">6.3.1. Metadata in Mapfiles</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.metadata.inifile">6.3.2. Metadata in <code class="filename">layers.ini</code></a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.metadata.template">6.3.3. Using the metadata fields in templates (<code class="filename">layers.tpl</code>)</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.layers.html#user.layers.legend">6.4. Layers Legends</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.layers.html#user.layers.wms_legend">6.5. WMS Layers Legends</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.layers.html#user.layers.autolayer">6.6. Auto Layers</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.autolayer.layersini">6.6.1. Auto Layers in <code class="filename">layers.ini</code></a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.autolayer.mapfile">6.6.2. Mapfile Templates</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.autolayer.makemaps">6.6.3. Batch Script</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.layers.html#user.layers.layer_reorder">6.7. Layer Reorder Plugin</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.layer_reorder.activation">6.7.1. Plugin activation</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.layer_reorder.exclusion">6.7.2. Layer exclusion</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.layer_reorder.transparency">6.7.3. Transparency selector</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.layers.html#user.layers.layer_filter">6.8. Layer Filter Plugin</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.layer_filter.activation">6.8.1. Plugin activation</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.layer_filter.client_config">6.8.2. Client Configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.layer_filter.server_config">6.8.3. Server Configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.layers.html#user.layers.layer_filter.templates">6.8.4. Insertion in Layout</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.layers"></a>6. Layers <sub>[coreplugin]</sub></h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.layers.intro"></a>6.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p> Geographical data are most often apprehended as thematic layers: you 
+      may have a layer "Rivers", a layer "Aerial view", a layer "Average 
+      income", just to cite a few examples. Now the basic purpose of any viewer 
+      is to make these data available to users by allowing navigation within a 
+      layer as well as comparison between layers. A way to organize the layers 
+      is thus mandatory if an user-friendly application is to be developed. In 
+      CartoWeb, the files that contain the configuration instructions for the 
+      layers are on the server-side, in the directory 
+      <code class="filename">server_conf/&lt;myMap&gt;</code>. Usually this directory is 
+      part of a project. </p>
+          <p> CartoWeb is based on the geographical engine Mapserver. The 
+      Mapserver documentation <a class="ulink" href="http://mapserver.gis.umn.edu/doc.html"> 
+      http://mapserver.gis.umn.edu/doc.html</a> is an integral part of the 
+      CartoWeb doc. To be concise, you have to know how to write a mapfile if 
+      you want to use CartoWeb. So it doesn't come as a surprise that a 
+      mapfile, <code class="filename">myMap.map</code>, is included in the 
+      <code class="filename">&lt;myMap&gt;</code> directory, together with its annexes 
+      (typically a symbol file <code class="filename">myMap.sym</code>, a directory 
+      <code class="filename">etc</code> for the required fonts, the graphic file used as 
+      keymap background, maybe also data files). </p>
+          <p> We'll see that some functionalities of CartoWeb require small 
+      changes of the mapfile content. But most of the configuration is done in 
+      the file <code class="filename">layers.ini</code>. </p>
+          <p> The file <code class="filename">myMap.ini</code> sets the required plugins 
+      and the initial state of the map. Its content is described in <a class="xref" href="user.config.html" title="4. Configuration Files">Chapter 4, <i>Configuration Files</i></a> </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.layers.tree"></a>6.2. Hierarchy of Layers and Rendering</h2>
+              </div>
+            </div>
+          </div>
+          <p> Contrary to Mapserver itself, CartoWeb supports an arbitrarily 
+      complex hierarchy of layers and different rendering options. The notion 
+      of LayerGroup makes it possible. </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.tree.types"></a>6.2.1. Layers and LayerGroups</h3>
+                </div>
+              </div>
+            </div>
+            <p> There are two types of "layers-like objects" in 
+        <code class="filename">layers.ini</code> : Layers and LayerGroups. They play 
+        fairly different roles and consequently have different possible 
+        attributes. Layers have a 1-to-1 correspondance to Mapserver layers (as 
+        defined in the <code class="filename">layers.map</code>), while LayerGroups 
+        group together atomic Layers or other LayerGroups. </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.tree.layers"></a>6.2.2. Layers Options</h3>
+                </div>
+              </div>
+            </div>
+            <p> As seen before, the Layer object maps directly to a layer in the 
+        mapfile. By default, all layers in the mapfile are made available as a 
+        Layer in the layers.ini, with an identifier having the same name as the 
+        name of the mapserver layer. Thus, if you have the following option in 
+        your mapfile:</p>
+            <pre class="programlisting">LAYER
+  NAME "my_layer"
+  TYPE line 
+END</pre>
+            <p> This is equivalent as writing the following configuration in the 
+        <code class="filename">layers.ini</code>: </p>
+            <pre class="programlisting">layers.my_layer.class = Layer 
+layers.my_layer.label = my_layer
+layers.my_layer.msLayer = my_layer</pre>
+            <div class="tip">
+              <h3 class="title">Tip</h3>
+              <p>If you don't need special parameters (see below) for your layer 
+          then you can avoid adding it in the 
+          <code class="filename">layers.ini</code></p>
+            </div>
+            <p>However, if you want these layers to appear in the layer list, you 
+        still have the responsibility to affect them a parent layer, using the 
+        <code class="literal">children</code> property of the 
+        <code class="literal">LayerGroup</code> layer declarations. </p>
+            <p> <a id="id2625651" class="indexterm"></a> Here is the 
+        syntax for the various configuration parameters of a Layer.</p>
+            <div class="itemizedlist">
+              <ul>
+                <li> layers.layerId.className = Layer : defines the object as a 
+            Layer; layerId is a string that uniquely identifies the object. The 
+            general rules of syntax for a .ini file must be respected in the 
+            choice of the layerId (e.g. no '-' are allowed). </li>
+                <li> layers.layerId.msLayer = string : name of the corresponding 
+            Mapserver layer in the mapfile </li>
+                <li> layers.layerId.label = string : caption of the layer in the 
+            layer tree on the client; this is a 'raw' label, before any 
+            internationalization. The i18n scripts automatically include this 
+            label in the strings that can be translated. </li>
+                <li> layers.layerId.icon = filename : filename of the static picto 
+            that illustrates this Layer in the layer tree. The file is expected
+            to be in <code class="filename">server_conf/&lt;mapId&gt;/icons</code> and
+            a setup script launch is in most cases required.
+            See also <a class="xref" href="user.layers.html#user.layers.legend" title="6.4. Layers Legends">Section 6.4, “Layers Legends”</a> for a description of
+            the automatic legending process. </li>
+                <li> layers.layerId.link = url : provides a link for the layer 
+            (e.g. to some metadata); makes the caption in the tree clickable. 
+            </li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.tree.layergroups"></a>6.2.3. LayerGroups Options</h3>
+                </div>
+              </div>
+            </div>
+            <p> <a id="id2644163" class="indexterm"></a> Here is the 
+        syntax for the various configuration parameters of LayerGroups. Note 
+        that a special LayerGroup with layerId=root must be 
+        <a id="id2644173" class="indexterm"></a> present. 
+        Unsurprisingly, it is the root (top level) of the hierarchy. It doesn't 
+        appear in the visible tree.</p>
+            <div class="itemizedlist">
+              <ul>
+                <li> layers.layerId.className = LayerGroup : defines the object as 
+            a LayerGroup; layerId is a string that uniquely identifies the 
+            object. The general rules of syntax for a .ini file must be 
+            respected in the choice of the layerId (e.g. no '-' are allowed). 
+            </li>
+                <li> layers.layerId.children = list of layerIds : comma-separated 
+            list of layerIds; these children may be Layers or other 
+            LayerGroups. </li>
+                <li> layers.layerId.children.switchId = list of layerIds : 
+            comma-separated list of layerIds, when using switching (see <a class="xref" href="user.layers.html#user.layers.tree.children" title="6.2.4. Children Switching">Section 6.2.4, “Children Switching”</a>). This option cannot be used 
+            together with simple children option.</li>
+                <li> layers.layerId.aggregate = true|false : if true, the children 
+            objects are not listed in the tree and not individually selectable. 
+            Default is false. </li>
+                <li> layers.layerId.label = string : caption of the layer in the 
+            layer tree on the client; this is a 'raw' label, before any 
+            internationalization. The i18n scripts automatically include this 
+            label in the strings that can be translated. </li>
+                <li> layers.layerId.icon = filename : filename of the static picto 
+            that illustrates this Layer in the layer tree. The path is relative 
+            to <code class="filename">myMap.ini</code>. See also <a class="xref" href="user.layers.html#user.layers.legend" title="6.4. Layers Legends">Section 6.4, “Layers Legends”</a> for a description of the automatic 
+            legending process. </li>
+                <li> layers.layerId.link = url : provides a link for the layer 
+            (e.g. to some metadata); makes the caption in the tree clickable. 
+            </li>
+                <li> layers.layerId.rendering = tree|block|radio|dropdown : 
+            indicates how to display the LayerGroup children.<div class="itemizedlist"><ul><li> tree (default value): children layers are rendered below 
+                the LayerGroup with an indentation. If children are not 
+                declared as "frozen" or "hidden" (see <a class="xref" href="user.config.html#user.config.server.maps_config.initial" title="4.3.3.3. Initial Mapstates">Section 4.3.3.3, “Initial Mapstates”</a>) they will be preceded by a 
+                checkbox input. A node folding/unfolding link is displayed 
+                before the LayerGroup. </li><li> radio: quite similar to the "tree" rendering with "radio" 
+                buttons replacing checkboxes. Only one child layer can be 
+                selected at a time. </li><li> block: children layers are separated as blocks (separation 
+                medium depends on the template layout). Note that the rendering 
+                will be applied to the children, not to the LayerGroup itself, 
+                which is not displayed at all. </li><li> dropdown: as for block rendering, the LayerGroup is not 
+                displayed. Its children are simply rendered as an HTML "simple 
+                select" options list. If the selected child layer cannot be 
+                determined using posted or session-saved data, first child 
+                (according to the layers.layerId.children list order) is 
+                selected. If any, only the selected child layer's own children 
+                are displayed under the dropdown list. </li></ul></div></li>
+                <li>layers.layerId.metadata.minScale (resp. maxScale): one may specify a numerical minimal (resp. maximal) scale for the given LayerGroup. This parameter has absolutely no effect on Mapserver behavior and is only used to display out-of-scale icons and links in the layers tree. For more info about <code class="filename">layers.ini</code> metadata parameters, see <a class="xref" href="user.layers.html#user.layers.metadata.inifile" title="6.3.2. Metadata in layers.ini">Section 6.3.2, “Metadata in <code class="filename">layers.ini</code>”</a>.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.tree.children"></a>6.2.4. Children Switching</h3>
+                </div>
+              </div>
+            </div>
+            <p> Children switching is useful to define several lists of children 
+        for one layer group. The children that will be displayed is choosen by 
+        a special parameter : the switch ID. </p>
+            <p>Switch IDs and labels are listed in file 
+        <code class="filename">layers.ini</code>(server side). In default test environment, a 
+        dropdown is constructed using this list and displayed in the GUI.</p>
+            <pre class="programlisting">switches.switch1.label = Switch 1
+switches.switch2.label = Switch 2
+switches.switch3.label = Switch 3</pre>
+            <p> Then, each layer group that needs to change its children depending 
+        on the switch ID may add this ID as a suffix to the children option. 
+        </p>
+            <pre class="programlisting">layers.layerId.className = LayerGroup
+layers.layerId.children.switch1 = layer1, layer3
+layers.layerId.children.switch2 = layer2, layer3
+layers.layerId.children.switch3 =</pre>
+            <p>Special suffix <em class="parameter"><code>default</code></em> can be used to define 
+        a default children list : </p>
+            <pre class="programlisting">layers.layerId.className = LayerGroup
+layers.layerId.children.switch2 = layer2, layer3
+layers.layerId.children.default =</pre>
+            <p>The following layer group definitions are equivalent :</p>
+            <pre class="programlisting">layers.layerId.className = LayerGroup
+layers.layerId.children.default = layer4</pre>
+            <pre class="programlisting">layers.layerId.className = LayerGroup
+layers.layerId.children = layer4</pre>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.layers.tree.children.target"></a>6.2.4.1. Change Switch position in template</h4>
+                  </div>
+                </div>
+              </div>
+              <p>By default, the switch input is positionned above the layers tree. If you wish to change its position, simply place the <code class="filename">{$switches}</code> variable somewhere else in your template. If you are using AJAX, you also need to define the <code class="filename">switchTargetId</code> parameter in <code class="filename">client_conf/layers.ini</code>.
+            </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li> switchTargetId = elementid : the id of the element in the template, containing the <code class="filename">{$switches}</code> variable. For example :<pre class="programlisting">&lt;div id="switchTarget"&gt;
+    {$switches}
+&lt;/div&gt;</pre></li>
+                </ul>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.layers.tree.children.default"></a>6.2.4.2. Define an existing switch as default switch</h4>
+                  </div>
+                </div>
+              </div>
+              <p>If you do not wish to duplicate the "default" switch and the switch you want to use as reference (default behaviour), you can use the <code class="filename">relatedDefaultSwitchId</code> parameter.</p>
+              <div class="itemizedlist">
+                <ul>
+                  <li> relatedDefaultSwitchId = switchid : the id of the switch you want to use as default switch (you need to modify the <code class="filename">switches.tpl</code> template!).</li>
+                </ul>
+              </div>
+              <p>For example :</p>
+              <pre class="programlisting">switches.switch1.label = human
+switches.switch2.label = categ
+
+; layers
+layers.root.className = LayerGroup
+;layers.root.children =  background, human, categ, wmsLayers
+layers.root.children.default = background, human, wmsLayers
+layers.root.children.switch2 = background, categ, wmsLayers
+layers.root.rendering = block </pre>
+              <p>We have 2 switchs defined: switch1 and switch2. By default, the switch select in the interface will contains 3 switchs: default, switch1, switch2. If we set <code class="filename">relatedDefaultSwitchId = switch1</code> and modify the template accordingly (see the example in project demoCW3), the select will contains only switch1 and switch2.</p>
+              <p>In the layers definition, we only use default and switch2. If the user select switch1 in the interface, the default switch will be used as switch1 is not defined: no more duplicate definition of switch.</p>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.layers.metadata"></a>6.3. Metadata in Mapfile and <code class="filename">layers.ini</code></h2>
+              </div>
+            </div>
+          </div>
+          <p> Metadata are (keyword, value) pairs which can be associated to a 
+      MapServer layer in the mapfile, or to a Layer or LayerGroup in the 
+      layers.ini configuration file. These metadata are used in several 
+      different contextes, such as layer specific configuration, security 
+      handling, ... The metadata related to the functionalities of CartoWeb 
+      are described in the documentation of the corresponding plugins. </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.metadata.mapfile"></a>6.3.1. Metadata in Mapfiles</h3>
+                </div>
+              </div>
+            </div>
+            <p> Specifying metadata in mapfiles is based on the standard MapServer 
+        syntax. For instance: </p>
+            <pre class="programlisting">LAYER
+  NAME "my_layer"
+  [...]
+  METADATA
+    "exported_values" "security_view,some_specific_parameter,data_encoding"
+    "security_view" "admin" 
+    "some_specific_parameter" "value"
+    "data_encoding" "value_iso"
+    
+    "id_attribute_string" "FID|string" 
+    "mask_transparency" "50"
+    "mask_color" "255, 255, 0"
+    "area_fixed_value" "10"
+  END
+  [...]
+END</pre>
+            <p>The metadata key <code class="constant">exported_values</code> is a bit 
+        special: It gives the list of metadata keys (coma separated), which 
+        will be transmitted to the client. This is required for the metadata 
+        keys describing layer security for instance, as they are used on the 
+        CartoClient. </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.metadata.inifile"></a>6.3.2. Metadata in <code class="filename">layers.ini</code></h3>
+                </div>
+              </div>
+            </div>
+            <p> The configuration file <code class="filename">layers.ini</code> may also 
+        contain metadata (key, value) pairs. This is needed for LayerGroup 
+        objects, as these have no counterparts in the mapfile. For simple 
+        layers, the metadata specified in the <code class="filename">layers.ini</code> 
+        take precedence over the values from the mapfile. </p>
+            <p> For each layer object in the <code class="filename">layers.ini</code> file, 
+        the following syntax is used to set metadata:</p>
+            <pre class="programlisting">layers.layerId.metadata.METADATA = value</pre>
+            <p>For instance:</p>
+            <pre class="programlisting">layers.group_admin.className = LayerGroup 
+layers.group_admin.children = grid_defaulthilight 
+layers.group_admin.metadata.security_view = admin</pre>
+            <pre class="programlisting">layers.foo.className = Layer
+layers.foo.metadata.data_encoding = value_iso</pre>
+            <div class="note">
+              <h3 class="title">Note</h3>
+              <p>It is possible to specify <em class="parameter"><code>minScale</code></em> and 
+         <em class="parameter"><code>maxScale</code></em> attributes as <code class="filename">layers.ini</code> 
+         <em class="parameter"><code>metadata</code></em> for layerGroups items. The equivalent mapfile metadata 
+         is not available for layers. In that case, simply use mapfile MINSCALE and MAXSCALE
+         attributes.
+        </p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.metadata.template"></a>6.3.3. Using the metadata fields in templates (<code class="filename">layers.tpl</code>)</h3>
+                </div>
+              </div>
+            </div>
+            <p>Metadata declared in mapfiles or <code class="filename">layers.ini</code>
+        can be used in the <code class="filename">layers.tpl</code> Smarty templates 
+        using the following notation:
+        </p>
+            <pre class="programlisting">
+{capture name=caption}
+{$element.layerLabel} &lt;a
+href="/?lang={$element.layerMeta.lang}&amp;client_id={$element.layerMeta.client_id}"&gt;
+{element.layerMeta.complex_label}&lt;/a&gt;
+{/capture}</pre>
+            <p>
+        As we can see in the previous example, metadata values can be used through the 
+        <code class="literal">layerMeta</code> property of the <code class="literal">$element</code> Smarty 
+        variable. Typical usage of this feature is to render for instance several 
+        HTML links for each layers.
+        </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.layers.legend"></a>6.4. Layers Legends</h2>
+              </div>
+            </div>
+          </div>
+          <p> <a id="id2643389" class="indexterm"></a> CartoWeb includes 
+      a mechanism for the automatic generation of legends. If desired, an icon 
+      is drawn for each class of the layers. There are two conditions that must 
+      be fulfilled to make it work : </p>
+          <p> 1. The mechanism must be enabled by setting</p>
+          <pre class="programlisting">autoClassLegend = true</pre>
+          <p><a id="id2643413" class="indexterm"></a> in 
+      <code class="filename">layers.ini</code>. </p>
+          <p> 2. Each class (or more precisely each class that should appear in 
+      the legend) must have a name. Here an example : </p>
+          <p>
+      </p>
+          <pre class="screen">LAYER
+  NAME "spur_spurweite"
+  METADATA
+  ...
+  END
+  TYPE line
+  ...
+
+  CLASS
+    NAME "Normalspur (1435 mm)"
+    EXPRESSION ([MM] = 1435)
+    STYLE
+      COLOR 0 0 255 # blue
+    END
+  END
+
+  CLASS
+#   NAME "Meterspur (1000 mm)"
+    EXPRESSION ([MM] = 1000)
+    STYLE
+      COLOR 255 0 0 # red
+    END
+  END
+
+  CLASS
+    NAME "Schmalspur (&lt; 900 mm)"
+    EXPRESSION ([MM] &lt; 900)
+    STYLE
+      COLOR 128 0 128 # lila
+    END
+  END
+
+END
+</pre>
+          <p>
+    </p>
+          <p> In this case, the second class would not appear in the legend, 
+      because the NAME is commented out. </p>
+          <p> Provided that no static icon is defined for a layer in 
+      <code class="filename">layers.ini</code>, the icon of the first visible class is 
+      used for the layer. </p>
+          <p>Legend icons are also used when exporting maps in PDF (see
+    <a class="xref" href="user.pdf.html" title="12. PDF Export [plugin]">Chapter 12, <i>PDF Export <sub>[plugin]</sub></i></a>). Standard legend icons are used by default,
+    which means that they may seem pixelized when printing a 300 dpi map.
+    To resolve this issue, the following parameter can be set in 
+    <code class="filename">layers.ini</code>:</p>
+          <pre class="screen">
+legendResolutions = 96, 150, 300</pre>
+          <p>Each resolution must correspond to one of those set in PDF Export
+    configuration file. This file is described in
+    <a class="xref" href="user.pdf.html#user.pdf.reference.general" title="12.2.1. General Configuration">Section 12.2.1, “General Configuration”</a>.</p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.layers.wms_legend"></a>6.5. WMS Layers Legends</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+      <a id="id2643513" class="indexterm"></a> Mapserver could
+      act like a <acronym class="acronym">WMS</acronym> client and retrieved layer from 
+      distant <acronym class="acronym">WMS</acronym> server. In this specific case, layers
+      legends could be retrieved directly from a distant server with 
+      <acronym class="acronym">SLD</acronym> support (<code class="literal">getLegendGraphic</code>
+      method).
+    </p>
+          <p> 
+      <a id="id2643544" class="indexterm"></a> You must 
+      also add a metadata on each WMS layer to retrieve its legend icon:
+      <em class="parameter"><code>wms_legend_graphic</code></em>
+    </p>
+          <p>
+      Here is an example:
+      </p>
+          <pre class="programlisting">
+LAYER
+  NAME 'prov_boundary'
+  TYPE RASTER 
+
+  CONNECTION 'http://www2.dmsolutions.ca/cgi-bin/mswms_gmap?'
+  CONNECTIONTYPE WMS
+  METADATA
+    'wms_srs'             'EPSG:4326'
+    'wms_name'            'prov_bound'
+    'wms_server_version'  '1.1.1'
+    'wms_format'          'image/png'
+    'wms_legend_graphic'  'true'
+  END
+END</pre>
+          <p>
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.layers.autolayer"></a>6.6. Auto Layers</h2>
+              </div>
+            </div>
+          </div>
+          <p>In some cases, it may be useful to generate several layers out of a 
+      single "template" layer. An example would be floors : each floor must be 
+      displayed with the same color, etc. but the data source is different 
+      (different shapefile or different where clause for a database layer). In 
+      CartoWeb, it is possible to add PHP code into mapfiles. True mapfiles 
+      are then generated by a batch script. The generated layers are called 
+      "Auto Layers".</p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.autolayer.layersini"></a>6.6.1. Auto Layers in <code class="filename">layers.ini</code></h3>
+                </div>
+              </div>
+            </div>
+            <p>First, you have to declare the list of auto layers indexes. Indexes 
+        will be used as suffixes for generated layers :</p>
+            <pre class="programlisting">autoLayersIndexes = index1, index2</pre>
+            <p>Then you can use auto layers just as other layers. In this exemple, 
+        an auto layer <em class="parameter"><code>myAutoLayer_</code></em> was declared in the 
+        mapfile template (see <a class="xref" href="user.layers.html#user.layers.autolayer.mapfile" title="6.6.2. Mapfile Templates">Section 6.6.2, “Mapfile Templates”</a>). </p>
+            <pre class="programlisting">layers.layer1.className = LayerGroup
+layers.layer1.children = layer2, myAutoLayer_index1
+
+layers.layer2.className = LayerGroup
+layers.layer2.children = myAutoLayer_index2 </pre>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.autolayer.mapfile"></a>6.6.2. Mapfile Templates</h3>
+                </div>
+              </div>
+            </div>
+            <p>Mapfile templates for auto layers are PHP files. The main template 
+        must be called <code class="filename">mapId.map.php</code>. If this file exists, 
+        then CartoWeb assumes that auto layers generation is used. If the 
+        file does not exists, CartoWeb looks for a standard 
+        <code class="filename">mapId.map</code>. </p>
+            <p>The following functions are predefined and can be used in mapfile 
+        templates :</p>
+            <div class="itemizedlist">
+              <ul>
+                <li> <code class="function">printLayer($name, $contents)</code> : adds a new 
+            auto layer. The name is the final name of the layer without the 
+            index suffix. Contents include Mapserver layer definition with PHP 
+            code for parts that will be different for each instance of auto 
+            layer </li>
+                <li><code class="function">printIndex()</code> : adds the current auto layer 
+            index. Must be used in auto layer contents </li>
+                <li><code class="function">printName()</code> : adds the current auto layer 
+            full name. Must be used in auto layer contents </li>
+                <li><code class="function">getIndex()</code> : returns the current auto 
+            layer index. It can be useful for instance in conditional 
+            statements. Must be used in auto layer contents</li>
+                <li><code class="function">includeFile($path)</code> : adds the content of 
+            another PHP mapfile template</li>
+              </ul>
+            </div>
+            <p> Here is an example : </p>
+            <pre class="programlisting">MAP
+  NAME "MyMapfile"
+  EXTENT -10 -10 10 10
+# ...
+
+&lt;?php
+
+printLayer('myAutoLayer_', 
+
+&lt;&lt;&lt;AUTOLAYER
+
+  # This is my auto layer with index &lt;?php printIndex(); ?&gt;
+  LAYER
+    NAME &lt;?php printName(); ?&gt;
+    TYPE POLYGON
+# ...
+    CLASS
+      NAME "MyClass"
+      STYLE
+        COLOR &lt;?php if(getIndex() == 'index2') print "200 200 255";
+                                          else print "255 153 102"; ?&gt;
+      END
+    END
+  END
+AUTOLAYER
+);
+
+?&gt;
+
+END </pre>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.autolayer.makemaps"></a>6.6.3. Batch Script</h3>
+                </div>
+              </div>
+            </div>
+            <p>Script <code class="filename">makemaps.php</code> located in directory 
+        <code class="filename">scripts</code> generates mapfiles out of mapfile 
+        templates for all projects. Mapfiles are generated in the same 
+        directory. The script must be called once during installation and then 
+        each time a change is made to the mapfile templates. </p>
+            <p>It uses file<code class="filename">layers.ini</code> to find out which auto 
+        layers are needed. For instance, with the following 
+        <code class="filename">layers.ini</code>, myAutoLayer_index3 won't be 
+        generated.</p>
+            <pre class="programlisting">autoLayersIndexes = index1, index2, index3
+      
+layers.layer1.className = LayerGroup
+layers.layer1.children = layer2, myAutoLayer_index1
+
+layers.layer2.className = LayerGroup
+layers.layer2.children = myAutoLayer_index2 </pre>
+            <p>At least one file is generated. Its name is 
+        <code class="filename">auto.mapId.all.map</code> and it contains all auto layers 
+        used in file <code class="filename">layers.ini</code>. When children switching 
+        is used (see <a class="xref" href="user.layers.html#user.layers.tree.children" title="6.2.4. Children Switching">Section 6.2.4, “Children Switching”</a>), one mapfile 
+        is generated per switch. One more is generated for special switch 
+        <em class="parameter"><code>default</code></em>. This way, only auto layers used with 
+        the current switch are actually loaded at runtime. Mapfile 
+        <code class="filename">auto.mapId.all.map</code> is still generated.</p>
+            <p>In the following example, 4 mapfiles are generated : </p>
+            <pre class="programlisting">autoLayersIndexes = index1, index2, index3, index4
+      
+switches.switch1.label = Switch 1
+switches.switch2.label = Switch 2
+
+layers.layer1.className = LayerGroup
+layers.layer1.children.switch1 = layer2, myAutoLayer_index1
+layers.layer1.children.default = layer2, myAutoLayer_index2
+
+layers.layer2.className = LayerGroup
+layers.layer2.children = myAutoLayer_index4 </pre>
+            <div class="itemizedlist">
+              <ul>
+                <li> <code class="filename">auto.mapId.all.map</code> : contains all layers 
+            used in <code class="filename">layers.ini</code>, ie. layers 
+            myAutoLayer_index1, myAutoLayer_index2 and myAutoLayer_index4</li>
+                <li> <code class="filename">auto.mapId.switch1.map</code> : contains layers 
+            used when Switch 1 is selected, ie. layers myAutoLayer_index1 and 
+            myAutoLayer_index4</li>
+                <li> <code class="filename">auto.mapId.switch2.map</code> : contains layers 
+            used when Switch 2 is selected, ie. layers myAutoLayer_index2 and 
+            myAutoLayer_index4</li>
+                <li> <code class="filename">auto.mapId.default.map</code> : contains layers 
+            used when no switch is selected, ie. layers myAutoLayer_index2 and 
+            myAutoLayer_index4</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.layers.layer_reorder"></a>6.7. Layer Reorder Plugin</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+      Ability to reorder displayed layers could be appreciated by end user.
+      And so, even if your map is well designed
+      with largest features layers on bottom and smallest on top, and/or
+      even with well used transparent properties.
+      The plugin layerReorder <a id="id2647400" class="indexterm"></a>, is designed to do so. Layers could be
+      reorder on the displayed stack to improve visibility of one layer.
+    </p>
+          <p>
+      Each layer defined in the mapfile and currently selected in legend menu
+      (and only them) will be displayed in the reorder menu list.
+    </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.layer_reorder.activation"></a>6.7.1. Plugin activation</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        To activate the plugin, add it to 
+        <em class="parameter"><code>loadPlugins</code></em> from Both CartoClient and 
+        CartoServer configuration files: 
+        <code class="filename">client_conf/client.ini</code> and
+        <code class="filename">server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</code>.
+        For instance: </p>
+            <pre class="programlisting">loadPlugins = layerReorder</pre>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.layer_reorder.exclusion"></a>6.7.2. Layer exclusion</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        If you want to exclude some layers and then not allow them to be
+        reordered, have a look on 
+        <code class="filename">client_conf/layerReorder.ini</code>. You will be able to
+        exclude some layers and to choose to keep them on bottom (or on top). 
+        To do so, use the following configuration parameters:
+        </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+              <a id="id2647483" class="indexterm"></a>
+              <em class="parameter"><code>topLayers</code></em>: list of all layerIds to keep
+          on top of the genererated map (LayerIds must be comma separated).
+            </li>
+                <li>
+              <a id="id2647503" class="indexterm"></a>
+              <em class="parameter"><code>bottomLayers</code></em>: same as previous one, but
+              obviously keep these layerIds on bottom. Useful for example 
+              with a raster background layer.
+            </li>
+              </ul>
+            </div>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.layer_reorder.transparency"></a>6.7.3. Transparency selector</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        <a id="id2647533" class="indexterm"></a>
+        You could also add a transparency selector on each layer displayed with
+        this plugin. End user will so be able to choose a different transparency
+        level for each displayed layer.
+      </p>
+            <p>
+        To activate it, set <em class="parameter"><code>enableTransparency</code></em> to 
+        <code class="literal">true</code> in <code class="filename">client_conf/layerReorder.ini</code>.
+      </p>
+            <p>
+        <a id="id2647566" class="indexterm"></a>
+        Default transparency selector values are : 10%, 20%, 50%, 75% and 100%.
+        You could also customize transparency values available in this 
+        selector, with a comma separated value in 
+        <em class="parameter"><code>transparencyLevels</code></em>. A transparency value is a 
+        integer between 1 to 100 ; with 100 mean an opaque layer as 1 mean a 
+        nearly invisible one.
+      </p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.layers.layer_filter"></a>6.8. Layer Filter Plugin</h2>
+              </div>
+            </div>
+          </div>
+          <p>This plugin is used to filter objects displayed on the map according to some criteria. Those criteria are set by users using a special form, automatically built according to the plugin configuration.</p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.layer_filter.activation"></a>6.8.1. Plugin activation</h3>
+                </div>
+              </div>
+            </div>
+            <p>
+        To activate the plugin, add it to 
+        <em class="parameter"><code>loadPlugins</code></em> from Both CartoClient and 
+        CartoServer configuration files: 
+        <code class="filename">client_conf/client.ini</code> and
+        <code class="filename">server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</code>.
+        For instance: </p>
+            <pre class="programlisting">loadPlugins = layerFilter</pre>
+            <p>
+      </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.layer_filter.client_config"></a>6.8.2. Client Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>Client configuration is mainly used to described what the filter form must look like. Aside from a <em class="parameter"><code>i18n</code></em> parameter - a boolean telling if form inputs titles and labels must be internationalized - the configuration uses an object-like notation to list filter form inputs and their properties. Three types of inputs are available: radio buttons, checkboxes and dropdowns. Each input config object has a "criterion name" and several properties:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li><em class="parameter"><code>title</code></em>, title of the criterion</li>
+                <li><em class="parameter"><code>type</code></em>, (checkbox|radio|dropdown), rendering of the criterion input</li>
+                <li><em class="parameter"><code>allOptionsListed</code></em>, (boolean), only relevant when <em class="parameter"><code>type=checkbox</code></em>. If this setting is <em class="parameter"><code>true</code></em>, no filter is applied when all boxes are checked. Default setting is <em class="parameter"><code>false</code></em>.</li>
+                <li><em class="parameter"><code>options</code></em>, a list of object-like options with an "option name" a <em class="parameter"><code>label</code></em> and a <em class="parameter"><code>selected</code></em> boolean status (indicates the initial state of the filter form).</li>
+              </ul>
+            </div>
+            <p>For instance:</p>
+            <pre class="programlisting">i18n = true
+
+criteria.foo.title = foobar 
+criteria.foo.type = checkbox
+criteria.foo.allOptionsListed = true
+criteria.foo.options.bou.label = some text
+criteria.foo.options.bou.selected = true
+criteria.foo.options.bla.label = blabla
+criteria.foo.options.bla.selected = true
+criteria.foo.options.chon.label = some other option not checked</pre>
+            <p>If users check all the boxes of a criterion, no filter will be applied for this criterion. If no box is checked for a criterion, all its filters will be applied.</p>
+            <p>For <em class="parameter"><code>radio</code></em> and <em class="parameter"><code>dropdown</code></em> criterion, it is possible to specify a neutral option (if selected, no filter is applied for this criterion) using the <em class="parameter"><code>null</code></em> keyword. For instance:</p>
+            <pre class="programlisting">criteria.foo.title = foobar
+criteria.foo.type = dropdown
+criteria.foo.options.bou.label = some text
+criteria.foo.options.chon.label = some other text
+criteria.foo.options.null.label = no filter
+criteria.foo.options.null.selected = true</pre>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.layer_filter.server_config"></a>6.8.3. Server Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>The plugin server-side configuration described what layers criteria must apply to and what the conditions matching the criteria options (PostGIS or ShapeFile FILTER syntax) are. An object-like notation, symetrical to the client-side configuration, is used. Each criterion owns the following properties:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li><em class="parameter"><code>layers</code></em>, a comma-separated list of one or more layers to whom the criterion applies</li>
+                <li><em class="parameter"><code>options</code></em>, a collection of options "objects" with a <em class="parameter"><code>filter</code></em> property that indicates what PostGIS or ShapeFile filter to apply. If you need to use double-quotes (") within that property (for instance to enclose a table field name), rather user # characters instead to avoid conflicts. The plugin will then replace them by double-quotes characters.</li>
+              </ul>
+            </div>
+            <p>For instance:</p>
+            <pre class="programlisting">criteria.surf.layers = zone_a, zone_b
+criteria.surf.options.surf1.filter = "#SOME_FIELD# &lt; 1"
+criteria.surf.options.surf2.filter = "MAX(some_other_field) BETWEEN 1 AND 2"</pre>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.layers.layer_filter.templates"></a>6.8.4. Insertion in Layout</h3>
+                </div>
+              </div>
+            </div>
+            <p>In order to make the filter form available in the general layout, a Smarty <em class="parameter"><code>{$layerFilter}</code></em> tag must be included in the <code class="filename">templates/cartoclient.tpl</code> template. If the AJAX mode is activated, make sure that it is encapsulated within a <em class="parameter"><code>&lt;div id="layerFilter"&gt;&lt;/div&gt;</code></em> element:</p>
+            <pre class="programlisting">&lt;div id="layerFilter"&gt;{$layerFilter}&lt;/div&gt;</pre>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

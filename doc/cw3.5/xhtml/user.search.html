@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>24. Search [plugin]</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.tooltips.html">
+       &lt; ToolTips </a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.ogcLayerLoader.html">OGC Layer Loader  &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.search.html#user.search.intro">24.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.search.html#user.search.basic">24.2. Basic Usage</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.search.html#user.search.basic.general">24.2.1. General Considerations</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.search.html#user.search.sample">24.3. Basic Sample</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.search.html#user.search.sample.basic">24.3.1. Basic Mechanism and Setup</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.search"></a>24. <a id="id2598587" class="indexterm"></a>Search <sub>[plugin]</sub></h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.search.intro"></a>24.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>The search plugin aim is to offer standards search features (like recentering, result offset, guided search, ajax features...) in a generic way. Take note that in his current state the plugin only offers a server framework. There is not yet any generic JavaScript framework.</p>
+          <div class="warning">
+            <h3 class="title">Warning</h3>
+            <p>The following examples only work with AJAX mode on !</p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.search.basic"></a>24.2. Basic Usage</h2>
+              </div>
+            </div>
+          </div>
+          <p>Introduction</p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.search.basic.general"></a>24.2.1. General Considerations</h3>
+                </div>
+              </div>
+            </div>
+            <p>The search plugin must be activated on both CartoClient and CartoServer side ie. the <em class="parameter"><code>loadPlugins</code></em> parameter must contain <em class="parameter"><code>search</code></em> in your project <code class="filename">client_conf/client.ini</code> and <code class="filename">server_conf/&lt;mapId&gt;/&lt;mapId&gt;.ini</code>.</p>
+            <p>Search use is mainly based on three files.  <code class="filename">client_conf/search.ini</code> ,    <code class="filename">plugins/search/htdocs/js/Search.ajax.js</code> and <code class="filename">plugins/search/templates/search.tpl</code>.</p>
+            <p>The search plugin uses the PEAR DB abstraction class and should be able to handle all databases supported by PEAR DB.</p>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.search.sample"></a>24.3. Basic Sample</h2>
+              </div>
+            </div>
+          </div>
+          <p>  </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.search.sample.basic"></a>24.3.1. Basic Mechanism and Setup</h3>
+                </div>
+              </div>
+            </div>
+            <p>The data set and the query specification are set in the <code class="filename">search.ini</code> file.  The design and the fields of the search form is set in the <code class="filename">search.tpl</code> file. The search behavior mainly reside in the <code class="filename">Search.ajax.js.</code>  </p>
+            <p>Let's imagine that we want to do a search with a recenter on data that are represented on a layer Addresses. The source of the data is a table in a PostGIS database. </p>
+            <p> The data are stored in a table "addresses" with the followings rows:
+                num, street, zipcode, town, gid and the_geom. Primary key is gid. </p>
+            <p>    
+                First we have to set the configuration in the <code class="filename">client_conf/client.ini/search.ini</code> like this:</p>
+            <pre class="programlisting">
+    dsn = SEARCHDSN
+    encodingContext = myencoding_context 
+    ; Do not forget to add  EncoderClass.myencoding_context = EncoderISO (or any other context) 
+    ; in your client_conf/client.ini
+
+    config.Adresses.provider.type = fulltextTable
+    config.Adresses.provider.table = addresses
+    config.Adresses.provider.aliases = adr_num, num, adr_street, street, adr_zip, zipcode, adr_town, town
+    config.Adresses.provider.id = gid
+    config.Adresses.provider.columns = adr_num, adr_street, adr_zip, adr_town,
+    config.Adresses.provider.fulltextColumns = adr_num, adr_street, adr_zip, adr_town
+    config.Adresses.provider.sortColumn = adr_num
+    config.Adresses.provider.sortDirection = asc
+    config.Adresses.provider.sortPriorities = adr_num, adr_street, adr_zip, adr_town
+    config.Adresses.provider.labels =  adr_num, adr_street, adr_zip, adr_town
+    config.Adresses.formatter.type = smarty
+    config.Adresses.formatter.template = search_results
+                
+            </pre>
+            <p>
+                </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> The dsn correspond to your dsn dataBase connexion string.
+                           For more information please see the php  <a class="ulink" href="http://pear.php.net/manual/en/package.database.db.intro-dsn.php">PEAR corresponding page</a> </li>
+                <li>
+                            The encodingContext correspond to the context in your <code class="filename">client_conf/client.ini</code> see below code
+                        </li>
+                <li>The config.XXXX is used for making a differentiation on tables. </li>
+                <li>The  config.Adresses.provider.type defines the type of query that should be done on the table. Value can be :
+                        <div class="itemizedlist"><ul><li> fulltextTable: That means the search is a textual search   (ilike clause) that will be done on the fields listed in the config.Adresses.provider.fulltextColumns.  </li><li>table: In this case a where clause should be set. (see <a class="xref" href="user.search.html#user.search.basic.Guided_search" title="24.3.1.1. Guided Search">Section 24.3.1.1, “Guided Search”</a>)  </li><li>user-defined (see <a class="xref" href="user.search.html#user.Search.advance.Writing_a_fromatter" title="24.3.1.5. Writing a Formatter">Section 24.3.1.5, “Writing a Formatter”</a>).  </li></ul></div>
+                       </li>
+                <li>The  config.Adresses.provider.table  specifies the name of the table to query.  </li>
+                <li>The  config.Adresses.provider.aliases  defines column names aliases. This could be useful if there are two tables with same column name, or if you want to migrate from one set of tables to another with different column names.  </li>
+                <li>The config.Adresses.provider.id  designate the unique value used for recentering.
+                            For example, if you want to do a recenter by id (gid in our case) the id value should be set to gid. Do not forget the id-attribute-srting in the mapFile see <a class="ulink" href="http://mapserver.gis.umn.edu/docs/reference/mapfile/layer">Map file references</a></li>
+                <li> The config.Adresses.provider.columns specifies the columns to be returned by the query. 
+                        
+                        It contains the columns names separated by a coma.</li>
+                <li>The config.Adresses.provider.fulltextColumns specifies the columns to be use in the ilike clause when the config.Adresses.provider.type is fulltextColumns. It contains the columns names separated by a coma. <div class="caution"><h3 class="title">Caution</h3><p>This parameter should not be use if the type is Table.</p></div></li>
+                <li>    The config.Adresses.provider.sortColumn  specifies the columns to by used for ordering the rows.</li>
+                <li>The config.Adresses.provider.sortDirection give the ordre type. It value can be asc or desc for ascendent or descendent.</li>
+                <li>The  config.Adresses.formatter.type specifies the method for presenting the result(s). Actually only smarty is implemented. 
+                        But it is possible to write your own Formatter (see chapter Writing a Formatter). </li>
+                <li>The config.Adresses.formatter.template specifies the name of the template for formatting query results. The file must be in the template folder of the plugin search in your project directory. </li>
+                <li>The config.Adresses.provider.labels specifies the label of the columns that should be shown (the label will be used in the translation files). </li>
+              </ul>
+            </div>
+            <p>
+            </p>
+            <p>
+                Now we must set up the form that will be used for doing the search. 
+                Edit or create the <code class="filename">plugins/search/templates/search.tpl</code> file
+                and write:</p>
+            <pre class="programlisting">
+                    
+    
+    &lt;div id="search_div"&gt;
+        &lt;fieldset&gt;&lt;legend&gt;{t}My Title{/t}&lt;/legend&gt; &lt;br/&gt;
+            &lt;table width="100%"&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;
+                      {t}Street: {/t}
+                    &lt;/td&gt;
+                    &lt;td&gt;
+                        &lt;input type="text" id="search_adr_street" 
+                          name="search_adr_street" size="13"/&gt; 
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;
+                        {t}adr_town: {/t}
+                    &lt;/td&gt;
+                    &lt;td&gt; 
+                        &lt;input type="text" id="search_adr_town" 
+                          name="search_adr_town" size="13"/&gt; 
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+    
+                ...
+    
+            &lt;/table&gt;
+            &lt;p&gt;
+              &lt;input type="submit" value="{t}Search{/t}" class="your_form_button_class"
+               onclick="JavaScript: CartoWeb.trigger('Search.DoIt'); return false;"/&gt;
+                                    
+              &lt;input type="hidden" id="search_config" name="search_config" value="Adresses" /&gt;
+              &lt;input type="hidden" id="search_sort_column" name="search_sort_column" value="adr_num"/&gt;
+              &lt;input type="hidden" id="search_sort_direction" name="search_sort_direction" value="asc" /&gt;
+              &lt;input type="hidden" id="search_number" name="search_number" /&gt;
+
+
+              &lt;div id="search_results_div"&gt;&lt;/div&gt;
+            &lt;/p&gt;
+        &lt;/fieldset&gt;
+    &lt;/div&gt;
+                             
+                </pre>
+            <p> Each field present in the fulltextColumns parameter of the configuration file
+                must have a corresponding input in the template. Each input should have an id composed of the name of the column prefixed with the key-word "search_". For example, the the column adr_num should give: </p>
+            <pre class="programlisting">
+    &lt;input type="text" id="search_adr_num" name="search_adr_num" size="13"/&gt;  
+                </pre>
+            <p>The template contains a submit button that calls the CartoWeb.trigger('Search.DoIt') JavaScript method. This method defined in the <code class="filename">Search.ajax.js</code> (see below) launches the action.</p>
+            <p>
+                    You may notice the hidden inputs in the template. They provide
+                    parameters that can be dynamically changed by JavaScript:
+                    </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>The search_config input determines the table to be queried. Its value should correspond to the name of a table defines in the <code class="filename">search.ini</code> (config.here_is_the_value). This value allows to set different table in the configuration file and to dynamically choose which table should be queried    !!!! This input is not optional and the search plugin will generate an error !!!!</li>
+                <li>The search_sort_column input defines the column to be used by the sort clause. If this input is not set  or has no value, it's overridden by the sortColumn parameter defined in <code class="filename">search.ini</code>. If this parameter is also not set in the configuration file it will be ignored. </li>
+                <li>The search_sort_direction input defines the sort order. It should be asc or desc. If this input is not set  or has no value, it's overridden by the sortColumnDirection parameter defined in <code class="filename">search.ini</code>. If this parameter is also not set in the configuration file it will be ignored. </li>
+                <li>The search_number input define the maximum number of rows to be returned by the query. If this input is not set  or has no value, it will be ignored.</li>
+              </ul>
+            </div>
+            <p>
+                    There is also two other inputs parameters available:
+                    </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>offset</li>
+                <li>page</li>
+              </ul>
+            </div>
+            <p>
+                    They allow the creation of a navigation of the query result. The offset input gives the number of rows a "page" of result should contains. And page gives the current page number.
+                    
+                </p>
+            <p>
+                    Note: The form is injected in the <code class="filename">cartoclient.tpl</code> inside the Smarty tag search:
+                    </p>
+            <pre class="programlisting">
+                        
+    {if $search_active|default:''}
+        {$search}
+    {/if}
+                        
+                    </pre>
+            <p>        
+                    </p>
+            <div class="warning">
+              <h3 class="title">Warning</h3>
+              <p>Do not forget to include the <code class="filename">Search.ajax.js</code> file in your <code class="filename">cartoclient.tpl</code>.</p>
+            </div>
+            <p>    
+                    </p>
+            <pre class="programlisting">
+    {if $search_active|default:''}&lt;script type="text/javascript" 
+                                            src="{r type=js plugin=search}Search.ajax.js{/r}"&gt;&lt;/script&gt;{/if}
+                    </pre>
+            <p>
+                </p>
+            <p>
+                    Now we must set up the result template file. Create or edit the <code class="filename">plugins/search/templates/search_results.tpl</code> that has been defined in the configuration file and write:</p>
+            <pre class="programlisting">
+                    
+     {if $table-&gt;numRows &gt; 0}
+     &lt;table class="yourCssClass"&gt;
+         &lt;tr&gt;
+           &lt;th&gt;{t}Id{/t}&lt;/th&gt;
+           {foreach from=$table-&gt;columnIds item=column}
+           &lt;th&gt; &lt;a href="JavaScript: order('{$column}');"&gt;{t}{$column}{/t}&lt;/a&gt;&lt;/th&gt;               
+           {/foreach}
+         &lt;/tr&gt;
+         {foreach from=$table-&gt;rows item=row}
+         &lt;tr&gt;
+            &lt;td&gt;{$row-&gt;rowId}&lt;/td&gt;
+            {foreach from=$row-&gt;cells item=value}
+            &lt;td&gt;&lt;a href="JavaScript: recenter('{$row-&gt;rowId}');"&gt;{$value}&lt;/a&gt;&lt;/td&gt;
+            {/foreach}
+         &lt;/tr&gt;
+         {/foreach}
+     &lt;/table&gt;
+     {else}
+     {t}No results{/t}
+     {/if}
+                </pre>
+            <p>
+                    This will return a table with the columns defined in the configuration file. By clicking on a row you will call the recenter method. By clicking on a row header you will order the result.
+                </p>
+            <p>
+                    Note that the place of the result table is defined by a div that will be modified by the JavaScript. 
+                    </p>
+            <pre class="programlisting">
+     &lt;div id="search_results_div"&gt;&lt;/div&gt; 
+                    </pre>
+            <p>
+                
+                </p>
+            <p>The div id must be the same as the target id in function ''handleResponse'' ! (see below)</p>
+            <p>
+                    Finally we have to set up the java script file. Open or create the <code class="filename">plugins/search/htdocs/js/Search.ajax.js</code> and write:
+                    </p>
+            <pre class="programlisting">
+    AjaxPlugins.Search = {
+
+      handleResponse: function(pluginOutput) {
+        //should be the same value as the input search_config
+        if (pluginOutput.htmlCode.myconfig) 
+          $('search_results_div').innerHTML = pluginOutput.htmlCode.myconfig;        
+      }  
+    };
+
+
+    /*
+    * Search plugin's Actions
+    */
+
+    AjaxPlugins.Search.Actions = {};
+
+    AjaxPlugins.Search.Actions.DoIt = {
+
+      buildPostRequest: function(argObject) {
+        return AjaxHandler.buildPostRequest();
+      }
+    };
+
+    function order(column) {
+
+      if (column != $('search_sort_column').value) {
+        $('search_sort_column').value = column;
+        $('search_sort_direction').value = 'asc';
+      } else {
+        if ($('search_sort_direction').value == 'asc') {
+        $('search_sort_direction').value = 'desc';
+        } else {
+        $('search_sort_direction').value = 'asc';
+        }
+      }
+
+      CartoWeb.trigger('Search.DoIt')
+    }
+
+    function recenter(id){
+      if ($('search_config').value == 'Adresses') {
+        //id to recenter, be sure there is a hidden input with that name and 
+        //id in your template! if not, add it
+        $('id_recenter_ids').value = id;
+
+        /* if the search database table name is the same as the related layer 
+        to recenter on, you can set it as below
+        be sure there is a hidden input with that name and id in your template! 
+        if not, add it */
+        $('id_recenter_layer').value = $('search_config').value;
+
+        /* do not use the recenter_scale parameter if you recenter on ids, 
+        only use it with recenter on x,y.
+        you can set the recenter scale in location.ini on server side */
+
+        /* do not use the recenter_doit parameter if you recenter on ids,
+        only use it with recenter on x,y. */
+
+        CartoWeb.trigger('Location.Recenter');
+      } 
+    }
+
+                    </pre>
+            <p>
+                </p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.search.basic.Guided_search"></a>24.3.1.1. Guided Search</h4>
+                  </div>
+                </div>
+              </div>
+              <p>
+                    </p>
+              <div class="note">
+                <h3 class="title">Note</h3>
+                <p>The Basic Usage chapter is a prerequisite to the read of this one</p>
+              </div>
+              <p>
+                    A often meet case is to have a incremental search. Each time a search parameter is selected the following parameter is completed.</p>
+              <p>Let's now take a concrete case:
+                    We keep the same database as in the above sample. Imagine we have a select field that is initialised with the towns names. When you choose a city, a 
+                    select fields containing all the streets of the town appears. When you choose a street the final search is launched. 
+                </p>
+              <p>As mentioned above we have to set the <code class="filename">search.ini</code> file</p>
+              <pre class="programlisting">
+    dsn = SEARCHDSN
+    ; Do not forget to add  EncoderClass.myencoding_context = EncoderISO 
+    ;(or any other context) 
+    ; in your client_conf/client.ini
+    
+    config.Adresses_init_town.provider.type = table
+    config.Adresses_init_town.provider.table = addresses
+    config.Adresses_init_town.provider.aliases = adr_town, town
+    config.Adresses_init_town.provider.id = adr_town
+    config.Adresses_init_town.provider.columns = adr_town
+    config.Adresses_init_town.provider.sortColumn = adr_town
+    config.Adresses_init_town.provider.sortDirection = asc
+    config.Adresses_init_town.formatter.type = smarty
+    config.Adresses_init_town.formatter.template = init_adresse_town_select
+    
+    config.Adresses_init_street.provider.type = table
+    config.Adresses_init_street.provider.table = addresses
+    config.Adresses_init_street.provider.aliases = adr_street, street, adr_town, town
+    config.Adresses_init_street.provider.id = adr_street
+    config.Adresses_init_street.provider.columns = adr_street
+    config.Adresses_init_street.provider.sortColumn = adr_street
+    config.Adresses_init_street.provider.sortDirection = asc
+    config.Adresses_init_street.provider.where = "adr_town like '@adr_town_init@'"
+    config.Adresses_init_street.formatter.type = smarty
+    config.Adresses_init_street.formatter.template = init_adresse_adr_street_select
+    
+    
+    config.Adresses.provider.type = table
+    config.Adresses.provider.table = addresses
+    config.Adresses.provider.aliases = adr_num, num, adr_street, street, adr_zip, zipcode, adr_town, town
+    config.Adresses.provider.id = gid
+    config.Adresses.provider.columns = adr_num, adr_street, adr_zip, adr_town
+    config.Adresses.provider.sortColumn = adr_num
+    config.Adresses.provider.sortDirection = asc
+    config.Adresses.provider.sortPriorities = adr_num, adr_street, adr_zip, adr_town
+    config.Adresses.formatter.type = smarty
+    config.Adresses.formatter.template = search_results
+    config.Adresses.provider.where = "adr_street like '@adr_street_init@' and adr_town like '@adr_town_init@'"
+                    
+                </pre>
+              <p>
+                    As you can see, we have have declared 3 search configurations that are pointing on the same database entity. The first two tables
+                    are used for initializing the select. 
+                    They are not of type FullTextTable as we do not want to use the default search comportement.
+                    So the provider.label and provider.fulltextColumns are not used.
+                    There is also a new configuration parameter that is :
+                    </p>
+              <pre class="programlisting">    config.Adresses.provider.where</pre>
+              <p>
+                   This parameter allows to specifiy a where clause. 
+                   The where clause is written in traditional sql but the data corresponding to the value of the form have to be replaced
+                    by @the_field_name@. </p>
+              <div class="warning">
+                <h3 class="title">Warning</h3>
+                <p>Do not forget to remove the "search_" prefix that is in the select field when defining the @the_field_name@ parameter in the ini file.</p>
+              </div>
+              <p>
+                </p>
+              <p>For the first two tables, the template file have been modified in order not to give back a result table but a select containing all the data required</p>
+              <pre class="programlisting">
+    config.Adresses_init_street.formatter.type = smarty
+    config.Adresses_init_street.formatter.template = init_adresse_adr_street_select 
+                </pre>
+              <p>Here is the content of the <code class="filename">init_adresse_town_select.tpl</code> file :</p>
+              <pre class="programlisting">
+                    
+    {t}Town:{/t}&lt;br /&gt;
+    &lt;select name="search_adr_town_init" id="search_adr_town_init"  
+      onchange="javascript: initializeStreet()"&gt;
+        &lt;option value=""&gt;&amp;nbsp &lt;/option&gt;
+            {foreach from=$table-&gt;rows item=row}
+            &lt;option value="{$row-&gt;rowId}"&gt;
+                {foreach from=$row-&gt;cells item=value}
+                {$value}
+                {/foreach}
+            &lt;/option&gt;
+            {/foreach}
+    &lt;/select&gt;
+                </pre>
+              <p>Here is the content of the <code class="filename">init_adresse_adr_street_select.tpl</code> file :</p>
+              <pre class="programlisting">
+    {t}Street:{/t} &lt;br /&gt;
+    &lt;select name="search_adr_street_init" 
+      id="search_adr_street_init" onchange="search()" &gt;
+        &lt;option value=""&gt;&amp;nbsp &lt;/option&gt;
+            {foreach from=$table-&gt;rows item=row}
+            &lt;option value="{$row-&gt;rowId}"&gt;
+                {foreach from=$row-&gt;cells item=value}
+                {$value}
+                {/foreach}
+            &lt;/option&gt;
+            {/foreach}
+    &lt;/select&gt;
+                    
+                </pre>
+              <p>Now we have to setup the <code class="filename">search.tpl</code> file.</p>
+              <pre class="programlisting">
+                    
+    &lt;div id="search_div"&gt;
+    &lt;fieldset&gt;&lt;legend&gt;{t}My Title{/t}&lt;/legend&gt; &lt;br/&gt;
+      here we inser the placeholder for the select(s)
+      &lt;br /&gt;
+      &lt;div id="town_select_div"&gt; Here comes the list containing the towns &lt;/div&gt;
+      &lt;br /&gt;
+      &lt;div id ="street_select_div"&gt; Here comes the list containing the streets  &lt;/div&gt;
+      &lt;br /&gt;
+      &lt;input type="hidden" id="search_config" name="search_config" value="" /&gt;
+      &lt;input type="hidden" id="search_sort_column" name="search_sort_column" value=""/&gt;
+      &lt;input type="hidden" 
+        id="search_sort_direction" name="search_sort_direction" value="asc" /&gt;
+      &lt;input type="hidden" id="search_number" name="search_number" /&gt;
+    &lt;div id="search_results_div"&gt;&lt;/div&gt;
+    &lt;/fieldset&gt;
+    &lt;/div&gt;         
+                             
+                </pre>
+              <p>
+                    Finally we have to set up the java script file. Open or create the <code class="filename">plugins/search/htdocs/js/Search.ajax.js</code> file and write:</p>
+              <pre class="programlisting">
+    AjaxPlugins.Search = {
+
+      handleResponse: function(pluginOutput) {
+        //we inject the select input in the HTML
+        if (pluginOutput.htmlCode.Adresses_init_town) { 
+          //should be the same value as the input search_config
+          $('town_select_div').innerHTML = pluginOutput.htmlCode.Adresses_init_town;        
+        }  
+
+        if (pluginOutput.htmlCode.Adresses_init_street) { 
+          //should be the same value as the input search_config
+          $('street_select_div').innerHTML = pluginOutput.htmlCode.Adresses_init_street;        
+        }  
+
+        if (pluginOutput.htmlCode.Adresses) { 
+          //should be the same value as the input search_config
+          $('search_results_div').innerHTML = pluginOutput.htmlCode.Adresses;        
+        }
+      }
+    };
+
+
+    /*
+    * Search plugin's Actions
+    */
+
+    AjaxPlugins.Search.Actions = {};
+
+    AjaxPlugins.Search.Actions.DoIt = {
+
+      buildPostRequest: function(argObject) {
+        return AjaxHandler.buildPostRequest();
+      }
+    };
+
+    function order(column) {
+
+      if (column != $('search_sort_column').value) {
+        $('search_sort_column').value = column;
+        $('search_sort_direction').value = 'asc';
+      } else {
+        if ($('search_sort_direction').value == 'asc') {
+          $('search_sort_direction').value = 'desc';
+        } else {
+          $('search_sort_direction').value = 'asc';
+        }
+      }
+
+      CartoWeb.trigger('Search.DoIt')
+    }
+
+    //we empty the old selects and reinsert the new ones instead
+    //Please do not forget to modify the search_config input value
+    function initializeTown() {
+    $('town_select_div').innerHTML = '';
+         var myinput = $('search_config');
+         myinput.value = 'Adresses_init_town';
+         CartoWeb.trigger('Search.DoIt');
+    }
+
+    function initializeStreet() {
+        $('street_select_div').innerHTML = '';
+        var myinput = $('search_config');
+        myinput.value = 'Adresses_init_street';
+        CartoWeb.trigger('Search.DoIt');
+    }
+
+    function search() {
+        var myinput = $('search_config');
+        myinput.value = 'Adresses';
+        CartoWeb.trigger('Search.DoIt');
+    }
+
+    function recenter(id){
+        if ($('search_config').value == 'Adresses') {
+            //id to recenter, be sure there is a hidden input 
+            //with that name and id in your template! if not, add it
+            $('id_recenter_ids').value = id;
+
+            /* if the search database table name is the same 
+            as the related layer to recenter on, you can set it as below
+               be sure there is a hidden input with that name and id in your template! if not, add it */
+            $('id_recenter_layer').value = $('search_config').value;
+
+            /* do not use the recenter_scale parameter 
+            if you recenter on ids, only use it with recenter on x,y.
+               you can set the recenter scale in location.ini on server side */
+            
+            /* do not use the recenter_doit parameter 
+            if you recenter on ids, only use it with recenter on x,y. */
+
+            CartoWeb.trigger('Location.Recenter');
+        }
+    }
+    Event.observe(window, 'load', initializeTown, true);
+                </pre>
+              <p>
+                    For each initialisation, we have to set the correct value inside the search_config input and add a "onload" event in order to initialize the town select when the page is loaded.
+                    </p>
+              <pre class="programlisting">Event.observe(window, 'load', initializeTown, true);</pre>
+              <p>
+                </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.search.basic.Multitable_search"></a>24.3.1.2. Multi table Search</h4>
+                  </div>
+                </div>
+              </div>
+              <p>Sometimes, you may want to have a search that is done on multiple tables. 
+                It can be done easily. You have just to use the mechanisms presented in the basic sample and create 
+                    in the <code class="filename">search.ini</code> a table that looks like this: </p>
+              <pre class="programlisting">
+    config.parcels.provider.type = table
+    config.parcels.provider.table = parcelles, addresses
+    config.parcels.provider.aliases = adr_num, num, adr_street, street, adr_zip, zipcode, adr_town, town
+    ;//be sure not to have twice the same id column name in different tables (or use aliases)
+    config.parcels.provider.id = parcel_id 
+    config.parcels.provider.columns = parcel_ref, adr_street
+    config.parcels.provider.fulltextColumns = parcel_ref, adr_num, adr_street, adr_zip, adr_town,
+    config.parcels.provider.sortColumn = parcel_ref, adr_street
+    config.parcels.provider.sortDirection = asc
+    config.parcels.formatter.type = smarty
+    config.parcels.formatter.template = search_results
+    config.parcels.provider.labels = parcel_ref, street
+    config.parcels.provider.where = "adr_street like '%@adr_street@%' AND addresses.parcel_ref = parcels.parcel_ref"
+                               
+            </pre>
+              <p> In this sample we have a search that is done on a table adresses and a table parcels where a parcel contains many adresses.
+                The search return all the streets where the name matches the name given in the form and their corresponding parcel reference.
+                </p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.Search.advance.Writing_a_provider"></a>24.3.1.3. Writing a Provider</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="warning">
+                <h3 class="title">Warning</h3>
+                <p>Documentation below is still in draft state</p>
+              </div>
+              <p>A provider is an interface implementation that allows you to acess a type of data that is not supported by PEAR DB.</p>
+              <p> You have to modify the <code class="filename">Search.php</code>. In this file there is an abstract class that is named :
+                </p>
+              <pre class="programlisting">    abstract class ResultProvider </pre>
+              <p>You have to extend this class :</p>
+              <pre class="programlisting">
+    class MyResultProvider extends ResultProvider {
+        public function getResult(SearchRequest $request) {
+            $table = New Table();
+            $table-&gt;tableId = 'search';
+            $table-&gt;columnIds = array('col1');
+            $table-&gt;noRowId = false;
+            $table-&gt;rows = array('hello world');
+            $table-&gt;numRows = $dbResult-&gt;numRows();
+            // Generates pages information
+            $table-&gt;rowsPage = 1;
+            $table-&gt;totalPages = 1;
+            $table-&gt;page = 1; //curent page number
+            $result = new SearchResult();
+            $result-&gt;table = $table;
+            return $result;
+        }
+    }
+                </pre>
+              <div class="warning">
+                <h3 class="title">Warning</h3>
+                <p>Do not forget to modify the provider in the ini file.</p>
+              </div>
+              <p>You have to implements the getResult fonction. It should return a Table() instance.</p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.search.basic.recenter_hilight"></a>24.3.1.4. Recenter and Hilight</h4>
+                  </div>
+                </div>
+              </div>
+              <p>In previous samples, recentering is done afterwards, by clicking on on result. If you want to recenter and hilight
+                on search results directly during the search, you can add those two lines in <code class="filename">search.ini</code>: </p>
+              <pre class="programlisting">
+    config.my_config.provider.recenter = recenter_layer
+    config.my_config.provider.hilight = hilight_layer                               
+            </pre>
+              <p>The two layers must exist in the mapfile. They will be used in ordre to recenter on and hilight search results.</p>
+              <p>This option is only available for client-side search configurations.</p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.Search.advance.Writing_a_fromatter"></a>24.3.1.5. Writing a Formatter</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="warning">
+                <h3 class="title">Warning</h3>
+                <p>Documentation below is still in draft state</p>
+              </div>
+              <p>A formatter allows you to format the result of the query. Actually it returns code generated by Smarty. 
+                      But if you want to use an other template engine or a more specifique formatter (JSON for example or in our case a smarty with differents delimiters), you have to modify the <code class="filename">ClientSearch.php</code> </p>
+              <p>In this file there is an abstract calss :</p>
+              <pre class="programlisting">abstract class ResponseFormatter </pre>
+              <p>you have to extend this class</p>
+              <pre class="programlisting"> 
+    /**
+    * Formats a response using a Smarty template with different separators
+    * @see ResponseFormatter
+    */
+    class MYSmartyResponseFormatter extends ResponseFormatter {
+   
+        /**
+        * @see ResponseFormatter::getResponse()
+        */
+        public function getResponse(SearchResult $result) {
+    
+        $smarty = new Smarty_Plugin($this-&gt;plugin-&gt;getCartoclient(),
+        $this-&gt;plugin);
+        $smarty-&gt;right_delimiter = '[EOF';
+        $smarty-&gt;left_delimiter  = 'EOF]';
+        $smarty-&gt;assign('table', $result-&gt;table);
+        return $smarty-&gt;fetch($this-&gt;template . '.tpl');
+        }
+    }
+                </pre>
+              <div class="warning">
+                <h3 class="title">Warning</h3>
+                <p>Do not forget to modify the formatter in the ini file.</p>
+              </div>
+              <p>You have to implements the getResponse function. It should return a string.The $result variable correspond to the value return by the provider.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

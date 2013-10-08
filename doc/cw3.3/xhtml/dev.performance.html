@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>10. Performance Tests</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="dev.debug.html">
+       &lt; Logging and Debugging</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="dev.views_upgrade.html">Upgrading Views Data &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.dev.html">Developer Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="dev.performance.html#dev.performance.parameter">10.1. Main Parameters</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="dev.performance.html#dev.performance.executing">10.2. Executing Tests</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="dev.performance.html#dev.performance.executing.apdinstall">10.2.1. APD Module Installation</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.performance.html#dev.performance.executing.simple">10.2.2. Simple Execution Times</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="dev.performance.html#dev.performance.executing.cachegrind">10.2.3. Graphical Interface (Unix-like)</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="dev.performance"></a>10. Performance Tests</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.performance.parameter"></a>10.1. Main Parameters</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+   This is a non-exhaustive list of interesting parameters for CartoWeb
+   performance tests. You may want to vary these parameters values when
+   testing performance before and after development of new functionalities.
+   </p>
+          <div class="itemizedlist">
+            <ul>
+              <li>Cartoweb configuration
+       <div class="itemizedlist"><ul><li>Local SOAP, distant SOAP or direct mode</li><li>Data on PC or through NFS</li><li>Map size</li><li>Number of active layers</li><li>Dynamic legends or not</li></ul></div>
+      </li>
+              <li>Logs and cache
+       <div class="itemizedlist"><ul><li>MapInfo cached or not</li><li>MapResult cached or not</li><li>SOAP XML cached or not</li><li>Logs activated or not</li></ul></div>
+      </li>
+              <li>Map data
+       <div class="itemizedlist"><ul><li>Number of layers (10, 50, 250)</li></ul></div>
+      </li>
+            </ul>
+          </div>
+          <p>
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="dev.performance.executing"></a>10.2. Executing Tests</h2>
+              </div>
+            </div>
+          </div>
+          <p> This section describes performance tests execution using APD, a 
+    debugging/profiling tool available as a Zend PHP module. </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.performance.executing.apdinstall"></a>10.2.1. APD Module Installation</h3>
+                </div>
+              </div>
+            </div>
+            <p> First thing to do is to install APD's PHP Zend module. You can 
+        download archive <a href="http://pecl.php.net/package/apd">here</a>. </p>
+            <p>Follow instructions to compile APD. Then load the module by adding 
+        the following two lines in php.ini: </p>
+            <pre class="programlisting">
+zend_extension = &lt;php_home&gt;/lib/php/extensions/no-debug-non-zts-20040412/apd.so 
+apd.dumpdir = /tmp/apd</pre>
+            <p> On a win32 
+        installation:</p>
+            <pre class="programlisting">
+zend_extension_debug_ts = &lt;php_lib_home&gt;\apd.dll
+apd.dumpdir = c:\apd\traces</pre>
+            <p> Path to 
+        <code class="filename">apd.so</code> may vary. See also 
+        <code class="filename">README</code> file in APD archive. </p>
+            <p>You may now activate tracing by adding an empty file trace.apd in 
+        directories <code class="filename">&lt;cartoweb_home&gt;/client</code> and 
+        <code class="filename">&lt;cartoweb_home&gt;/server</code>: </p>
+            <pre class="screen">
+touch trace.apd</pre>
+            <p> </p>
+            <p>When using Cartoweb in direct mode, only one trace file will be 
+        generated. When using Cartoweb in SOAP mode, two trace files will be 
+        generated, one for client and one for server. These files can be found 
+        in directory set in <code class="filename">apd.dumpdir</code> variable 
+        (<code class="filename">php.ini</code>, see above). </p>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.performance.executing.simple"></a>10.2.2. Simple Execution Times</h3>
+                </div>
+              </div>
+            </div>
+            <p> To get global execution times, use script 
+        <code class="filename">cwprof.php</code>: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>First 
+        usage: execute script on each trace file. This could be useful to 
+        re-parse an old trace file. If you have separated trace files for 
+        client and server, you will need to execute the script 
+        twice.<pre class="programlisting">
+cd &lt;cartoweb_home&gt;/scripts
+php cwprof.php &lt;trace_file&gt;</pre></li>
+                <li> Second usage: execute script on a directory. The script will 
+        parse the most recent trace file. The <code class="filename">-local</code> 
+        option is used when client and server trace files are located in same 
+        directory. In this case, the two most recent trace files are parsed and 
+        results for client and server are merged.<pre class="programlisting">
+cd &lt;cartoweb_home&gt;/scripts 
+php cwprof.php [-local] &lt;trace_directory&gt;</pre> 
+        </li>
+              </ul>
+            </div>
+            <p> </p>
+            <p>Script output will look like this (times in milliseconds): </p>
+            <pre class="screen">
+Exec client       = 451
+Exec server total = 707
+Exec MS obj       = 472
+Exec MS other     = 85
+Exec total        = 1524</pre>
+            <p> </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>Exec client: 
+        time elapsed on client. Will be empty if script is executed on a 
+        server-only trace file</li>
+                <li>Exec server 
+        total: time elapsed on server. It includes <code class="filename">Exec MS 
+        obj</code> and <code class="filename">Exec MS other</code> times. Will be 
+        empty if script is executed on a client-only trace file, or if direct 
+        mode is on </li>
+                <li>Exec MS obj: time elapsed 
+        while creating Mapserver main object. It includes reading the mapfile. 
+        Will be empty is script is executed on a client-only trace file 
+        </li>
+                <li>Exec MS other: time elapsed in other 
+        Mapserver tasks. Will be empty is script is executed on a client-only 
+        trace file </li>
+                <li>Exec total: time elapsed 
+        in total. If direct mode is off, it also includes time elapsed in SOAP 
+        data transmission </li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="dev.performance.executing.cachegrind"></a>10.2.3. Graphical Interface (Unix-like)</h3>
+                </div>
+              </div>
+            </div>
+            <p>To have more information about execution times and calls stack, you 
+        can use a powerful graphical viewer called KCachegrind. This tool is 
+        available on Unix-like environments only. On Win32, it can be used via 
+        KDE on CygWin.</p>
+            <p>KCachegrind is included in KDE (package kdesdk). To install it on a 
+        Debian distribution, type:</p>
+            <pre class="screen">apt-get install kcachegrind</pre>
+            <p> 
+        </p>
+            <p>APD package includes a script called 
+        <code class="filename">pprof2calltree</code> that can translate a trace 
+        generated by APD to a file in KCachegrind format. To translate a pprof 
+        file, type: </p>
+            <pre class="screen">
+./pprof2calltree -f &lt;pprof_file&gt; &gt;/dev/null
+</pre>
+            <p> Redirecting to <code class="filename">/dev/null</code> is needed because 
+        script generates a large number of PHP notices. Then you can open the 
+        resulting file in KCachegrind. </p>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>Appendix A. Mapserver Debian Installation</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="dev.views_upgrade.html">
+       &lt; Upgrading Views Data</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="appendix.windows_manual_install.html">Apache &amp; Mapserver Windows Manual Installation &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="appendix.debian_mapserver"></a>Appendix A. Mapserver Debian Installation</h2>
+    </div>
+    <div id="content">
+      <div class="appendix" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <p>Some Debian packages are available for Php5 and Mapserver<sup>[<a id="id2564899" href="#ftn.id2564899">2</a>]</sup>
+  </p>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="id2489797"></a>A.1. Setting Up Your Repository and Preferences File</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    Add the following to your <code class="filename">/etc/apt/sources.list</code>  :
+    </p>
+          <pre class="screen"># cartoweb
+deb http://dev.camptocamp.com/packages/debian/prod/ sarge main
+deb-src http://dev.camptocamp.com/packages/debian/prod/ sarge main</pre>
+          <p>
+  </p>
+          <p>
+    You may want to pin c2c packages higher than 1000 to have them preferred over
+     the upstream ones, even if downgrading. Add in <code class="filename">/etc/apt/preferences</code>:
+     </p>
+          <pre class="screen">Package: *
+Pin: release o=c2c
+Pin-Priority: 1100</pre>
+          <p>
+  </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="id2608154"></a>A.2. Installing the packages</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    To install Mapscript and PHP 5, type the following:
+</p>
+          <pre class="screen">
+apt-get update
+apt-get install php5-mapscript 
+</pre>
+          <p>
+  </p>
+          <p>
+    If want to install PostGIS and PostgreSQL:
+</p>
+          <pre class="screen">
+apt-get install libpostgis1-pg80
+</pre>
+          <p>
+  </p>
+          <p>
+    If want to install the pgdijkstra PostgreSQL extension:
+</p>
+          <pre class="screen">
+apt-get install pgdijkstra
+</pre>
+          <p>
+  </p>
+        </div>
+        <div id="footnotes">
+          <hr />
+          <div class="footnote">
+            <p><sup>[<a id="ftn.id2564899" href="#id2564899">2</a>] </sup>Some of the packages were inspired from 
+      <a href="http://agrogeomatic.educagri.fr/">http://agrogeomatic.educagri.fr/</a>.</p>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

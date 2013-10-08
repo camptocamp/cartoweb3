@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>21. AJAX</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.locate.html">
+       &lt; Locate </a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.geostat.html">
+ Geostatistics  &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.ajax.html#user.ajax.intro">21.1. Introduction</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.ajax.html#user.ajax.intro.compatibility">21.1.1. Browser Compatibility</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.ajax.html#user.ajax.project">21.2. Make Your Project AJAX Enabled</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.ajax.html#user.ajax.project.config">21.2.1. Client.ini Configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.ajax.html#user.ajax.project.general">21.2.2. Plugin Ajaxisation Generalities</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.ajax.html#user.ajax.project.php">21.2.3. PHP side</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.ajax.html#user.ajax.project.js">21.2.4. Javascript browser's side</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.ajax.html#user.ajax.project.templates">21.2.5. Templates Adaptation</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.ajax"></a>21. <a id="id2595866" class="indexterm"></a>AJAX</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.ajax.intro"></a>21.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p> CartoWeb implements an AJAX layer, enabling asynchronous update
+      of the HTML GUI. </p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.ajax.intro.compatibility"></a>21.1.1. Browser Compatibility</h3>
+                </div>
+              </div>
+            </div>
+            <p> Browser compatibility: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> Mozilla 1.7+ </li>
+                <li> Firefox 1.0.7+ </li>
+                <li> Internet Explorer 6+ </li>
+                <li> Safari 1.3.2+ </li>
+              </ul>
+            </div>
+            <p> Known browser incompatibility: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li> Opera </li>
+                <li> Internet Explorer 5 for Mac </li>
+                <li> Konqueror </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.ajax.project"></a>21.2. Make Your Project AJAX Enabled</h2>
+              </div>
+            </div>
+          </div>
+          <p> To enable your project with AJAX, it is recommended that you build
+      your project based on demoCW3 or test_main projects 
+      (CartoWeb version 3.3.0 or higher). A project based on demoCW3 won't
+      need any tuning. A project based on test_main will require the following: </p>
+          <div class="itemizedlist">
+            <ul>
+              <li> Enable AJAX in your client.ini (or client.ini.in): </li>
+            </ul>
+          </div>
+          <p> If you have a project running since version 3.2.0 or before, and want
+      to enable AJAX, you'll need to: </p>
+          <div class="itemizedlist">
+            <ul>
+              <li> Enable AJAX in your <code class="filename">client.ini</code>
+          (or <code class="filename">client.ini.in</code>)</li>
+              <li> Adapt your <code class="filename">cartoclient.tpl</code>,
+          <code class="filename">mainmap.tpl</code> and all redefined plugin templates
+          (if they are based on test_main or demoCW3 
+          project templates from CartoWeb version &lt;= 3.2.0). </li>
+            </ul>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.ajax.project.config"></a>21.2.1. Client.ini Configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p> Add the ajaxOn directive and set it to true in your
+        <code class="filename">/project/[yourProjectName]/client_conf/client.ini</code> or
+        <code class="filename">/project/[yourProjectName]/client_conf/client.ini.in</code>
+      </p>
+            <pre class="programlisting">ajaxOn = true</pre>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.ajax.project.general"></a>21.2.2. Plugin Ajaxisation Generalities</h3>
+                </div>
+              </div>
+            </div>
+            <p> There are several steps needed to add ajax support to a plugin : </p>
+            <div class="itemizedlist">
+              <ul>
+                <li>PHP</li>
+                <li>javascript</li>
+                <li>template</li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.ajax.project.php"></a>21.2.3. PHP side</h3>
+                </div>
+              </div>
+            </div>
+            <p>Your plugin php class must implements the Ajaxable interface.</p>
+            <pre class="screen">class ClientYourPlugin extends ClientPlugin implements Ajaxable { ...</pre>
+            <p>You can then add two functions:</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>ajaxGetPluginResponse</li>
+                <li>ajaxHandleAction</li>
+              </ul>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.ajax.project.php.ajaxgetpluginresponse"></a>21.2.3.1. ajaxGetPluginResponse</h4>
+                  </div>
+                </div>
+              </div>
+              <p><code class="filename">ajaxGetPluginResponse</code> will send back your plugin's response. 
+        It behaves the same way as the usual <code class="filename">renderForm</code> function.</p>
+              <p>
+          instead of doing :
+          </p>
+              <pre class="screen">$template-&gt;assign($some_content);</pre>
+              <p>
+          you do :
+          </p>
+              <pre class="screen">$ajaxPluginResponse-&gt;addHtmlCode('some_variable_name', $some_content);
+$ajaxPluginResponse-&gt;addVariable('another_variable_name', $some_content);</pre>
+              <p>
+        </p>
+              <p><code class="filename">HtmlCode</code> and <code class="filename">Variable</code> are pretty much 
+        the same thing, it only differentiates 
+        the treatments between html output and javascript variables.</p>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.ajax.project.php.ajaxhandleaction"></a>21.2.3.2. ajaxHandleAction</h4>
+                  </div>
+                </div>
+              </div>
+              <p><code class="filename">ajaxHandleAction</code> is where you specify which plugin(s) is 
+        activated when an action is triggered through your plugin.
+        The content is usualy a switch on the action name:</p>
+              <p>
+          </p>
+              <pre class="screen">
+switch ($actionName) {
+    case 'YourPlugin.SomeAction':
+        $pluginEnabler-&gt;disableCoreplugins();
+        $pluginEnabler-&gt;enablePlugin('images');
+        $pluginEnabler-&gt;enablePlugin('yourplugin');
+    break;
+    case 'YourPlugin.AnotherAction':            
+        $pluginEnabler-&gt;disableCoreplugins();
+        $pluginEnabler-&gt;enablePlugin('yourplugin');
+    break;
+}</pre>
+              <p>
+        </p>
+              <p>You must explicitly enable your plugin
+</p>
+              <pre class="screen">$pluginEnabler-&gt;enablePlugin('yourplugin');</pre>
+              <p>
+otherwise your plugin will not send back anything.</p>
+              <p><code class="filename">disableCoreplugins();</code> explicitly deactivate all coreplugin. It means nothing 
+        will be sent back to the browser.</p>
+              <p>You can activate plugin case by case, for example:
+</p>
+              <pre class="screen">$pluginEnabler-&gt;disableCoreplugins();
+$pluginEnabler-&gt;enablePlugin('images');</pre>
+              <p>
+        will only enable the images coreplugin and the map will then be refreshed.
+        </p>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.ajax.project.js"></a>21.2.4. Javascript browser's side</h3>
+                </div>
+              </div>
+            </div>
+            <p>Create a new javascript file named <code class="filename">YourPlugin.ajax.js</code></p>
+            <p>Place it in <code class="filename">plugins/yourPlugin/htdocs/js/</code></p>
+            <p>Add it to your <code class="filename">cartoclient.tpl</code> header:
+</p>
+            <pre class="screen">&lt;script type="text/javascript" src="{r type=js plugin=yourPlugin}YourPlugin.ajax.js{/r}"&gt;&lt;/script&gt;}</pre>
+            <p>
+      be careful to not place it before {include file="cartoclient_ajaxHeader.tpl"}, you will 
+      get a javscript error because the plugin's javascript code use some objects which are 
+      defined only in files inluded via the cartoclient_ajaxHeader.tpl file.</p>
+            <p>The YourPlugin.ajax.js contains basicaly two parts, one to trigger the action 
+      and another to handle the answer and update your html/javascript</p>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.ajax.project.js.answer"></a>21.2.4.1. Ajax Answer Handling</h4>
+                  </div>
+                </div>
+              </div>
+              <pre class="screen">
+AjaxPlugins.YourPlugin = {
+  
+    handleResponse: function(pluginOutput) {
+        /* Plugin general behaviour */
+        
+        if (pluginOutput.variables.variable_name) {
+        // do something with your variable
+        alert(pluginOutput.variables.another_variable_name);
+        }
+
+        AjaxHandler.updateDomElement('target_id', 'innerHTML',
+                                     pluginOutput.htmlCode.some_variable_name);
+    }  
+};
+}</pre>
+              <p>
+        </p>
+              <p>The answer sent by PHP is handled in handleResponse. Here you recover the variables and htmlCodes.</p>
+              <p>The function updateDomElement will handle all the html insertion. It takes 3 parameters: </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li>the target id of the existing element in your current html which will serve as container for the new content.</li>
+                  <li>the insertion methode, always 'innerHTML'.</li>
+                  <li>the new content.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.ajax.project.js.action"></a>21.2.4.2. Ajax Action Triggering</h4>
+                  </div>
+                </div>
+              </div>
+              <p>In this part, you simply define all your actions and what to do before, when and after the actions are triggered.</p>
+              <pre class="screen">
+AjaxPlugins.YourPlugin.Actions = {};
+// always empty, it only define a Actions object which will store our various actions.
+
+AjaxPlugins.YourPlugin.Actions.SomeAction = {
+
+    buildPostRequest: function(argObject) {
+        return AjaxHandler.buildPostRequest();
+    },
+    .
+    onBeforeAjaxCall: function(argObject) {
+        Logger.note('Output something in the JSTraceDebugger window');
+        callSomeJavascriptFunctions();
+    },
+
+    onAfterAjaxCall: function(argObject) {
+        Logger.note('Output something in the JSTraceDebugger window');
+        callSomeJavascriptFunctions();
+    },
+
+    onBeforeAjaxCallGeneral: function(argObject) {
+        Logger.note('Output something in the JSTraceDebugger window');
+        callSomeJavascriptFunctions();
+    },
+
+    onAfterAjaxCallGeneral: function(argObject) {
+        Logger.note('Output something in the JSTraceDebugger window');
+        callSomeJavascriptFunctions();
+    },
+
+    oneCustomFunction: function() {
+        Logger.note('Output something in the JSTraceDebugger window');
+        // you can also define functions 
+        ...
+    },
+};
+
+AjaxPlugins.YourPlugin.Actions.AnotherAction = {
+
+    buildPostRequest: function(argObject) {
+        return AjaxHandler.buildPostRequest();
+    }
+};
+</pre>
+              <p>
+          </p>
+              <div class="warning">
+                <h3 class="title">Warning</h3>
+                <p>BE CAREFUL FOR CLOSING "," and ";" !!!!</p>
+                <p>these are json syntax and it is a bit different than your usual javascript.</p>
+              </div>
+              <p>
+        </p>
+              <div class="itemizedlist">
+                <ul>
+                  <li><code class="filename">buildPostRequest</code> is always executed, it simply parses your html and recover 
+        all the inputs (text, hidden, select, radio, checkbox, password, textarea) values and send them to the server.</li>
+                  <li><code class="filename">onBeforeAjaxCall</code> and <code class="filename">onAfterAjaxCall</code> are optional. These functions are called before and after the action. For example if you want 
+        to modify some inputs value just before it's being sent to the server. Or you want too add some post-treatments. Note that <code class="filename">onAfterAjaxCall</code> is called AFTER the response is 
+        being treated in the normal <code class="filename">handleResponse</code> stage (see <a class="xref" href="user.ajax.html#user.ajax.project.js.answer" title="21.2.4.1. Ajax Answer Handling">Section 21.2.4.1, “Ajax Answer Handling”</a>).</li>
+                  <li><code class="filename">onBeforeAjaxCallGeneral</code> and <code class="filename">onAfterAjaxCallGeneral</code> are optional. These functions are called EVERYTIME an AJAX call is triggered by ANY plugins. If you add these functions in your plugin, the functions will be called even if the action was triggered by another plugin. <code class="filename">onBeforeAjaxCallGeneral</code> is called BEFORE <code class="filename">onBeforeAjaxCall</code>.
+        <code class="filename">onAfterAjaxCallGeneral</code> is called AFTER <code class="filename">onAfterAjaxCall</code>.</li>
+                </ul>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.ajax.project.js.action.attach"></a>21.2.4.2.1. Add Event</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>If the html fragment your are inserting must implement on-the-fly javascript 
+        event, you can attach some event on existing elements via the attachAction function:
+</p>
+                <pre class="screen">AjaxHandler.attachAction('target_element_id', 'type_of_event', 'callback_function', json_defined_arguments);</pre>
+                <p>
+        </p>
+                <p>for example: 
+        </p>
+                <pre class="screen">AjaxHandler.attachAction('pan_n', 'click', 'Location.Pan', {source: 'button'});</pre>
+                <p>
+        </p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.ajax.project.js.action.custom"></a>21.2.4.2.2. Custom Functions</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>You can define custom functions as well, see the <code class="filename">oneCustomFunction</code> above. But 
+        you will need to explicitly call these functions from <code class="filename">buildPostRequest</code>, 
+        <code class="filename">onBeforeAjaxCall</code> or <code class="filename">onAfterAjaxCall</code>.</p>
+                <p>The function is called like this: <code class="filename">this.oneCustomFunction();</code></p>
+              </div>
+              <div class="sect4" lang="en" xml:lang="en">
+                <div class="titlepage">
+                  <div>
+                    <div>
+                      <h5 class="title"><a id="user.ajax.project.js.action.log"></a>21.2.4.2.3. Log Messages</h5>
+                    </div>
+                  </div>
+                </div>
+                <p>You can output some notice or warning in the <code class="filename">JSTraceDebugger</code> windows by adding:
+            </p>
+                <pre class="screen">Logger.note('Some text that will appear in the debugger');</pre>
+                <p>
+        </p>
+                <p>You can also use 'send', 'header', 'error', 'warn', 'trace' or 'confirm'. 
+        They have slightly different styling. See file <code class="filename">Logger.js</code> for details.</p>
+              </div>
+            </div>
+            <div class="sect3" lang="en" xml:lang="en">
+              <div class="titlepage">
+                <div>
+                  <div>
+                    <h4 class="title"><a id="user.ajax.project.js.action.init"></a>21.2.4.3. Initialize plugin</h4>
+                  </div>
+                </div>
+              </div>
+              <p>You may want to call some functions or define some variables on page load. To do so simply add your plugin into the AjaxPlugins.initializablePlugins array, like this:
+        </p>
+              <pre class="screen">
+// add your plugin to the list of Ajax initializable plugins
+AjaxPlugins.initializablePlugins.push(AjaxPlugins.YourPluginName);
+</pre>
+              <p>Add this after your main </p>
+              <pre class="screen">AjaxPlugins.YourPluginName = {...};</pre>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.ajax.project.templates"></a>21.2.5. Templates Adaptation</h3>
+                </div>
+              </div>
+            </div>
+            <p>To trigger the actions defined in YourPlugin.ajax.js, you simply call them like this:</p>
+            <pre class="screen">
+&lt;input type="button" value="{t}ok{/t}" onclick="return CartoWeb.trigger('YourPlugin.AnotherAction');" /&gt;
+}</pre>
+            <p>
+      </p>
+            <p>or if you want to provide a non-ajax fallback, you can do it like that:</p>
+            <pre class="screen">
+&lt;input type="button" value="{t}ok{/t}" onclick="return CartoWeb.trigger('YourPlugin.AnotherAction', 'doSubmit()');" /&gt;
+}</pre>
+            <p>
+      </p>
+            <div class="warning">
+              <h3 class="title">Warning</h3>
+              <p> Adapting your templates is a tricky bit. Unless you customized
+          your templates thoroughly, we recommend that you start over again
+          your templates customization using demoCW3 or test_main as a basis,
+          as these projects templates are AJAX ready. </p>
+            </div>
+            <p> We recommend that you diff your cartoclient.tpl, mainmap.tpl and 
+        all redefined plugin templates with the upstream. This is the best way 
+        to be up to date, especially if you use the latest CVS version of
+        CartoWeb. </p>
+            <div class="tip">
+              <h3 class="title">Tip</h3>
+              <p> Original templates patch:
+          <a class="ulink" href="http://bugzilla.maptools.org/attachment.cgi?id=126&amp;action=view">http://bugzilla.maptools.org/attachment.cgi?id=126&amp;action=view</a>
+        </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

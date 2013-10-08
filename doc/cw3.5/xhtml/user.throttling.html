@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>16. Throttling Configuration</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.19" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.security.html">
+       &lt; Security Configuration</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.i18n.html">Internationalization &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.throttling.html#user.throttling.intro">16.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.throttling.html#user.throttling.configuration">16.2. Throttling configuration</a>
+            </span>
+            <ul>
+              <li>
+                <span class="sect2">
+                  <a href="user.throttling.html#user.throttling.configuration.main">16.2.1. Main throttling configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.throttling.html#user.throttling.configuration.buffer">16.2.2. Throttling rules configuration</a>
+                </span>
+              </li>
+              <li>
+                <span class="sect2">
+                  <a href="user.throttling.html#user.throttling.configuration.whitelist">16.2.3. Whitelist configuration</a>
+                </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.throttling"></a>16. Throttling Configuration</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.throttling.intro"></a>16.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>The throttling plugin allows to protect a cartoweb instance
+    against fast and massive usage from users. For example if a user tries to
+    download all your map data using a shell script with a combination of
+    <em class="parameter"><code>mode=image</code></em> and <em class="parameter"><code>recenter_bbox</code></em>
+    GET parameters.</p>
+          <p>If the plugin detects that a user (represented by its IP address)
+    is using the application in a such wrong way, the user will be blacklisted
+    for a configurable number a seconds and will receive an HTTP error
+    code.</p>
+          <p> The throttling plugin is not a core plugin. That's why you need to enable
+      it if you want to enable users to log-in. See <a class="xref" href="user.config.html" title="4. Configuration Files">Chapter 4, <i>Configuration Files</i></a>
+      how to enable it in the list of plugins.</p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.throttling.configuration"></a>16.2. Throttling configuration</h2>
+              </div>
+            </div>
+          </div>
+          <p>In practice, you have to define rules of maximum request allowed
+        in a certain period. If the user overflow one such rule he is
+        blacklisted as described above.</p>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.throttling.configuration.main"></a>16.2.1. Main throttling configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>The plugin configuration file is located in
+        <em class="parameter"><code>client_conf/throttling.ini</code></em>. The configuration
+        options are: </p>
+            <div class="itemizedlist">
+              <ul>
+                <li><em class="parameter"><code>dontBlock</code></em> - Set to 1 to populate the
+                black list without blocking the ip. Useful for fine tuning the
+                parameters before really blocking.</li>
+                <li><em class="parameter"><code>whiteListPath</code></em> - White list
+                location. 
+                Read <a class="xref" href="user.throttling.html#user.throttling.configuration.whitelist" title="16.2.3. Whitelist configuration">Section 16.2.3, “Whitelist configuration”</a>
+                to have more information on this option.</li>
+                <li><em class="parameter"><code>blackListPeriod</code></em> - How long does a
+                blacklisted must remains blocked (in seconds).</li>
+                <li><em class="parameter"><code>blackListLog</code></em> - Location of the log
+                file. If the path is relative it is relative to CARTOWEB_HOME. Note
+                that 'www-data' user (or the user who start apache) have to be able the
+                write into this file. If this file is not writable, the content will be
+                written into CARTOWEB_HOME/www-data/throttling/throttling.log</li>
+                <li><em class="parameter"><code>blackListMail</code></em> - A list of comma
+                separated emails that will be notified every time an IP is
+                added or removed from the blacklist.</li>
+                <li><em class="parameter"><code>buffer.*.period</code></em> and
+                <em class="parameter"><code>buffer.*.maxRequest</code></em> - Buffers
+                configuration. Read 
+                <a class="xref" href="user.throttling.html#user.throttling.configuration.buffer" title="16.2.2. Throttling rules configuration">Section 16.2.2, “Throttling rules configuration”</a> to
+                see how buffers works.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.throttling.configuration.buffer"></a>16.2.2. Throttling rules configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>Access rules (named <em class="parameter"><code>buffer</code></em> in the plugin)
+        represents the maximum request/period you want to allow for each IP
+        addresses. You can configure one or more buffers in the
+        <em class="parameter"><code>client_conf/throttling.ini</code></em> file.</p>
+            <p>Each buffer is defined by a name, a period and a maximum of
+        request. For example, if you want to allow a maximum of 20 request in
+        10 second for each IP, you will write:</p>
+            <pre class="programlisting">
+buffer.short.period = 10
+buffer.short.maxRequest = 20
+</pre>
+            <p>Where <em class="parameter"><code>short</code></em> is the symbolic buffer name,
+        this name will be specified in the log file and in the mail.</p>
+            <p>If you want to create more than one buffer you just have to
+      populate the config file and dont forget to change the symbolic name. For
+      instance:</p>
+            <pre class="programlisting">
+buffer.short.period = 10
+buffer.short.maxRequest = 20
+
+buffer.long.period = 3600
+buffer.long.maxRequest = 500
+
+buffer.foo.period = 100
+buffer.foo.maxRequest = 500
+</pre>
+          </div>
+          <div class="sect2" lang="en" xml:lang="en">
+            <div class="titlepage">
+              <div>
+                <div>
+                  <h3 class="title"><a id="user.throttling.configuration.whitelist"></a>16.2.3. Whitelist configuration</h3>
+                </div>
+              </div>
+            </div>
+            <p>A list of IP addresses or IP networks can be specified in
+      the main throttling configuration file, this list will contains addresses
+      of hosts or networks that will not be taken into account by the
+      plugin.</p>
+            <p>Addresses are in Classless Inter-Domain Routing format, if you
+      want to include a single IP address you have to write:
+      </p>
+            <pre class="screen">127.0.0.1/32</pre>
+            <p>
+      <em class="parameter"><code>127.0.0.1</code></em> is the ip address and
+      <em class="parameter"><code>/32</code></em> is the network mask.
+        </p>
+            <p>To include a whole IP network, you have to write:
+        </p>
+            <pre class="screen">192.168.3.0/24</pre>
+            <p>
+        Where <em class="parameter"><code>192.168.3.0</code></em> represent the network and
+      <em class="parameter"><code>/24</code></em> the network mask. In this case, the whitelist
+      will include all addresses from <em class="parameter"><code>192.168.3.1</code></em> to <em class="parameter"><code>192.168.3.255</code></em>
+        </p>
+            <p>Note that if the user's IP address can't be properly detected, it
+        is never declared as belonging to the whitelist. It sometimes happens
+        if the user's computer is behind a miss-configured proxy: a proxy that
+        don't properly set the <em class="parameter"><code>HTTP_X_FORWARDED_FOR</code></em>,
+        <em class="parameter"><code>HTTP_X_FORWARDED</code></em> or
+        <em class="parameter"><code>HTTP_CLIENT_IP</code></em> header.</p>
+            <p>For more information about the Classless Inter-Domain Routing format, see: 
+              <a class="ulink" href="http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing</a>
+        </p>
+          </div>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

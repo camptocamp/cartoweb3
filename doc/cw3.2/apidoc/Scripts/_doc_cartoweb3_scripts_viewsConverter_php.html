@@ -1,0 +1,139 @@
+<html>
+<head>
+<title>Docs for page viewsConverter.php</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">Scripts</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+  		  [ <a href="../classtrees_Scripts.html" class="menu">class tree: Scripts</a> ]
+		  [ <a href="../elementindex_Scripts.html" class="menu">index: Scripts</a> ]
+		  [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+      <b>Packages:</b><br />
+              <a href="../li_CartoWeb3.html">CartoWeb3</a><br />
+              <a href="../li_Client.html">Client</a><br />
+              <a href="../li_Common.html">Common</a><br />
+              <a href="../li_CorePlugins.html">CorePlugins</a><br />
+              <a href="../li_Plugins.html">Plugins</a><br />
+              <a href="../li_Scripts.html">Scripts</a><br />
+              <a href="../li_Server.html">Server</a><br />
+              <a href="../li_Tests.html">Tests</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../Scripts/_doc_cartoweb3_scripts_clean_php.html">		clean.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_client2pot_php.html">		client2pot.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_cwprof_php.html">		cwprof.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_info_php.html">		info.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_makedoc_php.html">		makedoc.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_makemaps_php.html">		makemaps.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_po2mo_php.html">		po2mo.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_pot_tools_php.html">		pot_tools.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_server2pot_php.html">		server2pot.php
+		</a><br>
+			<a href="../Scripts/_doc_cartoweb3_scripts_viewsConverter_php.html">		viewsConverter.php
+		</a><br>
+	  </div><br />
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../Scripts/ViewConverter.html">ViewConverter</a><br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Procedural File: viewsConverter.php</h1>
+Source Location: /scripts/viewsConverter.php<br /><br />
+
+<br>
+<br>
+
+<div class="contents">
+<h2>Classes:</h2>
+<dt><a href="../Scripts/ViewConverter.html">ViewConverter</a></dt>
+	<dd>Views writing/reading filters</dd>
+</div><br /><br />
+
+<h2>Page Details:</h2>
+viewsConverter.php - converts views from old plain format to new XML one.<br /><br /><p>For help, type &quot;php viewsConverter.php&quot; in CLI.</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>version:</b>&nbsp;&nbsp;</td><td>$Id: viewsConverter.php,v 1.6 2005/11/01 10:51:37 mbornoz Exp $</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+<h4>Includes:</h4>
+<div class="tags">
+require_once(<a href="../Client/_doc_cartoweb3_client_Cartoclient_php.html">CARTOWEB_HOME.'client/Cartoclient.php'</a>) [line 19]<br />
+require_once('DB.php') [line 73]<br />
+require_once(<a href="../Common/_doc_cartoweb3_common_Common_php.html">CARTOWEB_HOME.'common/Common.php'</a>) [line 16]<br />
+</div>
+<br /><br />
+<br /><br />
+  <hr />
+	<a name="defineVIEWS_HOME"></a>
+	<h3>VIEWS_HOME <span class="smalllinenumber">[line 44]</span></h3>
+	<div class="tags">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>VIEWS_HOME = sprintf('%swww-data/views/%s/',CARTOWEB_HOME,$source)</code>
+    </td></tr></table>
+    </td></tr></table>
+
+        <br />
+		</div>
+	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+<br />
+  <hr />
+	<a name="functionterminate"></a>
+	<h3>terminate <span class="smalllinenumber">[line 147]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void terminate(
+[mixed $msg = ''])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+
+		Prints error messages.<br /><br />    <br /><br />
+	
+    	<div class="top">[ <a href="#top">Top</a> ]</div><br /><br />
+	</div>
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Mon, 13 Feb 2006 11:44:20 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.3.0RC3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+html {
+  margin:0;
+  background:white url(../gfx/backmap.jpg);
+  padding:30px;
+}
+
+body {
+  color: black;
+  font-size:small;
+  font-family:helvetica, arial, sans-serif;
+  background:white;
+  padding:15px 30px 15px 30px;
+  margin:0;
+  border:1px solid black;
+}
+
+a:link, a:visited {
+  color: #1B57B1;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+a:hover {
+  text-decoration: underline;
+  color:#cf4c36;
+  font-weight: normal;
+}
+
+#footer {
+  font-size:x-small;
+  text-align:center;
+  margin-top:30px;
+}
+
+#header {
+  height:70px;
+}
+
+#menu {
+  position: absolute;
+  top:142px;
+  left:60px;
+  width: 120px;
+}
+
+#menu ul {
+  line-height:1.2em;
+}
+
+#content {
+  margin-left: 150px;
+  max-width:800px;
+}
+
+#title {
+  font-weight:bold;
+  font-size:1.5em;
+}
+
+#subtitle {
+  font-weight:bold;
+  font-size:1.2em;
+}
+
+#logo {
+  float:left;
+  margin-right:10px;
+  height:66px;
+  width:140px;
+}
+
+img {
+  border:0;
+}
+
+h1 {
+  font-size:1.4em;
+}
+
+h2 {
+  font-size:1.2em;
+}
+
+ul {
+  padding-left:10px;
+  margin:0;
+  margin-left:2px;
+}
+
+li {
+  margin-left:5px;
+}
+
+#news li {
+  margin-bottom:10px;
+  margin-left:15px;
+}
+
+blockquote, #news {
+  border:solid 1px #8398AC;
+  padding:10px;
+  margin:0;
+}
+
+blockquote {
+  font-family:courier, serif;
+}
+
+#news {
+  clear:right;
+}
+
+#news h2 {
+  margin-top:0;
+}
+
+.warning {
+  font-weight:bold;
+  color:red;
+}
+
+#screens {
+  width:200px;
+  height:157px;
+  float:right;
+  margin-right:10px;
+  margin-bottom:10px;
+}
+
+#download {
+  line-height:1.4em;
+}
+
+#download span {
+  font-weight:bold;
+  font-size:1.1em;
+}
+
+#download a:hover {
+  text-decoration:none;
+}
+
+#demosList img {
+  border:solid 1px #8398AC;
+  float:left;
+  margin-right:10px;
+  margin-bottom:10px;
+}
+
+#demosList li {
+  clear:left;
+}
+
+#demosList .demosublist li {
+  clear:none;
+}
+
+#demosList li ul {
+  margin-left:230px;
+}
+
+.warn {
+  border: red dashed 1px;
+}
+
+.warn legend {
+  font-weight:bold;
+  color:red;
+}
+
+.ml {
+  line-height:1.3em;
+}
+
+.cwsearch {
+  width:100px;
+}

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <title>24. OGC Layer Loader</title>
+    <link rel="stylesheet" href="document.css" type="text/css" />
+    <meta name="generator" content="Tiny DocBook - 1.6.16" />
+  </head>
+  <body>
+    <div id="prev_next">
+      <p id="prev">
+        <a accesskey="p" href="user.search.html">
+       &lt; Search</a>
+      </p>
+      <p id="next">
+        <a accesskey="n" href="user.wmslight.html">WMS Browser Light &gt;
+     </a>
+      </p>
+    </div>
+    <div id="navtoc">
+      <div id="nav">
+        <ul>
+          <li>
+            <a accesskey="h" href="index.html">CartoWeb Documentation</a>
+          </li>
+          <li>
+            <a accesskey="u" href="cartoweb.user.html">User Manual</a>
+          </li>
+        </ul>
+      </div>
+      <div id="toc">
+        <p>Table of Contents</p>
+        <ul>
+          <li>
+            <span class="sect1">
+              <a href="user.ogcLayerLoader.html#user.ogcLayerLoader.intro">24.1. Introduction</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.ogcLayerLoader.html#user.ogcLayerLoader.activation">24.2. Plugin Activation</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.ogcLayerLoader.html#user.ogcLayerLoader.ini">24.3. Define where to insert OGC layers</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.ogcLayerLoader.html#user.ogcLayerLoader.layers">24.4. Specify in which layergroup you want to insert OGC layers</a>
+            </span>
+          </li>
+          <li>
+            <span class="sect1">
+              <a href="user.ogcLayerLoader.html#user.ogcLayerLoader.gn">24.5. Define where to link a geonetwork catalog</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="title">
+      <h2 class="title"><a id="user.ogcLayerLoader"></a>24. <a id="id2590979" class="indexterm"></a>OGC Layer Loader</h2>
+    </div>
+    <div id="content">
+      <div class="chapter" lang="en" xml:lang="en">
+        <div class="titlepage">
+          <div>
+            <div></div>
+          </div>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.ogcLayerLoader.intro"></a>24.1. Introduction</h2>
+              </div>
+            </div>
+          </div>
+          <p>The
+   <em class="parameter"><code>ogcLayerLoader</code></em> plugin allows user to add OGC layers such as WMS and WFS through a call by URL. 
+</p>
+          <p>
+For exemple, using a simple URL, you could call your cartoweb project and add an OGC layer at startup.
+</p>
+          <p>
+Once the layer added, the coreplugin Layer will be called to update user layers. Added layer could then be used by other plugin in the project (legend, layer reorder, ...). This plugin is used by wmsBrowserLight and catalog to add OGC layers to the map.
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.ogcLayerLoader.activation"></a>24.2. Plugin Activation</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+        To activate the plugin, load  from both CartoClient and CartoServer configuration files: 
+        <code class="filename">client_conf/client.ini</code> and 
+        <code class="filename">server_conf/"mapId"/"mapId".ini</code>. For instance:
+        </p>
+          <pre class="screen">
+loadPlugins = mapOverlay, ogcLayerLoader
+        </pre>
+          <p>
+    </p>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.ogcLayerLoader.ini"></a>24.3. Define where to insert OGC layers</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    To do so, in <code class="filename">server_conf/"mapId"/ogcLayerLoader.ini</code>, set the following parameters in the ini file of the plugin.
+    </p>
+          <pre class="screen">
+ogcInsertLayerAfter = raster ; raster is the name of the layer 
+    </pre>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.ogcLayerLoader.layers"></a>24.4. Specify in which layergroup you want to insert OGC layers</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    To do so, in <code class="filename">client_conf/layers.ini</code>, set the following parameters in the ini file of the layers coreplugin.
+    </p>
+          <pre class="screen">
+userLayerGroup = root ; root is the name of the layerGroup in which user layers will be added 
+    </pre>
+        </div>
+        <div class="sect1" lang="en" xml:lang="en">
+          <div class="titlepage">
+            <div>
+              <div>
+                <h2 class="title"><a id="user.ogcLayerLoader.gn"></a>24.5. Define where to link a geonetwork catalog</h2>
+              </div>
+            </div>
+          </div>
+          <p>
+    To do so, in <code class="filename">client_conf/ogcLayerLoader.ini</code>, set the following parameters in the ini file of the plugin.
+    </p>
+          <pre class="screen">
+urlCatalog = http://my.linked.geonetwork.catalog ;
+    </pre>
+        </div>
+      </div>
+      <div id="w3c">
+        <a href="http://validator.w3.org/check/referer">
+          <img src="image/xhtml.png" width="88" height="31" alt="valid xhtml 1.0" />
+        </a>
+        <a href="http://jigsaw.w3.org/css-validator/">
+          <img src="image/css.png" width="88" height="31" alt="valid css" />
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,459 @@
+/* generic conf */
+body {
+	margin:0px;
+	padding:0px;
+	font-family:verdana, arial, helvetica, sans-serif;
+	color:#333;
+	background-color:white;
+}
+
+
+/* link */
+a {
+	color:#09c;
+	font-size:11px;
+	text-decoration:none;
+	font-weight:600;
+}
+
+#content a:hover,
+#nav a:hover,
+#toc a:hover,
+#booktoc a:hover {
+	background-color:#dde; 
+}
+
+a img {
+	border: none;
+}
+
+
+
+
+div.partintro, div.sect1 {
+	margin:0px 0px 35px 0px; 
+}
+
+div.sect2 {
+	margin:0px 0px 25px 20px; 
+}
+
+div.sect3 {
+	margin:0px 0px 15px 20px; 
+}
+
+div.sect4 {
+	margin:0px 0px 15px 20px; 
+}
+
+
+
+p {
+	margin:0px 0px 5px 10px; 
+	font-size:11px;
+	line-height:18px;
+	text-align:justify;
+}
+
+
+
+
+/* 
+ * Lists
+ */
+div.sect1 div.variablelist dl dt,
+div.sect1 div.orderedlist ol,
+div.sect1 div.itemizedlist ul {
+	margin:0px 0px 5px 25px; 
+	padding-left: 0px;
+}
+
+div.sect2 div.variablelist dl dt,
+div.sect2 div.orderedlist ol,
+div.sect2 div.itemizedlist ul {
+	margin:0px 0px 5px 45px; 
+	padding-left: 0px;
+}
+
+div.sect3 div.variablelist dl dt,
+div.sect3 div.orderedlist ol,
+div.sect3 div.itemizedlist ul {
+	margin:0px 0px 5px 65px; 
+	padding-left: 0px;
+}
+
+div.sect4 div.variablelist dl dt,
+div.sect4 div.orderedlist ol,
+div.sect4 div.itemizedlist ul {
+	margin:0px 0px 5px 85px; 
+	padding-left: 0px;
+}
+
+div.orderedlist ol li,
+div.itemizedlist ul li {
+	list-style-position:outside;
+	margin-left: 0px;
+	padding-left: 0px;
+	font-size:11px;
+	line-height:18px;
+	text-align:justify;
+}
+
+div.variablelist dl {
+	margin:0px 0px 0px 0px; 
+	padding-left: 0px;
+	font-size:11px;
+	line-height:14px;
+	text-align:justify;
+}
+
+
+
+
+/* code source display */
+pre.programlisting, pre.screen {
+	margin:0px 0px 5px 10px; 
+	font-size: 10px;
+	line-height:10px;
+	padding:5px;
+	background-color:#ffc;
+	border:1px solid #000;
+}
+
+
+/* example */
+div.example, div.informalexample {
+	margin:10px 0px 5px 10px; 
+}
+
+
+
+/* Admonitions */
+div.tip, div.note, div.important, div.warning, div.caution {
+	margin:0px 0px 5px 10px;
+	padding:5px;
+	background-color:#fee;
+	border:1px solid #000;
+}
+
+div.tip h3.title, 
+div.note h3.title, 
+div.important h3.title,
+div.warning h3.title,
+div.caution h3.title {
+	padding: 0px;
+	margin: 0px;
+	font-size:14px;
+}
+
+
+
+
+/* Bibliography */
+div.bibliomixed p {
+	margin:0px 0px 0px 20px; 
+	font-size:11px;
+	line-height:18px;
+	text-align:left;
+	text-indent:0px;
+}
+
+
+/* index */
+div.index {
+	margin:0px 0px 0px 10px; 
+}
+
+div.index div.indexdiv h3 {
+	margin:0px 0px 0px 0px; 
+	font-size:14px;
+	line-height:18px;
+	text-align:left;
+	text-indent:0px;
+}
+
+div.index div.indexdiv dl {
+	margin:0px 0px 20px 0px; 
+}
+
+div.index div.indexdiv dl dt {
+	margin:0px 0px 0px 15px; 
+	font-size:11px;
+	line-height:18px;
+	text-align:left;
+	text-indent:0px;
+}
+
+
+/*
+ * title
+ */
+
+/* main page title */
+#book {
+	position: absolute;
+	top: 12px;
+	width: 600px;
+	margin-left: 20%;
+	margin-right: 20%;
+}
+
+
+#book div.titlepage h1.title {
+	position: relative;
+	margin: 0px;
+	padding: 0px;
+	font-size:28px;
+	line-height:28px;
+	font-weight: 900;
+	color:#aaa;
+}
+
+/* main page corpauthor */
+#book div.titlepage h3.corpauthor {
+	position: relative;
+	margin: 0px; 
+	padding:0px;
+	text-align:right;
+	font-size:18px;
+	line-height:18px;
+	color:#000;
+}
+
+/* main page edition */
+#book div.titlepage p.edition {
+	position: relative;
+	font-size:14px;
+	font-style: italic;
+}
+
+#title h1.title,
+#title h2.title {
+	margin:40px 0px 10px 20px;
+	font-size:28px;
+	line-height:28px;
+	color:#aaa;
+	font-weight: 900;
+}
+
+/* current page subtitle */
+div.part div.titlepage h2.subtitle,
+div.chapter div.titlepage h3.subtitle,
+div.article div.titlepage h3.subtitle {
+	margin:0px 0px 20px 0px;
+	font-size:18px;
+	line-height:18px;
+	color:#000;
+	font-style: italic;
+}
+
+
+/* section title */
+div.sect1 div.titlepage h2.title {
+	margin:0px 0px 5px 0px;
+	color:#000;
+	font-size:16px;
+	line-height:16px;
+}
+
+
+/* section subtitle */
+div.sect1 div.titlepage h3.subtitle {
+	margin:0px 0px 5px 0px;
+	color:#000;
+	font-size:14px;
+	line-height:14px;
+	font-style: italic;
+}
+
+
+/* subsection title */
+div.sect2 div.titlepage h3.title {
+	margin:0px 0px 5px 0px;
+	color:#000;
+	font-size:14px;
+	line-height:14px;
+}
+
+/* subsection subtitle */
+div.sect2 div.titlepage h4.subtitle {
+	margin:0px 0px 5px 0px;
+	color:#000;
+	font-size:12px;
+	line-height:12px;
+	font-style: italic;
+}
+
+
+/* subsubsection title */
+div.sect3 div.titlepage h4.title {
+	margin:0px 0px 5px 0px;
+	color:#000;
+	font-size:12px;
+	line-height:12px;
+}
+
+/* subsubsection subtitle */
+div.sect3 div.titlepage h5.subtitle {
+	margin:0px 0px 5px 0px;
+	color:#000;
+	font-size:11px;
+	line-height:11px;
+	font-style: italic;
+}
+
+
+/* subsubsubsection title */
+div.sect4 div.titlepage h5.title {
+	margin:0px 0px 5px 0px;
+	color:#000;
+	font-size:11px;
+	line-height:11px;
+}
+
+/* subsubsubsection subtitle */
+div.sect4 div.titlepage h6.subtitle {
+	margin:0px 0px 5px 0px;
+	color:#000;
+	font-size:10px;
+	line-height:10px;
+	font-style: italic;
+}
+
+
+/* footnotes */
+#footnotes hr {
+ color: #333;
+ width: 30%;
+ padding-left: 0px;
+ margin-left: 0px;
+ background-color: #333;
+ height: 1px;
+}
+
+
+/* classname, function */
+code.classname, code.function {
+ font-family: courier, monospace;
+ font-weight: 600;
+}
+
+
+
+/* 
+ * toc
+ */
+
+/* main page toc */
+#booktoc {
+	position: absolute;
+	margin-left: 25%;
+	margin-right: 25%;
+	width: 450px;
+	top: 110px;
+	padding:10px;
+	border:1px solid #000;
+	background-color:#eff;
+	line-height:17px;
+}
+#booktoc dd {
+	margin:0px 0px 10px 0px;
+}
+
+#booktoc dd dl {
+	margin:0px 0px 0px 30px;
+}
+
+/* current page toc sect2 */
+#toc dd, #toc dd dl {
+	margin:0px 0px 0px 10px;
+}
+
+
+/* toc title */
+#booktoc p,
+#toc p {
+	margin: 0 auto;
+	text-align: center;
+	font-weight:600;
+}
+
+/* navigation box */
+
+#nav dl {
+	margin:0px 0px 0px 10px;
+	padding:5px;
+}
+
+#nav dl dt {
+	padding-top:3px;
+	padding-bottom:3px;
+}
+
+
+
+
+
+
+/* current page toc */
+#toc {
+	position:relative;
+	top: 0px;
+	left: 0px;
+	margin-top:15px;
+	width:150px;
+	padding-top:5px;
+	padding-left:10px;
+	padding-right:10px;
+	border:1px solid #000;
+	background-color:#eff;
+	line-height:14px;
+	font-size:10px;
+}
+
+
+
+#title {
+	position: absolute;
+	margin:0px 0px 0px 0px;
+	top: 0px;
+	left: 0px;
+}
+
+
+#content {
+	position:absolute;
+	top: 90px;
+	left: 220px;
+	right: 100px;
+	margin:0px 0px 0px 0px;
+}
+
+
+#navtoc {
+	position: fixed;
+	margin-left: 20px;
+	margin-top: 90px;
+}
+
+
+#nav {
+	position:relative;
+	padding:0px;
+	padding-left:10px;
+	padding-right:10px;
+	border:1px solid #000;
+	background-color:#ffe;
+	font-size:10px;
+	line-height:12px;
+	width:150px;
+}
+
+
+
+/* W3C pictures */
+#w3c {
+	position: relative;
+	margin:35px;
+	width:150px;
+}
